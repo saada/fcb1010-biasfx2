@@ -1,0 +1,5 @@
+__pycache__/
+*.syx
+*.tar.gz
+device-backup.syx
+.claude/settings.local.json
