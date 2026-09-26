@@ -1,0 +1,148 @@
+{
+  "pc": 16,
+  "name": "Maiden 82 Clean",
+  "scene": "clean",
+  "bank": 3,
+  "reference": "The Number of the Beast (1982, Battery Studios, prod./eng. Martin Birch): Hallowed Be Thy Name clean arpeggio intro, Children of the Damned clean electric parts, The Prisoner / Number of the Beast quiet intros",
+  "rig": "Clean parts through the same 50 W Marshall JMPs, turned down: Adrian Smith's Gibson Les Paul Goldtop (DiMarzio Super Distortion bridge), which MaidenFans notes was used 'especially for the clean parts (COTD)', and Dave Murray's '57 Strat (DiMarzio PAF neck, 'smoother, creamier'). Battery Studios = ex-Morgan Studios 3/4, whose control rooms each had three EMT plate reverbs; Birch adds plate + delay at the desk",
+  "sources": [
+    "https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-7",
+    "https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983",
+    "https://en.wikipedia.org/wiki/The_Number_of_the_Beast_(album)",
+    "https://en.wikipedia.org/wiki/Morgan_Studios",
+    "https://en.wikipedia.org/wiki/Battery_Studios"
+  ],
+  "notes": "No dedicated clean amp is documented for 1982, so both sides are 50 W Marshall JMPs at clean settings (inferred: the band recorded 'pretty much the same set-up in the studio as on stage', GW 1983). Left = 1973 JMP 1987 50 W, volumes on 2, EQ noon, driven 6 dB softer (in_db -6) so it stays clean with hot humbuckers, into the same G12-65 1960A (SM57) as the heavy preset; right = 1980 JMP Master Model 50 W combo, clean full rig (Rode NT1), for a second, rounder mic'd voice. Both on by default. Ambience: the record's clean intros sit in a wide plate with a soft repeat: echo block (ON; SW10 does not reach this instance) = analog-style 450 ms repeat, low feedback, plus an EMT 140-style plate (DAW EMT140 emulation IR; no capture of Battery's EMTs exists); slot 6 / R4 = Lexicon 480L 'Large Wood Room' as the room/ambient-mic sound (Smith, GW 1983: 'the room is the most important thing about recording... we put the amps up in a big wooden room'); the 480L itself is later (1986) than the record, used only as a room stand-in. Chorus: Smith's 1983 board had a Boss chorus, so a gentle Align wobble between the two amps gives slow movement/double-tracked width; real modulation isn't possible in TONE3000. Levels unmeasured; trim after a live sweep.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 48523,
+      "model_id": 387672,
+      "enabled": true,
+      "in_db": -6.0,
+      "out_db": 2.0,
+      "label": "Marshall JMP 1987 50W (1973), P5 B5 M5 T5, volumes 2/2, input -6 dB (clean)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563625,
+      "enabled": true,
+      "label": "Marshall 1960A 4x12, Celestion G12-65, SM57",
+      "out_db": 6.6
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 450,
+      "feedback": 0.25,
+      "cutoff_hz": 3000.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft analog repeat 450 ms + EMT plate (clean intros)",
+      "reverb": {
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 3.5,
+        "level_db": -2.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.5,
+      "label": "Large wood room (ambient room mic)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 31248,
+      "model_id": 426263,
+      "enabled": true,
+      "out_db": -3.0,
+      "label": "Marshall JMP Master Model 50W combo (1980) clean, full rig, Rode NT1"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 450,
+      "feedback": 0.25,
+      "cutoff_hz": 3000.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft analog repeat 450 ms + EMT plate (clean intros)",
+      "reverb": {
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 3.5,
+        "level_db": -2.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.5,
+      "label": "Large wood room (ambient room mic)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.25,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -12.8,
+        "trim_db": -0.3
+      },
+      {
+        "measured_lufs": -14.5,
+        "trim_db": -1.0,
+        "side_lufs": [
+          -25.5,
+          -14.9
+        ],
+        "side_trim_db": [
+          5.3,
+          -5.3
+        ]
+      },
+      {
+        "measured_lufs": -18.1,
+        "trim_db": 2.6
+      }
+    ]
+  }
+}

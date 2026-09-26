@@ -20,6 +20,27 @@ Every capture links to its TONE3000 page (free download).
 | 12 | [Petrucci Clean](#petrucci-clean) | Dream Theater cleans: Images and Words (1992; 'Another Day', 'Surrounded', 'Wait for Sleep') and Metropolis Pt. 2: Scenes from a Memory (1999; 'Through Her Eyes', 'The Spirit Carries On') |
 | 13 | [Acoustic](#acoustic) | Rock acoustic parts played on an electric: unplugged-style dreadnought strumming (e.g. Purple Rain acoustic version intro, MTV Unplugged-era Martin strumming) |
 | 14 | [Glassy Clean](#glassy-clean) | Blackface Fender Twin Reverb clean on record: Dire Straits 'Sultans of Swing' / 'Down to the Waterline' (Dire Straits 1978, Communique 1979 era) and SRV 'Lenny' (Texas Flood, 1983) |
+| 15 | [Maiden 82 Heavy](#maiden-82-heavy) | The Number of the Beast (1982, Battery Studios London, prod./eng. Martin Birch): Run to the Hills, The Number of the Beast, 22 Acacia Avenue, Hallowed Be Thy Name riffs, twin harmony leads and solos |
+| 16 | [Maiden 82 Clean](#maiden-82-clean) | The Number of the Beast (1982, Battery Studios, prod./eng. Martin Birch): Hallowed Be Thy Name clean arpeggio intro, Children of the Damned clean electric parts, The Prisoner / Number of the Beast quiet intros |
+| 17 | [Maiden 82 Acoustic](#maiden-82-acoustic) | The Number of the Beast (1982, Battery Studios, prod./eng. Martin Birch): Children of the Damned acoustic intro and verses (steel-string acoustic under the clean electric), acoustic textures in Maiden's quiet intros |
+| 18 | [Maiden 83 Heavy](#maiden-83-heavy) | Piece of Mind (1983, Compass Point Studios Nassau, prod./eng. Martin Birch, mixed at Electric Lady NYC): The Trooper, Flight of Icarus, Where Eagles Dare riffs, twin harmony leads, To Tame a Land / Revelations heavy sections |
+| 19 | [Maiden 83 Clean](#maiden-83-clean) | Piece of Mind (1983, Compass Point Studios Nassau, prod. Martin Birch): Revelations clean intro and verses (open-chord strums, Murray phased / Smith chorused), clean passages of To Tame a Land |
+| 20 | [Maiden 83 Acoustic](#maiden-83-acoustic) | Iron Maiden acoustic moments played on an electric: Prodigal Son (Killers, 1981; 'a mostly acoustic song') intro/strums, and acoustic-style arpeggios over the Piece of Mind era's clean sections (Revelations intro, To Tame a Land) |
+| 21 | [Maiden 84 Heavy](#maiden-84-heavy) | Powerslave (1984, Compass Point Studios, Nassau; prod./eng./mix Martin Birch): Aces High, 2 Minutes to Midnight, Powerslave, Rime of the Ancient Mariner (riffs, twin harmonies, solos) |
+| 22 | [Maiden 84 Clean](#maiden-84-clean) | Rime of the Ancient Mariner, eerie slow middle section; Powerslave clean middle section (Powerslave, 1984, Compass Point Studios, prod. Martin Birch) |
+| 23 | [Maiden 84 Acoustic](#maiden-84-acoustic) | Acoustic moments in the Maiden set (e.g. Prodigal Son-style strummed/picked steel-string parts); Powerslave itself has no acoustic guitar, so this is the era's studio-acoustic sound with a Lexicon plate |
+| 24 | [Maiden 86 Heavy](#maiden-86-heavy) | Somewhere in Time (1986, prod./eng./mix Martin Birch; guitars tracked at Wisseloord, Hilversum, mixed at Electric Lady NY): Wasted Years (Smith's delay-soaked intro lead, 154 BPM), Stranger in a Strange Land, Heaven Can Wait, Alexander the Great, Caught Somewhere in Time - rhythms, twin harmonies and solos |
+| 25 | [Maiden 86 Clean](#maiden-86-clean) | Somewhere in Time (1986, Martin Birch): the chorused, echoing clean/quiet guitar passages of the era's Maiden - clean arpeggios and quiet interludes (e.g. the Alexander the Great and Sea of Madness quiet sections), played live through the GKs' clean channel + built-in stereo chorus/echo |
+| 26 | [Maiden 86 Acoustic](#maiden-86-acoustic) | Maiden acoustic moments (e.g. 'Journeyman', Dance of Death 2003, the band's only fully acoustic song; acoustic intros/interludes) placed in the Somewhere in Time bank's 80s Birch-style production space: double-tracked steel-string, wide, lush plate/hall |
+| 27 | [Maiden 88 Heavy](#maiden-88-heavy) | Seventh Son of a Seventh Son (1988, Musicland Munich, prod./eng./mix Martin Birch): The Evil That Men Do, Can I Play with Madness, The Clairvoyant rhythms and twin leads, heavy half of Infinite Dreams and the title track |
+| 28 | [Maiden 88 Clean](#maiden-88-clean) | Seventh Son of a Seventh Son (1988, Musicland Munich, Martin Birch): Infinite Dreams clean intro (~79 BPM), the clean/atmospheric middle section of Seventh Son of a Seventh Son, clean intro of The Evil That Men Do |
+| 29 | [Maiden 88 Acoustic](#maiden-88-acoustic) | Seventh Son of a Seventh Son (1988, Musicland Munich, Martin Birch): the acoustic bookends (Moonchild intro, reprised at the end of Only the Good Die Young) and the nylon-string classical outro of The Prophecy (Dave Murray) |
+| 30 | [Maiden 92 Heavy](#maiden-92-heavy) | Fear of the Dark (1992, Barnyard Studios, Essex; prod. Martin Birch & Steve Harris): the title track's gallop and solos (Gers 4:09, Murray 4:25), Be Quick or Be Dead, Childhood's End, Afraid to Shoot Strangers' heavy half. SW10 echo = the title track's slow overdriven intro melody (CRUNCH scene) |
+| 31 | [Maiden 92 Clean](#maiden-92-clean) | Fear of the Dark (1992): Afraid to Shoot Strangers' clean intro (Murray's intro lick 0:00-0:34), the clean electric verses of Wasting Love, the quiet opening of Childhood's End / Judas Be My Guide-style clean passages |
+| 32 | [Maiden 92 Acoustic](#maiden-92-acoustic) | Wasting Love (Fear of the Dark, 1992; Dickinson/Gers ballad, Janick's acoustic lead and solo) and other acoustic passages on the album |
+| 33 | [Maiden 2000s Heavy](#maiden-2000s-heavy) | Brave New World (2000, Guillaume Tell Paris) and Dance of Death (2003, Sarm West London), both prod. Kevin Shirley with Steve Harris: The Wicker Man, Blood Brothers and Ghost of the Navigator heavy sections, Brave New World, Dance of Death main riff and harmony leads |
+| 34 | [Maiden 2000s Clean](#maiden-2000s-clean) | Brave New World (2000) / Dance of Death (2003) clean passages: Blood Brothers and Ghost of the Navigator clean intros, Brave New World's quiet opening, the clean arpeggios under Dance of Death's build-up |
+| 35 | [Maiden 2000s Acoustic](#maiden-2000s-acoustic) | Journeyman (Dance of Death, 2003, Sarm West, prod. Kevin Shirley / Steve Harris): Maiden's first and only fully acoustic song, strummed steel-string acoustics under orchestra; also the acoustic-guitar intro of Dance of Death |
 
 ## Comfortably Numb
 
@@ -213,7 +234,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
-*Notes:* Dual-rig stereo for Vig's double-tracked rhythms: DS-1 (always on) feeds both; left = Mesa Studio Preamp (preamp-only capture, the Crown SS power amp assumed clean) + Nevermind-matched T75 4x12 IR, right = '71 Bassman DI at a pedal-platform setting + a second Nevermind IR, hard-panned. Exact Bassman year and Kurt's preamp settings are unknown (guesses). Small Clone can't be modelled: SW7 (spread) is preset with wobble as a stand-in for the watery verse/Come As You Are chorus. No reverb: Vig kept the guitars dry and in your face. Echo is only a solo helper (not on the record). SW8 = RAT stacked for extra saturation.
+*Notes:* Dual-rig stereo for Vig's double-tracked rhythms: DS-1 (always on) feeds both; left = Mesa Studio Preamp (preamp-only capture, the Crown SS power amp assumed clean) + Nevermind-matched T75 4x12 IR, right = '71 Bassman DI at a pedal-platform setting + a second Nevermind IR, hard-panned. Exact Bassman year and Kurt's preamp settings are unknown (guesses). Small Clone can't be modelled: SW7 (spread) is preset with wobble as a stand-in for the watery verse/Come As You Are chorus. No reverb: Vig kept the guitars dry and in your face. Echo is only a solo helper (not on the record). SW8 = RAT stacked for extra saturation. The DS-1 (SW9) is Kurt's quiet-verse/loud-chorus switch: toggling it off drops ~5 dB by design.
 
 *Sources:* <https://guitar.com/features/artist-rigs/the-humble-gear-used-by-kurt-cobain-on-nirvana-nevermind/> · <https://www.groundguitar.com/tone-breakdown/kurt-cobain-nevermind-guitars-amps-effects/> · <https://www.guitarworld.com/features/the-definitive-kurt-cobain-gear-guide> · <https://en.wikipedia.org/wiki/Nevermind>
 
@@ -346,6 +367,490 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://www.mk-guitar.com/2009/01/13/mark-knopflers-sultans-of-swing-amp-the-brown-fender-vibrolux/> · <https://www.mk-guitar.com/gear-on-all-songs-for-all-albums-wiki/gear-on-album-dire-straits/> · <https://www.guitarworld.com/features/stevie-ray-vaughans-sound-amps> · <https://srvarchive.com/amplifiers>
 
+## Maiden 82 Heavy
+
+**PC 15** · dual-rig stereo — The Number of the Beast (1982, Battery Studios London, prod./eng. Martin Birch): Run to the Hills, The Number of the Beast, 22 Acacia Avenue, Hallowed Be Thy Name riffs, twin harmony leads and solos
+
+*Original rig:* Dave Murray: black '57 Stratocaster (ex-Paul Kossoff) with DiMarzio Super Distortion bridge / PAF neck -> Pete Cornish board (Cry Baby, MXR Distortion+, MXR Phase 90, DOD flanger, analog delay, Boss FA-1 FET booster 'to overdrive the amps', MXR 10-band EQ left on) -> 50 W Marshall JMP heads -> Marshall 4x12s with Celestions (left). Adrian Smith (first Maiden album): Ibanez Destroyer (DiMarzio Super Distortions; 'probably recorded Number of the Beast on this, the song, the solo, everything') and Les Paul Goldtop -> MXR Micro Amp for solo boost, Boss chorus, flanger -> 50 W Marshall JMP heads, mostly the amps' own overdrive -> Marshall 4x12s (right). Birch mixes at Battery (ex-Morgan Studios rooms, EMT plates)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [MXR MICROAMP](https://www.tone3000.com/tones/5122) — MXR Micro Amp, mid gain (Smith's solo boost / Murray's FET booster) | off |
+| L2 | drive | [MXR Distortion +](https://www.tone3000.com/tones/35412) — MXR Distortion+ (Murray's Cornish board), out 300 / dist 300 | off |
+| L3 | amp | [Marshall JMP 2204 50W (1977)](https://www.tone3000.com/tones/41348) — Marshall JMP 2204 50W (1977), high input, gain 3 o'clock (Murray) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12, Celestion G12-65, SM57 (Murray) | on |
+| L5 | echo | Analog delay 420 ms + EMT plate (intros / melodic lines) — generated 420 ms BBD-style IR (mix 22%) | off |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140-style plate (Birch desk plate, Battery/Morgan EMTs) (mix 12%) | on |
+| R1 | amp | [1973 Marshall JMP 1987](https://www.tone3000.com/tones/48523) — Marshall JMP 1987 50W (1973), jumpered, P5 B5 M5 T5 vol 10/10 (Smith) | on |
+| R2 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12, Celestion G12-65, Beyer M160 (Smith) | on |
+| R3 | echo | Analog delay 420 ms + EMT plate (intros / melodic lines) — generated 420 ms BBD-style IR (mix 22%) | off |
+| R4 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140-style plate (Birch desk plate, Battery/Morgan EMTs) (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual-rig stereo, Murray hard left / Smith hard right. 1981-83 Maiden = walls of 50 W Marshall JMPs (MaidenFans: they tried JCM800s in 1981 but photos show JMPs/Plexis; GW 1983: 'four fifty-watt Marshalls'), so both sides are real 50 W JMPs from the catalog, one of each JMP 50 W type: left = 1977 JMP 2204 (master-volume 50 W) high input, gain 3 o'clock, other knobs noon; right = 1973 JMP 1987 (non-master 50 W, inputs jumpered) with both volumes full, presence/bass/mid/treble noon, i.e. a cranked 50 W for Smith's 'natural overdriven Marshall' sound. Both are raw DI captures that clean up with input level (CRUNCH -4.5 dB) and saturate more when pushed (SOLO +4.5 dB); no delay baked in. Cab = one original JCM800-era Marshall 1960A with Celestion G12-65s (the stock Marshall 4x12 speaker of the early 80s; GW 1983 only says 'Celestions'), SM57 left / Beyer M160 ribbon right so the two players differ like two mic'd cabs. Slot 1 = MXR Micro Amp mid gain (Smith's solo booster; also stands in for Murray's Boss FA-1 FET booster, no FA-1 capture exists), off. Slot 2 = MXR Distortion+ (Murray's Cornish board), off: the record's rhythms are the amps. Echo (SW10) = soft analog-style repeat (Murray's board had an analog delay) 420 ms plus an EMT 140-style plate (Morgan/Battery control rooms each had three EMT plates) for intros and melodic lines; the EMT IR is a DAW EMT140 emulation ('Sunset Sound plate'), no hardware capture of Battery's plates exists. Slot 6 / R4 = same plate, always on, low mix. Phase 90, flanger, wah and chorus are not possible in TONE3000; a light Align wobble between the sides hints at the double-tracked movement. Levels are unmeasured guesses (the two JMP captures are calibrated/normalized DI captures); trim after a live sweep.
+
+*Sources:* <https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983> · <https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-7> · <https://www.guitarplayer.com/guitarists/adrian-smith-on-his-number-of-the-beast-ibanez-destroyer> · <https://www.ironmaiden-bg.com/web/index.php/en/the-band/dave-murray> · <https://en.wikipedia.org/wiki/The_Number_of_the_Beast_(album)> · <https://en.wikipedia.org/wiki/Battery_Studios> · <https://en.wikipedia.org/wiki/Morgan_Studios>
+
+## Maiden 82 Clean
+
+**PC 16** · dual-rig stereo — The Number of the Beast (1982, Battery Studios, prod./eng. Martin Birch): Hallowed Be Thy Name clean arpeggio intro, Children of the Damned clean electric parts, The Prisoner / Number of the Beast quiet intros
+
+*Original rig:* Clean parts through the same 50 W Marshall JMPs, turned down: Adrian Smith's Gibson Les Paul Goldtop (DiMarzio Super Distortion bridge), which MaidenFans notes was used 'especially for the clean parts (COTD)', and Dave Murray's '57 Strat (DiMarzio PAF neck, 'smoother, creamier'). Battery Studios = ex-Morgan Studios 3/4, whose control rooms each had three EMT plate reverbs; Birch adds plate + delay at the desk
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [1973 Marshall JMP 1987](https://www.tone3000.com/tones/48523) — Marshall JMP 1987 50W (1973), P5 B5 M5 T5, volumes 2/2, input -6 dB (clean) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12, Celestion G12-65, SM57 | on |
+| L5 | echo | Soft analog repeat 450 ms + EMT plate (clean intros) — generated 450 ms BBD-style IR (mix 30%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Large wood room (ambient room mic) (mix 20%) | on |
+| R1 | amp | [Marshall JMP Master Model Combo 1980 50W MK2](https://www.tone3000.com/tones/31248) — Marshall JMP Master Model 50W combo (1980) clean, full rig, Rode NT1 | on |
+| R3 | echo | Soft analog repeat 450 ms + EMT plate (clean intros) — generated 450 ms BBD-style IR (mix 30%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Large wood room (ambient room mic) (mix 20%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* No dedicated clean amp is documented for 1982, so both sides are 50 W Marshall JMPs at clean settings (inferred: the band recorded 'pretty much the same set-up in the studio as on stage', GW 1983). Left = 1973 JMP 1987 50 W, volumes on 2, EQ noon, driven 6 dB softer (in_db -6) so it stays clean with hot humbuckers, into the same G12-65 1960A (SM57) as the heavy preset; right = 1980 JMP Master Model 50 W combo, clean full rig (Rode NT1), for a second, rounder mic'd voice. Both on by default. Ambience: the record's clean intros sit in a wide plate with a soft repeat: echo block (ON; SW10 does not reach this instance) = analog-style 450 ms repeat, low feedback, plus an EMT 140-style plate (DAW EMT140 emulation IR; no capture of Battery's EMTs exists); slot 6 / R4 = Lexicon 480L 'Large Wood Room' as the room/ambient-mic sound (Smith, GW 1983: 'the room is the most important thing about recording... we put the amps up in a big wooden room'); the 480L itself is later (1986) than the record, used only as a room stand-in. Chorus: Smith's 1983 board had a Boss chorus, so a gentle Align wobble between the two amps gives slow movement/double-tracked width; real modulation isn't possible in TONE3000. Levels unmeasured; trim after a live sweep.
+
+*Sources:* <https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-7> · <https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983> · <https://en.wikipedia.org/wiki/The_Number_of_the_Beast_(album)> · <https://en.wikipedia.org/wiki/Morgan_Studios> · <https://en.wikipedia.org/wiki/Battery_Studios>
+
+## Maiden 82 Acoustic
+
+**PC 17** · dual-rig stereo — The Number of the Beast (1982, Battery Studios, prod./eng. Martin Birch): Children of the Damned acoustic intro and verses (steel-string acoustic under the clean electric), acoustic textures in Maiden's quiet intros
+
+*Original rig:* Adrian Smith plays the steel-string acoustic part on Children of the Damned (model not documented); the clean electric layer is his Les Paul Goldtop through a Marshall. Birch's desk plate (Battery = ex-Morgan Studios, three EMT plates per control room). Here: humbucker electric -> Boss AC-3 acoustic simulator -> acoustic body IR, double-tracked in stereo
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Standard, Level/Body/Top noon | on |
+| L4 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Martin dreadnought (piezo -> mic) | on |
+| L5 | echo | Soft repeat 450 ms + EMT plate (lush, always on) — generated 450 ms BBD-style IR (mix 30%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Large wood room (room mic) (mix 22%) | on |
+| R1 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Jumbo, Level/Body/Top noon | on |
+| R2 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Gibson J45 (piezo -> mic) | on |
+| R3 | echo | Soft repeat 450 ms + EMT plate (lush, always on) — generated 450 ms BBD-style IR (mix 30%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Large wood room (room mic) (mix 22%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Same two-stage electric->acoustic emulation as rigs/13 (AC-3 turns the magnetic pickup into a piezo-like signal, the body IR adds a mic'd wooden body), but as a stereo double-track, the way acoustic parts were layered on the record: left = AC-3 Standard -> Martin dreadnought body IR, right = AC-3 Jumbo -> Gibson J45 body IR (warmer, rounder), so the two sides differ like two takes on two guitars. Pre-EQ thins the humbucker toward a piezo voicing (as rigs/13). The acoustic model Smith used isn't documented (Songsterr's transcription lists the part as steel-string acoustic by Smith), so the dreadnought/J45 pair is a generic early-80s studio-acoustic choice. No compressor (clean/acoustic presets are limited to 2 NAM blocks); play lightly on the neck pickup. Reverb ON (SW10 doesn't reach this instance): echo block = short soft 450 ms repeat + EMT 140-style plate (a DAW EMT140 emulation IR, no capture of Battery's plates exists), slot 6 / R4 = Lexicon 480L Large Wood Room as the room mic (480L is a later unit, used only as a room stand-in). Level: rigs/13's AC-3 chain measured ~24 dB under target before trim, hence the large out_db here; unmeasured, trim after a live sweep.
+
+*Sources:* <https://www.songsterr.com/a/wsa/iron-maiden-children-of-the-damned-tab-s38603t0> · <https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-7> · <https://en.wikipedia.org/wiki/The_Number_of_the_Beast_(album)> · <https://en.wikipedia.org/wiki/Morgan_Studios> · <https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/>
+
+## Maiden 83 Heavy
+
+**PC 18** · dual-rig stereo — Piece of Mind (1983, Compass Point Studios Nassau, prod./eng. Martin Birch, mixed at Electric Lady NYC): The Trooper, Flight of Icarus, Where Eagles Dare riffs, twin harmony leads, To Tame a Land / Revelations heavy sections
+
+*Original rig:* Dave Murray: '57 Stratocaster with DiMarzio Super Distortion (bridge) / PAF (neck) -> Pete Cornish board (Cry Baby, MXR Distortion+, Phase 90, 'FET power booster to overdrive the amps', graphic EQ always on) -> stock 50 W Marshall non-master heads -> Marshall 4x12s (one EV-loaded, the rest Celestions) (left). Adrian Smith: Gibson SG Standard / Ibanez Destroyer (stock DiMarzios) -> Cry Baby, Ibanez Tube Screamer, MXR Micro Amp ('power boost on the solos'), Yamaha flanger, Phase 90, Boss chorus, Yamaha analog delay -> Marshall JMP 2204 (Line 6 Piece of Mind Tour template; other sources: 100 W Super Lead) -> Marshall 4x12 Celestion 65 W (right). In Nassau the band used their stage rigs, amps in 'a big wooden room' with 'mikes everywhere'
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [MXR MICROAMP](https://www.tone3000.com/tones/5122) — MXR Micro Amp, mid gain (Smith's solo boost / Murray's FET booster) | off |
+| L2 | drive | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/36827) — Ibanez TS9 Tube Screamer, drive 2 / tone 7 / level 10 (Smith's TS as amp push) | off |
+| L3 | amp | [1976 Marshall JMP 50w Plexi](https://www.tone3000.com/tones/86687) — 1976 Marshall JMP 50W non-master, 'J 5' + 1976 1960A Celestion blackbacks (Murray) | on |
+| L5 | echo | Yamaha analog-style delay 375 ms (1/4 @160, The Trooper) + 480L Large Plate — generated 375 ms BBD-style IR (mix 20%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Compass Point 'big wooden room' mics) (mix 12%) | on |
+| R1 | amp | [1980 Marshall JMP 2204](https://www.tone3000.com/tones/70525) — 1980 Marshall JMP 2204 50W, high input, 'Classic Hits' DI (Smith) | on |
+| R2 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12 (JCM800 era), Celestion G12-65, SM57 (Smith) | on |
+| R3 | echo | Yamaha analog-style delay 375 ms (1/4 @160, The Trooper) + 480L Large Plate — generated 375 ms BBD-style IR (mix 20%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Compass Point 'big wooden room' mics) (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual-rig stereo, Murray hard left / Smith hard right. GW 1983 (the interview done on the Piece of Mind tour) is the primary source: 'four fifty-watt Marshalls', Murray's FET booster + Distortion+, Smith's Tube Screamer + Micro Amp; Smith says the studio setup was the stage setup, amps in a big wooden room. Left (Murray) = Signal Theory's 1976 Marshall JMP 50 W (stock mid-70s non-master 50 W, i.e. Murray's 'stock early-70s 50 W heads') full rig through a 1976 Marshall 1960A with Celestion blackbacks, capture 'J 5' (gain level 5 of the pack): amp's own overdrive, no pedal baked in, so it cleans up on CRUNCH and saturates on SOLO. Right (Smith) = 2dor's 1980 Marshall JMP 2204 (period 50 W master-volume head; Line 6's Piece of Mind Tour template lists a 2204 + Celestion 65 W 4x12) raw DI 'Classic Hits' (4x12 load) into an original JCM800-era 1960A G12-65 IR, SM57. Deliberately different from bank 3 (1977 2204 / 1973 1987 + same G12-65 cab both sides) to get PoM's crisper, more open two-player contrast. Sources disagree on Smith's head (2204 per Line 6, 100 W Super Lead + EV cabs per Guitar Pointers); EV alternative for his side: tone 45237 'Electrovoice 4x12 close' (241314). Slot 1 (SW8) = MXR Micro Amp mid gain (Smith's solo boost; stands in for Murray's FET booster), off. Slot 2 (SW9) = Ibanez TS9 at drive 2 / level 10 (Smith's Tube Screamer used as a boost into the Marshall), off; Murray's Distortion+ is the alternative (tone 35412). Echo (SW10) = Yamaha-analog-delay-style BBD repeat, 1/4 note at ~160 BPM (The Trooper) = 375 ms, darkened, plus Lexicon 480L Large Plate summed in (Compass Point's documented reverb is a Lexicon 224, not in the catalog; 480L is its successor). Always-on ambience = 480L Large Wood Room at low mix for the 'big wooden room' mics. Wah, Phase 90, flanger and chorus can't be done in TONE3000. Murray's always-on graphic EQ settings are undocumented, so no EQ. Levels are unmeasured guesses: left is a full-rig capture (cab baked in), right a DI + IR; trim after a live sweep.
+
+*Sources:* <https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983> · <https://line6.com/tone-templates-diagrams/adrian-smith--piece-of-mind-tour.html> · <https://guitarpointers.com/dave-murray-and-adrian-smith/> · <https://guitargangsters.net/dave-murray-guitars-gear/> · <https://www.guitarlobby.com/adrian-smith-guitars-and-gear/> · <https://en.wikipedia.org/wiki/Piece_of_Mind> · <https://retrorecordingsxr.com/recording-studios/compass-point-studios/> · <https://signaltheoryaudio.com/product/76-mars-jmp-50w-tone-match-presets-and-captures/>
+
+## Maiden 83 Clean
+
+**PC 19** · dual-rig stereo — Piece of Mind (1983, Compass Point Studios Nassau, prod. Martin Birch): Revelations clean intro and verses (open-chord strums, Murray phased / Smith chorused), clean passages of To Tame a Land
+
+*Original rig:* Same stage rigs as the heavy parts, played clean: Dave Murray '57 Strat (DiMarzio PAF neck) -> Cornish board with MXR Phase 90 -> 50 W Marshall -> Marshall 4x12, EV-loaded cab miked (left). Adrian Smith SG / Destroyer -> Boss chorus -> Marshall (100 W Super Lead per Guitar Pointers) -> Marshall 4x12 Celestions (right). Revelations tab notes: 'Dave's guitar has a phaser on it and Adrian's is chorused'; the players 'slide ... to cover up turning on the distortion', i.e. the clean is the amp with the drive pedal off
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [Marshall JMP 100 Superlead 1972](https://www.tone3000.com/tones/6241) — Marshall JMP 100 Super Lead 1972, 'clean ch1' (Murray side) | on |
+| L4 | cab | [Electro-Voice EVM 12L - 1x12 and 4x12 - (1980s)](https://www.tone3000.com/tones/45237) — Electro-Voice EVM12L 4x12 (1980s), close mic (Murray's miked EV cab) | on |
+| L5 | echo | Analog-style delay 420 ms + Lexicon 480L Large Plate — generated 420 ms BBD-style IR (mix 28%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Compass Point wooden live room) (mix 20%) | on |
+| R1 | amp | [Marshall JMP 100 Superlead 1972](https://www.tone3000.com/tones/6241) — Marshall JMP 100 Super Lead 1972, 'cleanest ch1' (Smith side) | on |
+| R2 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12 (JCM800 era), Celestion G12-65, SM57 (Smith) | on |
+| R3 | echo | Analog-style delay 560 ms + Lexicon 480L Large Plate — generated 560 ms BBD-style IR (mix 28%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Compass Point wooden live room) (mix 20%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Clean Marshall, not a Fender: on Revelations the clean parts are the same Marshall rigs with the distortion switched off. Both sides use daweed's 1972 Marshall JMP 100 Super Lead captures (the only vintage non-master Marshall with real clean-channel A2 captures in the catalog; Smith's head per Guitar Pointers, Murray's 50 W 1987 has no clean capture): left = 'clean ch1' (a little more body, input -2 dB so hot humbuckers stay clean), right = 'cleanest ch1'. Cabs: left = 1980s Electro-Voice EVM12L 4x12 close (GW 1983: Murray's EV cab is the one that gets miked; EVs stay clean and full), right = JCM800-era 1960A G12-65 SM57. Chorus: Smith's Boss chorus on Revelations = Align wobble between the sides (plus light Spread wobble); Murray's Phase 90 can't be modelled. Panned 10/90 so the chorus widens without splitting a single melody in two. Echo is ON (SW10 doesn't reach the clean instance): soft analog-style repeats (Smith's Yamaha analog delay / Compass Point's Roland Space Echo), left 420 ms / right 560 ms for width (set by ear, not tempo-matched), with Lexicon 480L Large Plate summed into the delay (Compass Point listed a Lexicon 224; the 480L is its successor and in the catalog). Always-on ambience = 480L Large Wood Room for the 'big wooden room' Smith describes. No NAM compressor (2-capture budget). Levels are guesses; the Super Lead captures are DI and loudness-normalized.
+
+*Sources:* <https://www.skyminds.net/guitar-tabs/iron-maiden/revelations.tab> · <https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983> · <https://guitarpointers.com/dave-murray-and-adrian-smith/> · <https://line6.com/tone-templates-diagrams/adrian-smith--piece-of-mind-tour.html> · <https://retrorecordingsxr.com/recording-studios/compass-point-studios/> · <https://en.wikipedia.org/wiki/Piece_of_Mind>
+
+## Maiden 83 Acoustic
+
+**PC 20** · dual-rig stereo — Iron Maiden acoustic moments played on an electric: Prodigal Son (Killers, 1981; 'a mostly acoustic song') intro/strums, and acoustic-style arpeggios over the Piece of Mind era's clean sections (Revelations intro, To Tame a Land)
+
+*Original rig:* Electric (humbuckers) -> Boss AC-3 acoustic simulator -> acoustic body IR, double-tracked: left = AC-3 Standard -> Martin dreadnought body, right = AC-3 Jumbo -> Gibson J-45 body, into a Birch-style plate and a wooden-room ambience. (Maiden's acoustic parts were real acoustics in the studio; this is the electric -> acoustic emulation of rigs/13 made stereo.)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Standard mode, knobs noon | on |
+| L4 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Martin dreadnought (piezo -> mic) | on |
+| L5 | echo | Lexicon 480L Large Plate (reverb only) — generated 0 ms BBD-style IR (mix 24%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (acoustic tracking room) (mix 20%) | on |
+| R1 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Jumbo mode, knobs noon | on |
+| R2 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Gibson J-45 (piezo -> mic) | on |
+| R3 | echo | Lexicon 480L Large Plate (reverb only) — generated 0 ms BBD-style IR (mix 24%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (acoustic tracking room) (mix 20%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Piece of Mind itself has no documented acoustic guitar, so this is Maiden's acoustic sound in general, built on the rigs/13 two-stage method (AC-3 turns the magnetic pickup piezo-like, the body IR adds wood and mic). Improvement over rigs/13: a stereo 'double track' like Maiden's two-guitar arrangements, each side a different AC-3 mode and body (Standard + Martin left, Jumbo + J-45 right, 12% apart in pan) so strums sound like two acoustics, not one widened one. Humbucker -> piezo pre-EQ from rigs/13 on both AC-3 blocks, lighter on the Jumbo side. Dropped rigs/13's Diamond compressor and Micro Amp to stay within 2 NAM blocks. No chorus/wobble (none on Maiden's acoustics). Reverb is ON (SW10 doesn't reach this instance): echo slot = reverb only (delay_ms 0) with the Lexicon 480L Large Plate, plus 480L Small Wood Room as always-on room (acoustics tracked in a wooden room). Levels: rigs/13's AC-3 + Martin chain needed +24 dB out_db to reach its target (with the compressor in front); without the compressor +20 dB is a guess, trim after a live sweep. Best on the neck humbucker, picked lightly.
+
+*Sources:* <https://www.ironmaiden-bg.com/web/index.php/en/the-songs-in-the-killers-album-en/886-prodigial-son-song-info-en> · <https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983> · <https://retrorecordingsxr.com/recording-studios/compass-point-studios/> · <https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/> · <https://forum.mod.audio/t/electric-guitar-into-acoustic-guitar-ir/8142>
+
+## Maiden 84 Heavy
+
+**PC 21** · dual-rig stereo — Powerslave (1984, Compass Point Studios, Nassau; prod./eng./mix Martin Birch): Aces High, 2 Minutes to Midnight, Powerslave, Rime of the Ancient Mariner (riffs, twin harmonies, solos)
+
+*Original rig:* Dave Murray: Fender Stratocaster (Floyd Rose, modified pickups) -> 50 W Marshall Super Lead (1987) -> Marshall 4x12, no pedals besides an occasional wah (left). Adrian Smith: Lado Earth / Ibanez -> 100 W Marshall + 'maybe an Ibanez Tube Screamer' ('that was it as far as the guitar sound of Powerslave goes') -> Marshall 4x12 with Celestions (right). Smith's live board added a Boss DD-2 + Ibanez DM2000 digital delays, Boss CE-3 chorus, Furman PQ-3 EQ and a Lexicon PCM60; Birch adds plate/room at the desk
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [MXR MICROAMP](https://www.tone3000.com/tones/5122) — MXR Micro Amp, low gain (clean solo lift, not on record) | off |
+| L2 | drive | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/36827) — Ibanez TS9 Drive 2 Tone 7 Level 10 (Smith's 'maybe a Tube Screamer') | off |
+| L3 | amp | [Marshall 1987 50W Custom Build](https://www.tone3000.com/tones/78417) — Marshall 1987 50 W (Super Lead circuit) P6 B4 M10 T10 Vol 7 (Murray) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A JCM800-era 4x12, Celestion G12-65, SM57 (Murray) | on |
+| L5 | echo | Boss DD-2 / Ibanez DM2000 digital delay 440 ms + Lexicon plate (intros, melodies) — generated 440 ms BBD-style IR (mix 22%) | off |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140-style plate (Birch desk plate), low mix (mix 12%) | on |
+| R1 | amp | [Marshall JMP 2203 100W (1983)](https://www.tone3000.com/tones/40847) — Marshall JMP 2203 100 W (1983), gain 3 o'clock, knobs noon (Smith) | on |
+| R2 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A JCM800-era 4x12, Celestion G12-65, M160 (Smith) | on |
+| R3 | echo | Boss DD-2 / Ibanez DM2000 digital delay 440 ms + Lexicon plate (intros, melodies) — generated 440 ms BBD-style IR (mix 22%) | off |
+| R4 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140-style plate (Birch desk plate), low mix (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual-rig stereo, Murray hard left / Smith hard right. Pre-GK era: both players on non-rack Marshall heads. Left = a real Marshall 1987 50 W (the Super Lead circuit Murray used 1976-86) with Vol 7, mids 10: cranked, no pedal, so it cleans up with the CRUNCH input drop and saturates with SOLO. Right = 1983 JMP 2203 100 W master-volume head at gain 3 o'clock (Smith's '100-watt Marshall'; whether his was a 2203 or a 1959 Super Lead isn't documented, the 2203 is the era's common 100 W lead head). Slot 2 = TS9 (Smith's 'maybe a Tube Screamer'), drive 2 / level 10 push, OFF by default because Murray used none and it feeds both sides; SW9 for thicker leads. Slot 1 = MXR Micro Amp clean lift (not on the record, SW8 convenience). Cab = original JCM800-era Marshall 1960A with G12-65s (the Celestion loaded in 1979-86 Marshall 4x12s; T75s came later), SM57 left / M160 right so the two players differ. Echo (SW10) = Smith's DD-2/DM2000 digital delay, ~1/4 note at ~136 BPM (440 ms), bright repeats, plus a Lexicon 960 large plate standing in for the Compass Point/Birch digital plate (no Lexicon 224 or PCM60 IRs in the catalog). Always-on ambience = a low-mix EMT 140-style plate IR (a DAW plate approximation, not a real EMT capture). CE-3 chorus = Align wobble between sides. No wah (Murray's Cry Baby can't be modeled). Relative level of the two amp captures is a guess; trim out_db after a sweep.
+
+*Sources:* <https://www.yahoo.com/entertainment/adrian-smith-iron-maiden-pyramid-152523270.html> · <https://guitargangsters.net/dave-murray-guitars-gear/> · <https://equipboard.com/pros/adrian-smith> · <https://www.guitarlobby.com/adrian-smith-guitars-and-gear/> · <https://forum.seymourduncan.com/threads/iron-maiden-gear.5644/> · <https://en.wikipedia.org/wiki/Powerslave> · <https://maidenrevelations.com/2013/01/18/height-of-the-classic-era-1984-85/> · <https://www.tone3000.com/tones/marshall-1978-jmp-2203-1061>
+
+## Maiden 84 Clean
+
+**PC 22** · dual-rig stereo — Rime of the Ancient Mariner, eerie slow middle section; Powerslave clean middle section (Powerslave, 1984, Compass Point Studios, prod. Martin Birch)
+
+*Original rig:* Clean parts came from the same Marshalls: Murray's 50 W Super Lead (left) and Smith's 100 W Marshall (right) played clean, Smith's rig adding a Boss CE-3 stereo chorus, two digital delays (Boss DD-2, Ibanez DM2000) and a Lexicon PCM60; Martin Birch adds studio plate/hall reverb at the mix
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [Marshall 1987x 50w Plexi](https://www.tone3000.com/tones/85735) — Marshall 1987x 50 W, low-gain input, vol 2/4 (Murray clean) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A JCM800-era 4x12, Celestion G12-65, SM57 | on |
+| L5 | echo | Ibanez DM2000-style delay 500 ms + Lexicon large hall (Rime middle) — generated 500 ms BBD-style IR (mix 35%) | on |
+| L6 | ambience | [Lexicon PCM90](https://www.tone3000.com/tones/88475) — Lexicon PCM90 INSTR rich plate (Birch desk plate) (mix 22%) | on |
+| R1 | amp | [ Marshall 1959 Plexi Super Lead ](https://www.tone3000.com/tones/80875) — Marshall 1959 Super Lead 100 W, low gain (Smith clean) | on |
+| R2 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A JCM800-era 4x12, Celestion G12-65, M160 | on |
+| R3 | echo | Boss DD-2-style delay 750 ms + Lexicon large hall (Rime middle) — generated 750 ms BBD-style IR (mix 35%) | on |
+| R4 | ambience | [Lexicon PCM90](https://www.tone3000.com/tones/88475) — Lexicon PCM90 INSTR rich plate (Birch desk plate) (mix 22%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* No separate clean amp is documented for Powerslave, so the clean is the era's Marshalls at clean settings, fed softer (in_db -6, like rolling the guitar volume back): left = Marshall 1987x 50 W, low-gain input at volume 2/4; right = 1959 Super Lead 100 W, low-gain capture (amp-only). Same G12-65 Marshall 4x12 as the heavy preset. Delay + reverb are ON (SW10 doesn't reach the clean instance): left 500 ms (DM2000), right 750 ms (DD-2), a 2:3 stereo ping for the spacious, eerie Rime feel, each summed with a Lexicon 960 large hall (stand-in for the studio Lexicon 224 / Smith's PCM60; neither is in the catalog), plus an always-on Lexicon PCM90 plate. Boss CE-3 chorus = Align wobble between the two sides (no real modulation in TONE3000). The exact effects on the Rime middle-section guitars aren't documented; delay times are set by ear for the slow section, not from a source. Levels are guesses (clean captures run quieter, hence out_db +6).
+
+*Sources:* <https://www.yahoo.com/entertainment/adrian-smith-iron-maiden-pyramid-152523270.html> · <https://guitargangsters.net/dave-murray-guitars-gear/> · <https://www.guitarlobby.com/adrian-smith-guitars-and-gear/> · <https://forum.seymourduncan.com/threads/iron-maiden-gear.5644/> · <https://en.wikipedia.org/wiki/Powerslave>
+
+## Maiden 84 Acoustic
+
+**PC 23** — Acoustic moments in the Maiden set (e.g. Prodigal Son-style strummed/picked steel-string parts); Powerslave itself has no acoustic guitar, so this is the era's studio-acoustic sound with a Lexicon plate
+
+*Original rig:* Electric -> optical compressor -> Boss AC-3 acoustic simulator -> Martin dreadnought body IR -> analog-ish echo + Lexicon acoustic-guitar plate -> studio room
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L2 | drive | [Diamond Compressor - Original Through Hole Version!](https://www.tone3000.com/tones/88975) — Diamond Compressor (through-hole), Comp 5 / EQ 6.5 / Vol 5 | on |
+| L3 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Standard mode, Level/Body/Top noon | on |
+| L4 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Martin dreadnought (piezo -> mic) | on |
+| L5 | echo | Soft echo 380 ms + Lexicon PCM90 acoustic-guitar plate — generated 380 ms BBD-style IR (mix 30%) | on |
+| L6 | ambience | [Lexicon 960](https://www.tone3000.com/tones/88467) — Lexicon 960 medium chamber (studio space) (mix 20%) | on |
+
+*Notes:* Same two-stage approach as rigs/13 (see its sources) (AC-3 pickup-to-piezo, then a piezo-to-mic acoustic body IR), which the maintainer already leveled (AC-3 needs the full +24 dB). Dropped rigs/13's Micro Amp boost to stay at 2 NAM blocks. Changes for a lusher, Maiden-ballad feel: echo block ON (SW10 doesn't reach this instance) = soft 380 ms echo summed with the Lexicon PCM90 'INSTR a gtr plate' (an acoustic-guitar plate), and a Lexicon 960 medium chamber instead of the medium room, plus Spread for width. No specific Powerslave acoustic track exists, so nothing here is era-documented gear; it's a studio acoustic sound for the bank. Play the neck pickup, lightly.
+
+*Sources:* <https://en.wikipedia.org/wiki/Powerslave> · <https://www.tone3000.com/tones/boss-acoustic-simulator-ac-3-71126>
+
+## Maiden 86 Heavy
+
+**PC 24** · dual-rig stereo — Somewhere in Time (1986, prod./eng./mix Martin Birch; guitars tracked at Wisseloord, Hilversum, mixed at Electric Lady NY): Wasted Years (Smith's delay-soaked intro lead, 154 BPM), Stranger in a Strange Land, Heaven Can Wait, Alexander the Great, Caught Somewhere in Time - rhythms, twin harmonies and solos
+
+*Original rig:* Dave Murray: Fender Strat (black '57/'63 'Kossoff' Strat) -> Pete Cornish board (MXR Distortion+, Phase 90, Cry Baby) -> Gallien-Krueger 250ML (solid-state, built-in stereo chorus/echo) -> Marshall 4x12 with Celestions (left). Adrian Smith: Jackson 'Adrian Smith' strat prototype / Charvel San Dimas (Wasted Years video) -> Gallien-Krueger 250ML -> rack effects (Boss CE-3 stereo chorus, Boss DD-2 / Ibanez DM2000 delays, Lexicon PCM 60 reverb) (right). Both guitarists left their Marshall heads for GK 'transistor amps' for this album and the 1986-87 tour; both also played Roland guitar synths (GR-700 / G-707) on every track except Wasted Years
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [BOOST PEDAL PACK](https://www.tone3000.com/tones/70280) — Ibanez TS808, boost setting (the GK 'Maiden' voicing is TS808-pushed) | off |
+| L2 | drive | [MXR Distortion +](https://www.tone3000.com/tones/35412) — MXR Distortion+ (Murray's Cornish board), out 300 / dist 300 | off |
+| L3 | amp | [Gallien Krueger 250ML - DEATH to MAIDEN](https://www.tone3000.com/tones/27127) — Gallien-Krueger 250ML preamp, 'Maiden' (Somewhere in Time) setting (Murray) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12 G12-65 (JCM800-era), SM57 (Murray) | on |
+| L5 | echo | Wasted Years lead delay: 1/4 @154 BPM + Lexicon 480L Large Hall — generated 390 ms BBD-style IR (mix 26%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Medium Plate (Birch desk plate) (mix 12%) | on |
+| R1 | amp | [250 Milliliters](https://www.tone3000.com/tones/5183) — Gallien-Krueger 250ML full rig (amp + speaker) 'late 80s Maiden' (Smith) | on |
+| R3 | echo | Smith rack delay (DD-2/DM2000 style): dotted 1/8 @154 BPM + Lexicon 480L Large Hall — generated 292 ms BBD-style IR (mix 26%) | off |
+| R4 | ambience | [Lexicon PCM90](https://www.tone3000.com/tones/88475) — Lexicon PCM90 'pcm60 room' (for Smith's PCM 60) (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual-rig stereo, Murray hard left / Smith hard right, both on the GK 250ML as on the record (Equipboard/GuitarLobby: both players' SiT amp; Smith in Guitar Player: 'transistor amps ... plug in and whoa! - chorus and distortion'). Left = pipppriss' 250ML preamp capture, 'Maiden' setting, which the capturer voiced 'very akin to Somewhere In Time' (TS808-pushed, mid-heavy) into a Marshall 1960A with G12-65s (the Celestion fitted to Marshall 4x12s before 1986; exact speakers of Maiden's cabs undocumented). Right = leh666's complete 250ML rig (amp + its own speaker/mic, 'late 80s Maiden sound'), so the two sides differ like two players rather than two mixes. The GK built-in stereo chorus + Smith's Boss CE-3 are time-varying and can't be captured (the 27127 author says so explicitly): Align wobble between the sides at 0.4 (more than the Seventh Son preset: SiT is the most chorused Maiden record) stands in. The Roland GR-700/G-707 synth layers are not possible in TONE3000; the Align chorus + the wide plate give some of the 'sheen' only. SW8 boost = TS808 at boost settings (the capture's own Maiden voicing is TS808-pushed; off by default because SOLO already adds ~+4.5 dB input). SW9 = Murray's MXR Distortion+ (low dist, off). SW10 echo = Wasted Years intro/lead delay: L quarter note @154 BPM (390 ms), R dotted eighth (292 ms) for Smith's stereo rack delays, bright-ish digital repeats, with a Lexicon 480L Large Hall summed in; kept separate from the DAW's 380 ms SOLO delay (turn SW10 off during solos if the two pile up). Always-on ambience: left = 480L Medium Plate (Birch desk plate stand-in; the 480L arrived in 1986, the exact Wisseloord/Electric Lady units are undocumented), right = Lexicon PCM90 'pcm60 room' preset standing in for Smith's PCM 60 (no PCM 60 IRs in the catalog). Relative level of the two captures is a guess (5183's gain/settings are undocumented): measure and trim out_db.
+
+*Sources:* <https://equipboard.com/albums/iron-maiden-somewhere-in-time-2015-remaster> · <https://riffology.co/posts/the-making-of-somewhere-in-time-by-iron-maiden/> · <https://www.guitarplayer.com/news/adrian-smith-on-wasted-years> · <https://en.wikipedia.org/wiki/Somewhere_in_Time_(Iron_Maiden_album)> · <https://en.wikipedia.org/wiki/Wasted_Years> · <https://www.guitarlobby.com/dave-murray-guitars-and-gear/> · <https://www.guitarlobby.com/adrian-smith-guitars-and-gear/> · <https://guitargangsters.net/dave-murray-guitars-gear/> · <https://equipboard.com/pros/adrian-smith> · <https://stason.org/TULARC/music-bands/iron-maiden/32-IRON-MAIDEN-Equipment-Info.html> · <https://www.metaltalk.net/adrian-smith-interview-part-two-making-powerslave-wasted-years-and-rejoining-maiden.php> · <https://songbpm.com/@iron-maiden/wasted-years---1998-remastered-version>
+
+## Maiden 86 Clean
+
+**PC 25** · dual-rig stereo — Somewhere in Time (1986, Martin Birch): the chorused, echoing clean/quiet guitar passages of the era's Maiden - clean arpeggios and quiet interludes (e.g. the Alexander the Great and Sea of Madness quiet sections), played live through the GKs' clean channel + built-in stereo chorus/echo
+
+*Original rig:* Dave Murray (Strat) and Adrian Smith (Jackson/Charvel strat) -> Gallien-Krueger solid-state amps, clean channel with the GK built-in stereo chorus and echo -> Marshall 4x12s live / GK combos in the studio; Smith's rack adds Boss CE-3 stereo chorus, Boss DD-2 / Ibanez DM2000 delay, Lexicon PCM 60 reverb; Birch's studio reverb at the desk
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [GK 2000CPL](https://www.tone3000.com/tones/6203) — Gallien-Krueger 2000CPL Channel A clean, set EQ (10k 11:00, 5k 10:00, 500 noon, 80 2:00) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12 G12-65, M160 (live cab) | on |
+| L5 | echo | GK/DD-2 style echo, L 1/4 @154 BPM + Lexicon 480L Large Hall — generated 390 ms BBD-style IR (mix 28%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Birch desk plate) (mix 24%) | on |
+| R1 | amp | [GK 2000CPL](https://www.tone3000.com/tones/6203) — Gallien-Krueger 2000CPL Channel A clean, flat EQ | on |
+| R2 | cab | [Gallien Krueger 250ml 2x5 - First Version 1983 (IR/NLS)](https://www.tone3000.com/tones/83811) — Gallien-Krueger 250ML 2x5 combo speakers (1983 first version) | on |
+| R3 | echo | GK/DM2000 style echo, R dotted 1/4 @154 BPM + Lexicon 480L Large Hall — generated 585 ms BBD-style IR (mix 28%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Birch desk plate) (mix 24%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* No clean capture of the 250ML exists in the catalog (the two 250ML captures are drive settings), so both sides use the clean Channel A of the Gallien-Krueger 2000CPL - same maker, the same late-80s solid-state GK family (the 2000CPL is the preamp inside the 2100SEL rack head that rigs/10 documents for Seventh Son; it arrived ~1987, so strictly a year late for this record). Left = Channel A 'Set EQ' into a Marshall 1960A G12-65 (M160, warmer); right = Channel A 'Flat EQ' into the GK 250ML's own 2x5 combo IR (riffology: the album's guitars went mostly through the GK combos), so the two sides differ in speaker and voicing and widen like a stereo chorus. The GK/CE-3 stereo chorus itself is time-varying and can't be captured: Align wobble 0.55 between the sides + Spread wobble supply the movement. Delay and reverb are ON (SW10 doesn't reach the clean instance): L 390 ms (1/4 @154 BPM, Wasted Years tempo) / R 585 ms (dotted 1/4) stereo echoes, each with a Lexicon 480L Large Hall summed in, plus an always-on 480L Large Plate for Birch's lush 80s plate. Chains panned wide but not hard (0.1/0.9) so it reads as one lush stereo clean. No guitar-synth layer possible. Boost/drive slots are empty to stay within 2 NAM blocks. Level of the clean GK channel is untested: out_db is a guess, measure and trim.
+
+*Sources:* <https://equipboard.com/albums/iron-maiden-somewhere-in-time-2015-remaster> · <https://riffology.co/posts/the-making-of-somewhere-in-time-by-iron-maiden/> · <https://www.guitarplayer.com/news/adrian-smith-on-wasted-years> · <https://www.guitarlobby.com/dave-murray-guitars-and-gear/> · <https://www.guitarlobby.com/adrian-smith-guitars-and-gear/> · <https://stason.org/TULARC/music-bands/iron-maiden/32-IRON-MAIDEN-Equipment-Info.html> · <https://en.wikipedia.org/wiki/Somewhere_in_Time_(Iron_Maiden_album)>
+
+## Maiden 86 Acoustic
+
+**PC 26** · dual-rig stereo — Maiden acoustic moments (e.g. 'Journeyman', Dance of Death 2003, the band's only fully acoustic song; acoustic intros/interludes) placed in the Somewhere in Time bank's 80s Birch-style production space: double-tracked steel-string, wide, lush plate/hall
+
+*Original rig:* Electric (Strat / superstrat humbucker) -> Boss AC-3 Acoustic Simulator (Standard left, Jumbo right) -> acoustic body IRs (Martin dreadnought left, Gibson J-45 right) -> soft stereo echo + Lexicon 480L hall -> Lexicon PCM90 acoustic-guitar plate. Somewhere in Time itself has no acoustic guitar (guitars + Roland guitar synths only)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Standard, Level/Body/Top noon | on |
+| L4 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Martin dreadnought (piezo -> mic) | on |
+| L5 | echo | Soft echo L 390 ms + Lexicon 480L Large Hall — generated 390 ms BBD-style IR (mix 18%) | on |
+| L6 | ambience | [Lexicon PCM90](https://www.tone3000.com/tones/88475) — Lexicon PCM90 'INSTR a gtr plate' (acoustic guitar plate) (mix 26%) | on |
+| R1 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Jumbo, Level/Body/Top noon | on |
+| R2 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Gibson J-45 (piezo -> mic) | on |
+| R3 | echo | Soft echo R 585 ms + Lexicon 480L Large Hall — generated 585 ms BBD-style IR (mix 18%) | on |
+| R4 | ambience | [Lexicon PCM90](https://www.tone3000.com/tones/88475) — Lexicon PCM90 'INSTR a gtr plate' (acoustic guitar plate) (mix 26%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Same two-stage idea as rigs/13 (AC-3 turns the magnetic pickup piezo-like, the body IR adds wood/mic), but as a dual rig to fake a double-tracked 80s acoustic: left = AC-3 Standard -> Martin dreadnought body IR, right = AC-3 Jumbo -> Gibson J-45 body IR (bigger, warmer strum), panned 0.2/0.8 with a little Align wobble for the natural timing/pitch drift between two takes (no real chorus). Humbucker -> piezo pre-EQ as in rigs/13. To stay within 2 NAM blocks the rigs/13 compressor and boost are dropped (boost/drive slots empty). Reverb ON (SW10 doesn't reach the clean instance): soft 390/585 ms stereo echo (Wasted Years tempo) with a Lexicon 480L Large Hall summed in, plus an always-on Lexicon PCM90 'a gtr plate' (acoustic guitar plate preset) for the lush Birch-plate sheen. Level warning: rigs/13's AC-3 chain measured ~24 dB under target even at out_db +24, so the AC-3 blocks get in_db +9 as well; if the AC-3 capture sounds strained, lower in_db and raise the global output instead. No capture adds real string zing/top resonance; best on the neck pickup, picked lightly. Gain staging: AC-3 input at unity (in_db +9 pushed the simulator harder than the validated rigs/13 chain).
+
+*Sources:* <https://en.wikipedia.org/wiki/Dance_of_Death_(album)> · <https://en.wikipedia.org/wiki/Somewhere_in_Time_(Iron_Maiden_album)> · <https://forum.mod.audio/t/electric-guitar-into-acoustic-guitar-ir/8142>
+
+## Maiden 88 Heavy
+
+**PC 27** · dual-rig stereo — Seventh Son of a Seventh Son (1988, Musicland Munich, prod./eng./mix Martin Birch): The Evil That Men Do, Can I Play with Madness, The Clairvoyant rhythms and twin leads, heavy half of Infinite Dreams and the title track
+
+*Original rig:* Dave Murray: Fender Strat (ESP Phoenix on the tour) -> Gallien-Krueger 250ML preamp -> Marshall 4x12 (left). Adrian Smith: Jackson Strat -> MXR pedals -> rack Gallien-Krueger (250ML / 'new model' 2000CPL preamp = 2100SEL head, built-in analog chorus + echo) with T.C. Electronic 2290 and Lexicon delay -> Marshall 4x12 (right). Both players in the GK solid-state era (Somewhere in Time tour through the Seventh Son tour); Birch adds plate/hall reverb at the desk. Keyboards (first Maiden album with them) played by Smith/Harris/engineer, not covered
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Boss SD-1 Super Overdrive](https://www.tone3000.com/tones/87914) — Boss SD-1 as clean boost (level 6, drive 0) | off |
+| L2 | drive | [MXR Distortion +](https://www.tone3000.com/tones/35412) — MXR Distortion+ (Smith's MXR), out 300 / dist 300 | off |
+| L3 | amp | [Gallien Krueger 250ML - DEATH to MAIDEN](https://www.tone3000.com/tones/27127) — Gallien-Krueger 250ML preamp, 'Maiden' setting (Murray) | on |
+| L4 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, MD421 edge of cone (Murray) | on |
+| L5 | echo | TC 2290-style delay 380 ms (~1/4 @158-161) + 480L Fat Plate — generated 380 ms BBD-style IR (mix 22%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Birch desk plate) (mix 12%) | on |
+| R1 | amp | [GK 2000CPL](https://www.tone3000.com/tones/6203) — Gallien-Krueger 2000CPL ch.B overdrive, set EQ (2100SEL preamp, Smith) | on |
+| R2 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith) | on |
+| R3 | echo | TC 2290 / Lexicon delay 380 ms (~1/4 @158-161) + 480L Fat Plate — generated 380 ms BBD-style IR (mix 22%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Birch desk plate) (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Built on rigs/10 (same era), re-cut for the scene bank. Dual-rig stereo, Murray hard left / Smith hard right; SD-1 boost and MXR feed both. Left = GK 250ML preamp capture dialled for the Somewhere in Time/Seventh Son sound (the capture includes a TS808 push in front), right = GK 2000CPL ch.B overdrive with the capturer's set EQ (the preamp inside the 2100SEL). Both are dry DI preamp captures with no delay baked in, and both are solid-state gain stages that clean up / compress audibly with input level, so the DAW's SOLO (+4.5 dB) and CRUNCH (-4.5 dB) input moves behave like pushing/rolling back the guitar. Same 1987 Marshall 1960A G12T-75 cab on both sides, MD421 left / SM57 right, so the sides differ like two players. Equipboard's summary puts Smith on the 250ML too and the forum thread says 'Murray: Marshall amps and Yamaha pedals'; the gear histories put both players on GK for SiT/Seventh Son, so both sides stay GK. The GK built-in analog chorus and Smith's Boss CE-3 are approximated with Align wobble between the sides (TONE3000 has no modulation). SW10 echo = T.C. 2290-style bright digital repeats at a quarter note of The Evil That Men Do (~161 BPM = 373 ms), set to 380 ms, plus a Lexicon 480L Fat Plate tail in the same block, for the melodic intros and harmony lines. 380 ms matches the DAW 380 ms SOLO delay so the two land on the same repeats instead of flamming. Always-on ambience = 480L Large Plate at 12% (Birch's desk plate; the 480L came out in 1986 and was the studio standard, but Musicland's exact reverb list isn't documented). No harmonizer: the twin harmonies need both players. Guitar-synth/keyboard parts not covered. out_db = the measured rigs/10 trims, nudged by its last stereo sweep (sides -15.4 / -17.3 LUFS -> left -1.4 dB, right +0.3 dB) toward equal sides.
+
+*Sources:* <https://www.guitarlobby.com/adrian-smith-guitars-and-gear/> · <https://www.guitarlobby.com/dave-murray-guitars-and-gear/> · <https://equipboard.com/albums/iron-maiden-seventh-son-of-a-seventh-son-2015-remaster> · <https://forum.maidenfans.com/threads/info-on-the-recording-of-7th-son-of-a-7th-son.12404/> · <https://en.audiofanzine.com/solid-state-guitar-preamp/gallien-krueger/2000cpl/user_reviews/> · <https://en.wikipedia.org/wiki/Seventh_Son_of_a_Seventh_Son> · <https://www.gearnews.com/1980s-reverb-studio/>
+
+## Maiden 88 Clean
+
+**PC 28** · dual-rig stereo — Seventh Son of a Seventh Son (1988, Musicland Munich, Martin Birch): Infinite Dreams clean intro (~79 BPM), the clean/atmospheric middle section of Seventh Son of a Seventh Son, clean intro of The Evil That Men Do
+
+*Original rig:* Dave Murray: Fender Strat -> Gallien-Krueger preamp clean channel with the GK's built-in analog stereo chorus (left). Adrian Smith: Jackson Strat -> rack Gallien-Krueger 2000CPL/2100SEL clean channel A (built-in analog chorus, compressor and reverb) with T.C. Electronic 2290 + Lexicon delay, Boss CE-3 stereo chorus (right). Both into Marshall 4x12s; Birch's desk plate/hall on top
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [GK 2000CPL](https://www.tone3000.com/tones/6203) — Gallien-Krueger 2000CPL ch.A clean, set EQ (Murray side; pre-EQ humbucker->Strat) | on |
+| L4 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, Royer R10 edge of cone | on |
+| L5 | echo | TC 2290-style stereo delay L 380 ms (1/8 @79) + 480L Large Hall — generated 380 ms BBD-style IR (mix 22%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Birch's clean-part plate) (mix 26%) | on |
+| R1 | amp | [GK 2000CPL](https://www.tone3000.com/tones/6203) — Gallien-Krueger 2000CPL ch.A clean, flat EQ (Smith side; half Strat pre-EQ) | on |
+| R2 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone | on |
+| R3 | echo | TC 2290-style stereo delay R 570 ms (dotted 1/8 @79) + 480L Large Hall — generated 570 ms BBD-style IR (mix 22%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Birch's clean-part plate) (mix 26%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Both sides are the GK 2000CPL's clean channel A (the only GK clean capture in the catalog; there is no clean 250ML capture, so Murray's side is the same preamp with a different EQ): left = the capturer's set EQ (80 Hz up, 5-10 kHz down: warmer, the neck-pickup melody), right = flat EQ (brighter, Smith). Reviews of the 2000CPL describe its clean channel as crystalline and very 80s with the chorus on. Pre-EQ turns a humbucker toward the Strats' single-coil voicing (full on the left, half on the right); zero it for a fatter clean. Cabs: same 1987 Marshall 1960A G12T-75, R10 ribbon left (smooth) / SM57 right. The GK analog stereo chorus and Smith's CE-3 are time-varying, which TONE3000 can't do: Align wobble between the two sides plus Spread wobble stand in, panned 10/90 so the chorus spreads wide without splitting the melody in two. Delay is ON (SW10 doesn't reach the clean instance): T.C. 2290-style stereo repeats timed to Infinite Dreams (79 BPM: left 1/8 = 380 ms, right dotted 1/8 = 570 ms), with a Lexicon 480L Large Hall summed into the delay return (80s-style delay-into-reverb). Always-on ambience = 480L Large Plate at 26%, the lush plate on the record's clean parts (480L = the mid-80s studio standard; Musicland's exact units aren't documented). The GK's own built-in reverb and compressor aren't captured. No NAM compressor (2-capture budget). Levels are guesses: ch.A output is untested; the ch.B capture needed about +6.5 dB in rigs/10.
+
+*Sources:* <https://www.guitarlobby.com/adrian-smith-guitars-and-gear/> · <https://www.guitarlobby.com/dave-murray-guitars-and-gear/> · <https://en.audiofanzine.com/solid-state-guitar-preamp/gallien-krueger/2000cpl/user_reviews/> · <https://equipboard.com/albums/iron-maiden-seventh-son-of-a-seventh-son-2015-remaster> · <https://en.wikipedia.org/wiki/Infinite_Dreams> · <https://songbpm.com/@iron-maiden/infinite-dreams---2015-remaster> · <https://www.gearnews.com/1980s-reverb-studio/>
+
+## Maiden 88 Acoustic
+
+**PC 29** · dual-rig stereo — Seventh Son of a Seventh Son (1988, Musicland Munich, Martin Birch): the acoustic bookends (Moonchild intro, reprised at the end of Only the Good Die Young) and the nylon-string classical outro of The Prophecy (Dave Murray)
+
+*Original rig:* Studio acoustic guitars overdubbed by Murray/Smith (the exact instruments aren't documented): a steel-string acoustic for the Moonchild / Only the Good Die Young bookends, a nylon-string classical for The Prophecy's closing ~45 s (tabbed as Dave Murray, 'Acoustic Guitar (nylon)'); Birch's hall/plate on top. Here: electric -> Boss AC-3 acoustic simulator -> acoustic body IRs (steel dreadnought left, nylon classical right) -> Lexicon 480L hall
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Standard mode, Level/Body/Top noon (steel) | on |
+| L4 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Martin dreadnought (piezo -> mic), steel string | on |
+| L5 | echo | Soft delay 350 ms, low mix — generated 350 ms BBD-style IR (mix 12%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Hall (lush studio hall) (mix 30%) | on |
+| R1 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Piezo mode, Level/Body/Top noon (feeds the nylon body IR) | on |
+| R2 | cab | [Ibanez AEG50N (Classical)](https://www.tone3000.com/tones/55147) — Acoustic body IR: Ibanez AEG50N classical (nylon), top rolled off | on |
+| R3 | echo | Soft delay 350 ms, low mix — generated 350 ms BBD-style IR (mix 12%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Hall (lush studio hall) (mix 30%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Same two-stage approach as rigs/13: the AC-3 turns the magnetic pickup into a piezo-like signal, then a piezo-to-mic body IR adds the wooden body. Dual rig so both of the album's acoustic colours are there at once, panned 20/80 like a double-tracked acoustic: left = AC-3 Standard -> Martin dreadnought body IR (steel string, the Moonchild bookends), right = AC-3 Piezo mode (the input a piezo-to-mic IR expects) -> Ibanez AEG50N classical body IR (nylon, The Prophecy outro), with the top end rolled off for nylon softness. Pre-EQ on both AC-3 blocks thins a humbucker toward a piezo voicing (from rigs/13). Whether the studio bookends were steel or nylon isn't documented (the Moonchild forum thread even questions the instrumentation); pan hard to one side, or disable one amp block, for a single guitar. The AEG50N IR's description only says it's the guitar captured with an AKG P120, so treating it as piezo-to-mic is an assumption. No capture adds real string/top resonance: play the neck pickup, lightly. Reverb ON (SW10 doesn't reach the clean instance): Lexicon 480L Large Hall at 30%, trimmed to 3.5 s, plus a soft 350 ms delay at low mix for sustain on arpeggios. No compressor (2-capture budget). Levels: AC-3 + body IR needed +24 dB in rigs/13 for a mono chain; two panned chains share that, so each side starts at +20 dB (the Piezo mode / AEG50N side is unmeasured).
+
+*Sources:* <https://en.wikipedia.org/wiki/Seventh_Son_of_a_Seventh_Son> · <https://www.songsterr.com/a/wsa/iron-maiden-the-prophecy-tab-s38584t3> · <https://forum.maidenfans.com/threads/moonchild.4303/page-3> · <https://www.gearnews.com/1980s-reverb-studio/>
+
+## Maiden 92 Heavy
+
+**PC 30** · dual-rig stereo — Fear of the Dark (1992, Barnyard Studios, Essex; prod. Martin Birch & Steve Harris): the title track's gallop and solos (Gers 4:09, Murray 4:25), Be Quick or Be Dead, Childhood's End, Afraid to Shoot Strangers' heavy half. SW10 echo = the title track's slow overdriven intro melody (CRUNCH scene)
+
+*Original rig:* Dave Murray: Fender Stratocaster (Duncan JB/Hot Rails by the '90s) -> Marshall JCM900 heads, the 'new Marshall amps that go to 20' he showed off in 1990 (4100 Hi Gain Dual Reverb, gain dials 0-20) -> Marshall 4x12 (left). Janick Gers: black Strat from Ian Gillan (JB Jr pickups) -> Ibanez Tube Screamer push -> Marshall head -> Marshall 1960 4x12 G12T-75 (right). Martin Birch engineered and mixed in Harris' converted barn (small live room, Dickinson: 'big limitations ... because of its physical size'); Lexicon 480L-class digital reverb was the studio standard of the time
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Boss SD-1 Super Overdrive](https://www.tone3000.com/tones/87914) — Boss SD-1 as clean boost (level 6, drive 0) | off |
+| L2 | drive | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/36827) — Ibanez TS9, drive 2 / tone 7 / level 10 (Gers' Tube Screamer push) | off |
+| L3 | amp | [MARSHALL JCM 900 4100](https://www.tone3000.com/tones/45684) — Marshall JCM900 4100 Hi Gain Dual Reverb, lead channel, knobs noon (Murray) | on |
+| L4 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, MD421 edge of cone (Murray) | on |
+| L5 | echo | Digital delay 409 ms (dotted 1/8 @110) + 480L Large Hall (intro melody) — generated 409 ms BBD-style IR (mix 25%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (Barnyard's small barn room) (mix 12%) | on |
+| R1 | amp | [Marshall JCM 800 2203](https://www.tone3000.com/tones/1071) — Marshall JCM800 2203, P5 B5 M5 T5, master 6, gain 7 (Gers) | on |
+| R2 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Gers) | on |
+| R3 | echo | Digital delay 409 ms (dotted 1/8 @110) + 480L Large Hall (intro melody) — generated 409 ms BBD-style IR (mix 25%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (Barnyard's small barn room) (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual-rig stereo, Murray hard left / Gers hard right; boost + drive feed both. Era evidence is thin: Wikipedia puts Murray back on Marshall after the 1986-88 Gallien-Krueger years and guitargangsters says he 'returned to Marshall' for good; the only period-specific quote is Murray's 1990 'my new Marshall amps go to 20' (MTV Headbangers Ball / No Prayer documentary, quoted in forum search results; the original thread is offline), which is the JCM900 Hi Gain Dual Reverb's 0-20 gain dial -> left = deathblossom's real JCM900 4100 lead channel at noon (RHYTHM 01). Gers' 1990-92 head is undocumented (his JMP-1/9200 rack is a later, post-1992 setup; the JMP-1 only launched in 1992, after most of the album was cut) -> right = a stock JCM800 2203 (MV6, gain 7), the Marshall he'd used since Gillan, rawer and less compressed than the JCM900, matching his 'very raw tone' (Wikipedia). Both into the 1987 Marshall 1960A G12T-75 IR (the stock JCM900-era cab speaker; Equipboard lists Gers' 1960B T-75 cabs), MD421 left / SM57 right. Drive (SW9, off) = TS9 low-drive/high-level push, Gers' documented pedal (Guitar Geek via Equipboard, later rig). Boost (SW8, off) = SD-1 as clean level boost, not era-documented, same as rigs/10. Echo (SW10, off) = dotted 1/8 at the title track's 110 BPM (409 ms, songbpm) with a Lexicon 480L Large Hall summed in, for the reverb-soaked intro melody; kept moderate because the DAW adds its own ~380 ms lead delay in SOLO. Always-on ambience = 480L Small Wood Room at low mix for the small barn live room (studio reverb unit not documented; 480L is a period-typical stand-in). Both captures are real-amp captures with no delay baked in, and respond to the +/-4.5 dB SOLO/CRUNCH input moves. Align wobble low (0.1): no chorus is documented for this era. out_db set from the captures' NAM loudness metadata (JCM900 -13.9, JCM800 -10.2) so the sides land near -9; untested live.
+
+*Sources:* <https://en.wikipedia.org/wiki/Fear_of_the_Dark_(Iron_Maiden_album)> · <https://en.wikipedia.org/wiki/Fear_of_the_Dark_(song)> · <https://en.wikipedia.org/wiki/Dave_Murray_(musician)> · <https://en.wikipedia.org/wiki/Janick_Gers> · <https://guitargangsters.net/dave-murray-guitars-gear/> · <https://guitargangsters.net/janick-gers-guitars-gear/> · <https://equipboard.com/pros/janick-gers> · <https://equipboard.com/pros/dave-murray> · <https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-30> · <https://songbpm.com/@iron-maiden/fear-of-the-dark---2015-remaster>
+
+## Maiden 92 Clean
+
+**PC 31** · dual-rig stereo — Fear of the Dark (1992): Afraid to Shoot Strangers' clean intro (Murray's intro lick 0:00-0:34), the clean electric verses of Wasting Love, the quiet opening of Childhood's End / Judas Be My Guide-style clean passages
+
+*Original rig:* Dave Murray: Fender Stratocaster -> Marshall JCM900 4100 Hi Gain Dual Reverb clean channel (its built-in spring reverb) -> Marshall 4x12 (left). Janick Gers: Strat (JB Jr) -> Marshall clean -> Marshall 1960 4x12 G12T-75 (right). Martin Birch adds studio digital reverb at the desk (Barnyard Studios, Essex)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [MARSHALL JCM 900 4100](https://www.tone3000.com/tones/45684) — Marshall JCM900 4100 Dual Reverb, clean (CLEAN 01, Murray) | on |
+| L4 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, MD421 edge of cone (Murray) | on |
+| L5 | echo | Soft delay 450 ms + Lexicon 480L Large Hall (Birch's intro reverb) — generated 450 ms BBD-style IR (mix 30%) | on |
+| L6 | ambience | [Marshall Valvestate 8080 Combo Spring Reverb IR](https://www.tone3000.com/tones/68862) — Marshall spring reverb (Valvestate 8080 tank, stand-in for the 4100's spring) (mix 20%) | on |
+| R1 | amp | [MARSHALL JCM 900 4100](https://www.tone3000.com/tones/45684) — Marshall JCM900 4100 Dual Reverb, clean (CLEAN 02, Gers) | on |
+| R2 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Gers) | on |
+| R3 | echo | Soft delay 450 ms + Lexicon 480L Large Hall (Birch's intro reverb) — generated 450 ms BBD-style IR (mix 30%) | on |
+| R4 | ambience | [Marshall Valvestate 8080 Combo Spring Reverb IR](https://www.tone3000.com/tones/68862) — Marshall spring reverb (Valvestate 8080 tank, stand-in for the 4100's spring) (mix 20%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual-rig stereo from one clean amp family: left = JCM900 4100 CLEAN 01, right = CLEAN 02 (two settings of the same real 4100, deathblossom's pack), both into the 1987 Marshall 1960A G12T-75 IR (MD421 left / SM57 right), panned 0.1/0.9 so a single clean part stays full rather than hollow. Amp model is inferred from Murray's 1990 JCM900 ('go to 20') quote, see the heavy preset; the clean channel of the Dual Reverb is the obvious clean source for that rig. Its onboard spring is approximated with a Marshall Valvestate 8080 spring IR (same early-'90s Marshall spring era; no 4100 spring IR in the catalog) as always-on ambience. Echo block ON (SW10 doesn't reach the clean instance): soft 450 ms delay + Lexicon 480L Large Hall for Birch's big ballad/intro reverb (studio unit not documented; 480L is the period standard). No chorus: no source documents one on these intros, so Align/Spread wobble stays off; enable spreadWobble on the FCB if you want the '90s shimmer. Boost/drive slots are empty to stay within 2 NAM blocks.
+
+*Sources:* <https://en.wikipedia.org/wiki/Fear_of_the_Dark_(Iron_Maiden_album)> · <https://en.wikipedia.org/wiki/Wasting_Love> · <https://en.wikipedia.org/wiki/Dave_Murray_(musician)> · <https://en.wikipedia.org/wiki/Janick_Gers> · <https://guitargangsters.net/dave-murray-guitars-gear/> · <https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-30>
+
+## Maiden 92 Acoustic
+
+**PC 32** — Wasting Love (Fear of the Dark, 1992; Dickinson/Gers ballad, Janick's acoustic lead and solo) and other acoustic passages on the album
+
+*Original rig:* Janick Gers: Gibson Chet Atkins steel-string electric-acoustic (credited on the Songsterr transcription's lead acoustic track; Equipboard documents Gers playing a Gibson Chet Atkins electric-acoustic on later tours) -> desk, with Martin Birch's studio reverb (Barnyard Studios)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L2 | drive | [Diamond Compressor - Original Through Hole Version!](https://www.tone3000.com/tones/88975) — Diamond Compressor, Comp 5 / EQ 6.5 / Vol 5 (desk compression stand-in) | on |
+| L3 | amp | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Piezo mode (Chet Atkins piezo), knobs noon | on |
+| L4 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Gibson J-45 (Gibson body voicing, 70%) (mix 70%) | on |
+| L5 | echo | Soft delay 380 ms + Lexicon 480L Large Hall (ballad reverb) — generated 380 ms BBD-style IR (mix 30%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (small barn room) (mix 20%) | on |
+
+*Notes:* Electric->acoustic as in rigs/13, but voiced for Gers' Gibson Chet Atkins: that guitar is a thin-body piezo electro-acoustic, so the Boss AC-3 runs in its Piezo mode (the guitar's own DI-piezo character) and the Gibson J-45 body IR (Gibson rather than Martin voicing, warmer mids) sits at 70% so some of the bright piezo edge stays. Humbucker pre-EQ thins the magnetic pickup toward piezo (less 100-250 Hz, more 3.5-8 kHz). Diamond optical comp in slot 2 stands in for desk compression (not documented). Echo block ON: short 380 ms soft repeat at low level + Lexicon 480L Large Hall (studio unit not documented; 480L is a period-typical ballad hall); ambience = 480L Small Wood Room for the small barn room. Spread on for width. No real string/top resonance possible; play the neck pickup lightly. Levels: the Diamond comp capture is ~20 dB quiet (NAM loudness metadata -31), so it gets +20 dB and the AC-3 Piezo +20 dB (rigs/13 left the comp at 0 and measured ~-39 LUFS); untested, trim after measuring. Gain staging: the compressor runs at unity into the AC-3, as in rigs/13 (at +20 dB it overdrove the simulator: +25.9 dBFS peaks, experiments D8).
+
+*Sources:* <https://en.wikipedia.org/wiki/Wasting_Love> · <https://www.songsterr.com/a/wsa/iron-maiden-wasting-love-tab-s10027t1> · <https://equipboard.com/pros/janick-gers> · <https://en.wikipedia.org/wiki/Fear_of_the_Dark_(Iron_Maiden_album)>
+
+## Maiden 2000s Heavy
+
+**PC 33** · dual-rig stereo — Brave New World (2000, Guillaume Tell Paris) and Dance of Death (2003, Sarm West London), both prod. Kevin Shirley with Steve Harris: The Wicker Man, Blood Brothers and Ghost of the Navigator heavy sections, Brave New World, Dance of Death main riff and harmony leads
+
+*Original rig:* Reunion three-guitar line-up, recorded live in the studio with the amps in the room. Dave Murray (left): Fender Custom Shop Strat with Seymour Duncan Hot Rails -> Pete Cornish routing -> Marshall JMP-1 valve MIDI preamp -> Marshall JFX-1 / TC Electronic G-Force -> Marshall 9200 power amp (JCM2000 heads as power amps on tour) -> Marshall 1960BV 4x12 Vintage 30. Adrian Smith (right): Fender Strat (DiMarzio Super Distortion bridge) or Les Paul/Jackson on BNW -> Ibanez TS9 (tech-switched) -> Marshall JCM2000 Dual Super Lead, Ultra Gain channel ('used since the return to the band'; 30th Anniversary 6100LM heads by 2006) -> Marshall 1960A 4x12 G12T-75. Janick Gers (not modelled as a side): Strat -> Ibanez TS9 + Boss GE-7 -> Marshall rack -> 1960B. Shirley miked each 4x12 with a Beyer M201 + Shure SM57 at 90 degrees ~6 in from the cone, Neve 8069 pres -> Drawmer 1961 -> UREI 1176; on Dance of Death he added no reverb, only the studio room mics, and fitted the guitars together with panning
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Boss GE-7 (Creative Uses of an EQ Pedal)](https://www.tone3000.com/tones/5007) — Boss GE-7 mid boost (Gers' GE-7) as lead boost | off |
+| L2 | drive | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9, drive 3 / tone 5 / level 5 (Smith's & Gers' TS9) | off |
+| L3 | amp | [Marshall JMP-1 Factory Presets](https://www.tone3000.com/tones/52855) — Marshall JMP-1 preset 04 'British Steel' (Murray's rack preamp) | on |
+| L4 | cab | [Marshall 1960BV V30 and G12T75](https://www.tone3000.com/tones/51086) — Marshall 1960BV 4x12 Vintage 30, SM57 (Murray's 1960BV V30s) | on |
+| L5 | echo | G-Force-style digital delay 380 ms + 480L Large Hall — generated 380 ms BBD-style IR (mix 20%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Shirley's room mics) (mix 10%) | on |
+| R1 | amp | [JCM2000 Amp Pack](https://www.tone3000.com/tones/700) — Marshall JCM2000 DSL Ultra Gain, Lead 2 gain 6 (Smith) | on |
+| R2 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith's 1960A T-75s) | on |
+| R3 | echo | Digital delay 380 ms + 480L Large Hall — generated 380 ms BBD-style IR (mix 20%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Shirley's room mics) (mix 10%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Stereo pair = Murray hard left / Smith hard right. Why these two: Murray is the constant of every Maiden record and his 2003 rack (JMP-1 -> 9200 -> 1960BV V30) is fully documented; Smith's return is what defines this era (The Wicker Man riff is his), and his Marshall head + TS9 is the other documented 'reunion' rig. Gers shares the Marshall/TS9 platform, so the stereo pair still sounds like the three-guitar wall; his TS9 and GE-7 live in the shared pedal slots. Left = Marshall JMP-1 factory preset 04 'British Steel' (warm & heavy OD, a real JMP-1 preset, not a sim); right = Marshall JCM2000 DSL Ultra Gain, Lead 2 at gain 6 (Tim R). Both are dry DI captures with no delay baked in and are moderate-gain valve preamps, so the DAW's SOLO (+4.5 dB) / CRUNCH (-4.5 dB) input moves behave like guitar volume. Equipboard's JCM2000 claim for Smith is undated ('since the return'); the 2006 diagram shows 6100LM heads, which is the next era, so the DSL stays. BNW-era studio amps for Smith are not documented (a forum post suggests JMP-1/ADA MP-1), so this side is a best guess. Cabs: Murray = real 1960BV V30 SM57 (the diagram's cab), Smith = 1987 1960A G12T-75 SM57 edge (his 1960A T-75 cabs); Shirley's second mic, a Beyer M201, isn't available on these IR packs. Boost (SW8) = Boss GE-7 mid boost (Gers' pedal, +3 dB) for leads; drive (SW9) = Ibanez TS9 at drive 3 (Smith/Gers), off by default because Smith's was tech-switched, not always on. SW10 echo = 380 ms repeats (same as the DAW SOLO delay so they never flam) plus a Lexicon 480L Large Hall tail, for the Ghost of the Navigator / Blood Brothers melodic lines; Murray's G-Force/JFX-1 delays are digital, so repeats stay fairly bright. Always-on ambience = 480L Large Wood Room at 10% standing in for Shirley's room mics (he added no reverb on DoD). No modulation/wah/whammy possible; Align wobble gives a slight double-tracked movement. out_db are estimates (both captures unmeasured) for the maintainer to trim.
+
+*Sources:* <https://guitar.com/rig-diagrams/rig-diagram-dave-murray-iron-maiden-2003/> · <https://guitar.com/rig-diagrams/rig-diagram-adrian-smith-iron-maiden-2006/> · <https://www.soundonsound.com/people/kevin-caveman-shirley> · <https://equipboard.com/pros/adrian-smith> · <https://equipboard.com/pros/dave-murray> · <https://equipboard.com/pros/janick-gers> · <https://www.uberproaudio.com/who-plays-what/199-iron-maiden-dave-murrays-guitar-gear-rig-and-equipment> · <https://www.uberproaudio.com/who-plays-what/107-iron-maiden-adrian-smiths-guitar-gear-rig-and-equipment> · <https://forum.seymourduncan.com/threads/iron-maiden-brave-new-world-tone.296075/> · <https://blackstaramps.com/lessons/how-to-dial-in-adrian-smith-iron-maiden-tones/> · <https://en.wikipedia.org/wiki/Brave_New_World_(Iron_Maiden_album)> · <https://en.wikipedia.org/wiki/Dance_of_Death_(album)> · <https://en.wikipedia.org/wiki/The_Wicker_Man_(song)>
+
+## Maiden 2000s Clean
+
+**PC 34** · dual-rig stereo — Brave New World (2000) / Dance of Death (2003) clean passages: Blood Brothers and Ghost of the Navigator clean intros, Brave New World's quiet opening, the clean arpeggios under Dance of Death's build-up
+
+*Original rig:* Same live-in-the-studio rigs as the heavy preset, on their clean channels. Dave Murray (left): Fender Custom Shop Strat (Hot Rails) -> Marshall JMP-1 clean program -> Marshall JFX-1 / TC Electronic G-Force delays and reverbs -> Marshall 9200 -> 1960BV Vintage 30. Adrian Smith (right): Strat -> Marshall JCM2000 Dual Super Lead, Classic Gain clean -> 1960A G12T-75; per Blackstar's era breakdown his reunion tone ran no delay or chorus, just a touch of reverb for space. Kevin Shirley: Beyer M201 + SM57 on the cabs, room mics instead of added reverb on Dance of Death
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [Marshall JMP-1 Factory Presets](https://www.tone3000.com/tones/52855) — Marshall JMP-1 preset 25 'Mellow' clean (Murray) | on |
+| L4 | cab | [Marshall 1960BV V30 and G12T75](https://www.tone3000.com/tones/51086) — Marshall 1960BV 4x12 Vintage 30, SM57 (Murray) | on |
+| L5 | echo | G-Force-style delay 410 ms + 480L Large Hall — generated 410 ms BBD-style IR (mix 22%) | on |
+| L6 | ambience | [Lexicon PCM91](https://www.tone3000.com/tones/88473) — Lexicon PCM91 Large Hall (mix 22%) | on |
+| R1 | amp | [JCM2000 Amp Pack](https://www.tone3000.com/tones/700) — Marshall JCM2000 DSL clean channel (Smith) | on |
+| R2 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith) | on |
+| R3 | echo | Digital delay 410 ms + 480L Large Hall — generated 410 ms BBD-style IR (mix 22%) | on |
+| R4 | ambience | [Lexicon PCM91](https://www.tone3000.com/tones/88473) — Lexicon PCM91 Large Hall (mix 22%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual-rig clean, Murray left / Smith right as in the heavy preset, so switching CLEAN keeps the guitars where they were. Left = Marshall JMP-1 factory preset 25 'Mellow' (clean & pretty), right = Marshall JCM2000 DSL clean channel (Tim R), same cabs as the heavy preset. Delay and reverb are ON (SW10 does not reach the clean instance): 410 ms digital repeats with a Lexicon 480L Large Hall tail in the echo block (Murray's G-Force / JFX-1 are digital, so the repeats stay bright), plus a PCM91 Large Hall bed at 22%. This is lusher than the records (Shirley kept the Dance of Death mix dry and used room mics; the BNW mix is similarly direct) because the user wants a beautiful, reverby clean; lower the ambience mix for a record-accurate dry clean. The chorus-like shimmer is Align wobble between the two rigs (TONE3000 has no modulation; neither Smith's reunion tone nor the record uses obvious chorus). No boost/drive on the clean instance. Levels are estimates for the maintainer to trim (JMP-1 clean and JCM2000 clean captures unmeasured).
+
+*Sources:* <https://guitar.com/rig-diagrams/rig-diagram-dave-murray-iron-maiden-2003/> · <https://www.uberproaudio.com/who-plays-what/199-iron-maiden-dave-murrays-guitar-gear-rig-and-equipment> · <https://equipboard.com/pros/adrian-smith> · <https://blackstaramps.com/lessons/how-to-dial-in-adrian-smith-iron-maiden-tones/> · <https://www.soundonsound.com/people/kevin-caveman-shirley> · <https://forum.seymourduncan.com/threads/iron-maiden-brave-new-world-tone.296075/>
+
+## Maiden 2000s Acoustic
+
+**PC 35** · dual-rig stereo — Journeyman (Dance of Death, 2003, Sarm West, prod. Kevin Shirley / Steve Harris): Maiden's first and only fully acoustic song, strummed steel-string acoustics under orchestra; also the acoustic-guitar intro of Dance of Death
+
+*Original rig:* Journeyman was written and recorded 'totally based on acoustic guitars' (Harris); the chorus/opening is by Dickinson and Smith, the rest by Harris; the album version adds orchestration. Which guitarist played which acoustic, and the make/model of the studio acoustics, are not documented. Emulated here as: electric -> Diamond optical compressor -> Boss AC-3 acoustic simulator (Standard) -> two acoustic body IRs (Martin dreadnought left, Gibson J-45 right) for a double-tracked acoustic pair -> hall + room
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Diamond Compressor - Original Through Hole Version!](https://www.tone3000.com/tones/88975) — Diamond Compressor, Comp 5 / EQ 6.5 / Vol 5 (acoustic strum leveller) | on |
+| L2 | drive | [BOSS ACOUSTIC SIMULATOR AC-3 ](https://www.tone3000.com/tones/71126) — Boss AC-3 Acoustic Simulator, Standard, Level/Body/Top noon | on |
+| L4 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Martin dreadnought (left acoustic) | on |
+| L5 | echo | Lexicon 480L Large Hall (reverb only) — generated 0 ms BBD-style IR (mix 25%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (room mics) (mix 20%) | on |
+| R2 | cab | [ACUSTIC IR PACK](https://www.tone3000.com/tones/36381) — Acoustic body IR: Gibson J-45 (right acoustic) | on |
+| R3 | echo | Lexicon 480L Large Hall (reverb only) — generated 0 ms BBD-style IR (mix 25%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (room mics) (mix 20%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Built on the rigs/13 chain (compressor -> AC-3 -> body IR), made stereo: slots 1-2 (compressor + AC-3) feed both sides, then a Martin dreadnought body IR on the left and a Gibson J-45 body IR on the right, panned apart with a little Align wobble, so strummed chords sound like two acoustics tracked separately (Journeyman is layered acoustics). The compressor sits in the 'boost' slot and the AC-3 in the 'drive' slot (both on) and the amp slots are empty inserts: this keeps the instance at 2 NAM blocks, and SW8/SW9 don't reach the clean/acoustic instance anyway. No 12-string or specific-model acoustic IR exists on TONE3000, and the studio acoustics aren't documented, so steel-string dreadnought/J-45 bodies are the closest honest match. Pre-EQ thins the humbucker toward a piezo/single-coil voicing as in rigs/13; body IRs get a slight low cut. Reverb is ON: echo block = reverb only (Lexicon 480L Large Hall, the lush tail the user wants; on the record Shirley added reverb only to the orchestra and used room mics), plus a 480L Small Wood Room at 20% for the room-mic sound. Level: rigs/13 measured ~24 dB under target with the AC-3 at +24 dB out, so the body IRs carry +18 dB here; treat all gains as starting points for the maintainer's measurement. Best on the neck pickup, picked lightly.
+
+*Sources:* <https://en.wikipedia.org/wiki/Dance_of_Death_(album)> · <https://forum.maidenfans.com/threads/interview-with-steve-harris-in-metalworld-no-38.2289/> · <https://forum.maidenfans.com/threads/journeyman.3963/> · <https://www.soundonsound.com/people/kevin-caveman-shirley> · <https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/>
+
 ## Footswitches
 
 | FCB1010 | CC | TONE3000 |
@@ -358,3 +863,29 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | SW10 | 24 | slot 5 / R3: solo echo |
 | EXP A | 27 | treble sweep |
 | EXP B | 7 | output level |
+
+In the DAW rig (`qtractor_rig.py`) SW6/SW7/EXP A drive a real wah and octaver instead of
+gate/spread/treble, and SW10 toggles each preset's delay + reverb.
+
+## Scene banks (FCB banks 03–09, DAW rig)
+
+Every Maiden bank has the same five switches. Each switch sends absolute values, so it
+switches instantly and always lands in the same state:
+
+| Switch | Scene | Heavy PC (ch 1) | Clean PC (ch 2) | CC 80 drive | CC 81 rig |
+|---|---|---|---|---|---|
+| SW1 | RHYTHM | song | clean | 63 | heavy |
+| SW2 | SOLO | — | — | 72 | heavy |
+| SW3 | CLEAN | song | clean | 63 | clean |
+| SW4 | ACOUSTIC | song | acoustic | 63 | clean |
+| SW5 | CRUNCH | — | — | 48 | heavy |
+
+| Bank | Heavy | Clean | Acoustic |
+|---|---|---|---|
+| 03 | PC 15 Maiden 82 Heavy | PC 16 | PC 17 |
+| 04 | PC 18 Maiden 83 Heavy | PC 19 | PC 20 |
+| 05 | PC 21 Maiden 84 Heavy | PC 22 | PC 23 |
+| 06 | PC 24 Maiden 86 Heavy | PC 25 | PC 26 |
+| 07 | PC 27 Maiden 88 Heavy | PC 28 | PC 29 |
+| 08 | PC 30 Maiden 92 Heavy | PC 31 | PC 32 |
+| 09 | PC 33 Maiden 2000s Heavy | PC 34 | PC 35 |

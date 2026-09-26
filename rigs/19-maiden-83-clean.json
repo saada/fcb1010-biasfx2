@@ -1,0 +1,164 @@
+{
+  "pc": 19,
+  "name": "Maiden 83 Clean",
+  "scene": "clean",
+  "bank": 4,
+  "reference": "Piece of Mind (1983, Compass Point Studios Nassau, prod. Martin Birch): Revelations clean intro and verses (open-chord strums, Murray phased / Smith chorused), clean passages of To Tame a Land",
+  "rig": "Same stage rigs as the heavy parts, played clean: Dave Murray '57 Strat (DiMarzio PAF neck) -> Cornish board with MXR Phase 90 -> 50 W Marshall -> Marshall 4x12, EV-loaded cab miked (left). Adrian Smith SG / Destroyer -> Boss chorus -> Marshall (100 W Super Lead per Guitar Pointers) -> Marshall 4x12 Celestions (right). Revelations tab notes: 'Dave's guitar has a phaser on it and Adrian's is chorused'; the players 'slide ... to cover up turning on the distortion', i.e. the clean is the amp with the drive pedal off",
+  "sources": [
+    "https://www.skyminds.net/guitar-tabs/iron-maiden/revelations.tab",
+    "https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983",
+    "https://guitarpointers.com/dave-murray-and-adrian-smith/",
+    "https://line6.com/tone-templates-diagrams/adrian-smith--piece-of-mind-tour.html",
+    "https://retrorecordingsxr.com/recording-studios/compass-point-studios/",
+    "https://en.wikipedia.org/wiki/Piece_of_Mind"
+  ],
+  "notes": "Clean Marshall, not a Fender: on Revelations the clean parts are the same Marshall rigs with the distortion switched off. Both sides use daweed's 1972 Marshall JMP 100 Super Lead captures (the only vintage non-master Marshall with real clean-channel A2 captures in the catalog; Smith's head per Guitar Pointers, Murray's 50 W 1987 has no clean capture): left = 'clean ch1' (a little more body, input -2 dB so hot humbuckers stay clean), right = 'cleanest ch1'. Cabs: left = 1980s Electro-Voice EVM12L 4x12 close (GW 1983: Murray's EV cab is the one that gets miked; EVs stay clean and full), right = JCM800-era 1960A G12-65 SM57. Chorus: Smith's Boss chorus on Revelations = Align wobble between the sides (plus light Spread wobble); Murray's Phase 90 can't be modelled. Panned 10/90 so the chorus widens without splitting a single melody in two. Echo is ON (SW10 doesn't reach the clean instance): soft analog-style repeats (Smith's Yamaha analog delay / Compass Point's Roland Space Echo), left 420 ms / right 560 ms for width (set by ear, not tempo-matched), with Lexicon 480L Large Plate summed into the delay (Compass Point listed a Lexicon 224; the 480L is its successor and in the catalog). Always-on ambience = 480L Large Wood Room for the 'big wooden room' Smith describes. No NAM compressor (2-capture budget). Levels are guesses; the Super Lead captures are DI and loudness-normalized.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6241,
+      "model_id": 424076,
+      "enabled": true,
+      "in_db": -2.0,
+      "label": "Marshall JMP 100 Super Lead 1972, 'clean ch1' (Murray side)",
+      "out_db": 2.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 45237,
+      "model_id": 241314,
+      "enabled": true,
+      "label": "Electro-Voice EVM12L 4x12 (1980s), close mic (Murray's miked EV cab)",
+      "out_db": 14.8
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 420,
+      "feedback": 0.35,
+      "cutoff_hz": 3200.0,
+      "mix": 0.28,
+      "enabled": true,
+      "label": "Analog-style delay 420 ms + Lexicon 480L Large Plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.5,
+      "label": "Lexicon 480L Large Wood Room (Compass Point wooden live room)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6241,
+      "model_id": 424081,
+      "enabled": true,
+      "label": "Marshall JMP 100 Super Lead 1972, 'cleanest ch1' (Smith side)",
+      "out_db": 2.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563625,
+      "enabled": true,
+      "label": "Marshall 1960A 4x12 (JCM800 era), Celestion G12-65, SM57 (Smith)",
+      "out_db": 7.9
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 560,
+      "feedback": 0.35,
+      "cutoff_hz": 3200.0,
+      "mix": 0.28,
+      "enabled": true,
+      "label": "Analog-style delay 560 ms + Lexicon 480L Large Plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.5,
+      "label": "Lexicon 480L Large Wood Room (Compass Point wooden live room)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.1,
+    "chainPanRight": 0.9,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.45,
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.2
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -22.7,
+        "trim_db": 12.0
+      },
+      {
+        "measured_lufs": -13.6,
+        "trim_db": -1.9,
+        "side_lufs": [
+          -20.8,
+          -14.5
+        ],
+        "side_trim_db": [
+          3.2,
+          -3.1
+        ]
+      },
+      {
+        "measured_lufs": -16.7,
+        "trim_db": 1.2,
+        "side_lufs": [
+          -20.0,
+          -19.5
+        ],
+        "side_trim_db": [
+          0.2,
+          -0.2
+        ]
+      }
+    ]
+  }
+}

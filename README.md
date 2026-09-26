@@ -155,6 +155,42 @@ compressor and limiter cut the loudness spread across presets from 9.2 to 4.6 dB
 keep peaks under −1 dBFS; see `experiments/README.md` D0–D4. Run the standalone
 *or* the DAW, not both.
 
+### Iron Maiden banks (03–09): one album era per bank, instant scenes
+
+| Bank | Era | Rigs (Murray left, partner right) |
+|---|---|---|
+| 03 | The Number of the Beast (1982) | Marshall JMP 2204 / JMP 1987 jumpered |
+| 04 | Piece of Mind (1983) | '76 JMP 50 W full rig / JMP 2204 |
+| 05 | Powerslave (1984) | Marshall 1987 50 W / JMP 2203 |
+| 06 | Somewhere in Time (1986) | Gallien-Krueger 250ML ×2 |
+| 07 | Seventh Son (1988) | GK 250ML / GK 2000CPL |
+| 08 | Fear of the Dark (1992) | JCM900 4100 / JCM800 2203 (Gers) |
+| 09 | Brave New World / Dance of Death | Marshall JMP-1 / JCM2000 DSL |
+
+Every bank has the same footswitches:
+
+```
+SW1 RHYTHM   SW2 SOLO   SW3 CLEAN   SW4 ACOUSTIC   SW5 CRUNCH
+SW6 wah      SW7 octaver  SW8 boost  SW9 drive     SW10 delay + reverb
+EXP A wah sweep                      EXP B volume
+```
+
+Scenes switch instantly. The DAW runs a heavy and a clean TONE3000 side by side, and
+each switch sends absolute CCs, never a mid-song preset load (which would leave a
+60–170 ms hole). What each switch does:
+
+- **SOLO** pushes the amps and adds +2 dB with a 380 ms lead echo.
+- **CRUNCH** is the volume-knob-down sound, like the Fear of the Dark intro.
+- **CLEAN** and **ACOUSTIC** use the era's reverby clean and electric-to-acoustic presets.
+- **Changing song or bank:** press RHYTHM, CLEAN or ACOUSTIC first; each of those loads the era.
+
+All 21 presets are levelled and both guitar sides are balanced to within 0.1 dB
+(experiments D8–D10). The gear and its sources are in `rigs/RIGS.md` and each
+`rigs/NN-maiden-*.json`.
+
+Upload the new FCB layout once (`uv run rig.py send`, see RIG-NOTES.md), then
+`python3 qtractor_rig.py up`.
+
 ## License
 
 MIT. Vendored `lib/fcb1010.py` is MIT © Brian Walton (riban.co.uk).

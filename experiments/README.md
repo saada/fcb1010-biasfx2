@@ -225,3 +225,93 @@ saved plugin state.
 - **Method:** `qtractor_rig.py record` (MMC record + play), 6 s of DI, then `qtractor_rig.py stop`.
 - **Result:** `rig-Rig_Print-1.wav` (stereo, processed, peak −1.0 dBFS) and `rig-DI-1.wav` (mono dry DI, peak −1.4 dBFS), both 320,512 frames and sample-aligned.
 - **Controls:** SW6 → wah on, SW7 → octaver on, EXP A 32/127 → wah position 0.252. All read back from the saved session.
+
+## D5 — What a Program Change costs mid-song
+
+- **Question:** can scenes within a song (rhythm → solo → clean) just be separate presets?
+- **Method:** the DI loop plays continuously; `aseqsend` fires a PC every 2 s. Bus `Rig` is recorded and the 10 ms RMS envelope around each switch is inspected. `pc_gap.py`, 4 switches per pair.
+- **Result:**
+
+| Switch | Time > 20 dB below the running level | Floor |
+|---|---|---|
+| Iron Maiden (dual rig) ↔ My Clean | 130–160 ms | digital silence (−140 dB) |
+| Iron Maiden ↔ Slipknot | 60–170 ms | digital silence |
+| Re-sending the PC already loaded | ≤ 10 ms | −37 … −48 dB, the DI's own dynamics |
+
+- **Conclusion:** a PC mutes the plugin while it rebuilds the chain, for longer on heavier rigs. That's fine between songs, but mid-song it swallows the first chord. Re-sending the current PC doesn't reload, so scene switches can carry the song's PC harmlessly.
+
+## D6 — Instant scenes: two TONE3000s and absolute CCs
+
+- **Design:**
+  - Qtractor runs a *heavy* TONE3000 (MIDI ch 1) and a *clean* one (ch 2).
+  - A **Selector** Audio Insert sits at the top of the heavy chain. CC 81 activates it (latch at 64).
+    - Bypassed, it passes the guitar on to the heavy chain.
+    - Active, it sends the guitar to the clean rig's insert and mutes the heavy one.
+
+    That is one parameter, so the choice is exclusive by construction.
+  - CC 80 does two jobs:
+    - the heavy TONE3000 reads it through its own MIDI map as `inputLevel` = value/127;
+    - Qtractor switches a lead delay on above 63 (later the Solo block, D8).
+  - Every FCB scene switch sends absolute values: both PCs plus CC 80 and CC 81. So a scene always lands in the same state, whatever came before.
+- **Constraint found:** Qtractor allows one observer per (type, channel, CC). And a PC reaches controllers as a trigger with value 127 (key = program number), so a PC can only switch a parameter one way. Hence the Selector trick instead of binding CC 81 to two parameters.
+- **Checks** (stand-ins: heavy = Iron Maiden, clean = My Clean):
+  - Selector send with CC 81 = 0: −180 dBFS, so the clean rig hears nothing. With 127: −21.6 dBFS, the DI level.
+  - CC 80 = 72 set heavy `inputLevel` to 0.567 and turned the lead delay on; the clean instance was untouched. Both read back from the saved session.
+  - Scene walk rhythm → solo → clean → rhythm → crunch → clean: sound throughout. The minimum 10 ms level within 300 ms of each switch was −17 … −29 dB, against −16 … −19 dB for the same DI with no switch. No PC-style hole anywhere.
+
+## D7 — Cost of the second instance
+
+- `pw-top` during the scene walk: Qtractor B/Q 0.43–0.58 with both instances loaded (Iron Maiden dual rig + My Clean), against 0.19–0.30 with one. Zero xruns at quantum 256.
+- The clean rig's input goes through a JACK self-connection (Selector send → Clean In). That should add one period (5.3 ms) on the clean and acoustic scenes only; this is expected from how JACK handles feedback connections, not measured.
+
+# The Maiden banks
+
+Seven research agents, one per album era (1982, 1983, 1984, 1986, 1988, 1992, 2000s), each
+wrote a heavy, a clean and an acoustic preset from sourced gear and TONE3000 captures (rigs
+15–35, with sources in each file). Everything below was measured on the DI loop through the DAW rig,
+using the exact messages the FCB sends. *Data:* `maiden-levels.csv`.
+
+## D8 — Two traps in scene switching
+
+- **A Program Change wipes CC 80.**
+  - Method: send the loaded preset's PC and CC 80 = 72 in one burst, then read the heavy `inputLevel` back from the saved session.
+  - Result: 0.496, the preset's value. CC 80 on its own gives 0.567, and it also works when sent 100 ms after the PC.
+  - Cause: TONE3000 re-applies a preset's parameters asynchronously after a PC, even for the preset already loaded.
+  - Fix: SOLO and CRUNCH send only CCs. RHYTHM, CLEAN and ACOUSTIC send PCs, but at CC 80 = 63, which is exactly the preset's own drive, so the race can't change anything. `rig.py verify` enforces this.
+- **Pushing a cranked amp's input barely raises the level.**
+  - With dynamics bypassed, SOLO's input push (0.496 → 0.567, about +3.4 dB if the parameter spans ±24 dB like the block gains) gave only +0.4 … +1.1 LUFS.
+  - Raising the Guitarix delay's GAIN from 0 to 120 moved the level by ≤ 0.2 dB, because it only scales the echoes.
+  - Fix: the **Solo** block, an LSP Slap-back Delay with dry amount +2 dB and one 380 ms tap (feedback 0.3, 250 Hz – 4.5 kHz, −10 dB). It is switched on above CC 80 = 63 and is unity when bypassed.
+  - Result: solo now sits +2.9 … +3.1 dB above rhythm before dynamics, and +1.4 … +2.1 dB after them.
+
+## D9 — Leveling 21 presets and balancing the two guitarists
+
+- **As delivered** (dynamics bypassed, where trims are linear):
+  - Heavy rhythm ranged −9.1 … −13.7 LUFS.
+  - Acoustic ranged from −15.5 up to **+10.9 LUFS with +25.9 dBFS peaks**.
+  - Measured per side from the second pass onwards, the Murray | Smith sides differed by up to **13.1 dB** (83 Heavy: −9.3 / −22.4) and 11.3 dB (86 Heavy). With dynamics on, the limiter had hidden all of this.
+- **Gain-staging audit:**
+  - Two presets drove the Boss AC-3 capture far hotter than the validated Acoustic preset (PC 13) does: 92 Acoustic by +20 dB from a compressor, 86 Acoustic by +9 dB on the input. Both were set back to unity.
+  - The trim script now skips partial-mix blocks, where a gain change only scales the wet part.
+- **Trims:**
+  - Each chain gets its trim on the last level-setting block before the echo and ambience, so the reverbs follow.
+  - Each chain is shifted to the average of the two sides, balancing them.
+  - Two linear passes toward heavy −14 and clean/acoustic −15.5 LUFS, dynamics bypassed.
+- **Result:**
+
+| | Before | After (no dynamics) | Final (with dynamics) |
+|---|---|---|---|
+| Heavy rhythm | −9.1 … −13.7 | −13.9 … −14.1 | −11.5 … −12.5 |
+| Clean | −12.6 … −15.9 | −15.3 … −15.6 | −12.8 … −13.7 |
+| Acoustic | −15.5 … +10.9 | −15.4 … −15.5 | −13.2 … −14.0 |
+| L/R side mismatch, heavy | up to 13.1 dB | ≤ 0.1 dB | ≤ 0.1 dB |
+| Solo over rhythm | +0.4 … +1.1 dB | +2.9 … +3.1 dB | +1.4 … +2.1 dB |
+| Crunch under rhythm | | | 0.1 … 1.1 dB |
+
+## D10 — Xruns: scenes vs. song changes
+
+- **Method:** one continuous 3-minute DI stream, so no audio nodes are added or wired during the run. Count Qtractor's ERR from `pw-top`.
+  - Phase A: 30 scene switches in 60 s, with PCs exactly as the FCB sends them.
+  - Phase B: 10 bank changes in 60 s, each loading two presets.
+- **Result:** A, 0 xruns. B, 1 xrun, so about 1 in 20 preset loads glitches, and only at a song change. The DSP median was 38 % of the cycle, with a peak of 87 %, reached during preset loads.
+- **Side note:** an earlier sweep counted 9 xruns because its recorder and player joined the audio graph for every reading. Graph churn causes xruns too, so measure with persistent nodes.

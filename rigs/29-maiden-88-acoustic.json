@@ -1,0 +1,179 @@
+{
+  "pc": 29,
+  "name": "Maiden 88 Acoustic",
+  "scene": "acoustic",
+  "bank": 7,
+  "reference": "Seventh Son of a Seventh Son (1988, Musicland Munich, Martin Birch): the acoustic bookends (Moonchild intro, reprised at the end of Only the Good Die Young) and the nylon-string classical outro of The Prophecy (Dave Murray)",
+  "rig": "Studio acoustic guitars overdubbed by Murray/Smith (the exact instruments aren't documented): a steel-string acoustic for the Moonchild / Only the Good Die Young bookends, a nylon-string classical for The Prophecy's closing ~45 s (tabbed as Dave Murray, 'Acoustic Guitar (nylon)'); Birch's hall/plate on top. Here: electric -> Boss AC-3 acoustic simulator -> acoustic body IRs (steel dreadnought left, nylon classical right) -> Lexicon 480L hall",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Seventh_Son_of_a_Seventh_Son",
+    "https://www.songsterr.com/a/wsa/iron-maiden-the-prophecy-tab-s38584t3",
+    "https://forum.maidenfans.com/threads/moonchild.4303/page-3",
+    "https://www.gearnews.com/1980s-reverb-studio/"
+  ],
+  "notes": "Same two-stage approach as rigs/13: the AC-3 turns the magnetic pickup into a piezo-like signal, then a piezo-to-mic body IR adds the wooden body. Dual rig so both of the album's acoustic colours are there at once, panned 20/80 like a double-tracked acoustic: left = AC-3 Standard -> Martin dreadnought body IR (steel string, the Moonchild bookends), right = AC-3 Piezo mode (the input a piezo-to-mic IR expects) -> Ibanez AEG50N classical body IR (nylon, The Prophecy outro), with the top end rolled off for nylon softness. Pre-EQ on both AC-3 blocks thins a humbucker toward a piezo voicing (from rigs/13). Whether the studio bookends were steel or nylon isn't documented (the Moonchild forum thread even questions the instrumentation); pan hard to one side, or disable one amp block, for a single guitar. The AEG50N IR's description only says it's the guitar captured with an AKG P120, so treating it as piezo-to-mic is an assumption. No capture adds real string/top resonance: play the neck pickup, lightly. Reverb ON (SW10 doesn't reach the clean instance): Lexicon 480L Large Hall at 30%, trimmed to 3.5 s, plus a soft 350 ms delay at low mix for sustain on arpeggios. No compressor (2-capture budget). Levels: AC-3 + body IR needed +24 dB in rigs/13 for a mono chain; two panned chains share that, so each side starts at +20 dB (the Piezo mode / AEG50N side is unmeasured).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588442,
+      "enabled": true,
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "label": "Boss AC-3 Acoustic Simulator, Standard mode, Level/Body/Top noon (steel)",
+      "out_db": 20.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174633,
+      "enabled": true,
+      "eq": [
+        -1.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "label": "Acoustic body IR: Martin dreadnought (piezo -> mic), steel string",
+      "out_db": 2.8
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 350,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": true,
+      "label": "Soft delay 350 ms, low mix"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745818,
+      "enabled": true,
+      "mix": 0.3,
+      "trim_seconds": 3.5,
+      "label": "Lexicon 480L Large Hall (lush studio hall)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588443,
+      "enabled": true,
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        0.5,
+        1.0,
+        0.0
+      ],
+      "eq_pre": true,
+      "label": "Boss AC-3 Acoustic Simulator, Piezo mode, Level/Body/Top noon (feeds the nylon body IR)",
+      "out_db": 20.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 55147,
+      "model_id": 314386,
+      "enabled": true,
+      "eq": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -2.5
+      ],
+      "label": "Acoustic body IR: Ibanez AEG50N classical (nylon), top rolled off",
+      "out_db": 5.7
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 350,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": true,
+      "label": "Soft delay 350 ms, low mix"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745818,
+      "enabled": true,
+      "mix": 0.3,
+      "trim_seconds": 3.5,
+      "label": "Lexicon 480L Large Hall (lush studio hall)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.2,
+    "chainPanRight": 0.8,
+    "chainPanLinked": 1.0,
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -16.9,
+        "trim_db": 5.8
+      },
+      {
+        "measured_lufs": -13.7,
+        "trim_db": -1.8,
+        "side_lufs": [
+          -15.6,
+          -18.1
+        ],
+        "side_trim_db": [
+          -1.3,
+          1.2
+        ]
+      },
+      {
+        "measured_lufs": -15.8,
+        "trim_db": 0.3,
+        "side_lufs": [
+          -18.6,
+          -19.0
+        ],
+        "side_trim_db": [
+          -0.2,
+          0.2
+        ]
+      }
+    ]
+  }
+}

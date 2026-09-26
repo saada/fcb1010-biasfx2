@@ -53,9 +53,9 @@ Other globals: SW6 (CC 20) noise gate, SW7 (CC 21) `spreadEnabled`, EXP A
 
 | type | fields |
 |---|---|
-| `nam` | `tone_id`, `model_id` (A2), `enabled`, optional `mix`, `eq`, `eq_pre`, `label` |
+| `nam` | `tone_id`, `model_id` (A2), `enabled`, optional `mix`, `eq`, `eq_pre`, `label`, `in_db` (drive the capture harder/softer, ±24), `out_db` |
 | `ir` | `tone_id`, `model_id`, `enabled`, optional `mix` (wet/dry), `trim_seconds` (long reverbs: trims to mono N s), `eq`, `label` |
-| `echo` | generated analog (BBD) delay IR: `delay_ms`, `feedback` (0–0.8), `cutoff_hz` (repeat darkening), `mix`, `enabled`, `label` |
+| `echo` | generated analog (BBD) delay IR: `delay_ms`, `feedback` (0–0.8), `cutoff_hz` (repeat darkening), `mix`, `enabled`, `label`; optional `reverb` = `{tone_id, model_id, trim_seconds, level_db}` (a catalog reverb IR summed into the same block, so SW10 toggles delay *and* reverb). `delay_ms` 0 = reverb only |
 | `insert` | empty slot |
 
 `eq` = 6 gains in dB for bands [lowshelf 100 Hz, bell 250, bell 650, bell 1600,
@@ -76,3 +76,25 @@ automatically (mono, first channel), so any catalog IR is usable.
 
 TONE3000 can't do time-varying effects (chorus/flanger/phaser/wah/pitch):
 use Spread/Align for chorus-like movement and note the gap in `notes`.
+
+## Scene banks (Iron Maiden, FCB banks 03–09)
+
+Each bank is one album era and has three presets. The DAW rig (`qtractor_rig.py`) runs
+two TONE3000s:
+
+| `scene` | loaded into | used by |
+|---|---|---|
+| `heavy` | heavy instance (PC on MIDI ch 1) | SW1 RHYTHM, SW2 SOLO, SW5 CRUNCH |
+| `clean` | clean instance (PC on ch 2) | SW3 CLEAN |
+| `acoustic` | clean instance (PC on ch 2) | SW4 ACOUSTIC |
+
+Every scene switch sends absolute values, so switching is instant and always lands
+in a known state:
+
+- **CC 80** sets the heavy TONE3000's `inputLevel`: rhythm 63 (unity), solo 72 (amps pushed
+  like a boost pedal; above 63 the DAW Solo block adds +2 dB and a 380 ms echo), crunch 48 (guitar
+  volume rolled back). A `heavy` preset loads at the rhythm value.
+- **CC 81** picks which instance hears the guitar.
+
+Add `"scene"` and `"bank"` to these presets. Because SW10 only reaches the heavy
+instance, `clean` and `acoustic` presets keep their delay and reverb switched *on*.

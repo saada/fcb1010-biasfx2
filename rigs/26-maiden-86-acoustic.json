@@ -1,0 +1,193 @@
+{
+  "pc": 26,
+  "name": "Maiden 86 Acoustic",
+  "scene": "acoustic",
+  "bank": 6,
+  "reference": "Maiden acoustic moments (e.g. 'Journeyman', Dance of Death 2003, the band's only fully acoustic song; acoustic intros/interludes) placed in the Somewhere in Time bank's 80s Birch-style production space: double-tracked steel-string, wide, lush plate/hall",
+  "rig": "Electric (Strat / superstrat humbucker) -> Boss AC-3 Acoustic Simulator (Standard left, Jumbo right) -> acoustic body IRs (Martin dreadnought left, Gibson J-45 right) -> soft stereo echo + Lexicon 480L hall -> Lexicon PCM90 acoustic-guitar plate. Somewhere in Time itself has no acoustic guitar (guitars + Roland guitar synths only)",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dance_of_Death_(album)",
+    "https://en.wikipedia.org/wiki/Somewhere_in_Time_(Iron_Maiden_album)",
+    "https://forum.mod.audio/t/electric-guitar-into-acoustic-guitar-ir/8142"
+  ],
+  "notes": "Same two-stage idea as rigs/13 (AC-3 turns the magnetic pickup piezo-like, the body IR adds wood/mic), but as a dual rig to fake a double-tracked 80s acoustic: left = AC-3 Standard -> Martin dreadnought body IR, right = AC-3 Jumbo -> Gibson J-45 body IR (bigger, warmer strum), panned 0.2/0.8 with a little Align wobble for the natural timing/pitch drift between two takes (no real chorus). Humbucker -> piezo pre-EQ as in rigs/13. To stay within 2 NAM blocks the rigs/13 compressor and boost are dropped (boost/drive slots empty). Reverb ON (SW10 doesn't reach the clean instance): soft 390/585 ms stereo echo (Wasted Years tempo) with a Lexicon 480L Large Hall summed in, plus an always-on Lexicon PCM90 'a gtr plate' (acoustic guitar plate preset) for the lush Birch-plate sheen. Level warning: rigs/13's AC-3 chain measured ~24 dB under target even at out_db +24, so the AC-3 blocks get in_db +9 as well; if the AC-3 capture sounds strained, lower in_db and raise the global output instead. No capture adds real string zing/top resonance; best on the neck pickup, picked lightly. Gain staging: AC-3 input at unity (in_db +9 pushed the simulator harder than the validated rigs/13 chain).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588442,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Standard, Level/Body/Top noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 24.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174633,
+      "enabled": true,
+      "label": "Acoustic body IR: Martin dreadnought (piezo -> mic)",
+      "eq": [
+        -1.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "out_db": 3.2
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 390,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.18,
+      "enabled": true,
+      "label": "Soft echo L 390 ms + Lexicon 480L Large Hall",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": -4.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 745983,
+      "enabled": true,
+      "mix": 0.26,
+      "trim_seconds": 3.0,
+      "label": "Lexicon PCM90 'INSTR a gtr plate' (acoustic guitar plate)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588099,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Jumbo, Level/Body/Top noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 24.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174632,
+      "enabled": true,
+      "label": "Acoustic body IR: Gibson J-45 (piezo -> mic)",
+      "eq": [
+        -2.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        1.5
+      ],
+      "out_db": 9.3
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 585,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.18,
+      "enabled": true,
+      "label": "Soft echo R 585 ms + Lexicon 480L Large Hall",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": -4.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 745983,
+      "enabled": true,
+      "mix": 0.26,
+      "trim_seconds": 3.0,
+      "label": "Lexicon PCM90 'INSTR a gtr plate' (acoustic guitar plate)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.2,
+    "chainPanRight": 0.8,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.2,
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -11.8,
+        "trim_db": -1.8
+      },
+      {
+        "measured_lufs": -22.4,
+        "trim_db": 6.9,
+        "side_lufs": [
+          -23.5,
+          -28.9
+        ],
+        "side_trim_db": [
+          -2.7,
+          2.7
+        ]
+      },
+      {
+        "measured_lufs": -16.6,
+        "trim_db": 1.1,
+        "side_lufs": [
+          -19.3,
+          -20.0
+        ],
+        "side_trim_db": [
+          -0.3,
+          0.4
+        ]
+      }
+    ]
+  }
+}

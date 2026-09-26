@@ -38,6 +38,7 @@ import subprocess
 import sys
 import urllib.request
 import uuid
+import zlib
 from pathlib import Path
 
 CONFIG = Path.home() / ".config/TONE3000"
@@ -418,9 +419,16 @@ def trimmed_ir(raw, seconds, channel=0):
     return wav_write(x, rate)
 
 
-def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=48000):
+def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=48000, reverb=None):
     """Wet-only IR of an analog (BBD) delay like a Boss DM-2: each repeat passes the
-    bucket-brigade's low-pass again, so the echoes darken as they decay."""
+    bucket-brigade's low-pass again, so the echoes darken as they decay.
+
+    reverb: optional (samples at 48 kHz, level_db) summed in, so one block (one
+    footswitch) carries the song's delay *and* its reverb. delay_ms 0 = reverb only."""
+    if not delay_ms:
+        rev, _ = reverb
+        peak = max(abs(v) for v in rev)
+        return wav_write([v / peak * 0.9 for v in rev], rate)
     d = int(rate * delay_ms / 1000)
     h = [0.0] * (d * (repeats + 1) + rate // 10)
     a = math.exp(-2 * math.pi * cutoff_hz / rate)
@@ -438,7 +446,22 @@ def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=
             h[k * d + i] += v
     peak = max(abs(v) for v in h)
     end = max(i for i, v in enumerate(h) if abs(v) > peak * 1e-3) + rate // 50  # -60 dB tail
-    return wav_write([v / peak * 0.9 for v in h[:end]], rate)  # shorter IR = cheaper convolution
+    h = [v / peak for v in h[:end]]  # shorter IR = cheaper convolution
+    if reverb:
+        rev, level_db = reverb
+        g = 10 ** (level_db / 20) / max(abs(v) for v in rev)
+        h += [0.0] * max(0, len(rev) - len(h))
+        for i, v in enumerate(rev):
+            h[i] += v * g
+    peak = max(abs(v) for v in h)
+    return wav_write([v / peak * 0.9 for v in h], rate)
+
+
+def reverb_tail(spec):
+    """Catalog reverb IR for an echo block's `reverb`: first channel, 48 kHz, trimmed."""
+    raw = model_file(model_of(spec["tone_id"], spec["model_id"]))
+    chans, rate = wav_read(trimmed_ir(raw, float(spec.get("trim_seconds", 3.0))))
+    return chans[0], float(spec.get("level_db", -6.0))
 
 
 SYNTH_TONE_ID = 900000001  # local-only tone ids for generated IRs (never hit the API)
@@ -485,14 +508,18 @@ def build_block(spec):
     mix = float(spec.get("mix", 1.0))
     if kind == "insert":
         return block("insert")
-    if kind == "echo":  # generated analog-style echo IR
-        ms = int(spec["delay_ms"])
+    if kind == "echo":  # generated analog-style echo IR (+ optional reverb tail)
+        ms = int(spec.get("delay_ms", 0))
         fb, cut_hz = float(spec.get("feedback", 0.5)), float(spec.get("cutoff_hz", 3500.0))
         mid = ms * 100 + int(fb * 10) + int(cut_hz / 1000) * 1000000
-        title = spec.get("label") or f"Analog echo {ms} ms"
-        return block("ir", on, synth_tone(mid, f"{title} (generated)",
-                                          f"{ms} ms BBD-style echo, feedback {fb}, wet only"),
-                     mid, mix=mix, data=analog_echo(ms, fb, cutoff_hz=cut_hz))
+        rev = spec.get("reverb")
+        if rev:  # distinct model id per delay+reverb combination, kept inside int32 (1e9..2e9)
+            key = json.dumps([ms, fb, cut_hz, rev], sort_keys=True).encode()
+            mid = 1_000_000_000 + zlib.crc32(key) % 1_000_000_000
+        title = spec.get("label") or (f"Analog echo {ms} ms" if ms else "Reverb")
+        what = (f"{ms} ms BBD-style echo, feedback {fb}" if ms else "reverb") + (" + reverb" if rev and ms else "")
+        return block("ir", on, synth_tone(mid, f"{title} (generated)", f"{what}, wet only"),
+                     mid, mix=mix, data=analog_echo(ms, fb, cutoff_hz=cut_hz, reverb=rev and reverb_tail(rev)))
     tone, mid = tone_record(spec["tone_id"]), spec["model_id"]
     data = None
     if kind == "ir":
@@ -503,6 +530,8 @@ def build_block(spec):
                  eq_pre=spec.get("eq_pre", False), data=data)
     if spec.get("out_db"):  # level trim (measured, see rig "levels"); block output is +-24 dB
         node.set("outputGain", max(0.0, min(1.0, 0.5 + float(spec["out_db"]) / 48)))
+    if spec.get("in_db"):  # drive the block harder/softer (e.g. a lead chain = same amp, pushed)
+        node.set("inputGain", max(0.0, min(1.0, 0.5 + float(spec["in_db"]) / 48)))
     return node
 
 
@@ -520,6 +549,14 @@ def validate(rig):
                 errs.append(f"{side}[{i}] needs tone_id and model_id")
     if rig.get("right") and not rig.get("split_after"):
         errs.append("right chain needs split_after (1-based left slot)")
+    if rig.get("scene") not in (None, *SCENE_KINDS):
+        errs.append(f"scene must be one of {SCENE_KINDS}")
+    if rig.get("scene") and not isinstance(rig.get("bank"), int):
+        errs.append("scene presets need their FCB bank number")
+    for side in ("left", "right"):
+        for i, spec in enumerate(rig.get(side, []), 1):
+            if spec.get("type") == "echo" and not spec.get("delay_ms") and not spec.get("reverb"):
+                errs.append(f"{side}[{i}] echo needs delay_ms and/or reverb")
     if len(rig.get("left", [])) > 12 or len(rig.get("right", [])) > 12:
         errs.append("max 12 blocks per chain")
     return errs
@@ -536,6 +573,26 @@ GLOBAL_PARAMS = {
 }
 
 
+# Scene banks (Iron Maiden, FCB banks 03-09): every switch in a bank sends absolute
+# values, so a scene always lands in the same state and never needs a reload (a
+# Program Change leaves a 60-170 ms hole, experiments D5). The DAW (qtractor_rig.py)
+# runs two TONE3000s: "heavy" (PC ch 1) and "clean" (PC ch 2, clean or acoustic preset).
+#   CC 80 -> heavy TONE3000 inputLevel (value/127, its own MIDI map) + DAW Solo block: +2 dB and a lead echo (on > 63)
+#   CC 81 -> DAW selector: 0 = heavy rig hears the guitar, 127 = clean rig does
+SCENE_DRIVE_CC, SCENE_SELECT_CC = 80, 81
+SCENES = {  # name: (CC 80, CC 81, preset the clean instance loads; None = send no Program Change)
+    "rhythm": (63, 0, "clean"),        # unity input (63/127), Solo block off
+    "solo": (72, 0, None),             # amps pushed like a boost pedal, +2 dB, lead echo
+    "clean": (63, 127, "clean"),
+    "acoustic": (63, 127, "acoustic"),
+    "crunch": (48, 0, None),           # guitar volume rolled back (quiet heavy intros)
+}
+# A Program Change - even re-sending the loaded preset - re-applies the preset's params
+# *after* CCs in the same burst, so a PC would wipe CC 80 (experiments D8). Presets load at
+# the rhythm drive (63), so scenes that send PCs use 63; SOLO/CRUNCH send only CCs.
+SCENE_KINDS = ("heavy", "clean", "acoustic")
+
+
 def build_preset(rig):
     left = [build_block(b) for b in rig["left"]]
     right = [build_block(b) for b in rig.get("right", [])]
@@ -547,6 +604,8 @@ def build_preset(rig):
     snap.children = [Node("ChainBlocks", children=left), Node("RightChainBlocks", children=right)]
     params = default_params()
     values = {"gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS}
+    if rig.get("scene") == "heavy":  # loads at the RHYTHM scene's input drive
+        values["inputLevel"] = SCENES["rhythm"][0] / 127  # = every PC-sending scene's CC 80
     for p in params.children:
         if p.get("id") in values:
             p.set("value", float(values[p.get("id")]))
@@ -663,6 +722,8 @@ def build():
     for rig in rigs:
         if errs := validate(rig):
             sys.exit(f"{rig['_file']}: " + "; ".join(errs))
+    if [r["pc"] for r in rigs] != list(range(len(rigs))):  # PC N = Nth entry of order.json
+        sys.exit(f"pc numbers must run 0..{len(rigs) - 1} without gaps: {[r['pc'] for r in rigs]}")
     ids = []
     for rig in rigs:
         pid = preset_id(rig["name"])
@@ -789,7 +850,24 @@ def cli_docs(args):
             "| SW1–5 (banks 00–02) | PC 0–14 | presets above |",
             "| SW6 | 20 | noise gate |", "| SW7 | 21 | stereo spread (chorus-ish) |",
             "| SW8 | 22 | slot 1: lead boost |", "| SW9 | 23 | slot 2: drive |",
-            "| SW10 | 24 | slot 5 / R3: solo echo |", "| EXP A | 27 | treble sweep |", "| EXP B | 7 | output level |"]
+            "| SW10 | 24 | slot 5 / R3: solo echo |", "| EXP A | 27 | treble sweep |", "| EXP B | 7 | output level |",
+            "", "In the DAW rig (`qtractor_rig.py`) SW6/SW7/EXP A drive a real wah and octaver instead of",
+            "gate/spread/treble, and SW10 toggles each preset's delay + reverb.", "",
+            "## Scene banks (FCB banks 03–09, DAW rig)", "",
+            "Every Maiden bank has the same five switches. Each switch sends absolute values, so it",
+            "switches instantly and always lands in the same state:", "",
+            "| Switch | Scene | Heavy PC (ch 1) | Clean PC (ch 2) | CC 80 drive | CC 81 rig |", "|---|---|---|---|---|---|"]
+    for scene, (drive, select, kind) in SCENES.items():
+        switch = {"rhythm": 1, "solo": 2, "clean": 3, "acoustic": 4, "crunch": 5}[scene]
+        out.append(f"| SW{switch} | {scene.upper()} | {'song' if kind else '—'} | {kind or '—'} | {drive} | "
+                   f"{'clean' if select else 'heavy'} |")
+    banks = {}
+    for r in rigs:
+        if r.get("scene"):
+            banks.setdefault(r["bank"], {})[r["scene"]] = r
+    out += ["", "| Bank | Heavy | Clean | Acoustic |", "|---|---|---|---|"]
+    out += [f"| 0{b} | PC {p['heavy']['pc']} {p['heavy']['name']} | PC {p['clean']['pc']} | PC {p['acoustic']['pc']} |"
+            for b, p in sorted(banks.items()) if len(p) == 3]
     (RIGS / "RIGS.md").write_text("\n".join(out) + "\n")
     print(f"wrote {RIGS / 'RIGS.md'} ({len(rigs)} presets)")
 

@@ -1,0 +1,174 @@
+{
+  "pc": 30,
+  "name": "Maiden 92 Heavy",
+  "scene": "heavy",
+  "bank": 8,
+  "reference": "Fear of the Dark (1992, Barnyard Studios, Essex; prod. Martin Birch & Steve Harris): the title track's gallop and solos (Gers 4:09, Murray 4:25), Be Quick or Be Dead, Childhood's End, Afraid to Shoot Strangers' heavy half. SW10 echo = the title track's slow overdriven intro melody (CRUNCH scene)",
+  "rig": "Dave Murray: Fender Stratocaster (Duncan JB/Hot Rails by the '90s) -> Marshall JCM900 heads, the 'new Marshall amps that go to 20' he showed off in 1990 (4100 Hi Gain Dual Reverb, gain dials 0-20) -> Marshall 4x12 (left). Janick Gers: black Strat from Ian Gillan (JB Jr pickups) -> Ibanez Tube Screamer push -> Marshall head -> Marshall 1960 4x12 G12T-75 (right). Martin Birch engineered and mixed in Harris' converted barn (small live room, Dickinson: 'big limitations ... because of its physical size'); Lexicon 480L-class digital reverb was the studio standard of the time",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fear_of_the_Dark_(Iron_Maiden_album)",
+    "https://en.wikipedia.org/wiki/Fear_of_the_Dark_(song)",
+    "https://en.wikipedia.org/wiki/Dave_Murray_(musician)",
+    "https://en.wikipedia.org/wiki/Janick_Gers",
+    "https://guitargangsters.net/dave-murray-guitars-gear/",
+    "https://guitargangsters.net/janick-gers-guitars-gear/",
+    "https://equipboard.com/pros/janick-gers",
+    "https://equipboard.com/pros/dave-murray",
+    "https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-30",
+    "https://songbpm.com/@iron-maiden/fear-of-the-dark---2015-remaster"
+  ],
+  "notes": "Dual-rig stereo, Murray hard left / Gers hard right; boost + drive feed both. Era evidence is thin: Wikipedia puts Murray back on Marshall after the 1986-88 Gallien-Krueger years and guitargangsters says he 'returned to Marshall' for good; the only period-specific quote is Murray's 1990 'my new Marshall amps go to 20' (MTV Headbangers Ball / No Prayer documentary, quoted in forum search results; the original thread is offline), which is the JCM900 Hi Gain Dual Reverb's 0-20 gain dial -> left = deathblossom's real JCM900 4100 lead channel at noon (RHYTHM 01). Gers' 1990-92 head is undocumented (his JMP-1/9200 rack is a later, post-1992 setup; the JMP-1 only launched in 1992, after most of the album was cut) -> right = a stock JCM800 2203 (MV6, gain 7), the Marshall he'd used since Gillan, rawer and less compressed than the JCM900, matching his 'very raw tone' (Wikipedia). Both into the 1987 Marshall 1960A G12T-75 IR (the stock JCM900-era cab speaker; Equipboard lists Gers' 1960B T-75 cabs), MD421 left / SM57 right. Drive (SW9, off) = TS9 low-drive/high-level push, Gers' documented pedal (Guitar Geek via Equipboard, later rig). Boost (SW8, off) = SD-1 as clean level boost, not era-documented, same as rigs/10. Echo (SW10, off) = dotted 1/8 at the title track's 110 BPM (409 ms, songbpm) with a Lexicon 480L Large Hall summed in, for the reverb-soaked intro melody; kept moderate because the DAW adds its own ~380 ms lead delay in SOLO. Always-on ambience = 480L Small Wood Room at low mix for the small barn live room (studio reverb unit not documented; 480L is a period-typical stand-in). Both captures are real-amp captures with no delay baked in, and respond to the +/-4.5 dB SOLO/CRUNCH input moves. Align wobble low (0.1): no chorus is documented for this era. out_db set from the captures' NAM loudness metadata (JCM900 -13.9, JCM800 -10.2) so the sides land near -9; untested live.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 87914,
+      "model_id": 742716,
+      "enabled": false,
+      "label": "Boss SD-1 as clean boost (level 6, drive 0)",
+      "out_db": 4.0
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 36827,
+      "model_id": 381617,
+      "enabled": false,
+      "label": "Ibanez TS9, drive 2 / tone 7 / level 10 (Gers' Tube Screamer push)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 45684,
+      "model_id": 382775,
+      "enabled": true,
+      "label": "Marshall JCM900 4100 Hi Gain Dual Reverb, lead channel, knobs noon (Murray)",
+      "out_db": 5.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463991,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, MD421 edge of cone (Murray)",
+      "out_db": 1.6
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 409,
+      "feedback": 0.3,
+      "cutoff_hz": 4500.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Digital delay 409 ms (dotted 1/8 @110) + 480L Large Hall (intro melody)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Small Wood Room (Barnyard's small barn room)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 1071,
+      "model_id": 418179,
+      "enabled": true,
+      "label": "Marshall JCM800 2203, P5 B5 M5 T5, master 6, gain 7 (Gers)",
+      "out_db": 1.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463987,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone (Gers)",
+      "out_db": 2.7
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 409,
+      "feedback": 0.3,
+      "cutoff_hz": 4500.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Digital delay 409 ms (dotted 1/8 @110) + 480L Large Hall (intro melody)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Small Wood Room (Barnyard's small barn room)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.1,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -11.5,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -13.3,
+        "trim_db": 2.7
+      },
+      {
+        "measured_lufs": -13.4,
+        "trim_db": -0.6,
+        "side_lufs": [
+          -15.8,
+          -17.1
+        ],
+        "side_trim_db": [
+          -0.7,
+          0.6
+        ]
+      },
+      {
+        "measured_lufs": -14.1,
+        "trim_db": 0.1,
+        "side_lufs": [
+          -17.1,
+          -17.0
+        ],
+        "side_trim_db": [
+          0.1,
+          -0.1
+        ]
+      }
+    ]
+  }
+}

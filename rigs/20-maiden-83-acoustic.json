@@ -1,0 +1,189 @@
+{
+  "pc": 20,
+  "name": "Maiden 83 Acoustic",
+  "scene": "acoustic",
+  "bank": 4,
+  "reference": "Iron Maiden acoustic moments played on an electric: Prodigal Son (Killers, 1981; 'a mostly acoustic song') intro/strums, and acoustic-style arpeggios over the Piece of Mind era's clean sections (Revelations intro, To Tame a Land)",
+  "rig": "Electric (humbuckers) -> Boss AC-3 acoustic simulator -> acoustic body IR, double-tracked: left = AC-3 Standard -> Martin dreadnought body, right = AC-3 Jumbo -> Gibson J-45 body, into a Birch-style plate and a wooden-room ambience. (Maiden's acoustic parts were real acoustics in the studio; this is the electric -> acoustic emulation of rigs/13 made stereo.)",
+  "sources": [
+    "https://www.ironmaiden-bg.com/web/index.php/en/the-songs-in-the-killers-album-en/886-prodigial-son-song-info-en",
+    "https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983",
+    "https://retrorecordingsxr.com/recording-studios/compass-point-studios/",
+    "https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/",
+    "https://forum.mod.audio/t/electric-guitar-into-acoustic-guitar-ir/8142"
+  ],
+  "notes": "Piece of Mind itself has no documented acoustic guitar, so this is Maiden's acoustic sound in general, built on the rigs/13 two-stage method (AC-3 turns the magnetic pickup piezo-like, the body IR adds wood and mic). Improvement over rigs/13: a stereo 'double track' like Maiden's two-guitar arrangements, each side a different AC-3 mode and body (Standard + Martin left, Jumbo + J-45 right, 12% apart in pan) so strums sound like two acoustics, not one widened one. Humbucker -> piezo pre-EQ from rigs/13 on both AC-3 blocks, lighter on the Jumbo side. Dropped rigs/13's Diamond compressor and Micro Amp to stay within 2 NAM blocks. No chorus/wobble (none on Maiden's acoustics). Reverb is ON (SW10 doesn't reach this instance): echo slot = reverb only (delay_ms 0) with the Lexicon 480L Large Plate, plus 480L Small Wood Room as always-on room (acoustics tracked in a wooden room). Levels: rigs/13's AC-3 + Martin chain needed +24 dB out_db to reach its target (with the compressor in front); without the compressor +20 dB is a guess, trim after a live sweep. Best on the neck humbucker, picked lightly.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588442,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Standard mode, knobs noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 20.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174633,
+      "enabled": true,
+      "label": "Acoustic body IR: Martin dreadnought (piezo -> mic)",
+      "eq": [
+        -1.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "out_db": 10.2
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 0,
+      "mix": 0.24,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate (reverb only)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 3.5,
+        "level_db": 0.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Small Wood Room (acoustic tracking room)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588099,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Jumbo mode, knobs noon",
+      "eq": [
+        -3.0,
+        -2.0,
+        -1.0,
+        0.5,
+        2.0,
+        1.5
+      ],
+      "eq_pre": true,
+      "out_db": 20.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174632,
+      "enabled": true,
+      "label": "Acoustic body IR: Gibson J-45 (piezo -> mic)",
+      "eq": [
+        -2.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "out_db": 15.7
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 0,
+      "mix": 0.24,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate (reverb only)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 3.5,
+        "level_db": 0.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Small Wood Room (acoustic tracking room)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.2,
+    "chainPanRight": 0.8,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -24.5,
+        "trim_db": 12.0
+      },
+      {
+        "measured_lufs": -15.4,
+        "trim_db": -0.1,
+        "side_lufs": [
+          -16.6,
+          -21.8
+        ],
+        "side_trim_db": [
+          -2.6,
+          2.6
+        ]
+      },
+      {
+        "measured_lufs": -16.5,
+        "trim_db": 1.0,
+        "side_lufs": [
+          -19.4,
+          -19.7
+        ],
+        "side_trim_db": [
+          -0.1,
+          0.2
+        ]
+      }
+    ]
+  }
+}
