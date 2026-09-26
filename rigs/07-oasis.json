@@ -1,0 +1,48 @@
+{
+  "pc": 7,
+  "name": "Oasis",
+  "reference": "",
+  "rig": "Tube Screamer -> JCM800 2203 + Marshall 4x12, crunch",
+  "sources": [],
+  "notes": "",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 2599,
+      "model_id": 419209,
+      "enabled": false,
+      "label": "Klon Centaur (silver), low gain"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 87219,
+      "model_id": 738629,
+      "enabled": false,
+      "label": ""
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 89825,
+      "model_id": 756307,
+      "enabled": true,
+      "label": ""
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 120,
+      "feedback": 0.5,
+      "cutoff_hz": 3500.0,
+      "mix": 0.3,
+      "enabled": false
+    }
+  ],
+  "params": {}
+}

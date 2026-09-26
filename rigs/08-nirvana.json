@@ -1,0 +1,43 @@
+{
+  "pc": 8,
+  "name": "Nirvana",
+  "reference": "",
+  "rig": "Boss DS-1 -> Nirvana live-at-the-Paramount rig (Mesa Studio preamp, G12T-75 cab)",
+  "sources": [],
+  "notes": "",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 2599,
+      "model_id": 419209,
+      "enabled": false,
+      "label": "Klon Centaur (silver), low gain"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 2508,
+      "model_id": 419246,
+      "enabled": false,
+      "label": ""
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 78100,
+      "model_id": 679829,
+      "enabled": true,
+      "label": ""
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "insert"
+    }
+  ],
+  "params": {}
+}

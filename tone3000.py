@@ -4,28 +4,26 @@
 """Build the FCB1010 rig for the TONE3000 plugin (NAM captures + IRs).
 
 Usage:
-  uv run tone3000.py map     Show the rig: PC -> preset, blocks, MIDI map
-  uv run tone3000.py build   Download captures, write the 15 presets (PC order)
-                             and the FCB1010 MIDI mappings. TONE3000 must NOT
-                             be running (the standalone saves state on exit).
-  uv run tone3000.py configure
-                             Standalone settings for this hardware: JACK at
-                             48 kHz/128, guitar input, FCB MIDI input, mono
-                             input, NAM input calibration, low-latency launcher.
+  uv run tone3000.py map        Show the rig: PC -> preset, blocks, MIDI map
+  uv run tone3000.py build      Build every rigs/*.json preset (PC order) and the
+                                FCB1010 MIDI map. TONE3000 must NOT be running
+                                (the standalone saves state on exit).
+  uv run tone3000.py configure  Standalone settings for this hardware: JACK at
+                                48 kHz/128, guitar input, FCB MIDI input, mono,
+                                NAM calibration, 2x oversampling, A2-Full default.
+  uv run tone3000.py search <words> [--gear=...] [--arch=2|1|any]
+  uv run tone3000.py models <tone_id> ...
+  uv run tone3000.py check [rigs/NN-x.json ...]   validate + build in memory
 
-TONE3000 has no wah/modulation/delay, so every preset uses one fixed layout
-and the global MIDI map (which addresses blocks by position) works everywhere:
+Presets are data: one JSON file per song in rigs/ (format in rigs/README.md).
+Slots are fixed because TONE3000 maps CCs to block *positions*:
 
-  Block 1  lead boost (off)   <- SW8 / CC 22
-  Block 2  song drive pedal   <- SW9 / CC 23
-  Block 3  full stack (amp + cab capture of the player's real rig)
-  Block 4  cab IR, only when the authentic amp exists as a DI capture
-  Spread (stereo widen/chorus) <- SW7 / CC 21    Noise gate <- SW6 / CC 20
-  EXP A / CC 27 -> treble sweep                   EXP B / CC 7 -> output level
+  1 boost (SW8/CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (SW10/CC24) | 6+ ambience
+  SW6/CC20 gate · SW7/CC21 spread · EXP A/CC27 treble · EXP B/CC7 output
 
 Program Change N loads the Nth preset in the browser, so the rig presets are
-written first in Presets/order.json (PC 0-14). Captures come from the public
-TONE3000 catalog; model files are public storage objects.
+written first in Presets/order.json. Captures come from the public TONE3000
+catalog; model files are public storage objects.
 """
 
 import base64
@@ -52,43 +50,8 @@ ANON_KEY = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
             "dW9weGtkeGJ5dG5vamRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgwODIxNjUsImV4cCI6MjA1"
             "MzY1ODE2NX0.Gq66BJXjtLsqP2nAGXm9Xb9PAjoeZalWUj66K4nmVSU")
 
-# One shared clean boost for leads: (tone_id, model_id)
-BOOST = (2599, 419209)  # real silver Klon Centaur, low gain ("KLON 2")
-
-# Authentic record/live rigs, as full-stack (amp + cab) captures.
-# (pc, name, drive (tone_id, model_id), drive_on, stack (tone_id, model_id), cab (tone_id, model_id) | None, gate_on)
-RIG = [
-    # Big Muff Ram's Head -> 1972 Hiwatt DR103 + its Fane 4x12
-    (0, "Comfortably Numb", (87219, 738628), False, (2711, 424952), None, False),
-    # Boss DS-1 -> Mesa Mark (no Mark I captured: Mark VII fat clean)
-    (1, "Purple Rain", (2508, 419239), False, (62659, 576013), None, False),
-    # TS808 tightener -> Marshall JCM800 2203 + Marshall 4x12, high gain
-    (2, "Tornado of Souls", (70280, 577277), True, (89825, 756311), None, True),
-    # TS808 -> Mesa Mark VII in IIC+ mode + Mesa 4x12
-    (3, "Dream Theater", (70280, 577277), True, (62659, 576017), None, True),
-    # TS808 -> 90s Mesa Dual Rectifier, red modern, full rig
-    (4, "Slipknot", (70280, 577277), True, (87866, 742072), None, True),
-    # Tube Screamer at gain 0 -> Peavey 5150 + Mesa 4x12
-    (5, "Djent", (87219, 738635), True, (32868, 418392), None, True),
-    # Marshall ShredMaster -> 1987 Fender Eighty-Five (Jonny Greenwood, OK Computer)
-    (6, "Radiohead", (78738, 684083), False, (75367, 668845), None, False),
-    # Tube Screamer -> JCM800 2203 + Marshall 4x12, crunch
-    (7, "Oasis", (87219, 738629), False, (89825, 756307), None, False),
-    # Boss DS-1 -> Nirvana live-at-the-Paramount rig (Mesa Studio preamp, G12T-75 cab)
-    (8, "Nirvana", (2508, 419246), False, (78100, 679829), None, False),
-    # ProCo Rat -> Mesa Dual Rectifier rev G, orange crunch
-    (9, "Foo Fighters", (87219, 738627), False, (79103, 682769), None, False),
-    # Boss SD-1 boost -> 1980 Marshall JMP 2204 + Marshall 4x12
-    (10, "Iron Maiden", (87914, 742716), False, (70521, 577106), None, False),
-    # Klon -> '65 Deluxe Reverb reissue, clean full rig
-    (11, "My Clean", (87219, 738638), False, (51649, 383468), None, False),
-    # Tube Screamer -> Mesa Mark VII bright clean
-    (12, "Petrucci Clean", (87219, 738629), False, (62659, 576000), None, False),
-    # Diamond compressor -> Boss AC-3 acoustic simulator
-    (13, "Acoustic", (88975, 750114), True, (71126, 588442), None, False),
-    # Boss Blues Driver -> '65 Twin Reverb + G12-65, clean
-    (14, "Glassy Clean", (1729, 420026), False, (35497, 381343), None, False),
-]
+# One JSON file per preset (pc, chain, sources, notes) — see rigs/README.md.
+RIGS = Path(__file__).resolve().parent / "rigs"
 
 # Standalone audio/MIDI setup for this rig (Scarlett 2i2 3rd Gen on PipeWire).
 # JACK via pipewire-jack; the launcher pins the graph to BUFFER with
@@ -111,13 +74,19 @@ CALIBRATION_DBU = 12.5
 OVERSAMPLING = True
 OVERSAMPLING_FACTOR = 0.0  # choice index: 0 = 2x, 1 = 4x
 
-MIDI_MAP = [  # (targetId, CC) — must match rig.py
-    ("gateEnabled", 20),
-    ("spreadEnabled", 21),
-    ("block1Power", 22),
-    ("block2Power", 23),
-    ("toneTreble", 27),
-    ("outputLevel", 7),
+# Block slots are positional (TONE3000 maps CCs to "Block N"), so every preset
+# uses the same layout:  1 boost | 2 drive | 3 amp/stack | 4 cab | 5 echo | 6+ ambience.
+# Stereo (dual-rig) presets split after slot 2; the right chain is
+# R1 amp/stack | R2 cab | R3 echo | R4 ambience.
+MIDI_MAP = [  # (targetId, CC) — must match rig.py; one CC may drive several targets
+    ("gateEnabled", 20),       # SW6
+    ("spreadEnabled", 21),     # SW7  stereo spread / chorus
+    ("block1Power", 22),       # SW8  lead boost
+    ("block2Power", 23),       # SW9  drive
+    ("block5Power", 24),       # SW10 echo (left / mono chain)
+    ("rightBlock3Power", 24),  # SW10 echo (right chain of dual-rig presets)
+    ("toneTreble", 27),        # EXP A
+    ("outputLevel", 7),        # EXP B
 ]
 
 
@@ -277,6 +246,7 @@ def search_meta(tone):
 
 def tone_record(tone_id):
     """Tone metadata in the shape the plugin embeds as toneJson (cached)."""
+    CACHE.mkdir(parents=True, exist_ok=True)
     path = CACHE / f"tone-{tone_id}.json"
     if path.exists():
         return json.loads(path.read_text())
@@ -310,16 +280,24 @@ def tone_record(tone_id):
         "url": f"https://www.tone3000.com/tones/{tone['id']}",
         "models": models,
     }
-    path.write_text(json.dumps(record, indent=2))
+    atomic_write(path, json.dumps(record, indent=2).encode())
     return record
+
+
+def atomic_write(path, data):
+    """Write via a temp file + rename, so parallel runs never see a partial file."""
+    tmp = path.with_name(f".{path.name}.{uuid.uuid4().hex}")
+    tmp.write_bytes(data)
+    tmp.replace(path)
 
 
 def model_file(model):
     name = model.get("storage_name") or model["model_url"].rsplit("/", 1)[-1]
     path = CACHE / name
     if not path.exists():
+        CACHE.mkdir(parents=True, exist_ok=True)
         with urllib.request.urlopen(STORAGE + name, timeout=60) as resp:
-            path.write_bytes(resp.read())
+            atomic_write(path, resp.read())
     return path.read_bytes()
 
 
@@ -392,18 +370,38 @@ def wav_write(samples, rate=48000):
             + b"fmt " + struct.pack("<I", len(fmt)) + fmt + b"data" + struct.pack("<I", len(pcm)) + pcm)
 
 
+def wav_rate(raw):
+    return struct.unpack_from("<I", raw, raw.index(b"fmt ") + 12)[0]
+
+
+def resample(x, src, dst=48000):
+    """Linear-interpolation resample (fine for reverb tails)."""
+    if src == dst:
+        return x
+    n = int(len(x) * dst / src)
+    out = []
+    for i in range(n):
+        t = i * src / dst
+        j = int(t)
+        f = t - j
+        out.append(x[j] * (1 - f) + (x[j + 1] if j + 1 < len(x) else 0.0) * f)
+    return out
+
+
 def trimmed_ir(raw, seconds, channel=0):
-    """First channel, cut to `seconds` with a 10% cosine fade-out (keeps presets small)."""
+    """First channel at 48 kHz (TONE3000 loads non-48k IRs as silence), cut to
+    `seconds` with a 10% cosine fade-out (keeps presets small)."""
     chans, rate = wav_read(raw)
-    x = chans[channel][:int(seconds * rate)]
+    x = resample(chans[channel][:int(seconds * rate)], rate)
+    rate = 48000
     fade = max(1, len(x) // 10)
     for i in range(fade):
         x[len(x) - fade + i] *= 0.5 * (1 + math.cos(math.pi * i / fade))
     return wav_write(x, rate)
 
 
-def dm2_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=48000):
-    """Wet-only IR of a Boss DM-2 style analog (BBD) delay: each repeat passes the
+def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=48000):
+    """Wet-only IR of an analog (BBD) delay like a Boss DM-2: each repeat passes the
     bucket-brigade's low-pass again, so the echoes darken as they decay."""
     d = int(rate * delay_ms / 1000)
     h = [0.0] * (d * (repeats + 1) + rate // 10)
@@ -446,47 +444,62 @@ def preset_id(name):
     return uuid.uuid5(uuid.NAMESPACE_URL, f"fcb1010-rig/{name}").hex
 
 
-def standard_chain(drive, drive_on, amp, cab):
-    boost_tone, boost_model = BOOST
-    return [
-        block("nam", False, tone_record(boost_tone), boost_model),
-        block("nam", drive_on, tone_record(drive[0]), drive[1]),
-        block("nam", True, tone_record(amp[0]), amp[1]),
-        block("ir", True, tone_record(cab[0]), cab[1]) if cab else block("insert"),
-        block("insert"),
-    ]
+ROLE_SLOTS = {"boost": 1, "drive": 2, "amp": 3, "cab": 4, "echo": 5}  # left/mono chain
+RIGHT_ROLE_SLOTS = {"amp": 1, "cab": 2, "echo": 3}                     # dual-rig right chain
 
 
-def purple_rain_chain():
-    """Prince, Purple Rain (First Avenue, 3 Aug 1983; overdubs/mix at Sunset Sound):
-    Hohner MadCat (single coils) -> Boss DM-2 / DS-1 -> Mesa/Boogie Mark II -> Bag End
-    cabs with JBLs, CE-2 chorus, big studio plate. Block 1 stays on CC 22 (FCB 'DLY'),
-    block 2 on CC 23 (FCB 'DIST'); the chorus is Spread on CC 21."""
-    return [
-        # 1: DM-2 echo, in front of the amp like Prince's pedalboard (off; SW8)
-        block("ir", False, synth_tone(1, "Boss DM-2 style analog echo (generated)",
-                                      "300 ms BBD-style echo, darkening repeats, wet only"),
-              1, mix=0.35, data=dm2_echo()),
-        # 2: Boss DS-1 for the solo (off; SW9)
-        block("nam", False, tone_record(2508), 419257),                  # T04 D08
-        # 3: Mesa Boogie Mark IIC+ (1984 factory, DI) at the edge of breakup,
-        #    with humbucker->single-coil voicing in front for the MadCat
-        block("nam", True, tone_record(87223), 738700, eq_gains=HB_TO_SINGLE_COIL, eq_pre=True),
-        # 4: JBL E120 12" (Boogie/Bag End JBL loading), SM57 cap edge
-        block("ir", True, tone_record(5719), 59206),
-        # 5: EMT 140 plate at Sunset Sound, wet only, trimmed to 5 s mono
-        block("ir", True, tone_record(84558), 719211, mix=0.3,
-              data=trimmed_ir(model_file(next(m for m in tone_record(84558)["models"]
-                                              if m["id"] == 719211)), 5.0)),
-    ]
+def load_rigs():
+    rigs = [json.loads(f.read_text()) | {"_file": f.name} for f in sorted(RIGS.glob("*.json"))]
+    return sorted(rigs, key=lambda r: r["pc"])
 
 
-# Songs that need more than the standard boost/drive/stack chain.
-# name -> (chain builder, extra param values)
-CUSTOM = {
-    "Purple Rain": (purple_rain_chain, {"spreadEnabled": 1.0, "spreadWobble": 0.5,
-                                        "spreadWobbleEnabled": 1.0}),
-}
+def model_of(tone_id, model_id):
+    return next(m for m in tone_record(tone_id)["models"] if m["id"] == model_id)
+
+
+def build_block(spec):
+    """One chain block from a rigs/*.json block spec."""
+    kind = spec["type"]
+    on = spec.get("enabled", True)
+    mix = float(spec.get("mix", 1.0))
+    if kind == "insert":
+        return block("insert")
+    if kind == "echo":  # generated analog-style echo IR
+        ms = int(spec["delay_ms"])
+        fb, cut_hz = float(spec.get("feedback", 0.5)), float(spec.get("cutoff_hz", 3500.0))
+        mid = ms * 100 + int(fb * 10) + int(cut_hz / 1000) * 1000000
+        title = spec.get("label") or f"Analog echo {ms} ms"
+        return block("ir", on, synth_tone(mid, f"{title} (generated)",
+                                          f"{ms} ms BBD-style echo, feedback {fb}, wet only"),
+                     mid, mix=mix, data=analog_echo(ms, fb, cutoff_hz=cut_hz))
+    tone, mid = tone_record(spec["tone_id"]), spec["model_id"]
+    data = None
+    if kind == "ir":
+        raw = model_file(model_of(spec["tone_id"], mid))
+        if spec.get("trim_seconds") or wav_rate(raw) != 48000:  # non-48k IRs load silent
+            data = trimmed_ir(raw, float(spec.get("trim_seconds") or 60.0))
+    return block(kind, on, tone, mid, mix=mix, eq_gains=spec.get("eq"),
+                 eq_pre=spec.get("eq_pre", False), data=data)
+
+
+def validate(rig):
+    """Structural checks so footswitch slots line up across presets."""
+    errs = []
+    for side, slots in (("left", ROLE_SLOTS), ("right", RIGHT_ROLE_SLOTS)):
+        for i, spec in enumerate(rig.get(side, []), 1):
+            want = slots.get(spec.get("role"))
+            if want and want != i:
+                errs.append(f"{side}[{i}] role {spec['role']} must be slot {want}")
+            if spec.get("type") not in ("nam", "ir", "echo", "insert"):
+                errs.append(f"{side}[{i}] unknown type {spec.get('type')}")
+            if spec.get("type") in ("nam", "ir") and not (spec.get("tone_id") and spec.get("model_id")):
+                errs.append(f"{side}[{i}] needs tone_id and model_id")
+    if rig.get("right") and not rig.get("split_after"):
+        errs.append("right chain needs split_after (1-based left slot)")
+    if len(rig.get("left", [])) > 12 or len(rig.get("right", [])) > 12:
+        errs.append("max 12 blocks per chain")
+    return errs
+
 
 # Applied to every preset.
 GLOBAL_PARAMS = {
@@ -496,20 +509,21 @@ GLOBAL_PARAMS = {
 }
 
 
-def build_preset(name, drive, drive_on, amp, cab, gate_on):
-    chain_fn, extra = CUSTOM.get(name, (None, {}))
-    left = chain_fn() if chain_fn else standard_chain(drive, drive_on, amp, cab)
+def build_preset(rig):
+    left = [build_block(b) for b in rig["left"]]
+    right = [build_block(b) for b in rig.get("right", [])]
+    split = rig.get("split_after")
     left += [block("insert") for _ in range(max(0, 5 - len(left)))]
-    right = [block("insert") for _ in range(5)]
-    snap = Node("ChainSnapshot").set("stereoEnabled", False).set("branchSide", "left")
-    snap.set("branchAfterBlockId", "")
+    right += [block("insert") for _ in range(max(0, 5 - len(right)))]
+    snap = Node("ChainSnapshot").set("stereoEnabled", bool(split)).set("branchSide", "left")
+    snap.set("branchAfterBlockId", left[split - 1].get("id") if split else "")
     snap.children = [Node("ChainBlocks", children=left), Node("RightChainBlocks", children=right)]
     params = default_params()
-    values = {"gateEnabled": 1.0 if gate_on else 0.0, **GLOBAL_PARAMS, **extra}
+    values = {"gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS}
     for p in params.children:
         if p.get("id") in values:
             p.set("value", float(values[p.get("id")]))
-    root = Node("T3KPreset").set("schemaVersion", 1).set("name", name)
+    root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"])
     root.children = [snap, params]
     return root
 
@@ -586,6 +600,13 @@ def configure():
     print(f"input mode: {INPUT_MODE}; NAM input calibration on at {CALIBRATION_DBU} dBu; "
           f"oversampling {'2x' if OVERSAMPLING_FACTOR == 0 else '4x'} {'on' if OVERSAMPLING else 'off'}")
 
+    # Global preferences: A2-Full as the default NAM size for blocks added in-app.
+    (CONFIG / "preferences.settings").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n\n<PROPERTIES>\n'
+        '  <VALUE name="namSlimSizeDefault" val="1.0"/>\n'
+        '  <VALUE name="multiCore" val="1"/>\n</PROPERTIES>\n')
+    print("preferences: default NAM size A2-Full, multi-core on")
+
     launcher = Path.home() / ".local/share/applications/tone3000.desktop"
     if launcher.exists():
         quantum = f"PIPEWIRE_QUANTUM={AUDIO['audioDeviceBufferSize']}/{int(float(AUDIO['audioDeviceRate']))}"
@@ -599,13 +620,16 @@ def build():
     if running():
         sys.exit("TONE3000 is running — quit it first.")
     CACHE.mkdir(parents=True, exist_ok=True)
+    rigs = load_rigs()
+    for rig in rigs:
+        if errs := validate(rig):
+            sys.exit(f"{rig['_file']}: " + "; ".join(errs))
     ids = []
-    for pc, name, drive, drive_on, amp, cab, gate_on in RIG:
-        pid = preset_id(name)
-        (PRESETS / f"{pid}.t3kpreset").write_bytes(
-            dump_t3kb(build_preset(name, drive, drive_on, amp, cab, gate_on)))
+    for rig in rigs:
+        pid = preset_id(rig["name"])
+        (PRESETS / f"{pid}.t3kpreset").write_bytes(dump_t3kb(build_preset(rig)))
         ids.append(f"user:{pid}")
-        print(f"PC {pc:<3} {name}")
+        print(f"PC {rig['pc']:<3} {rig['name']}")
     order_path = PRESETS / "order.json"
     old = json.loads(order_path.read_text()) if order_path.exists() else []
     factory = [f"factory:{p.stem}" for p in sorted((PRESETS / "Factory").glob("*.t3kpreset"))]
@@ -615,14 +639,82 @@ def build():
     print(f"\n{len(ids)} presets written in PC order. Start TONE3000 and stomp away.")
 
 
+def describe(spec):
+    if spec["type"] == "insert":
+        return "-"
+    if spec["type"] == "echo":
+        label = f"echo {spec['delay_ms']} ms"
+    else:
+        label = spec.get("label") or model_of(spec["tone_id"], spec["model_id"])["name"]
+    return label + ("" if spec.get("enabled", True) else " (off)")
+
+
 def show_map():
-    for pc, name, drive, drive_on, amp, cab, gate_on in RIG:
-        print(f"PC {pc:<3} {name:<17} drive {drive} {'on' if drive_on else 'off'} | amp {amp} | cab {cab}"
-              f"{' | gate' if gate_on else ''}")
+    for rig in load_rigs():
+        print(f"PC {rig['pc']:<3} {rig['name']}  — {rig.get('reference', '')}")
+        for side in ("left", "right"):
+            for i, spec in enumerate(rig.get(side, []), 1):
+                tag = f"{'L' if side == 'left' else 'R'}{i}"
+                print(f"        {tag:<3} {spec.get('role', ''):<9} {describe(spec)}")
     for target, cc in MIDI_MAP:
         print(f"CC {cc:<3} -> {target}")
 
 
+# --- research helpers (safe to run anytime; never touch ~/.config/TONE3000) ----------
+
+def search(query, gear=None, arch="2", n=25):
+    """tone3000.com catalog search. gear: amp, amp-cab (full rig), pedal, cab (IRs),
+    outboard, space (reverbs), experimental. arch: "2" (A2 NAM), "1", or None."""
+    return rest("rpc/search_tones_a2", {
+        "query_term": query, "page_number": 1, "page_size": n, "order_by": "best-match",
+        "tag_names": None, "make_names": None, "gear_filters": [gear] if gear else None,
+        "is_calibrated": False, "size_filters": None, "usernames": None,
+        "architecture_filter": arch, "verified_only": False})
+
+
+def cli_search(args):
+    gear = next((a.split("=", 1)[1] for a in args if a.startswith("--gear=")), None)
+    arch = next((a.split("=", 1)[1] for a in args if a.startswith("--arch=")), "2")
+    query = " ".join(a for a in args if not a.startswith("--"))
+    for h in search(query, gear, None if arch == "any" else arch):
+        print(f"{h['id']:>6} {h['gear']:<8} {h['platform']:<3} a2={h['a2_models_count']:<3} "
+              f"ir={h['irs_count']:<3} dl={h['downloads_count']:<6} fav={h['favorites_count']:<5} "
+              f"{h['title'][:70]} | {','.join(h['makes'] or [])[:40]} @{h['username']}")
+
+
+def cli_models(args):
+    for tid in args:
+        tone = rest(f"tones?id=eq.{tid}&select=id,title,gear,platform,description")[0]
+        models = rest(f"models?tone_id=eq.{tid}&is_deleted=eq.false&select=id,name,architecture_version")
+        print(f"=== {tone['id']} [{tone['gear']}/{tone['platform']}] {tone['title']}")
+        print("   ", (tone.get("description") or "").replace("\n", " ")[:800])
+        for m in models:
+            print(f"      {m['id']:>7} a{m['architecture_version'] or '-'} {m['name']}")
+
+
+def cli_check(files):
+    """Validate rigs/*.json, resolve every tone/model and build in memory (no writes
+    to TONE3000). Downloads land in the shared cache."""
+    ok = True
+    for f in files or sorted(RIGS.glob("*.json")):
+        rig = json.loads(Path(f).read_text())
+        errs = validate(rig)
+        if not errs:
+            try:
+                size = len(dump_t3kb(build_preset(rig)))
+            except Exception as e:  # unknown tone/model, bad IR, network
+                errs = [f"{type(e).__name__}: {e}"]
+        ok &= not errs
+        status = "; ".join(errs) if errs else f"ok ({size / 1e6:.1f} MB)"
+        print(f"{Path(f).name}: {status}")
+    sys.exit(0 if ok else 1)
+
+
 if __name__ == "__main__":
-    cmd = sys.argv[1] if len(sys.argv) > 1 else "map"
-    {"map": show_map, "build": build, "configure": configure}.get(cmd, lambda: sys.exit(__doc__))()
+    cmd, args = (sys.argv[1], sys.argv[2:]) if len(sys.argv) > 1 else ("map", [])
+    commands = {
+        "map": lambda: show_map(), "build": lambda: build(), "configure": lambda: configure(),
+        "search": lambda: cli_search(args), "models": lambda: cli_models(args),
+        "check": lambda: cli_check(args),
+    }
+    commands.get(cmd, lambda: sys.exit(__doc__))()

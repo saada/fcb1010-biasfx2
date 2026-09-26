@@ -1,0 +1,82 @@
+{
+  "pc": 1,
+  "name": "Purple Rain",
+  "reference": "Purple Rain (1984) \u2014 title track, recorded live at First Avenue 3 Aug 1983, overdubs/mix at Sunset Sound",
+  "rig": "Hohner MadCat (single coils) -> Boss SD-1 / DS-1 / DM-2, CE-2 chorus -> Mesa/Boogie Mark II -> Bag End cabs with JBL 12s; EMT plate",
+  "sources": [
+    "https://guitar.com/features/artist-rigs/the-guitars-used-by-prince-on-purple-rain/",
+    "https://www.guitarcloud.org/era/purple-rain/",
+    "https://mixdownmag.com.au/features/rig-rundown-princes-purple-rain/",
+    "https://tonesmatch.com/tones/purple-rain-prince-the-revolution-solo-distorted-4287",
+    "https://www.tonemirror.so/tones/prince-purple-rain"
+  ],
+  "notes": "No Mark IIB capture exists; 1984 Mark IIC+ (its successor) stands in. CE-2 is time-varying so Spread approximates it. DM-2 echo is generated (no DM-2 IR exists). Humbucker->single-coil pre-EQ on the amp assumes a humbucker guitar (JP70).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 87914,
+      "model_id": 742716,
+      "enabled": false,
+      "label": "Boss SD-1, level 6 / drive 0"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 2508,
+      "model_id": 419257,
+      "enabled": false,
+      "label": "Boss DS-1 T04 D08"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 87223,
+      "model_id": 738700,
+      "enabled": true,
+      "label": "1984 Mesa Mark IIC+ Silver Zephyr, Dynamic Airy Edge (DI)",
+      "eq": [
+        -3.0,
+        -2.5,
+        0.0,
+        1.5,
+        3.0,
+        2.0
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 5719,
+      "model_id": 59206,
+      "enabled": true,
+      "label": "JBL E120 12\", SM57 cap edge"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 300,
+      "feedback": 0.6,
+      "cutoff_hz": 2800.0,
+      "mix": 0.35,
+      "enabled": false,
+      "label": "Boss DM-2 style, 300 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "mix": 0.3,
+      "trim_seconds": 5.0,
+      "label": "EMT 140 plate, Sunset Sound"
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobble": 0.5,
+    "spreadWobbleEnabled": 1.0
+  }
+}

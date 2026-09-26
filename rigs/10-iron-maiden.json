@@ -1,0 +1,108 @@
+{
+  "pc": 10,
+  "name": "Iron Maiden",
+  "reference": "The Evil That Men Do \u2014 Seventh Son of a Seventh Son (1988), prod. Martin Birch",
+  "rig": "Dave Murray: Strat -> Marshall (left). Adrian Smith: Jackson -> MXR -> Gallien-Krueger 250ML with its stereo chorus/echo -> Marshall 4x12 (right)",
+  "sources": [
+    "https://forum.maidenfans.com/threads/info-on-the-recording-of-7th-son-of-a-7th-son.12404/",
+    "https://equipboard.com/albums/iron-maiden-seventh-son-of-a-seventh-son-2015-remaster",
+    "https://equipboard.com/pros/adrian-smith"
+  ],
+  "notes": "Dual-rig stereo: pedals feed both, Murray hard left / Smith hard right. GK chorus = Align wobble between the sides. No harmonizer possible.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 87914,
+      "model_id": 742716,
+      "enabled": false,
+      "label": "Boss SD-1 boost"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 35412,
+      "model_id": 381302,
+      "enabled": false,
+      "label": "MXR Distortion+ (Smith's MXR), dist 300"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 70521,
+      "model_id": 577106,
+      "enabled": true,
+      "label": "1980 Marshall JMP 2204 full rig (Murray)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.5,
+      "cutoff_hz": 3500.0,
+      "mix": 0.3,
+      "enabled": false
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "mix": 0.15,
+      "trim_seconds": 4.0,
+      "label": "Lexicon 480L Large Plate"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.3,
+    "spreadEnabled": 0.0
+  },
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 27127,
+      "model_id": 379866,
+      "enabled": true,
+      "label": "Gallien-Krueger 250ML 'Maiden' preamp (Smith)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463987,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, SM57"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.5,
+      "cutoff_hz": 3500.0,
+      "mix": 0.3,
+      "enabled": false
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "mix": 0.15,
+      "trim_seconds": 4.0,
+      "label": "Lexicon 480L Large Plate"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "pc": 5,
+  "name": "Djent",
+  "reference": "",
+  "rig": "Tube Screamer at gain 0 -> Peavey 5150 + Mesa 4x12",
+  "sources": [],
+  "notes": "",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 2599,
+      "model_id": 419209,
+      "enabled": false,
+      "label": "Klon Centaur (silver), low gain"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 87219,
+      "model_id": 738635,
+      "enabled": true,
+      "label": ""
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 32868,
+      "model_id": 418392,
+      "enabled": true,
+      "label": ""
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 450,
+      "feedback": 0.5,
+      "cutoff_hz": 3500.0,
+      "mix": 0.3,
+      "enabled": false
+    }
+  ],
+  "params": {
+    "gateEnabled": 1.0
+  }
+}

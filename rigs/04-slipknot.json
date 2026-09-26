@@ -1,0 +1,50 @@
+{
+  "pc": 4,
+  "name": "Slipknot",
+  "reference": "",
+  "rig": "TS808 -> 90s Mesa Dual Rectifier, red modern, full rig",
+  "sources": [],
+  "notes": "",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 2599,
+      "model_id": 419209,
+      "enabled": false,
+      "label": "Klon Centaur (silver), low gain"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 70280,
+      "model_id": 577277,
+      "enabled": true,
+      "label": ""
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 87866,
+      "model_id": 742072,
+      "enabled": true,
+      "label": ""
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.5,
+      "cutoff_hz": 3500.0,
+      "mix": 0.3,
+      "enabled": false
+    }
+  ],
+  "params": {
+    "gateEnabled": 1.0
+  }
+}
