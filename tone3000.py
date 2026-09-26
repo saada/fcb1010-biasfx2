@@ -31,6 +31,7 @@ TONE3000 catalog; model files are public storage objects.
 import base64
 import html
 import json
+import math
 import re
 import struct
 import subprocess
@@ -329,23 +330,110 @@ EQ_BANDS = [("lowshelf", 100.0, 0.7099999785423279), ("bell", 250.0, 1.0), ("bel
             ("highshelf", 8000.0, 0.7099999785423279)]
 
 
-def block(kind, enabled=True, tone=None, model_id=None):
+# Humbucker -> single-coil voicing (pre-model EQ, gain dB per EQ_BANDS band):
+# thins lows/low-mids, adds the Tele/Strat quack and top end.
+HB_TO_SINGLE_COIL = [-3.0, -2.5, 0.0, 1.5, 3.0, 2.0]
+
+
+def block(kind, enabled=True, tone=None, model_id=None, mix=1.0, eq_gains=None, eq_pre=False, data=None):
     node = Node("ChainBlock").set("id", uuid.uuid4().hex).set("type", kind).set("enabled", enabled)
     node.set("normalize", True).set("slimSize", 1.0 if kind == "nam" else 0.0)
-    node.set("inputGain", 0.5).set("outputGain", 0.5).set("mix", 1.0)
+    node.set("inputGain", 0.5).set("outputGain", 0.5).set("mix", mix)
     if tone is None:
         return node
     model = next(m for m in tone["models"] if m["id"] == model_id)
     record = dict(tone, models=[{k: v for k, v in model.items() if k != "storage_name"}])
     node.set("toneId", tone["id"]).set("toneJson", json.dumps(record, indent=2))
     node.set("activeModelId", model_id)
-    eq = Node("Eq").set("enabled", True).set("pre", False)
-    eq.children = [Node("Band").set("type", t).set("freqHz", f).set("gainDb", 0.0).set("q", q)
-                   for t, f, q in EQ_BANDS]
+    gains = eq_gains or [0.0] * len(EQ_BANDS)
+    eq = Node("Eq").set("enabled", True).set("pre", eq_pre)
+    eq.children = [Node("Band").set("type", t).set("freqHz", f).set("gainDb", float(g)).set("q", q)
+                   for (t, f, q), g in zip(EQ_BANDS, gains)]
     cache = Node("ModelCache", children=[Node("CachedModel").set("modelId", model_id)
-                                         .set("data", model_file(model))])
+                                         .set("data", data if data is not None else model_file(model))])
     node.children = [eq, cache]
     return node
+
+
+# --- IR audio helpers (IRs are embedded as WAV bytes) ------------------------------
+
+def wav_read(raw):
+    """-> (channels: list[list[float]], rate). PCM 16/24/32-bit or float32."""
+    pos, fmt = 12, None
+    while pos < len(raw):
+        cid, size = raw[pos:pos + 4], struct.unpack_from("<I", raw, pos + 4)[0]
+        body = raw[pos + 8:pos + 8 + size]
+        if cid == b"fmt ":
+            fmt = struct.unpack_from("<HHIIHH", body)
+        elif cid == b"data":
+            break
+        pos += 8 + size + (size & 1)
+    tag, nch, rate, _, _, bits = fmt
+    width = bits // 8
+    frames = len(body) // (width * nch)
+    if tag == 3:
+        vals = struct.unpack(f"<{frames * nch}f", body[:frames * nch * 4])
+    elif width == 2:
+        vals = [v / 32768 for v in struct.unpack(f"<{frames * nch}h", body[:frames * nch * 2])]
+    elif width == 3:
+        vals = [int.from_bytes(body[i:i + 3], "little", signed=True) / 8388608
+                for i in range(0, frames * nch * 3, 3)]
+    else:
+        vals = [v / 2147483648 for v in struct.unpack(f"<{frames * nch}i", body[:frames * nch * 4])]
+    return [list(vals[c::nch]) for c in range(nch)], rate
+
+
+def wav_write(samples, rate=48000):
+    """Mono 24-bit PCM WAV."""
+    pcm = b"".join(max(-8388608, min(8388607, int(round(v * 8388607)))).to_bytes(3, "little", signed=True)
+                   for v in samples)
+    fmt = struct.pack("<HHIIHH", 1, 1, rate, rate * 3, 3, 24)
+    return (b"RIFF" + struct.pack("<I", 4 + 8 + len(fmt) + 8 + len(pcm)) + b"WAVE"
+            + b"fmt " + struct.pack("<I", len(fmt)) + fmt + b"data" + struct.pack("<I", len(pcm)) + pcm)
+
+
+def trimmed_ir(raw, seconds, channel=0):
+    """First channel, cut to `seconds` with a 10% cosine fade-out (keeps presets small)."""
+    chans, rate = wav_read(raw)
+    x = chans[channel][:int(seconds * rate)]
+    fade = max(1, len(x) // 10)
+    for i in range(fade):
+        x[len(x) - fade + i] *= 0.5 * (1 + math.cos(math.pi * i / fade))
+    return wav_write(x, rate)
+
+
+def dm2_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=48000):
+    """Wet-only IR of a Boss DM-2 style analog (BBD) delay: each repeat passes the
+    bucket-brigade's low-pass again, so the echoes darken as they decay."""
+    d = int(rate * delay_ms / 1000)
+    h = [0.0] * (d * (repeats + 1) + rate // 10)
+    a = math.exp(-2 * math.pi * cutoff_hz / rate)
+    pulse = [1.0] + [0.0] * (rate // 20)
+    for k in range(1, repeats + 1):
+        y, prev = [], 0.0
+        for v in pulse:  # two one-pole low-passes per trip through the BBD
+            prev = (1 - a) * v + a * prev
+            y.append(prev)
+        pulse, prev = [], 0.0
+        for v in y:
+            prev = (1 - a) * v + a * prev
+            pulse.append(prev * (feedback if k > 1 else 1.0))
+        for i, v in enumerate(pulse):
+            h[k * d + i] += v
+    peak = max(abs(v) for v in h)
+    return wav_write([v / peak * 0.9 for v in h], rate)
+
+
+SYNTH_TONE_ID = 900000001  # local-only tone ids for generated IRs (never hit the API)
+
+
+def synth_tone(model_id, title, description, gear="pedal"):
+    return {
+        "id": SYNTH_TONE_ID + model_id % 1000, "title": title, "description": description,
+        "gear": gear, "format": "ir", "images": [], "is_public": False, "links": [],
+        "license": "t3k", "user": {"username": "fcb1010-rig"}, "makes": [], "tags": [],
+        "models": [{"id": model_id, "name": title, "model_url": "", "architecture_version": None}],
+    }
 
 
 def default_params():
@@ -358,25 +446,69 @@ def preset_id(name):
     return uuid.uuid5(uuid.NAMESPACE_URL, f"fcb1010-rig/{name}").hex
 
 
-def build_preset(name, drive, drive_on, amp, cab, gate_on):
+def standard_chain(drive, drive_on, amp, cab):
     boost_tone, boost_model = BOOST
-    left = [
+    return [
         block("nam", False, tone_record(boost_tone), boost_model),
         block("nam", drive_on, tone_record(drive[0]), drive[1]),
         block("nam", True, tone_record(amp[0]), amp[1]),
         block("ir", True, tone_record(cab[0]), cab[1]) if cab else block("insert"),
         block("insert"),
     ]
+
+
+def purple_rain_chain():
+    """Prince, Purple Rain (First Avenue, 3 Aug 1983; overdubs/mix at Sunset Sound):
+    Hohner MadCat (single coils) -> Boss DM-2 / DS-1 -> Mesa/Boogie Mark II -> Bag End
+    cabs with JBLs, CE-2 chorus, big studio plate. Block 1 stays on CC 22 (FCB 'DLY'),
+    block 2 on CC 23 (FCB 'DIST'); the chorus is Spread on CC 21."""
+    return [
+        # 1: DM-2 echo, in front of the amp like Prince's pedalboard (off; SW8)
+        block("ir", False, synth_tone(1, "Boss DM-2 style analog echo (generated)",
+                                      "300 ms BBD-style echo, darkening repeats, wet only"),
+              1, mix=0.35, data=dm2_echo()),
+        # 2: Boss DS-1 for the solo (off; SW9)
+        block("nam", False, tone_record(2508), 419257),                  # T04 D08
+        # 3: Mesa Boogie Mark IIC+ (1984 factory, DI) at the edge of breakup,
+        #    with humbucker->single-coil voicing in front for the MadCat
+        block("nam", True, tone_record(87223), 738700, eq_gains=HB_TO_SINGLE_COIL, eq_pre=True),
+        # 4: JBL E120 12" (Boogie/Bag End JBL loading), SM57 cap edge
+        block("ir", True, tone_record(5719), 59206),
+        # 5: EMT 140 plate at Sunset Sound, wet only, trimmed to 5 s mono
+        block("ir", True, tone_record(84558), 719211, mix=0.3,
+              data=trimmed_ir(model_file(next(m for m in tone_record(84558)["models"]
+                                              if m["id"] == 719211)), 5.0)),
+    ]
+
+
+# Songs that need more than the standard boost/drive/stack chain.
+# name -> (chain builder, extra param values)
+CUSTOM = {
+    "Purple Rain": (purple_rain_chain, {"spreadEnabled": 1.0, "spreadWobble": 0.5,
+                                        "spreadWobbleEnabled": 1.0}),
+}
+
+# Applied to every preset.
+GLOBAL_PARAMS = {
+    "outputLevel": 1.0,        # max: +24 dB (normalized, 0.5 = 0 dB)
+    "gateEnabled": 1.0,
+    "gateThreshold": -35.0,    # dB
+}
+
+
+def build_preset(name, drive, drive_on, amp, cab, gate_on):
+    chain_fn, extra = CUSTOM.get(name, (None, {}))
+    left = chain_fn() if chain_fn else standard_chain(drive, drive_on, amp, cab)
+    left += [block("insert") for _ in range(max(0, 5 - len(left)))]
     right = [block("insert") for _ in range(5)]
     snap = Node("ChainSnapshot").set("stereoEnabled", False).set("branchSide", "left")
     snap.set("branchAfterBlockId", "")
     snap.children = [Node("ChainBlocks", children=left), Node("RightChainBlocks", children=right)]
     params = default_params()
+    values = {"gateEnabled": 1.0 if gate_on else 0.0, **GLOBAL_PARAMS, **extra}
     for p in params.children:
-        if p.get("id") == "gateEnabled":
-            p.set("value", 1.0 if gate_on else 0.0)
-        if p.get("id") == "gateThreshold" and gate_on:
-            p.set("value", -60.0)
+        if p.get("id") in values:
+            p.set("value", float(values[p.get("id")]))
     root = Node("T3KPreset").set("schemaVersion", 1).set("name", name)
     root.children = [snap, params]
     return root
