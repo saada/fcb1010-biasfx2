@@ -70,7 +70,8 @@ widening / chorus-like movement. For dual rigs: `chainPanLeft` 0 /
 (inter-rig chorus). `toneBass`/`toneMid`/`toneTreble` (0–10, 5 = flat).
 Output level and gate (+24 dB, on at −35 dB) are global and always win.
 
-IRs that aren't 48 kHz load as *silence* in TONE3000; the builder resamples them
+IRs that aren't 48 kHz, or whose data chunk has an odd byte length, load as *silence*
+in TONE3000; the builder re-encodes them
 automatically (mono, first channel), so any catalog IR is usable.
 
 TONE3000 can't do time-varying effects (chorus/flanger/phaser/wah/pitch):

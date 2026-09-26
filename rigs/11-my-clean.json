@@ -1,10 +1,14 @@
 {
   "pc": 11,
   "name": "My Clean",
-  "reference": "",
-  "rig": "Klon -> '65 Deluxe Reverb reissue, clean full rig",
-  "sources": [],
-  "notes": "",
+  "reference": "All-purpose studio clean in the John Mayer Continuum (2006) mould: 'Gravity' / 'Slow Dancing in a Burning Room' / 'In Repair' clean tones",
+  "rig": "Strat (Big Dippers) -> Klon Centaur / Ibanez TS10 (lead only) -> Two-Rock John Mayer Signature prototype #83 (with Dumble Steel String Singer #002 and '64 Vibroverb blended on the record) -> 2x12 -> studio LA-2A leveling + Lexicon/plate reverb",
+  "sources": [
+    "https://www.guitarworld.com/features/john-mayers-guitar-gear-era-by-era",
+    "https://neuraldsp.com/news/introducing-archetype-john-mayer-x",
+    "https://equipboard.com/pros/john-mayer"
+  ],
+  "notes": "Amp is a full-rig capture of Mayer's actual Two-Rock JM Signature prototype (#83) through the Dumble SSS cab, clean (no boost/TS baked in). The record blended Two-Rock + Dumble SSS + '64 Vibroverb; only one amp is used here (mono, widened by Spread). Humbucker -> single-coil pre-EQ on the amp block (light version of the README curve) because the user plays a JP-style humbucker guitar and the reference is Strat-based; set eq to 0s for a fatter humbucker clean. Compression is a post-amp LA-2A 'Leveling - Light' NAM capture in slot 4 (cab slot is free since slot 3 is a full rig); NAM captures only approximate the program-dependent opto release. No real chorus in TONE3000: gentle Spread wobble stands in for movement. Reverb is a Lexicon 480L Large Plate at low mix, trimmed to 4 s. Boost = Klon (Mayer's Continuum boost), drive = Tube Screamer (his TS10 lead sound), both off; echo is a short, soft solo slapback-ish delay, off.",
   "left": [
     {
       "role": "boost",
@@ -12,37 +16,65 @@
       "tone_id": 2599,
       "model_id": 419209,
       "enabled": false,
-      "label": "Klon Centaur (silver), low gain"
+      "label": "Klon Centaur (silver), low gain clean boost"
     },
     {
       "role": "drive",
       "type": "nam",
       "tone_id": 87219,
-      "model_id": 738638,
+      "model_id": 738629,
       "enabled": false,
-      "label": ""
+      "label": "Ibanez Tube Screamer, gain 4 (stand-in for Mayer's TS10)"
     },
     {
       "role": "amp",
       "type": "nam",
-      "tone_id": 51649,
-      "model_id": 383468,
+      "tone_id": 65968,
+      "model_id": 722737,
       "enabled": true,
-      "label": ""
+      "eq": [
+        -2,
+        -1.5,
+        0,
+        1,
+        2,
+        1.5
+      ],
+      "eq_pre": true,
+      "label": "Two-Rock John Mayer Signature prototype #83 clean + Dumble SSS #002 cab (full rig); pre-EQ HB->SC light"
     },
     {
-      "role": "cab",
-      "type": "insert"
+      "role": "insert",
+      "type": "nam",
+      "tone_id": 62320,
+      "model_id": 413802,
+      "enabled": true,
+      "label": "Teletronix LA-2A, Leveling - Light (post-amp studio compression)"
     },
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 380,
-      "feedback": 0.5,
-      "cutoff_hz": 3500.0,
-      "mix": 0.3,
-      "enabled": false
+      "delay_ms": 360,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Analog echo 360 ms, soft solo delay"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 4.0,
+      "label": "Lexicon 480L Large Plate"
     }
   ],
-  "params": {}
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.3
+  }
 }

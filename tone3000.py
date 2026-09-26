@@ -31,6 +31,7 @@ import base64
 import html
 import json
 import math
+import os
 import re
 import struct
 import subprocess
@@ -62,7 +63,7 @@ AUDIO = {
     "audioInputDeviceName": "Scarlett 2i2 3rd Gen Input 2 Mic/Inst/Line",  # guitar jack
     "audioOutputDeviceName": "Scarlett 2i2 3rd Gen Headphones / Line 1-2",
     "audioDeviceRate": "48000.0",
-    "audioDeviceBufferSize": "128",
+    "audioDeviceBufferSize": "256",  # 128 xruns with the heavier stereo rigs (2026-09-26)
     "audioDeviceInChans": "1",
 }
 MIDI_PORT = "USB Midi MIDI 1"  # the FCB1010's USB-MIDI interface (ALSA sequencer port)
@@ -70,9 +71,9 @@ INPUT_MODE = "left"  # mono: the single guitar channel
 # Scarlett 2i2 3rd Gen instrument input clips at +12.5 dBu with the gain knob
 # fully down; NAM uses this to hit each capture at its original level.
 CALIBRATION_DBU = 12.5
-# 2x oversampling tames aliasing on high-gain captures; measured ~11% DSP load
-# at 128 samples without it on an i7-1365U, so there's ample headroom.
-OVERSAMPLING = True
+# Oversampling off: at 256 samples 2x still produced xruns on the stereo rigs
+# (experiments/README.md); at 48 kHz A2 captures lose little without it.
+OVERSAMPLING = False
 OVERSAMPLING_FACTOR = 0.0  # choice index: 0 = 2x, 1 = 4x
 
 # Block slots are positional (TONE3000 maps CCs to "Block N"), so every preset
@@ -256,6 +257,9 @@ def tone_record(tone_id):
                   "created_at,updated_at,name,model_url,size,architecture_version")
     meta = search_meta(tone)
     for m in models:  # the plugin's own URL form; the file itself is public storage
+        if not m.get("model_url"):  # some models have no file (never uploaded/processed)
+            m["storage_name"] = None
+            continue
         m["storage_name"] = m["model_url"].rsplit("/", 1)[-1]
         m["model_url"] = f"https://www.tone3000.com/api/v1/models/{m['id']}/download/{m['storage_name']}"
     username = meta.get("username", "")
@@ -293,6 +297,8 @@ def atomic_write(path, data):
 
 
 def model_file(model):
+    if not model.get("model_url"):
+        raise ValueError(f"model {model['id']} ({model.get('name')}) has no downloadable file")
     name = model.get("storage_name") or model["model_url"].rsplit("/", 1)[-1]
     path = CACHE / name
     if not path.exists():
@@ -363,7 +369,9 @@ def wav_read(raw):
 
 
 def wav_write(samples, rate=48000):
-    """Mono 24-bit PCM WAV."""
+    """Mono 24-bit PCM WAV. Always an even number of frames: TONE3000 loads a WAV
+    whose data chunk has an odd byte length as silence."""
+    samples = list(samples) + ([0.0] if len(samples) % 2 else [])
     pcm = b"".join(max(-8388608, min(8388607, int(round(v * 8388607)))).to_bytes(3, "little", signed=True)
                    for v in samples)
     fmt = struct.pack("<HHIIHH", 1, 1, rate, rate * 3, 3, 24)
@@ -373,6 +381,12 @@ def wav_write(samples, rate=48000):
 
 def wav_rate(raw):
     return struct.unpack_from("<I", raw, raw.index(b"fmt ") + 12)[0]
+
+
+def wav_loads_in_tone3000(raw):
+    """TONE3000 silently fails on non-48 kHz IRs and on odd-length data chunks."""
+    size = struct.unpack_from("<I", raw, raw.index(b"data") + 4)[0]
+    return wav_rate(raw) == 48000 and size % 2 == 0
 
 
 def resample(x, src, dst=48000):
@@ -420,7 +434,8 @@ def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=
         for i, v in enumerate(pulse):
             h[k * d + i] += v
     peak = max(abs(v) for v in h)
-    return wav_write([v / peak * 0.9 for v in h], rate)
+    end = max(i for i, v in enumerate(h) if abs(v) > peak * 1e-3) + rate // 50  # -60 dB tail
+    return wav_write([v / peak * 0.9 for v in h[:end]], rate)  # shorter IR = cheaper convolution
 
 
 SYNTH_TONE_ID = 900000001  # local-only tone ids for generated IRs (never hit the API)
@@ -461,6 +476,8 @@ def model_of(tone_id, model_id):
 def build_block(spec):
     """One chain block from a rigs/*.json block spec."""
     kind = spec["type"]
+    if os.environ.get("T3K_NO_LONG_IR") and (kind == "echo" or spec.get("role") == "ambience"):
+        return block("insert")  # diagnostic: drop long IRs
     on = spec.get("enabled", True)
     mix = float(spec.get("mix", 1.0))
     if kind == "insert":
@@ -477,7 +494,7 @@ def build_block(spec):
     data = None
     if kind == "ir":
         raw = model_file(model_of(spec["tone_id"], mid))
-        if spec.get("trim_seconds") or wav_rate(raw) != 48000:  # non-48k IRs load silent
+        if spec.get("trim_seconds") or not wav_loads_in_tone3000(raw):
             data = trimmed_ir(raw, float(spec.get("trim_seconds") or 60.0))
     return block(kind, on, tone, mid, mix=mix, eq_gains=spec.get("eq"),
                  eq_pre=spec.get("eq_pre", False), data=data)
@@ -504,9 +521,11 @@ def validate(rig):
 
 # Applied to every preset.
 GLOBAL_PARAMS = {
-    "outputLevel": 1.0,        # max: +24 dB (normalized, 0.5 = 0 dB)
+    # 0 dB. TONE3000 already normalizes captures (~-18 dB loudness); +24 dB here
+    # (tried 2026-09-26) hard-clips the interface. EXP B (CC 7) sweeps it live.
+    "outputLevel": 0.5,
     "gateEnabled": 1.0,
-    "gateThreshold": -35.0,    # dB
+    "gateThreshold": -60.0,    # dB; -35 dB chopped note decays and quiet playing
 }
 
 

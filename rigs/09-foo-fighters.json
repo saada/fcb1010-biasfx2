@@ -1,34 +1,40 @@
 {
   "pc": 9,
   "name": "Foo Fighters",
-  "reference": "",
-  "rig": "ProCo Rat -> Mesa Dual Rectifier rev G, orange crunch",
-  "sources": [],
-  "notes": "",
+  "reference": "Everlong / Monkey Wrench / My Hero — The Colour and the Shape (1997, prod. Gil Norton, Grandmaster Recorders)",
+  "rig": "Dave Grohl: Gibson Trini Lopez / Les Paul (humbuckers, drop D) -> (Tube Screamer / ProCo Rat for extra push) -> Mesa/Boogie Dual Rectifier (heavy parts, Mesa 4x12) layered with Vox AC30 Top Boost; guitars stacked/double-tracked by Gil Norton, fairly dry studio ambience",
+  "sources": [
+    "https://www.groundguitar.com/dave-grohl-gear/dave-grohls-mesa-boogie-dual-rectifier/",
+    "https://www.groundguitar.com/dave-grohl-gear/",
+    "https://en.wikipedia.org/wiki/Everlong",
+    "https://en.wikipedia.org/wiki/The_Colour_and_the_Shape",
+    "https://www.loudersound.com/features/the-making-of-the-colour-and-the-shape"
+  ],
+  "notes": "Dual-rig stereo: L = early-'90s Dual Rectifier (rev G, era-correct two-channel) Red channel Vintage mode through a real Mesa 4x12 (SM57); R = Vox AC30 Top Boost full gain on Greenbacks (SM57), approximating the Rectifier+AC30 layering and Norton's double-tracked walls. Grohl (Guitar One, 1999) confirms the Dual/Triple Rectifier sound dominated TCATS; AC30 is documented for clean parts and the ~1997-2000 live rig, so using it as the dirty R double is an informed guess. Pedals on the record are undocumented: TS9 (boost, SW8) and a 1996 LM308 Rat 2 (drive, SW9) are off by default and feed both rigs. Norton's mixes are dry, so only a light PCM90 ambience; echo is a generic lead delay (little delay on the album). Small align wobble stands in for the slight movement between double-tracked takes.",
   "left": [
     {
       "role": "boost",
       "type": "nam",
-      "tone_id": 2599,
-      "model_id": 419209,
+      "tone_id": 36827,
+      "model_id": 381609,
       "enabled": false,
-      "label": "Klon Centaur (silver), low gain"
+      "label": "Ibanez TS9 Tube Screamer, Drive 0 Tone 7 Level 7 (clean boost)"
     },
     {
       "role": "drive",
       "type": "nam",
-      "tone_id": 87219,
-      "model_id": 738627,
+      "tone_id": 78883,
+      "model_id": 684962,
       "enabled": false,
-      "label": ""
+      "label": "ProCo Rat 2 (1996 USA, LM308), crunch: Dist 2.8 Filter 4"
     },
     {
       "role": "amp",
       "type": "nam",
       "tone_id": 79103,
-      "model_id": 682769,
+      "model_id": 682807,
       "enabled": true,
-      "label": ""
+      "label": "Mesa Dual Rectifier rev G, Red ch Vintage/Bold/diode (Molten Red) -> Mesa 4x12 OS, SM57"
     },
     {
       "role": "cab",
@@ -37,12 +43,64 @@
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 350,
-      "feedback": 0.5,
-      "cutoff_hz": 3500.0,
-      "mix": 0.3,
-      "enabled": false
+      "delay_ms": 380,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Analog lead delay 380 ms, light"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 746049,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 2.0,
+      "label": "Lexicon PCM90 'gen ambi' studio ambience, low mix"
     }
   ],
-  "params": {}
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 2696,
+      "model_id": 413052,
+      "enabled": true,
+      "label": "Vox AC30 Top Boost, Hi input full gain, Tone Cut 5, Master 4 -> 2x12 Greenback, SM57"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Analog lead delay 380 ms, light"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 746049,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 2.0,
+      "label": "Lexicon PCM90 'gen ambi' studio ambience, low mix"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.15
+  }
 }

@@ -1,0 +1,15 @@
+experiment,ir,source_format,embedded_rate_hz,embedded_data_bytes,data_bytes_parity,tone3000_reported_length_s,loaded,note
+E1 sample rate,Lexicon 480L LargePlate (as downloaded),PCM16 stereo 44.1 kHz,44100,,,0.00,no,first dual-rig Maiden build
+E1 sample rate,Lexicon 480L LargePlate (resampled),PCM16 stereo 44.1 kHz,48000,494604,even,3.13,yes,after linear resample to 48 kHz
+E1 sample rate,Sunset Sound EMT 140 plate (trimmed),PCM24 4ch 48 kHz,48000,720000,even,4.17,yes,
+E2 odd data chunk,PCM90 INSTR Rich Plate (Dream Theater L6),PCM16 stereo 44.1 kHz,48000,272889,odd,0.00,no,
+E2 odd data chunk,PCM90 INSTR Rich Plate (Dream Theater R4),PCM16 stereo 44.1 kHz,48000,272889,odd,0.00,no,
+E2 odd data chunk,Mesa Oversized V30 SM57 (Djent R2),PCM24 mono 48 kHz,48000,2271,odd,0.00,no,catalog file as-is (not re-encoded)
+E2 odd data chunk,480L Large Wood Room (Oasis L6),PCM16 stereo 44.1 kHz,48000,272535,odd,0.00,no,
+E2 odd data chunk,480L Large Wood Room (Oasis R4),PCM16 stereo 44.1 kHz,48000,272535,odd,0.00,no,
+E2 odd data chunk,Nevermind 4x12 DIST 1 (Nirvana L4),PCM32 mono 44.1 kHz,48000,61803,odd,0.00,no,
+E2 odd data chunk,Nevermind 4x12 DIST 4 (Nirvana R2),PCM32 mono 44.1 kHz,48000,61803,odd,0.00,no,
+E2 odd data chunk,PCM91 Large Hall (Petrucci Clean L6),PCM24 stereo 44.1 kHz,48000,497787,odd,0.00,no,
+E2 odd data chunk,PCM91 Large Hall (Petrucci Clean R4),PCM24 stereo 44.1 kHz,48000,497787,odd,0.00,no,
+E2 odd data chunk,all 44 other IR instances across 15 presets,mixed,48000,,even,>0,yes,every even-sized chunk loaded
+E2 fix,all 53 IR instances after padding to even frame count,mixed,48000,,even,>0,yes,15/15 presets: 0 silent IRs

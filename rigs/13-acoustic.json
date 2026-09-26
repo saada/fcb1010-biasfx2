@@ -1,26 +1,32 @@
 {
   "pc": 13,
   "name": "Acoustic",
-  "reference": "",
-  "rig": "Diamond compressor -> Boss AC-3 acoustic simulator",
-  "sources": [],
-  "notes": "",
+  "reference": "Rock acoustic parts played on an electric: unplugged-style dreadnought strumming (e.g. Purple Rain acoustic version intro, MTV Unplugged-era Martin strumming)",
+  "rig": "Music Man JP (DiMarzio humbuckers) -> Diamond optical compressor -> Boss AC-3 acoustic simulator (Standard) -> Martin dreadnought piezo-to-mic body IR (3 Sigma-style) -> studio room (Lexicon PCM91 Medium Room)",
+  "sources": [
+    "https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/",
+    "https://forum.fractalaudio.com/threads/acoustic-body-simulation-solid-body-with-piezo.24307/",
+    "https://line6.com/support/topic/22817-sigma-3-irs-for-acoustic-guitar-are-going-to-change-your-life/",
+    "https://forum.mod.audio/t/electric-guitar-into-acoustic-guitar-ir/8142",
+    "https://www.tone3000.com"
+  ],
+  "notes": "Two-stage emulation: the AC-3 turns the magnetic pickup into a piezo-like acoustic signal, then an acoustic body IR (built for piezo -> mic'd body conversion; names match the 3 Sigma pack) adds the wooden body/mic sound. Pre-EQ on the AC-3 thins the humbucker toward a piezo/single-coil voicing (less 100-250 Hz mud, more 3.5-8 kHz string detail); body IR gets a slight low cut to tame dreadnought boom. Alternatives on TONE3000 if this sounds too piezo-y: renpaes 'Acoustic Sim SuperStrato Humbucker Bridge' (35886/390379, tone-matched for humbucker, use without the body IR), AC-3 Jumbo (588099) for bigger strums, Gibson J45 body IR (174632) for a warmer midrange. No capture can add real bronze-string/top resonance or string zing; best on the neck humbucker (or split coil), picked lightly, with a slightly heavier pick attack. Boost = MXR Micro Amp low gain (clean level lift for picked melodies). Echo off.",
   "left": [
     {
       "role": "boost",
       "type": "nam",
-      "tone_id": 2599,
-      "model_id": 419209,
+      "tone_id": 5122,
+      "model_id": 433832,
       "enabled": false,
-      "label": "Klon Centaur (silver), low gain"
+      "label": "MXR Micro Amp, low gain (clean level boost)"
     },
     {
       "role": "drive",
       "type": "nam",
       "tone_id": 88975,
-      "model_id": 750114,
+      "model_id": 749582,
       "enabled": true,
-      "label": ""
+      "label": "Diamond Compressor (through-hole), Comp 5 / EQ 6.5 / Vol 5"
     },
     {
       "role": "amp",
@@ -28,21 +34,55 @@
       "tone_id": 71126,
       "model_id": 588442,
       "enabled": true,
-      "label": ""
+      "label": "Boss AC-3 Acoustic Simulator, Standard mode, Level/Body/Top noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true
     },
     {
       "role": "cab",
-      "type": "insert"
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174633,
+      "enabled": true,
+      "label": "Acoustic body IR: Martin dreadnought (piezo -> mic)",
+      "eq": [
+        -1.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ]
     },
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 300,
-      "feedback": 0.5,
+      "delay_ms": 350,
+      "feedback": 0.3,
       "cutoff_hz": 3500.0,
-      "mix": 0.3,
-      "enabled": false
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Soft analog echo, 350 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88473,
+      "model_id": 745912,
+      "enabled": true,
+      "mix": 0.25,
+      "trim_seconds": 2.5,
+      "label": "Lexicon PCM91 Medium Room (studio room)"
     }
   ],
-  "params": {}
+  "params": {
+    "spreadEnabled": 1.0
+  }
 }

@@ -2,15 +2,17 @@
   "pc": 1,
   "name": "Purple Rain",
   "reference": "Purple Rain (1984) \u2014 title track, recorded live at First Avenue 3 Aug 1983, overdubs/mix at Sunset Sound",
-  "rig": "Hohner MadCat (single coils) -> Boss SD-1 / DS-1 / DM-2, CE-2 chorus -> Mesa/Boogie Mark II -> Bag End cabs with JBL 12s; EMT plate",
+  "rig": "Hohner MadCat (single coils) -> Boss SD-1 (low-gain boost) / DS-1 (solo) / DM-2, CE-2 chorus -> Mesa/Boogie Mark IIB set crystal-clean (1981 heads; converted to IIC+ spec only for the 1984 tour) -> Bag End sealed cabs with JBL D120F 12s; Sunset Sound EMT plate at mix",
   "sources": [
     "https://guitar.com/features/artist-rigs/the-guitars-used-by-prince-on-purple-rain/",
     "https://www.guitarcloud.org/era/purple-rain/",
     "https://mixdownmag.com.au/features/rig-rundown-princes-purple-rain/",
     "https://tonesmatch.com/tones/purple-rain-prince-the-revolution-solo-distorted-4287",
-    "https://www.tonemirror.so/tones/prince-purple-rain"
+    "https://www.tonemirror.so/tones/prince-purple-rain",
+    "https://www.guitarplayer.com/gear/how-princes-purple-rain-mesaboogie-mark-iic-turned-up-in-a-minneapolis-music-store",
+    "https://www.guitarcloud.org/equipment/mesaboogie-mark-ii/"
   ],
-  "notes": "No Mark IIB capture exists; 1984 Mark IIC+ (its successor) stands in. CE-2 is time-varying so Spread approximates it. DM-2 echo is generated (no DM-2 IR exists). Humbucker->single-coil pre-EQ on the amp assumes a humbucker guitar (JP70).",
+  "notes": "Aug 1983 First Avenue take used Prince's Mark IIB heads run clean (IIC+ conversion came at the 1984 tour rehearsals). No Mark IIB capture exists: a real 1984 IIC+ (Silver Zephyr) clean model stands in -- the Mark II clean/rhythm channel is near-identical across A/B/C+; the only true pre-C+ capture (24644, 1979 Mark IIA) is a crunch-only DI, too dirty for the clean intro. Amp switched from 'Airy Edge' to 'Airy Clean' to match the documented crystal-clean setting; dirt comes from the DS-1 (SW9) for the solo, as Prince did. Cab: Bag End sealed 4x12 with JBL D120F; no raw D120F IR in the catalog (the Twin D120 IRs are pre-EQ'd), so a JBL E120 (same-family cone, open-back 1x12) SM57 cap-edge IR is used -- expect slightly less low-end thump than a sealed 4x12. CE-2 is time-varying, so Spread wobble approximates it. DM-2 echo is generated (no DM-2 IR exists). Plate IR is a DAW emulation of the Sunset Sound EMT 140, not a sample of the real plate. DS-1 settings for the solo are undocumented; T4/D8 gives a warm, sustaining lead into a clean amp. Humbucker->single-coil pre-EQ on the amp assumes a humbucker guitar (JP70).",
   "left": [
     {
       "role": "boost",
@@ -18,7 +20,7 @@
       "tone_id": 87914,
       "model_id": 742716,
       "enabled": false,
-      "label": "Boss SD-1, level 6 / drive 0"
+      "label": "Boss SD-1, level 6 / drive 0 (low-gain boost)"
     },
     {
       "role": "drive",
@@ -26,15 +28,15 @@
       "tone_id": 2508,
       "model_id": 419257,
       "enabled": false,
-      "label": "Boss DS-1 T04 D08"
+      "label": "Boss DS-1, tone 4 / dist 8 (solo)"
     },
     {
       "role": "amp",
       "type": "nam",
       "tone_id": 87223,
-      "model_id": 738700,
+      "model_id": 738697,
       "enabled": true,
-      "label": "1984 Mesa Mark IIC+ Silver Zephyr, Dynamic Airy Edge (DI)",
+      "label": "1984 Mesa Mark IIC+ Silver Zephyr, Dynamic Airy Clean (DI) -- stands in for clean Mark IIB",
       "eq": [
         -3.0,
         -2.5,
@@ -51,7 +53,7 @@
       "tone_id": 5719,
       "model_id": 59206,
       "enabled": true,
-      "label": "JBL E120 12\", SM57 cap edge"
+      "label": "JBL E120 12\" (for Bag End JBL D120F), SM57 cap edge"
     },
     {
       "role": "echo",
