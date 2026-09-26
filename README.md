@@ -101,6 +101,35 @@ presets — from Gilmour to djent — as a worked example.
 Quit the app and back up `~/Documents/PositiveGrid/BIAS_FX2/` before the
 first `wire`.
 
+## TONE3000 side (Linux)
+
+`tone3000.py` builds the same rig for the native TONE3000 plugin (NAM
+captures + IRs), using full-stack captures of each player's actual record/live
+rig from the public TONE3000 catalog:
+
+```
+uv run tone3000.py map        # preview presets and MIDI map
+uv run tone3000.py configure  # standalone: JACK 48k/128, guitar input, FCB MIDI in,
+                              # mono input, NAM input calibration, 2x oversampling
+uv run tone3000.py build      # download captures, write 15 presets + MIDI map
+```
+
+Quit TONE3000 first — the standalone rewrites its settings on exit.
+
+What's reverse-engineered:
+
+| File | Role |
+|---|---|
+| `~/.config/TONE3000/Presets/<id>.t3kpreset` | preset: `T3KB` + JUCE ValueTree binary; each block embeds its tone JSON and the raw `.nam`/`.wav` |
+| `~/.config/TONE3000/Presets/order.json` | JSON array of `user:<id>` / `factory:<id>`; Program Change N = Nth entry |
+| `~/.config/TONE3000/TONE3000.settings` | JUCE standalone settings; `filterState` (JUCE base64) holds plugin state incl. `MidiMappings`, `audioSetup` holds device + enabled MIDI inputs |
+
+TONE3000 has no wah/modulation/delay and maps CCs globally by block
+*position*, so every preset shares one layout: block 1 lead boost (CC 22),
+block 2 song drive (CC 23), block 3 full stack; CC 20 noise gate, CC 21 stereo
+spread, CC 27 treble sweep, CC 7 output level. Toggles flip on any value ≥ 64,
+so the stock FCB1010's constant 127 works. The tuner isn't MIDI-mappable.
+
 ## License
 
 MIT. Vendored `lib/fcb1010.py` is MIT © Brian Walton (riban.co.uk).
