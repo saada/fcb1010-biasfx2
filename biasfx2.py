@@ -32,29 +32,39 @@ PRESETS = ROOT / "GlobalPresets"
 USER_BANK = "39C71559-73FE-4A88-B802-EF3C15C29F3B"
 FCB_BANK_NAME = "FCB1010"
 
-# (pc, source_bank, source_preset_uuid, rig_name)
+# Source kinds, so the rig rebuilds on a fresh install (macOS or Wine):
+#   (FACTORY bank uuid, preset uuid)  — factory UUIDs are identical everywhere
+#   (bank name, preset name)          — e.g. a cloud bank, whose preset UUIDs
+#                                       change every time the app syncs it
+#   (TONECLOUD, ToneCloud preset id)  — downloaded from the public ToneCloud API
+TONECLOUD = "tonecloud"
+TONECLOUD_API = "https://api.positivegrid.com/v2/preset/"
+POP = "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"
+CLOUD = "guitar cloud"
+
+# (pc, source_bank, source_preset, rig_name)
 TARGETS = [
-    (0, "6683CD2A-39D9-EEC0-6510-369203A24FFE", "F49C8741-6750-4D39-9794-75CB06A72514", "Comfortably Numb"),
-    (1, USER_BANK, "A79F2059-28E8-4341-92F5-D5DDE6E6C41A", "Purple Rain"),
-    (2, USER_BANK, "CF1F2AE2-F43E-4F84-8F5F-7D6CF8B3BE58", "Tornado of Souls"),
-    (3, "6683CD2A-39D9-EEC0-6510-369203A24FFE", "99D09016-C6D1-4DD7-9C1C-C9342ED13C55", "Dream Theater"),
-    (4, "6683CD2A-39D9-EEC0-6510-369203A24FFE", "5331D47F-045E-463B-BC98-9EF15060292A", "Slipknot"),
-    (5, USER_BANK, "04F24260-4B40-4403-968E-1C762BDBCA9E", "Djent"),
-    (6, "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", "07F87767-D1B0-4C79-AD9B-096BD704B432", "Radiohead"),
-    (7, "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", "073EF34E-4526-4D44-9B02-2B3CDBFD8576", "Oasis"),
-    (8, "6683CD2A-39D9-EEC0-6510-369203A24FFE", "F569A1A3-18C8-45BD-BFE6-A93A20927B9E", "Nirvana"),
-    (9, "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", "06977430-37AA-41D2-BD69-B593AD81EB3B", "Foo Fighters"),
-    (10, "6683CD2A-39D9-EEC0-6510-369203A24FFE", "0C1821C3-09B0-487B-9FE8-1515FFD335CA", "Iron Maiden"),
-    (11, "6683CD2A-39D9-EEC0-6510-369203A24FFE", "D908D125-9F88-4AC0-85E1-8F741A549B1F", "My Clean"),
-    (12, "6683CD2A-39D9-EEC0-6510-369203A24FFE", "34E7236D-D805-4CCA-B2C1-217BF838D1AD", "Petrucci Clean"),
-    (13, USER_BANK, "8ADA8499-DA29-4F6B-AC35-84492BC9239A", "Acoustic"),
-    (14, "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", "40349BE9-A568-4DEA-ACB4-B84E000B90E6", "Glassy Clean"),
+    (0, TONECLOUD, "5c8603aa74fd4d35ba777634", "Comfortably Numb"),  # "Comfortably Numb"
+    (1, CLOUD, "Purple Rain", "Purple Rain"),
+    (2, CLOUD, "Marty Megadeth", "Tornado of Souls"),
+    (3, TONECLOUD, "5f12a36682abb50016d43314", "Dream Theater"),  # "John Petrucci Lead Tone"
+    (4, TONECLOUD, "5c86042774fd4d35ba779fa7", "Slipknot"),  # "Slipknot - Mick Thomson"
+    (5, CLOUD, "Djent", "Djent"),
+    (6, POP, "07F87767-D1B0-4C79-AD9B-096BD704B432", "Radiohead"),
+    (7, POP, "073EF34E-4526-4D44-9B02-2B3CDBFD8576", "Oasis"),
+    (8, TONECLOUD, "5c8604b474fd4d35ba77cea5", "Nirvana"),  # "Nirvana - Nevermind"
+    (9, POP, "06977430-37AA-41D2-BD69-B593AD81EB3B", "Foo Fighters"),
+    (10, TONECLOUD, "5c86040074fd4d35ba779346", "Iron Maiden"),  # "Iron Maiden - Somewhere in time"
+    (11, TONECLOUD, "5c8603bc74fd4d35ba777c5a", "My Clean"),  # "clean joy return"
+    (12, TONECLOUD, "5c8606ac74fd4d35ba784885", "Petrucci Clean"),  # "Petrucci Inspired Clean"
+    (13, CLOUD, "Acoustic Purple Rain", "Acoustic"),
+    (14, POP, "40349BE9-A568-4DEA-ACB4-B84E000B90E6", "Glassy Clean"),
 ]
 
 WAH_CC, MOD_CC, DELAY_CC, DRIVE_CC = 20, 21, 22, 23
 WAH_SWEEP_CC, VOLUME_CC = 27, 7
 
-DRIVE_PRIORITY = ["Distortion", "HarmonixBigMuff", "TS9", "FulltoneOCD",
+DRIVE_PRIORITY = ["Distortion", "HarmonixBigMuff", "Fuzz", "DsOne", "TS9", "FulltoneOCD",
                   "OverdrivePro", "KlonCentaur", "Booster", "SparkBooster",
                   "FuzzFactory", "TrebleBooster"]
 MOD_PRIORITY = ["Octaver", "PitchShifter", "Harmonizer", "DelayHarmonizer",
@@ -166,7 +176,10 @@ def fcb_bank_id(create=False):
 
 
 def bank_index_find(bank_id, name):
-    for e in read(PRESETS / bank_id / "preset.json")["LivePresets"]:
+    index_path = PRESETS / bank_id / "preset.json"
+    if not index_path.exists():
+        return None
+    for e in read(index_path)["LivePresets"]:
         if e["preset_name"] == name:
             return e["preset_uuid"]
     return None
@@ -177,6 +190,39 @@ def deregister(bank_id, pid):
     index = read(index_path)
     index["LivePresets"] = [e for e in index["LivePresets"] if e["preset_uuid"] != pid]
     write(index_path, index)
+
+
+def resolve_source(bank, preset):
+    """Map a (bank uuid|name, preset uuid|name) source to on-disk folder ids."""
+    if not (PRESETS / bank).is_dir():
+        for b in read(PRESETS / "bank.json")["LiveBanks"]:
+            if b["bank_name"] == bank:
+                bank = b["bank_folder"]
+                break
+        else:
+            sys.exit(f"source bank '{bank}' not found")
+    if not (PRESETS / bank / preset).is_dir():
+        pid = bank_index_find(bank, preset)
+        if not pid or not (PRESETS / bank / pid / "data.json").exists():
+            sys.exit(f"source preset '{preset}' not found in bank {bank}")
+        preset = pid
+    if not read(PRESETS / bank / preset / "data.json"):
+        sys.exit(f"source preset '{preset}' is an undownloaded cloud stub — "
+                 "open its bank in BIAS FX 2 first")
+    return bank, preset
+
+
+def download_tonecloud(cloud_id, dest):
+    """Install a ToneCloud preset as a local preset folder."""
+    import urllib.request
+    with urllib.request.urlopen(TONECLOUD_API + cloud_id, timeout=30) as resp:
+        record = json.load(resp)
+    if record.get("preset_for") != "fx2":
+        sys.exit(f"ToneCloud preset {cloud_id} is not a BIAS FX 2 preset")
+    dest.mkdir()
+    write(dest / "data.json", json.loads(record["preset_data"]))
+    write(dest / "meta.json", record["preset_meta"])
+    print(f"downloaded '{record['name']}' by {record['creator']['userprofile']['full_name']}")
 
 
 def ensure_in_fcb_bank(bank_id, src_bank, src_pid, name):
@@ -191,7 +237,11 @@ def ensure_in_fcb_bank(bank_id, src_bank, src_pid, name):
         print(f"moved '{name}' from user bank")
         return old_clone
     new_id = str(uuidlib.uuid4()).upper()
-    shutil.copytree(PRESETS / src_bank / src_pid, PRESETS / bank_id / new_id)
+    if src_bank == TONECLOUD:
+        download_tonecloud(src_pid, PRESETS / bank_id / new_id)
+    else:
+        src_bank, src_pid = resolve_source(src_bank, src_pid)
+        shutil.copytree(PRESETS / src_bank / src_pid, PRESETS / bank_id / new_id)
     for fname, key in (("meta.json", "name"), ("data.json", "name")):
         obj = read(PRESETS / bank_id / new_id / fname)
         obj[key] = name
@@ -300,8 +350,14 @@ def show_map():
             print(f"         CC {cc if cc is not None else '--'}: {short(e['dspId'])}{extra}")
 
 
+def app_running():
+    # macOS app bundle, or the Windows build under Wine
+    pattern = r"BIAS FX 2(\.app|_x64\.exe)"
+    return bool(subprocess.run(["pgrep", "-f", pattern], capture_output=True).stdout)
+
+
 def wire():
-    if subprocess.run(["pgrep", "-f", "BIAS FX 2.app"], capture_output=True).stdout:
+    if app_running():
         sys.exit("BIAS FX 2 is running — quit it first.")
     resolved = resolve_targets(create=True)
     bank_id = resolved[0][1]
@@ -338,7 +394,7 @@ if __name__ == "__main__":
     elif cmd == "wire":
         wire()
     elif cmd == "pedals":
-        if subprocess.run(["pgrep", "-f", "BIAS FX 2.app"], capture_output=True).stdout:
+        if app_running():
             sys.exit("BIAS FX 2 is running — quit it first.")
         add_pedals()
         print()
