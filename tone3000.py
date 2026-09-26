@@ -66,6 +66,9 @@ AUDIO = {
     "audioDeviceBufferSize": "256",  # 128 xruns with the heavier stereo rigs (2026-09-26)
     "audioDeviceInChans": "1",
 }
+SINK_MATCH = "Scarlett_2i2"  # PipeWire sink set to unity by configure
+ALSA_CARD = "USB"            # Scarlett 2i2 3rd Gen (snd-usb-audio / scarlett2 controls)
+ALSA_CONTROLS = [("Line In 2 Level", "Inst"), ("Line In 2 Air", "nocap"), ("Direct Monitor", "Off")]
 MIDI_PORT = "USB Midi MIDI 1"  # the FCB1010's USB-MIDI interface (ALSA sequencer port)
 INPUT_MODE = "left"  # mono: the single guitar channel
 # Scarlett 2i2 3rd Gen instrument input clips at +12.5 dBu with the gain knob
@@ -521,9 +524,9 @@ def validate(rig):
 
 # Applied to every preset.
 GLOBAL_PARAMS = {
-    # +14 dB (normalized: 0.5 = 0 dB, 48 dB span). Measured: at 0 dB the guitar sat
-    # ~15 dB under Spotify; +14 dB puts it level with the music, peaks ~-4 dBFS.
-    # +24 dB hard-clipped the interface (experiments L4/L5). EXP B sweeps it live.
+    # +14 dB (normalized: 0.5 = 0 dB, 48 dB span). With the interface at unity this
+    # puts the guitar ~2.5 dB above loudness-normalized music (YouTube, -14 LUFS),
+    # peaks ~-5 dBFS (experiments L6). +24 dB hard-clipped. EXP B sweeps it live.
     "outputLevel": 0.5 + 14 / 48,
     "gateEnabled": 1.0,
     "gateThreshold": -60.0,    # dB; -35 dB chopped note decays and quiet playing
@@ -620,6 +623,18 @@ def configure():
     edit_state(apply)
     print(f"input mode: {INPUT_MODE}; NAM input calibration on at {CALIBRATION_DBU} dBu; "
           f"oversampling {'2x' if OVERSAMPLING_FACTOR == 0 else '4x'} {'on' if OVERSAMPLING else 'off'}")
+
+    # Linux side of the gain staging: interface output at unity (the hardware
+    # monitor knob is the only volume control) and a flat DI (no Air) for NAM.
+    sink = next((o["id"] for o in json.loads(subprocess.run(["pw-dump"], capture_output=True, text=True).stdout)
+                 if (o.get("info") or {}).get("props", {}).get("media.class") == "Audio/Sink"
+                 and SINK_MATCH in (o["info"]["props"].get("node.name") or "")), None)
+    if sink:
+        subprocess.run(["wpctl", "set-volume", str(sink), "1.0"])
+    for control, value in ALSA_CONTROLS:
+        subprocess.run(["amixer", "-c", ALSA_CARD, "-q", "sset", control, value])
+    print(f"linux: interface output 100% (0 dB){'' if sink else ' — sink not found'}; "
+          + ", ".join(f"{c} {v}" for c, v in ALSA_CONTROLS))
 
     # Global preferences: A2-Full as the default NAM size for blocks added in-app.
     (CONFIG / "preferences.settings").write_text(
