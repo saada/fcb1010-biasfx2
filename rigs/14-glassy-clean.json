@@ -33,7 +33,14 @@
       "tone_id": 35497,
       "model_id": 381343,
       "enabled": true,
-      "eq": [-3, -2.5, 0, 1.5, 3, 2],
+      "eq": [
+        -3,
+        -2.5,
+        0,
+        1.5,
+        3,
+        2
+      ],
       "eq_pre": true,
       "label": "Fender '65 Twin Reverb RI, Vibrato ch. bright on, vol 3.5, B7 M4.5 T5.5, G12-65 U67+R121 cap edge (pre-EQ: humbucker->single-coil)"
     },
@@ -58,7 +65,8 @@
       "model_id": 413802,
       "enabled": true,
       "mix": 0.5,
-      "label": "Teletronix LA-2A, Leveling - Light, 50% parallel (studio compression)"
+      "label": "Teletronix LA-2A, Leveling - Light, 50% parallel (studio compression)",
+      "out_db": -11.3
     },
     {
       "role": "ambience",
@@ -75,5 +83,15 @@
     "spreadEnabled": 1.0,
     "spreadWobble": 0.1,
     "spreadWobbleEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -15.5,
+    "measured_lufs": -4.3,
+    "measured_side_lufs": [
+      -5.7,
+      -9.7
+    ],
+    "measured_peak_dbfs": 10.3,
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
   }
 }

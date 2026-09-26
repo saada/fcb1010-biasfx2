@@ -35,7 +35,8 @@
       "tone_id": 77706,
       "model_id": 677999,
       "enabled": true,
-      "label": "1966 Marshall 1962 Bluesbreaker/JTM45 crunch, G12 Alnico 2x12, R121/R160/U87 (L)"
+      "label": "1966 Marshall 1962 Bluesbreaker/JTM45 crunch, G12 Alnico 2x12, R121/R160/U87 (L)",
+      "out_db": -15.5
     },
     {
       "role": "cab",
@@ -70,7 +71,8 @@
       "tone_id": 2696,
       "model_id": 413052,
       "enabled": true,
-      "label": "Vox AC30 Top Boost, Hi input full gain, TC5, master 4, Greenback 2x12, SM57 (R)"
+      "label": "Vox AC30 Top Boost, Hi input full gain, TC5, master 4, Greenback 2x12, SM57 (R)",
+      "out_db": -15.1
     },
     {
       "role": "cab",
@@ -105,5 +107,19 @@
     "alignWobbleEnabled": 1.0,
     "alignWobble": 0.15,
     "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": 0.9,
+    "measured_side_lufs": [
+      -2.1,
+      -2.2
+    ],
+    "measured_peak_dbfs": 9.4,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -16.4,
+      -16.7
+    ]
   }
 }

@@ -1,7 +1,7 @@
 {
   "pc": 2,
   "name": "Tornado of Souls",
-  "reference": "Tornado of Souls (incl. Marty Friedman's solo) — Megadeth, Rust in Peace (1990, Rumbo Recorders; prod. Mike Clink then Dave Mustaine/eng. Micajah Ryan, mixed dry by Max Norman)",
+  "reference": "Tornado of Souls (incl. Marty Friedman's solo) \u2014 Megadeth, Rust in Peace (1990, Rumbo Recorders; prod. Mike Clink then Dave Mustaine/eng. Micajah Ryan, mixed dry by Max Norman)",
   "rig": "Dave Mustaine: Jackson King V (Seymour Duncan JB) -> Marshall JCM800 2203 heads 'every knob dimed' -> Marshall 4x12s w/ Celestion G12T-75 (left). Marty Friedman: Jackson -> Bogner (Hafler) Triple Giant tube preamp -> VHT/tube power amp -> Marshall/Bogner 4x12 (right). VHT amps and Bogner preamps were in the room; Mustaine: 'It was Marshall stuff... I've always been a Marshall guy.' Dry Max Norman mix, solos with light delay",
   "sources": [
     "https://equipboard.com/albums/megadeth-rust-in-peace",
@@ -38,7 +38,8 @@
       "tone_id": 89825,
       "model_id": 756311,
       "enabled": true,
-      "label": "Marshall JCM800 2203 + Marshall 4x12, SM57, HI GAIN (pre 10, B4 M8 T7 P7) (Mustaine)"
+      "label": "Marshall JCM800 2203 + Marshall 4x12, SM57, HI GAIN (pre 10, B4 M8 T7 P7) (Mustaine)",
+      "out_db": -14.3
     },
     {
       "role": "cab",
@@ -63,8 +64,16 @@
       "tone_id": 73550,
       "model_id": 620778,
       "enabled": true,
-      "eq": [0, 0, 1, 0.5, -1, -2.5],
-      "label": "Bogner/Hafler Triple Giant preamp, Sharp ch., flat knobs (Friedman)"
+      "eq": [
+        0,
+        0,
+        1,
+        0.5,
+        -1,
+        -2.5
+      ],
+      "label": "Bogner/Hafler Triple Giant preamp, Sharp ch., flat knobs (Friedman)",
+      "out_db": 0.9
     },
     {
       "role": "cab",
@@ -91,5 +100,19 @@
     "chainPanLinked": 1.0,
     "alignEnabled": 0.0,
     "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -2.3,
+    "measured_side_lufs": [
+      -17.8,
+      -2.4
+    ],
+    "measured_peak_dbfs": 10.0,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -1.9,
+      -32.5
+    ]
   }
 }

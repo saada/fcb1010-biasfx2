@@ -35,7 +35,8 @@
       "tone_id": 2711,
       "model_id": 424952,
       "enabled": true,
-      "label": "1972 Hiwatt DR103 + its Fane 4x12, linked inputs clean, SM57 (full rig)"
+      "label": "1972 Hiwatt DR103 + its Fane 4x12, linked inputs clean, SM57 (full rig)",
+      "out_db": -2.1
     },
     {
       "role": "cab",
@@ -66,5 +67,15 @@
     "spreadEnabled": 1.0,
     "spreadWobbleEnabled": 1.0,
     "spreadWobble": 0.4
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -11.9,
+    "measured_side_lufs": [
+      -17.3,
+      -13.3
+    ],
+    "measured_peak_dbfs": 0.8,
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
   }
 }

@@ -1,7 +1,7 @@
 {
   "pc": 9,
   "name": "Foo Fighters",
-  "reference": "Everlong / Monkey Wrench / My Hero — The Colour and the Shape (1997, prod. Gil Norton, Grandmaster Recorders)",
+  "reference": "Everlong / Monkey Wrench / My Hero \u2014 The Colour and the Shape (1997, prod. Gil Norton, Grandmaster Recorders)",
   "rig": "Dave Grohl: Gibson Trini Lopez / Les Paul (humbuckers, drop D) -> (Tube Screamer / ProCo Rat for extra push) -> Mesa/Boogie Dual Rectifier (heavy parts, Mesa 4x12) layered with Vox AC30 Top Boost; guitars stacked/double-tracked by Gil Norton, fairly dry studio ambience",
   "sources": [
     "https://www.groundguitar.com/dave-grohl-gear/dave-grohls-mesa-boogie-dual-rectifier/",
@@ -34,7 +34,8 @@
       "tone_id": 79103,
       "model_id": 682807,
       "enabled": true,
-      "label": "Mesa Dual Rectifier rev G, Red ch Vintage/Bold/diode (Molten Red) -> Mesa 4x12 OS, SM57"
+      "label": "Mesa Dual Rectifier rev G, Red ch Vintage/Bold/diode (Molten Red) -> Mesa 4x12 OS, SM57",
+      "out_db": -10.2
     },
     {
       "role": "cab",
@@ -69,7 +70,8 @@
       "tone_id": 2696,
       "model_id": 413052,
       "enabled": true,
-      "label": "Vox AC30 Top Boost, Hi input full gain, Tone Cut 5, Master 4 -> 2x12 Greenback, SM57"
+      "label": "Vox AC30 Top Boost, Hi input full gain, Tone Cut 5, Master 4 -> 2x12 Greenback, SM57",
+      "out_db": -13.9
     },
     {
       "role": "cab",
@@ -102,5 +104,19 @@
     "alignEnabled": 1.0,
     "alignWobbleEnabled": 1.0,
     "alignWobble": 0.15
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -0.8,
+    "measured_side_lufs": [
+      -4.8,
+      -3.0
+    ],
+    "measured_peak_dbfs": 8.9,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -19.0,
+      -17.1
+    ]
   }
 }

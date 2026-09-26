@@ -34,7 +34,8 @@
       "tone_id": 66795,
       "model_id": 477295,
       "enabled": true,
-      "label": "Mick: VHT Pittbull 100 Ultra Lead, ch3, line-out DI"
+      "label": "Mick: VHT Pittbull 100 Ultra Lead, ch3, line-out DI",
+      "out_db": 3.6
     },
     {
       "role": "cab",
@@ -63,7 +64,8 @@
       "tone_id": 32868,
       "model_id": 418392,
       "enabled": true,
-      "label": "Jim: Peavey 5150 red ch, no boost, Mesa OS 4x12 V30, SM57 (full rig)"
+      "label": "Jim: Peavey 5150 red ch, no boost, Mesa OS 4x12 V30, SM57 (full rig)",
+      "out_db": -14.1
     },
     {
       "role": "cab",
@@ -87,5 +89,19 @@
     "alignEnabled": 1.0,
     "alignWobbleEnabled": 0.0,
     "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -1.9,
+    "measured_side_lufs": [
+      -2.0,
+      -20.5
+    ],
+    "measured_peak_dbfs": 9.5,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -35.6,
+      0.6
+    ]
   }
 }

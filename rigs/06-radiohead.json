@@ -36,7 +36,8 @@
       "tone_id": 75367,
       "model_id": 668845,
       "enabled": true,
-      "label": "1987 Fender Eighty-Five full rig, clean T4 M4 B4 (OKC), SM57 (Jonny)"
+      "label": "1987 Fender Eighty-Five full rig, clean T4 M4 B4 (OKC), SM57 (Jonny)",
+      "out_db": -9.4
     },
     {
       "role": "cab",
@@ -71,7 +72,8 @@
       "tone_id": 71315,
       "model_id": 588582,
       "enabled": true,
-      "label": "1994 Vox AC30 TB6 full rig, clean, Alnico Silver 2x12, R121+U87 (Ed)"
+      "label": "1994 Vox AC30 TB6 full rig, clean, Alnico Silver 2x12, R121+U87 (Ed)",
+      "out_db": -10.3
     },
     {
       "role": "cab",
@@ -116,5 +118,19 @@
     "alignWobbleEnabled": 1.0,
     "alignWobble": 0.15,
     "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -3.8,
+    "measured_side_lufs": [
+      -7.0,
+      -6.6
+    ],
+    "measured_peak_dbfs": 7.7,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -17.6,
+      -17.1
+    ]
   }
 }

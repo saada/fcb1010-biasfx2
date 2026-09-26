@@ -34,7 +34,8 @@
       "tone_id": 32868,
       "model_id": 418392,
       "enabled": true,
-      "label": "Peavey 5150 lead ch (no boost) + Mesa OS 4x12 V30, SM57 (full rig)"
+      "label": "Peavey 5150 lead ch (no boost) + Mesa OS 4x12 V30, SM57 (full rig)",
+      "out_db": -9.8
     },
     {
       "role": "cab",
@@ -59,7 +60,8 @@
       "tone_id": 57410,
       "model_id": 384922,
       "enabled": true,
-      "label": "Mesa Mark V ch3 MK-IV mode, high gain balanced (DI)"
+      "label": "Mesa Mark V ch3 MK-IV mode, high gain balanced (DI)",
+      "out_db": 1.4
     },
     {
       "role": "cab",
@@ -87,5 +89,19 @@
     "alignEnabled": 1.0,
     "alignWobbleEnabled": 0.0,
     "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -5.7,
+    "measured_side_lufs": [
+      -18.1,
+      -6.0
+    ],
+    "measured_peak_dbfs": 7.2,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -6.1,
+      -29.4
+    ]
   }
 }

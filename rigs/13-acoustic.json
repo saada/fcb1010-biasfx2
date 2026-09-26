@@ -43,7 +43,8 @@
         2.5,
         2.0
       ],
-      "eq_pre": true
+      "eq_pre": true,
+      "out_db": 24.0
     },
     {
       "role": "cab",
@@ -84,5 +85,15 @@
   ],
   "params": {
     "spreadEnabled": 1.0
+  },
+  "levels": {
+    "target_lufs": -14.6,
+    "measured_lufs": -38.6,
+    "measured_side_lufs": [
+      -40.1,
+      -44.0
+    ],
+    "measured_peak_dbfs": -25.0,
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
   }
 }

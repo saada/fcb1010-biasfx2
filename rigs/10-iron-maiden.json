@@ -1,7 +1,7 @@
 {
   "pc": 10,
   "name": "Iron Maiden",
-  "reference": "The Evil That Men Do — Seventh Son of a Seventh Son (1988, Musicland Munich, prod./eng. Martin Birch): rhythms, twin harmony leads, Smith's solo",
+  "reference": "The Evil That Men Do \u2014 Seventh Son of a Seventh Son (1988, Musicland Munich, prod./eng. Martin Birch): rhythms, twin harmony leads, Smith's solo",
   "rig": "Dave Murray: Fender/ESP Strat -> Gallien-Krueger 250ML-series preamp -> Marshall 4x12 (left). Adrian Smith: Jackson Strat -> MXR -> rack Gallien-Krueger (2000CPL/2100SEL 'new model') + TC 2290 / Lexicon delay, GK stereo chorus -> Marshall 4x12 (right). Both switched from Marshall heads to GK for Somewhere in Time/Seventh Son; Birch adds plate reverb at the desk",
   "sources": [
     "https://www.guitarworld.com/gw-archive/steve-harris-and-dave-murray-iron-maiden-open-1988-guitar-world-interview",
@@ -37,7 +37,8 @@
       "tone_id": 27127,
       "model_id": 379866,
       "enabled": true,
-      "label": "Gallien-Krueger 250ML preamp, 'Maiden' setting (Murray)"
+      "label": "Gallien-Krueger 250ML preamp, 'Maiden' setting (Murray)",
+      "out_db": 2.9
     },
     {
       "role": "cab",
@@ -76,7 +77,8 @@
       "tone_id": 6203,
       "model_id": 444217,
       "enabled": true,
-      "label": "Gallien-Krueger 2000CPL ch.B overdrive, set EQ (2100SEL preamp, Smith)"
+      "label": "Gallien-Krueger 2000CPL ch.B overdrive, set EQ (2100SEL preamp, Smith)",
+      "out_db": 6.5
     },
     {
       "role": "cab",
@@ -115,5 +117,19 @@
     "alignWobbleEnabled": 1.0,
     "alignWobble": 0.3,
     "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -16.0,
+    "measured_side_lufs": [
+      -22.9,
+      -16.9
+    ],
+    "measured_peak_dbfs": -4.5,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -14.0,
+      -23.6
+    ]
   }
 }

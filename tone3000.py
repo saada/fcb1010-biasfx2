@@ -499,8 +499,11 @@ def build_block(spec):
         raw = model_file(model_of(spec["tone_id"], mid))
         if spec.get("trim_seconds") or not wav_loads_in_tone3000(raw):
             data = trimmed_ir(raw, float(spec.get("trim_seconds") or 60.0))
-    return block(kind, on, tone, mid, mix=mix, eq_gains=spec.get("eq"),
+    node = block(kind, on, tone, mid, mix=mix, eq_gains=spec.get("eq"),
                  eq_pre=spec.get("eq_pre", False), data=data)
+    if spec.get("out_db"):  # level trim (measured, see rig "levels"); block output is +-24 dB
+        node.set("outputGain", max(0.0, min(1.0, 0.5 + float(spec["out_db"]) / 48)))
+    return node
 
 
 def validate(rig):
@@ -527,7 +530,7 @@ GLOBAL_PARAMS = {
     # +14 dB (normalized: 0.5 = 0 dB, 48 dB span). With the interface at unity this
     # puts the guitar ~2.5 dB above loudness-normalized music (YouTube, -14 LUFS),
     # peaks ~-5 dBFS (experiments L6). +24 dB hard-clipped. EXP B sweeps it live.
-    "outputLevel": 0.5 + 14 / 48,
+    "outputLevel": 0.5 + 12 / 48,
     "gateEnabled": 1.0,
     "gateThreshold": -60.0,    # dB; -35 dB chopped note decays and quiet playing
 }

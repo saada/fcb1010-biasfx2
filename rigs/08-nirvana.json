@@ -1,7 +1,7 @@
 {
   "pc": 8,
   "name": "Nirvana",
-  "reference": "Smells Like Teen Spirit / Breed / In Bloom — Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City",
+  "reference": "Smells Like Teen Spirit / Breed / In Bloom \u2014 Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City",
   "rig": "Kurt Cobain: '69 Fender Competition Mustang / '65 Jaguar (DiMarzio Super Distortion) -> Boss DS-1 (tone ~10 o'clock, level max) [+ ProCo RAT, EHX Small Clone] -> Mesa/Boogie Studio Preamp -> Crown Power Base 2 -> 4x12, double-tracked with a Fender Bassman on the heavy parts (AC30 for cleans); SM57/U87/414 close, very little room",
   "sources": [
     "https://guitar.com/features/artist-rigs/the-humble-gear-used-by-kurt-cobain-on-nirvana-nevermind/",
@@ -33,7 +33,8 @@
       "tone_id": 76581,
       "model_id": 669165,
       "enabled": true,
-      "label": "Mesa/Boogie Studio Preamp rhythm ch, heavy edge V9 bright off (preamp only)"
+      "label": "Mesa/Boogie Studio Preamp rhythm ch, heavy edge V9 bright off (preamp only)",
+      "out_db": 1.3
     },
     {
       "role": "cab",
@@ -62,7 +63,8 @@
       "tone_id": 13776,
       "model_id": 379761,
       "enabled": true,
-      "label": "1971 Fender Bassman normal ch, sweet spot V7 T8 B5"
+      "label": "1971 Fender Bassman normal ch, sweet spot V7 T8 B5",
+      "out_db": -0.4
     },
     {
       "role": "cab",
@@ -92,5 +94,19 @@
     "spreadEnabled": 0.0,
     "spreadWobbleEnabled": 1.0,
     "spreadWobble": 0.45
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -15.0,
+    "measured_side_lufs": [
+      -17.1,
+      -19.2
+    ],
+    "measured_peak_dbfs": -5.4,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -18.2,
+      -14.4
+    ]
   }
 }
