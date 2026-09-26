@@ -79,4 +79,4 @@ if [[ -d "$HOME/Documents/PositiveGrid/BIAS_FX2/GlobalPresets" ]]; then
   fi
 fi
 
-say "Done. Launch TONE3000 from the app menu (it runs at a 128-sample buffer) and stomp away."
+say "Done. Launch TONE3000 from the app menu (it runs at a 256-sample buffer) and stomp away."

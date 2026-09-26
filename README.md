@@ -109,8 +109,8 @@ rig from the public TONE3000 catalog:
 
 ```
 uv run tone3000.py map        # preview presets and MIDI map
-uv run tone3000.py configure  # standalone: JACK 48k/128, guitar input, FCB MIDI in,
-                              # mono input, NAM input calibration, 2x oversampling
+uv run tone3000.py configure  # standalone: JACK 48k/256, guitar input, FCB MIDI in,
+                              # mono input, NAM calibration, interface at unity
 uv run tone3000.py build      # download captures, write 15 presets + MIDI map
 ```
 
