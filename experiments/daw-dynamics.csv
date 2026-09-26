@@ -1,0 +1,61 @@
+pc,preset,dynamics,pedal_state,lufs,peak_dbfs
+0,Comfortably Numb,off,as loaded,-13.4,-1.7
+1,Purple Rain,off,as loaded,-18.0,-1.1
+2,Tornado of Souls,off,as loaded,-14.4,-6.9
+3,Dream Theater,off,as loaded,-14.4,-5.4
+4,Slipknot,off,as loaded,-14.7,-4.8
+5,Djent,off,as loaded,-14.5,-5.3
+6,Radiohead,off,as loaded,-11.9,-0.6
+7,Oasis,off,as loaded,-14.2,-6.3
+8,Nirvana,off,as loaded,-13.2,-4.9
+9,Foo Fighters,off,as loaded,-14.9,-4.6
+10,Iron Maiden,off,as loaded,-13.6,-1.9
+11,My Clean,off,as loaded,-17.1,-1.3
+12,Petrucci Clean,off,as loaded,-14.0,2.8
+13,Acoustic,off,as loaded,-8.8,3.0
+14,Glassy Clean,off,as loaded,-14.9,-0.5
+0,Comfortably Numb,off,drive toggled,-12.6,3.9
+1,Purple Rain,off,drive toggled,-15.2,-4.8
+2,Tornado of Souls,off,drive toggled,-14.6,-6.6
+3,Dream Theater,off,drive toggled,-14.9,-5.7
+4,Slipknot,off,drive toggled,-14.8,-4.6
+5,Djent,off,drive toggled,-14.2,-4.6
+6,Radiohead,off,drive toggled,-14.3,-0.9
+7,Oasis,off,drive toggled,-15.5,-6.2
+8,Nirvana,off,drive toggled,-17.5,-6.2
+9,Foo Fighters,off,drive toggled,-14.3,-4.8
+10,Iron Maiden,off,drive toggled,-11.7,-1.0
+11,My Clean,off,drive toggled,-17.6,-5.3
+12,Petrucci Clean,off,drive toggled,-13.8,3.4
+13,Acoustic,off,drive toggled,-14.7,-1.6
+14,Glassy Clean,off,drive toggled,-15.1,-1.0
+0,Comfortably Numb,on,as loaded,-11.0,-1.0
+1,Purple Rain,on,as loaded,-15.5,-1.0
+2,Tornado of Souls,on,as loaded,-11.6,-4.1
+3,Dream Theater,on,as loaded,-12.1,-3.0
+4,Slipknot,on,as loaded,-12.0,-2.4
+5,Djent,on,as loaded,-11.8,-2.6
+6,Radiohead,on,as loaded,-11.8,-1.0
+7,Oasis,on,as loaded,-11.4,-3.3
+8,Nirvana,on,as loaded,-11.1,-2.7
+9,Foo Fighters,on,as loaded,-12.5,-2.8
+10,Iron Maiden,on,as loaded,-11.4,-1.0
+11,My Clean,on,as loaded,-14.8,-1.0
+12,Petrucci Clean,on,as loaded,-13.0,-1.0
+13,Acoustic,on,as loaded,-10.9,-1.0
+14,Glassy Clean,on,as loaded,-13.4,-1.0
+0,Comfortably Numb,on,drive toggled,-12.1,-1.0
+1,Purple Rain,on,drive toggled,-12.2,-1.9
+2,Tornado of Souls,on,drive toggled,-11.7,-3.7
+3,Dream Theater,on,drive toggled,-12.5,-3.3
+4,Slipknot,on,drive toggled,-12.0,-1.7
+5,Djent,on,drive toggled,-11.5,-1.9
+6,Radiohead,on,drive toggled,-13.0,-1.0
+7,Oasis,on,drive toggled,-12.7,-3.4
+8,Nirvana,on,drive toggled,-14.8,-3.5
+9,Foo Fighters,on,drive toggled,-11.8,-2.8
+10,Iron Maiden,on,drive toggled,-9.9,-1.0
+11,My Clean,on,drive toggled,-14.8,-2.8
+12,Petrucci Clean,on,drive toggled,-12.9,-1.0
+13,Acoustic,on,drive toggled,-14.0,-1.0
+14,Glassy Clean,on,drive toggled,-13.3,-1.0

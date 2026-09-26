@@ -130,6 +130,31 @@ block 2 song drive (CC 23), block 3 full stack; CC 20 noise gate, CC 21 stereo
 spread, CC 27 treble sweep, CC 7 output level. Toggles flip on any value ≥ 64,
 so the stock FCB1010's constant 127 works. The tuner isn't MIDI-mappable.
 
+## DAW rig (Qtractor, Linux)
+
+`qtractor_rig.py` puts the same TONE3000 presets inside Qtractor. It adds real
+pedals, a compressor and limiter after the amp, and recording. The whole session
+is generated, so there is nothing to click:
+
+```
+sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix
+python3 qtractor_rig.py up       # write ~/Music/fcb-rig/rig.qtr, launch at quantum 256
+python3 qtractor_rig.py record   # take: processed stereo rig + dry DI
+python3 qtractor_rig.py stop
+python3 qtractor_rig.py down     # save + quit
+```
+
+```
+Scarlett In 2 ─► Wah ─► TONE3000 (CLAP) ─► Octaver ─► Compressor ─► Limiter ─► Scarlett out
+FCB1010 ─► PC/CC straight into TONE3000; Qtractor binds SW6 wah, SW7 octaver, EXP A wah sweep
+```
+
+This brings back the FCB layout's original intent: SW6 wah, SW7 octaver, EXP A wah
+sweep. TONE3000 keeps SW8 boost, SW9 drive, SW10 echo and EXP B output level. The
+compressor and limiter cut the loudness spread across presets from 9.2 to 4.6 dB and
+keep peaks under −1 dBFS; see `experiments/README.md` D0–D4. Run the standalone
+*or* the DAW, not both.
+
 ## License
 
 MIT. Vendored `lib/fcb1010.py` is MIT © Brian Walton (riban.co.uk).

@@ -9,6 +9,7 @@
 # 3. `tone3000.py configure` — audio/MIDI/calibration/oversampling for this rig.
 # 4. `tone3000.py build`     — every rigs/*.json preset, PC order, FCB MIDI map.
 # 5. If BIAS FX 2 is installed, `biasfx2.py wire` for the BIAS side too.
+# 6. If Qtractor is installed, `qtractor_rig.py build` — the DAW rig session.
 #
 # Hardware-specific values (interface names, guitar input, MIDI port) live at
 # the top of tone3000.py (AUDIO, MIDI_PORT, CALIBRATION_DBU) — edit for your gear.
@@ -79,4 +80,14 @@ if [[ -d "$HOME/Documents/PositiveGrid/BIAS_FX2/GlobalPresets" ]]; then
   fi
 fi
 
-say "Done. Launch TONE3000 from the app menu (it runs at a 256-sample buffer) and stomp away."
+# 6. DAW rig (optional): generated Qtractor session with pedals, dynamics, recording
+if command -v qtractor >/dev/null; then
+  if pgrep -x qtractor >/dev/null; then
+    echo "Qtractor is running — skipping (run: python3 qtractor_rig.py down && python3 qtractor_rig.py build)"
+  else
+    say "Generating the Qtractor rig session"
+    python3 "$HERE/qtractor_rig.py" build
+  fi
+fi
+
+say "Done. Launch TONE3000 from the app menu (256-sample buffer), or the DAW rig: python3 qtractor_rig.py up"

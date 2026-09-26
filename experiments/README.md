@@ -148,3 +148,80 @@ The v2 presets added dual stereo rigs, generated echo IRs of 3–5 s and reverb 
 
 - **Method:** sent PC 0–14 and read `Loaded preset:` from the log.
 - **Result:** 15/15 correct. PC N = the Nth entry of `Presets/order.json`.
+
+---
+
+# The DAW rig (Qtractor)
+
+Levelling presets by hand (L7) kept fighting the same thing: nothing sat after the
+amp to catch peaks and even out loudness. So the rig moved into a DAW, with a real
+compressor and limiter after TONE3000, real wah/octaver pedals, and recording.
+`qtractor_rig.py` generates the whole session. Nothing is clicked.
+
+**Bench:** same laptop and interface. Qtractor 1.6.4 on pipewire-jack at quantum 256 / 48 kHz,
+running the TONE3000 **CLAP** plugin. Test input is the dry DI loop `di-ref.wav`, played
+into the rig's insert with `pw-play`; the Scarlett is unplugged from the insert for the run.
+Program changes and CCs go into Qtractor's `FCB` ALSA port with `aseqsend`. Output is
+recorded from bus `Rig` and measured as BS.1770 integrated loudness. Unlike the old
+DI replay into the standalone (L7), this goes through the same plugin instance as the
+live guitar. PC switching was verified by reading `activePresetName` back from the
+saved plugin state.
+
+## D0 — Picking a DAW that a script can drive
+
+- **Requirement:** light, Linux-native, no Wine, free, and fully scriptable, so the user never clicks.
+- **Maolan 0.3.0 (AppImage):** it has an OSC API that covers tracks, plugins and routing, and the chain built fine over OSC. It was rejected because:
+  - its GUI panicked twice in `f32::clamp` (min > max) when the window was small;
+  - on JACK, `track add` always fails ("Engine needs to open audio device"), because it only checks the non-JACK driver. That's still the case in engine HEAD;
+  - it has no OSC command to save a session;
+  - MIDI learn can't target plugin parameters.
+- **Qtractor 1.6.4:** sessions are plain XML, so the generator writes the entire rig:
+  - buses and exact JACK connections;
+  - a MIDI track holding the plugin chain;
+  - per-plugin CC bindings;
+  - the TONE3000 state blob (a qCompress'd T3KB).
+
+  Transport and recording run over MMC. Save/quit is `SIGUSR1` then `SIGTERM`.
+- **Two constraints found in Qtractor's source:**
+  - Plugins only receive MIDI on MIDI tracks and buses. So the guitar comes in through an Audio Insert on a MIDI track.
+  - Only CLAP gets raw Program Change; the VST3 path drops it.
+
+## D1 — Does a compressor + limiter tame preset loudness?
+
+*Data:* `daw-dynamics.csv` (pedal_state = as loaded).
+
+- **Hypothesis:** LSP Compressor (−18 dB threshold, 3:1, 10/120 ms, +3 dB makeup) plus the x42 true-peak limiter at −1 dBTP shrink the loudness spread across presets and remove overs.
+- **Method:** full 15-preset DI sweep, once with both plugins deactivated and once with both active. Otherwise the session is identical.
+- **Result:**
+
+| | Dynamics off | Dynamics on |
+|---|---|---|
+| Spread, all 15 presets | 9.2 dB (−18.0 … −8.8 LUFS) | 4.6 dB (−15.5 … −10.9) |
+| Spread, 10 distorted presets | 3.0 dB | 1.5 dB |
+| Worst peak | **+3.0 dBFS** (Acoustic, Petrucci Clean) | −1.0 dBFS |
+
+- **Conclusion:** yes. Two presets were clipping the output outright; now nothing passes −1 dBFS, and the distorted presets sit within a 1.5 dB window. The cleans stay lower on purpose (Purple Rain −15.5).
+
+## D2 — Pedal on/off jumps
+
+*Data:* `daw-dynamics.csv` (pedal_state = drive toggled; SW9 / CC 23 sent after each PC).
+
+| | Dynamics off | Dynamics on |
+|---|---|---|
+| Mean jump when drive is toggled | 1.47 dB | 1.13 dB |
+| Largest jump | 5.9 dB (Acoustic) | 3.7 dB (Nirvana DS-1 off) |
+| Worst peak with drive toggled | +3.9 dBFS | −1.0 dBFS |
+
+- **Conclusion:** the compressor shaves the jumps. What's left is mostly musical: Purple Rain's solo drive (+3.3 dB) and dropping Nirvana's DS-1 (−3.7 dB).
+
+## D3 — Load and xruns with every pedal on
+
+- **Method:** wah and octaver switched on over CC 20/21 on top of Nirvana (PC 8), 12 s of DI, `pw-top` sampled 30×.
+- **Result:** Qtractor used B/Q 0.19–0.30, about 1.0–1.6 ms of the 5.3 ms cycle. ERR stayed at 1 throughout; that one xrun predates the test (probably startup), and none were added.
+- **Octaver check:** with the octaver on, the 40–120 Hz band rose +2.9 dB relative to 120–1000 Hz (−10.0 → −7.1 dB) at the same LUFS, so the octave-down voice is there.
+
+## D4 — Recording by script
+
+- **Method:** `qtractor_rig.py record` (MMC record + play), 6 s of DI, then `qtractor_rig.py stop`.
+- **Result:** `rig-Rig_Print-1.wav` (stereo, processed, peak −1.0 dBFS) and `rig-DI-1.wav` (mono dry DI, peak −1.4 dBFS), both 320,512 frames and sample-aligned.
+- **Controls:** SW6 → wah on, SW7 → octaver on, EXP A 32/127 → wah position 0.252. All read back from the saved session.
