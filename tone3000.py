@@ -521,9 +521,10 @@ def validate(rig):
 
 # Applied to every preset.
 GLOBAL_PARAMS = {
-    # 0 dB. TONE3000 already normalizes captures (~-18 dB loudness); +24 dB here
-    # (tried 2026-09-26) hard-clips the interface. EXP B (CC 7) sweeps it live.
-    "outputLevel": 0.5,
+    # +14 dB (normalized: 0.5 = 0 dB, 48 dB span). Measured: at 0 dB the guitar sat
+    # ~15 dB under Spotify; +14 dB puts it level with the music, peaks ~-4 dBFS.
+    # +24 dB hard-clipped the interface (experiments L4/L5). EXP B sweeps it live.
+    "outputLevel": 0.5 + 14 / 48,
     "gateEnabled": 1.0,
     "gateThreshold": -60.0,    # dB; -35 dB chopped note decays and quiet playing
 }
