@@ -27,7 +27,8 @@
       "tone_id": 87333,
       "model_id": 739329,
       "enabled": true,
-      "label": "Vick Audio '73 Ram's Head Big Muff, vol 7 sustain 7 tone 5"
+      "label": "Vick Audio '73 Ram's Head Big Muff, vol 7 sustain 7 tone 5",
+      "out_db": -2.8
     },
     {
       "role": "amp",
@@ -36,7 +37,7 @@
       "model_id": 424952,
       "enabled": true,
       "label": "1972 Hiwatt DR103 + its Fane 4x12, linked inputs clean, SM57 (full rig)",
-      "out_db": -2.1
+      "out_db": 0.7
     },
     {
       "role": "cab",
@@ -76,6 +77,7 @@
       -13.3
     ],
     "measured_peak_dbfs": 0.8,
-    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB",
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }

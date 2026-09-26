@@ -9,7 +9,7 @@
     "https://www.guitarworld.com/features/the-definitive-kurt-cobain-gear-guide",
     "https://en.wikipedia.org/wiki/Nevermind"
   ],
-  "notes": "Dual-rig stereo for Vig's double-tracked rhythms: DS-1 (always on) feeds both; left = Mesa Studio Preamp (preamp-only capture, the Crown SS power amp assumed clean) + Nevermind-matched T75 4x12 IR, right = '71 Bassman DI at a pedal-platform setting + a second Nevermind IR, hard-panned. Exact Bassman year and Kurt's preamp settings are unknown (guesses). Small Clone can't be modelled: SW7 (spread) is preset with wobble as a stand-in for the watery verse/Come As You Are chorus. No reverb: Vig kept the guitars dry and in your face. Echo is only a solo helper (not on the record). SW8 = RAT stacked for extra saturation.",
+  "notes": "Dual-rig stereo for Vig's double-tracked rhythms: DS-1 (always on) feeds both; left = Mesa Studio Preamp (preamp-only capture, the Crown SS power amp assumed clean) + Nevermind-matched T75 4x12 IR, right = '71 Bassman DI at a pedal-platform setting + a second Nevermind IR, hard-panned. Exact Bassman year and Kurt's preamp settings are unknown (guesses). Small Clone can't be modelled: SW7 (spread) is preset with wobble as a stand-in for the watery verse/Come As You Are chorus. No reverb: Vig kept the guitars dry and in your face. Echo is only a solo helper (not on the record). SW8 = RAT stacked for extra saturation. The DS-1 (SW9) is Kurt's quiet-verse/loud-chorus switch: toggling it off drops ~5 dB by design.",
   "left": [
     {
       "role": "boost",
@@ -25,7 +25,8 @@
       "tone_id": 2508,
       "model_id": 419259,
       "enabled": true,
-      "label": "Boss DS-1, tone 4 dist 7 (Kurt's Nevermind DS-1)"
+      "label": "Boss DS-1, tone 4 dist 7 (Kurt's Nevermind DS-1)",
+      "out_db": -3.9
     },
     {
       "role": "amp",
@@ -34,7 +35,7 @@
       "model_id": 669165,
       "enabled": true,
       "label": "Mesa/Boogie Studio Preamp rhythm ch, heavy edge V9 bright off (preamp only)",
-      "out_db": 1.3
+      "out_db": 2.7
     },
     {
       "role": "cab",
@@ -64,7 +65,7 @@
       "model_id": 379761,
       "enabled": true,
       "label": "1971 Fender Bassman normal ch, sweet spot V7 T8 B5",
-      "out_db": -0.4
+      "out_db": 1.0
     },
     {
       "role": "cab",
@@ -107,6 +108,7 @@
     "verified_side_lufs_before_correction": [
       -18.2,
       -14.4
-    ]
+    ],
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }

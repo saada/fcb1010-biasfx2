@@ -18,7 +18,8 @@
       "tone_id": 5122,
       "model_id": 433832,
       "enabled": false,
-      "label": "MXR Micro Amp, low gain (clean level boost)"
+      "label": "MXR Micro Amp, low gain (clean level boost)",
+      "out_db": 4.0
     },
     {
       "role": "drive",
@@ -94,6 +95,7 @@
       -44.0
     ],
     "measured_peak_dbfs": -25.0,
-    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB",
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }

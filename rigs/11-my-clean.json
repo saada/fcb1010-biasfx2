@@ -24,7 +24,8 @@
       "tone_id": 87219,
       "model_id": 738629,
       "enabled": false,
-      "label": "Ibanez Tube Screamer, gain 4 (stand-in for Mayer's TS10)"
+      "label": "Ibanez Tube Screamer, gain 4 (stand-in for Mayer's TS10)",
+      "out_db": -5.6
     },
     {
       "role": "amp",
@@ -86,6 +87,7 @@
       -17.1
     ],
     "measured_peak_dbfs": 6.0,
-    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB",
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }

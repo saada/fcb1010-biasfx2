@@ -28,7 +28,8 @@
       "tone_id": 78738,
       "model_id": 684083,
       "enabled": true,
-      "label": "Marshall ShredMaster (Jonny only) gain 10 bass 7 contour 0 treble 7"
+      "label": "Marshall ShredMaster (Jonny only) gain 10 bass 7 contour 0 treble 7",
+      "out_db": -1.5
     },
     {
       "role": "amp",
@@ -37,7 +38,7 @@
       "model_id": 668845,
       "enabled": true,
       "label": "1987 Fender Eighty-Five full rig, clean T4 M4 B4 (OKC), SM57 (Jonny)",
-      "out_db": -9.4
+      "out_db": -7.9
     },
     {
       "role": "cab",
@@ -131,6 +132,7 @@
     "verified_side_lufs_before_correction": [
       -17.6,
       -17.1
-    ]
+    ],
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }

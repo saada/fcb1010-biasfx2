@@ -20,7 +20,8 @@
       "tone_id": 87914,
       "model_id": 742716,
       "enabled": false,
-      "label": "Boss SD-1, level 6 / drive 0 (low-gain boost)"
+      "label": "Boss SD-1, level 6 / drive 0 (low-gain boost)",
+      "out_db": 6.0
     },
     {
       "role": "drive",
@@ -28,7 +29,8 @@
       "tone_id": 2508,
       "model_id": 419257,
       "enabled": false,
-      "label": "Boss DS-1, tone 4 / dist 8 (solo)"
+      "label": "Boss DS-1, tone 4 / dist 8 (solo)",
+      "out_db": -13.6
     },
     {
       "role": "amp",
@@ -90,6 +92,7 @@
       -30.9
     ],
     "measured_peak_dbfs": -10.1,
-    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB",
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }

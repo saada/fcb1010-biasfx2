@@ -21,7 +21,8 @@
       "tone_id": 87914,
       "model_id": 742716,
       "enabled": false,
-      "label": "Boss SD-1 as clean boost (level 6, drive 0)"
+      "label": "Boss SD-1 as clean boost (level 6, drive 0)",
+      "out_db": 4.0
     },
     {
       "role": "drive",
@@ -130,6 +131,7 @@
     "verified_side_lufs_before_correction": [
       -14.0,
       -23.6
-    ]
+    ],
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }

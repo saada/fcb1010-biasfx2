@@ -17,7 +17,8 @@
       "tone_id": 2599,
       "model_id": 419209,
       "enabled": false,
-      "label": "Klon Centaur (silver), low gain clean boost"
+      "label": "Klon Centaur (silver), low gain clean boost",
+      "out_db": 3.0
     },
     {
       "role": "drive",
@@ -92,6 +93,7 @@
       -9.7
     ],
     "measured_peak_dbfs": 10.3,
-    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB"
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB",
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
   }
 }
