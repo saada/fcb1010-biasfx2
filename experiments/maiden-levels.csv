@@ -139,38 +139,38 @@ nodyn-4 after second trim,off,9,Maiden 2000s,solo,-13.6,-2.6,-16.6,-16.6
 nodyn-4 after second trim,off,9,Maiden 2000s,crunch,-14.1,-2.6,-17.0,-17.3
 nodyn-4 after second trim,off,9,Maiden 2000s,clean,-15.5,-1.7,-18.5,-18.5
 nodyn-4 after second trim,off,9,Maiden 2000s,acoustic,-15.5,-3.9,-18.5,-18.5
-final (Solo block, dynamics on),on,3,Maiden 82,rhythm,-11.7,-2.0,-14.8,-14.7
-final (Solo block, dynamics on),on,3,Maiden 82,solo,-10.0,-1.0,-12.9,-13.2
-final (Solo block, dynamics on),on,3,Maiden 82,crunch,-12.2,-2.6,-15.5,-14.9
-final (Solo block, dynamics on),on,3,Maiden 82,clean,-13.3,-1.0,-16.3,-16.3
-final (Solo block, dynamics on),on,3,Maiden 82,acoustic,-13.3,-1.0,-16.3,-16.4
-final (Solo block, dynamics on),on,4,Maiden 83,rhythm,-11.9,-3.4,-14.9,-14.9
-final (Solo block, dynamics on),on,4,Maiden 83,solo,-10.3,-1.8,-13.4,-13.3
-final (Solo block, dynamics on),on,4,Maiden 83,crunch,-12.2,-3.8,-15.1,-15.2
-final (Solo block, dynamics on),on,4,Maiden 83,clean,-13.7,-1.0,-16.7,-16.7
-final (Solo block, dynamics on),on,4,Maiden 83,acoustic,-14.0,-1.0,-16.9,-17.0
-final (Solo block, dynamics on),on,5,Maiden 84,rhythm,-11.5,-2.7,-14.6,-14.5
-final (Solo block, dynamics on),on,5,Maiden 84,solo,-9.7,-1.0,-12.7,-12.8
-final (Solo block, dynamics on),on,5,Maiden 84,crunch,-12.1,-2.6,-15.3,-14.8
-final (Solo block, dynamics on),on,5,Maiden 84,clean,-12.9,-2.4,-15.9,-15.9
-final (Solo block, dynamics on),on,5,Maiden 84,acoustic,-13.7,-2.4,-18.5,-15.5
-final (Solo block, dynamics on),on,6,Maiden 86,rhythm,-11.5,-2.9,-14.5,-14.5
-final (Solo block, dynamics on),on,6,Maiden 86,solo,-9.6,-1.0,-12.8,-12.5
-final (Solo block, dynamics on),on,6,Maiden 86,crunch,-11.9,-3.4,-14.5,-15.4
-final (Solo block, dynamics on),on,6,Maiden 86,clean,-13.3,-1.0,-16.3,-16.3
-final (Solo block, dynamics on),on,6,Maiden 86,acoustic,-13.6,-1.2,-16.6,-16.6
-final (Solo block, dynamics on),on,7,Maiden 88,rhythm,-11.7,-1.0,-14.7,-14.8
-final (Solo block, dynamics on),on,7,Maiden 88,solo,-9.8,-1.0,-13.3,-12.3
-final (Solo block, dynamics on),on,7,Maiden 88,crunch,-12.8,-1.7,-14.5,-17.5
-final (Solo block, dynamics on),on,7,Maiden 88,clean,-13.3,-1.0,-16.3,-16.3
-final (Solo block, dynamics on),on,7,Maiden 88,acoustic,-14.0,-1.1,-16.9,-17.1
-final (Solo block, dynamics on),on,8,Maiden 92,rhythm,-11.6,-2.6,-14.5,-14.6
-final (Solo block, dynamics on),on,8,Maiden 92,solo,-9.5,-1.0,-12.7,-12.4
-final (Solo block, dynamics on),on,8,Maiden 92,crunch,-12.5,-2.8,-15.0,-16.2
-final (Solo block, dynamics on),on,8,Maiden 92,clean,-13.5,-1.0,-16.5,-16.5
-final (Solo block, dynamics on),on,8,Maiden 92,acoustic,-13.2,-1.2,-18.6,-14.7
-final (Solo block, dynamics on),on,9,Maiden 2000s,rhythm,-12.5,-3.4,-15.5,-15.4
-final (Solo block, dynamics on),on,9,Maiden 2000s,solo,-11.1,-2.2,-14.1,-14.1
-final (Solo block, dynamics on),on,9,Maiden 2000s,crunch,-12.6,-3.1,-15.6,-15.7
-final (Solo block, dynamics on),on,9,Maiden 2000s,clean,-12.8,-1.0,-15.8,-15.8
-final (Solo block, dynamics on),on,9,Maiden 2000s,acoustic,-13.3,-2.1,-16.4,-16.3
+final - Solo block - dynamics on,on,3,Maiden 82,rhythm,-11.7,-2.0,-14.8,-14.7
+final - Solo block - dynamics on,on,3,Maiden 82,solo,-10.0,-1.0,-12.9,-13.2
+final - Solo block - dynamics on,on,3,Maiden 82,crunch,-12.2,-2.6,-15.5,-14.9
+final - Solo block - dynamics on,on,3,Maiden 82,clean,-13.3,-1.0,-16.3,-16.3
+final - Solo block - dynamics on,on,3,Maiden 82,acoustic,-13.3,-1.0,-16.3,-16.4
+final - Solo block - dynamics on,on,4,Maiden 83,rhythm,-11.9,-3.4,-14.9,-14.9
+final - Solo block - dynamics on,on,4,Maiden 83,solo,-10.3,-1.8,-13.4,-13.3
+final - Solo block - dynamics on,on,4,Maiden 83,crunch,-12.2,-3.8,-15.1,-15.2
+final - Solo block - dynamics on,on,4,Maiden 83,clean,-13.7,-1.0,-16.7,-16.7
+final - Solo block - dynamics on,on,4,Maiden 83,acoustic,-14.0,-1.0,-16.9,-17.0
+final - Solo block - dynamics on,on,5,Maiden 84,rhythm,-11.5,-2.7,-14.6,-14.5
+final - Solo block - dynamics on,on,5,Maiden 84,solo,-9.7,-1.0,-12.7,-12.8
+final - Solo block - dynamics on,on,5,Maiden 84,crunch,-12.1,-2.6,-15.3,-14.8
+final - Solo block - dynamics on,on,5,Maiden 84,clean,-12.9,-2.4,-15.9,-15.9
+final - Solo block - dynamics on,on,5,Maiden 84,acoustic,-13.7,-2.4,-18.5,-15.5
+final - Solo block - dynamics on,on,6,Maiden 86,rhythm,-11.5,-2.9,-14.5,-14.5
+final - Solo block - dynamics on,on,6,Maiden 86,solo,-9.6,-1.0,-12.8,-12.5
+final - Solo block - dynamics on,on,6,Maiden 86,crunch,-11.9,-3.4,-14.5,-15.4
+final - Solo block - dynamics on,on,6,Maiden 86,clean,-13.3,-1.0,-16.3,-16.3
+final - Solo block - dynamics on,on,6,Maiden 86,acoustic,-13.6,-1.2,-16.6,-16.6
+final - Solo block - dynamics on,on,7,Maiden 88,rhythm,-11.7,-1.0,-14.7,-14.8
+final - Solo block - dynamics on,on,7,Maiden 88,solo,-9.8,-1.0,-13.3,-12.3
+final - Solo block - dynamics on,on,7,Maiden 88,crunch,-12.8,-1.7,-14.5,-17.5
+final - Solo block - dynamics on,on,7,Maiden 88,clean,-13.3,-1.0,-16.3,-16.3
+final - Solo block - dynamics on,on,7,Maiden 88,acoustic,-14.0,-1.1,-16.9,-17.1
+final - Solo block - dynamics on,on,8,Maiden 92,rhythm,-11.6,-2.6,-14.5,-14.6
+final - Solo block - dynamics on,on,8,Maiden 92,solo,-9.5,-1.0,-12.7,-12.4
+final - Solo block - dynamics on,on,8,Maiden 92,crunch,-12.5,-2.8,-15.0,-16.2
+final - Solo block - dynamics on,on,8,Maiden 92,clean,-13.5,-1.0,-16.5,-16.5
+final - Solo block - dynamics on,on,8,Maiden 92,acoustic,-13.2,-1.2,-18.6,-14.7
+final - Solo block - dynamics on,on,9,Maiden 2000s,rhythm,-12.5,-3.4,-15.5,-15.4
+final - Solo block - dynamics on,on,9,Maiden 2000s,solo,-11.1,-2.2,-14.1,-14.1
+final - Solo block - dynamics on,on,9,Maiden 2000s,crunch,-12.6,-3.1,-15.6,-15.7
+final - Solo block - dynamics on,on,9,Maiden 2000s,clean,-12.8,-1.0,-15.8,-15.8
+final - Solo block - dynamics on,on,9,Maiden 2000s,acoustic,-13.3,-2.1,-16.4,-16.3

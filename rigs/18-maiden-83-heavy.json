@@ -162,5 +162,18 @@
         ]
       }
     ]
+  },
+  "song": {
+    "reference": "The Trooper",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor; the main riff is harmonised in 6ths, no C#",
+    "tempo_bpm": 160,
+    "solo_delay_ms": 375,
+    "harmony_trim_db": -0.5,
+    "sources": [
+      "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0057324",
+      "https://www.songsterr.com/a/wsa/iron-maiden-the-trooper-tab-s338",
+      "https://songbpm.com/@iron-maiden/the-trooper-KkIpI165zF"
+    ]
   }
 }

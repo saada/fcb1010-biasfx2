@@ -159,5 +159,18 @@
         "trim_db": 0.2
       }
     ]
+  },
+  "song": {
+    "reference": "Hallowed Be Thy Name",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor (E F# G A B C D); harmony all in 3rds",
+    "tempo_bpm": 105,
+    "solo_delay_ms": 571,
+    "harmony_trim_db": -0.3,
+    "sources": [
+      "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0094669",
+      "https://www.songsterr.com/a/wsa/iron-maiden-hallowed-be-thy-name-tab-s482",
+      "https://getsongbpm.com/song/hallowed-be-thy-name/0gEjL"
+    ]
   }
 }

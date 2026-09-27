@@ -170,5 +170,17 @@
         ]
       }
     ]
+  },
+  "song": {
+    "reference": "Fear of the Dark",
+    "harmony_scale": "C Major",
+    "harmony_scale_note": "D Dorian (D E F G A B C) for the melody; the record plays it in unison",
+    "tempo_bpm": 80,
+    "solo_delay_ms": 750,
+    "harmony_trim_db": -1.2,
+    "sources": [
+      "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0057307",
+      "https://www.songsterr.com/a/wsa/iron-maiden-fear-of-the-dark-tab-s492398"
+    ]
   }
 }

@@ -314,4 +314,64 @@ using the exact messages the FCB sends. *Data:* `maiden-levels.csv`.
   - Phase A: 30 scene switches in 60 s, with PCs exactly as the FCB sends them.
   - Phase B: 10 bank changes in 60 s, each loading two presets.
 - **Result:** A, 0 xruns. B, 1 xrun, so about 1 in 20 preset loads glitches, and only at a song change. The DSP median was 38 % of the cycle, with a peak of 87 %, reached during preset loads.
+- **Correction (D11):** this run's loop was a headerless `.raw` file. `pw-play` can't read those, so the rig was processing silence. Re-measured with real audio, the two-instance rig at steady state gave B/Q 0.32 median and 0 xruns in 30 s. D11 has the scene and bank numbers for the final rig.
 - **Side note:** an earlier sweep counted 9 xruns because its recorder and player joined the audio graph for every reading. Graph churn causes xruns too, so measure with persistent nodes.
+
+## D11 — Twin-guitar harmony, and what it cost
+
+The Maiden signature is two guitars a third apart. HARMONY (SW7 in the scene banks) adds the
+second guitarist live: a diatonic third above whatever you play, in the song's key, through
+his own amp.
+
+- **Objective test:** a synthetic plucked melody runs up the scale an octave (E4 … E5 for E minor). The harmony voice is recorded on its own and pitch-tracked with YIN, 10 ms hops.
+- **v1: Rubber Band +3.5 semitones, then x42 autotune snapping to the scale, all after the amp.** Right on 63.4 % of frames.
+  - Isolated on a clean tone:
+    - the autotune alone pulled every out-of-key note down onto G major;
+    - Rubber Band alone shifted exactly +3.50;
+    - together they gave 8/8 thirds, each within 0.02 semitones.
+  - So the failure was pitch tracking on a distorted signal.
+- **v2: harmonise the clean DI, then a third TONE3000** on its own track, loaded with the same era's rig. 8/8 notes, 100 % of frames, through the distorted Maiden 83 rig.
+  - Cost, steady state with real audio: B/Q 0.53 median against 0.32 for two instances, and **80–85 xruns in 30 s**. Removing parts one at a time showed no single culprit; it was the sum:
+
+| Parts running | Median | Max | Xruns / 30 s |
+|---|---|---|---|
+| heavy + clean (two instances) | 0.32 | 0.44 | 0 |
+| + the input loop only | 0.33 | 0.50 | 0 |
+| + Rubber Band and autotune only | 0.38 | 0.71 | 1 |
+| + the third TONE3000 only | 0.45 | 0.68 | 0 |
+| all of it | 0.52 | 0.70 | 85 |
+
+- **v3: three autotune stages instead of Rubber Band.**
+  - The autotune resolves a tie between two scale notes downward. So "shift +2 semitones, then snap" is always one scale step: a whole step that leaves the scale is pulled back to the half step.
+  - Two steps plus a final snap make a diatonic third. The harmony TONE3000 loads a generated one-chain preset: the partner guitarist's amp and cab, without reverb IRs.
+  - Result: **8/8 notes, 100 % of frames**. Steady state B/Q 0.48 median, 0.60 max, **0 xruns** in the first 30 s run.
+- **Reverb tails:** with three instances, bank changes gave 71 xruns over 7 changes.
+  - Without the long echo and reverb IRs: 0, and B/Q 0.40.
+  - Capping every reverb tail at 2.0 s (`IR_TAIL_MAX_S`): **0 xruns over 7 bank changes**, 3 over 20 scene switches.
+- **The real cause of the remaining randomness is scheduling.** Repeat steady runs gave 31, 4 and 12 xruns at a median of only 0.43–0.55, so the load itself isn't the limit.
+  - No audio thread runs real-time: Qtractor's and PipeWire's data loops are `SCHED_OTHER`, `ulimit -r` = 0, and PipeWire logs "RTKit error: ServiceUnknown".
+  - The user is in the `realtime` group (`realtime-privileges` is installed), but the group was added after this login, so no running process has it.
+  - Fix: log out and back in, or install `rtkit`. Then re-measure.
+- **Level:** the harmony voice is trimmed per era to 3 dB under the main pair, i.e. the same as one guitarist. Before trimming it measured −1.3 … −2.7 dB.
+
+## D12 — Per-song settings from a helper
+
+The FCB can send two CCs per switch, and both are taken. So `qtractor_rig.py helper`, a user
+service started by `up`, watches the FCB. When a scene bank's heavy Program Change arrives, it
+sends two values to Qtractor:
+- the song's solo echo time, on CC 85, to the Solo block's `Delay 1 time`;
+- its harmony scale, on CC 86 to 88, to the three autotune stages.
+
+- **Settings** (the `song` block in rigs 15/18/…/33). The key and tempo of each era's signature harmony song were researched from Musicnotes official transcriptions and from note data extracted from Songsterr:
+
+| Bank | Song | Scale | Solo echo |
+|---|---|---|---|
+| 03 | Hallowed Be Thy Name | E natural minor | 571 ms (105 BPM) |
+| 04 | The Trooper | E natural minor | 375 ms (160) |
+| 05 | Rime of the Ancient Mariner | E natural minor | 536 ms (112) |
+| 06 | Wasted Years | E natural minor | 390 ms (154) |
+| 07 | The Evil That Men Do | E natural minor | 375 ms (160) |
+| 08 | Fear of the Dark | D Dorian | 750 ms (80, the intro melody) |
+| 09 | Blood Brothers | E natural minor | 339 ms (177) |
+
+- **Test:** a replayed FCB Program Change 30 set the Solo delay to 748 ms (one CC step is 7.9 ms) and all three autotune stages to scale 1 (C major, the note set of D Dorian). Both were read back from the saved session.

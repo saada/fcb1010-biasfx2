@@ -159,5 +159,17 @@
         "trim_db": 3.0
       }
     ]
+  },
+  "song": {
+    "reference": "Wasted Years",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor (intro, solo and chorus; no C#)",
+    "tempo_bpm": 154,
+    "solo_delay_ms": 390,
+    "harmony_trim_db": -0.3,
+    "sources": [
+      "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0061339",
+      "https://www.songsterr.com/a/wsa/iron-maiden-wasted-years-tab-s10083"
+    ]
   }
 }

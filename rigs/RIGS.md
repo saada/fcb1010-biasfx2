@@ -41,6 +41,13 @@ Every capture links to its TONE3000 page (free download).
 | 33 | [Maiden 2000s Heavy](#maiden-2000s-heavy) | Brave New World (2000, Guillaume Tell Paris) and Dance of Death (2003, Sarm West London), both prod. Kevin Shirley with Steve Harris: The Wicker Man, Blood Brothers and Ghost of the Navigator heavy sections, Brave New World, Dance of Death main riff and harmony leads |
 | 34 | [Maiden 2000s Clean](#maiden-2000s-clean) | Brave New World (2000) / Dance of Death (2003) clean passages: Blood Brothers and Ghost of the Navigator clean intros, Brave New World's quiet opening, the clean arpeggios under Dance of Death's build-up |
 | 35 | [Maiden 2000s Acoustic](#maiden-2000s-acoustic) | Journeyman (Dance of Death, 2003, Sarm West, prod. Kevin Shirley / Steve Harris): Maiden's first and only fully acoustic song, strummed steel-string acoustics under orchestra; also the acoustic-guitar intro of Dance of Death |
+| 36 | [Maiden 82 Harmony](#maiden-82-harmony) | Twin-lead harmony voice for Maiden 82 Heavy |
+| 37 | [Maiden 83 Harmony](#maiden-83-harmony) | Twin-lead harmony voice for Maiden 83 Heavy |
+| 38 | [Maiden 84 Harmony](#maiden-84-harmony) | Twin-lead harmony voice for Maiden 84 Heavy |
+| 39 | [Maiden 86 Harmony](#maiden-86-harmony) | Twin-lead harmony voice for Maiden 86 Heavy |
+| 40 | [Maiden 88 Harmony](#maiden-88-harmony) | Twin-lead harmony voice for Maiden 88 Heavy |
+| 41 | [Maiden 92 Harmony](#maiden-92-harmony) | Twin-lead harmony voice for Maiden 92 Heavy |
+| 42 | [Maiden 2000s Harmony](#maiden-2000s-harmony) | Twin-lead harmony voice for Maiden 2000s Heavy |
 
 ## Comfortably Numb
 
@@ -851,6 +858,96 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://en.wikipedia.org/wiki/Dance_of_Death_(album)> · <https://forum.maidenfans.com/threads/interview-with-steve-harris-in-metalworld-no-38.2289/> · <https://forum.maidenfans.com/threads/journeyman.3963/> · <https://www.soundonsound.com/people/kevin-caveman-shirley> · <https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/>
 
+## Maiden 82 Harmony
+
+**PC 36** — Twin-lead harmony voice for Maiden 82 Heavy
+
+*Original rig:* the partner guitarist's amp + cab from Maiden 82 Heavy
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [1973 Marshall JMP 1987](https://www.tone3000.com/tones/48523) — Marshall JMP 1987 50W (1973), jumpered, P5 B5 M5 T5 vol 10/10 (Smith) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12, Celestion G12-65, Beyer M160 (Smith) | on |
+
+*Notes:* Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.
+
+## Maiden 83 Harmony
+
+**PC 37** — Twin-lead harmony voice for Maiden 83 Heavy
+
+*Original rig:* the partner guitarist's amp + cab from Maiden 83 Heavy
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [1980 Marshall JMP 2204](https://www.tone3000.com/tones/70525) — 1980 Marshall JMP 2204 50W, high input, 'Classic Hits' DI (Smith) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12 (JCM800 era), Celestion G12-65, SM57 (Smith) | on |
+
+*Notes:* Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.
+
+## Maiden 84 Harmony
+
+**PC 38** — Twin-lead harmony voice for Maiden 84 Heavy
+
+*Original rig:* the partner guitarist's amp + cab from Maiden 84 Heavy
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [Marshall JMP 2203 100W (1983)](https://www.tone3000.com/tones/40847) — Marshall JMP 2203 100 W (1983), gain 3 o'clock, knobs noon (Smith) | on |
+| L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A JCM800-era 4x12, Celestion G12-65, M160 (Smith) | on |
+
+*Notes:* Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.
+
+## Maiden 86 Harmony
+
+**PC 39** — Twin-lead harmony voice for Maiden 86 Heavy
+
+*Original rig:* the partner guitarist's amp + cab from Maiden 86 Heavy
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [250 Milliliters](https://www.tone3000.com/tones/5183) — Gallien-Krueger 250ML full rig (amp + speaker) 'late 80s Maiden' (Smith) | on |
+
+*Notes:* Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.
+
+## Maiden 88 Harmony
+
+**PC 40** — Twin-lead harmony voice for Maiden 88 Heavy
+
+*Original rig:* the partner guitarist's amp + cab from Maiden 88 Heavy
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [GK 2000CPL](https://www.tone3000.com/tones/6203) — Gallien-Krueger 2000CPL ch.B overdrive, set EQ (2100SEL preamp, Smith) | on |
+| L4 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith) | on |
+
+*Notes:* Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.
+
+## Maiden 92 Harmony
+
+**PC 41** — Twin-lead harmony voice for Maiden 92 Heavy
+
+*Original rig:* the partner guitarist's amp + cab from Maiden 92 Heavy
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [Marshall JCM 800 2203](https://www.tone3000.com/tones/1071) — Marshall JCM800 2203, P5 B5 M5 T5, master 6, gain 7 (Gers) | on |
+| L4 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Gers) | on |
+
+*Notes:* Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.
+
+## Maiden 2000s Harmony
+
+**PC 42** — Twin-lead harmony voice for Maiden 2000s Heavy
+
+*Original rig:* the partner guitarist's amp + cab from Maiden 2000s Heavy
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [JCM2000 Amp Pack](https://www.tone3000.com/tones/700) — Marshall JCM2000 DSL Ultra Gain, Lead 2 gain 6 (Smith) | on |
+| L4 | cab | [Marshall JCM800 Lead 1960 A (1987, Celestion T75, multi mics)](https://www.tone3000.com/tones/67526) — 1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith's 1960A T-75s) | on |
+
+*Notes:* Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.
+
 ## Footswitches
 
 | FCB1010 | CC | TONE3000 |
@@ -880,12 +977,15 @@ switches instantly and always lands in the same state:
 | SW4 | ACOUSTIC | song | acoustic | 63 | clean |
 | SW5 | CRUNCH | — | — | 48 | heavy |
 
-| Bank | Heavy | Clean | Acoustic |
-|---|---|---|---|
-| 03 | PC 15 Maiden 82 Heavy | PC 16 | PC 17 |
-| 04 | PC 18 Maiden 83 Heavy | PC 19 | PC 20 |
-| 05 | PC 21 Maiden 84 Heavy | PC 22 | PC 23 |
-| 06 | PC 24 Maiden 86 Heavy | PC 25 | PC 26 |
-| 07 | PC 27 Maiden 88 Heavy | PC 28 | PC 29 |
-| 08 | PC 30 Maiden 92 Heavy | PC 31 | PC 32 |
-| 09 | PC 33 Maiden 2000s Heavy | PC 34 | PC 35 |
+SW7 in these banks is HARMONY (CC 25): the partner guitarist a diatonic third above, in the
+song's key. On a bank's first load the DAW helper sets the song's solo echo time and harmony scale.
+
+| Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
+|---|---|---|---|---|---|---|---|
+| 03 | PC 15 Maiden 82 Heavy | PC 16 | PC 17 | PC 36 | Hallowed Be Thy Name | E natural minor | 571 ms |
+| 04 | PC 18 Maiden 83 Heavy | PC 19 | PC 20 | PC 37 | The Trooper | E natural minor | 375 ms |
+| 05 | PC 21 Maiden 84 Heavy | PC 22 | PC 23 | PC 38 | Rime of the Ancient Mariner | E natural minor | 536 ms |
+| 06 | PC 24 Maiden 86 Heavy | PC 25 | PC 26 | PC 39 | Wasted Years | E natural minor | 390 ms |
+| 07 | PC 27 Maiden 88 Heavy | PC 28 | PC 29 | PC 40 | The Evil That Men Do | E natural minor | 375 ms |
+| 08 | PC 30 Maiden 92 Heavy | PC 31 | PC 32 | PC 41 | Fear of the Dark | D Dorian | 750 ms |
+| 09 | PC 33 Maiden 2000s Heavy | PC 34 | PC 35 | PC 42 | Blood Brothers | E natural minor | 339 ms |

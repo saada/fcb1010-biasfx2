@@ -164,5 +164,17 @@
         "trim_db": 0.2
       }
     ]
+  },
+  "song": {
+    "reference": "Blood Brothers",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor (Wicker Man uses the same set)",
+    "tempo_bpm": 177,
+    "solo_delay_ms": 339,
+    "harmony_trim_db": -0.4,
+    "sources": [
+      "https://songbpm.com/@iron-maiden/blood-brothers",
+      "https://www.songsterr.com/a/wsa/iron-maiden-blood-brothers-tab-s304"
+    ]
   }
 }

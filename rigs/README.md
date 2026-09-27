@@ -98,3 +98,19 @@ in a known state:
 
 Add `"scene"` and `"bank"` to these presets. Because SW10 only reaches the heavy
 instance, `clean` and `acoustic` presets keep their delay and reverb switched *on*.
+
+### Per-song settings and generated harmony presets
+
+A heavy scene preset can carry a `song` block, which `qtractor_rig.py helper` sends to the
+DAW when the bank loads. `harmony_scale` names the x42 autotune scale that has the same notes,
+e.g. E natural minor = "G Major" and D Dorian = "C Major":
+
+```jsonc
+"song": {"reference": "The Trooper", "harmony_scale": "G Major", "tempo_bpm": 160,
+         "solo_delay_ms": 375, "harmony_trim_db": -0.5, "sources": ["..."]}
+```
+
+The builder also generates one `harmony` preset per bank from the heavy preset's partner
+chain (amp and cab only), numbered after the files. The FCB loads it on PC channel 3 for the
+DAW's harmony TONE3000. Reverb tails in `echo.reverb` and `ambience` blocks are capped at
+`IR_TAIL_MAX_S` (2.0 s), because long convolutions cost xruns with three instances.

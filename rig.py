@@ -21,10 +21,11 @@ sys.path.insert(0, str(Path(__file__).parent / "lib"))
 from fcb1010 import fcb1010
 
 sys.path.insert(0, str(Path(__file__).parent))
-from tone3000 import SCENE_DRIVE_CC, SCENE_SELECT_CC, SCENES
+from tone3000 import SCENE_DRIVE_CC, SCENE_SELECT_CC, SCENES, load_rigs
 
 CHANNEL = 0  # MIDI channel 1 (0-based)
 CLEAN_CHANNEL = 1  # PC 2 -> the DAW's clean TONE3000 (qtractor_rig.py) on MIDI channel 2
+HARMONY_CHANNEL = 2  # PC 3 -> the DAW's harmony TONE3000 on MIDI channel 3
 
 WAH_SWEEP_CC = 27
 VOLUME_CC = 7
@@ -65,14 +66,13 @@ SCENE_SWITCHES = ["rhythm", "solo", "clean", "acoustic", "crunch"]  # SW1..SW5
 
 def scene_banks():
     banks = {}
-    for f in sorted((Path(__file__).parent / "rigs").glob("*.json")):
-        rig = json.loads(f.read_text())
+    for rig in load_rigs():  # includes the generated harmony presets
         if rig.get("scene"):
             banks.setdefault(rig["bank"], {})[rig["scene"]] = (rig["pc"], rig["name"])
     for bank, presets in banks.items():
-        if missing := {"heavy", "clean", "acoustic"} - set(presets):
+        if missing := {"heavy", "clean", "acoustic", "harmony"} - set(presets):
             print(f"warning: bank {bank} has no {', '.join(sorted(missing))} preset — skipped", file=sys.stderr)
-    return {bank: p for bank, p in sorted(banks.items()) if len(p) == 3}
+    return {bank: p for bank, p in sorted(banks.items()) if len(p) == 4}
 
 
 SCENE_BANKS = scene_banks()
@@ -80,6 +80,14 @@ SCENE_BANKS = scene_banks()
 SONG_RESET = ((SCENE_DRIVE_CC, SCENES["rhythm"][0]), (SCENE_SELECT_CC, 0))
 
 BANKS_IN_USE = sorted({bank for bank, *_ in SONGS} | set(SCENE_BANKS))
+HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) instead of the octaver
+
+
+def toggles(bank):
+    if bank in SCENE_BANKS:
+        return [(7, HARMONY_CC, "Harmony (twin lead)") if switch == 7 else (switch, cc, name)
+                for switch, cc, name in TOGGLES]
+    return TOGGLES
 
 
 def preset_index(bank, switch):
@@ -91,6 +99,7 @@ def build():
     for name in ("pc1", "pc2", "pc3", "pc4", "pc5", "cc1", "cc2", "expA", "expB", "note"):
         setattr(fcb, f"{name}_midi_channel", CHANNEL)
     fcb.pc2_midi_channel = CLEAN_CHANNEL
+    fcb.pc3_midi_channel = HARMONY_CHANNEL
     fcb.direct_select = False
 
     for preset in fcb.preset:
@@ -116,10 +125,11 @@ def build():
             if clean_kind:  # loads the era; SOLO/CRUNCH send only CCs (a PC would reset CC 80)
                 preset.pc1_enabled, preset.pc1_program = True, presets["heavy"][0]
                 preset.pc2_enabled, preset.pc2_program = True, presets[clean_kind][0]
+                preset.pc3_enabled, preset.pc3_program = True, presets["harmony"][0]
             set_ccs(preset, ((SCENE_DRIVE_CC, drive), (SCENE_SELECT_CC, select)))
 
     for bank in BANKS_IN_USE:
-        for switch, cc, _ in TOGGLES:
+        for switch, cc, _ in toggles(bank):
             preset = fcb.preset[preset_index(bank, switch)]
             preset.cc1_enabled = True
             preset.cc1_controller = cc
@@ -149,23 +159,25 @@ def verify(fcb):
         assert p.expA_enabled and p.expA_controller == WAH_SWEEP_CC, f"{name}: EXP A"
         assert p.expB_enabled and p.expB_controller == VOLUME_CC, f"{name}: EXP B"
     for bank in BANKS_IN_USE:
-        for switch, cc, name in TOGGLES:
+        for switch, cc, name in toggles(bank):
             p = parsed.preset[preset_index(bank, switch)]
             assert p.cc1_enabled and p.cc1_controller == cc and p.cc1_value == 127, \
                 f"bank {bank} {name}: CC mismatch"
             assert not any((p.pc1_enabled, p.pc2_enabled, p.pc3_enabled,
                             p.pc4_enabled, p.pc5_enabled)), f"bank {bank} {name}: stray PC"
     assert parsed.pc2_midi_channel == CLEAN_CHANNEL, "PC 2 must go out on the clean channel"
+    assert parsed.pc3_midi_channel == HARMONY_CHANNEL, "PC 3 must go out on the harmony channel"
     for bank, presets in SCENE_BANKS.items():
         for switch, scene in enumerate(SCENE_SWITCHES, 1):
             drive, select, clean_kind = SCENES[scene]
             p = parsed.preset[preset_index(bank, switch)]
             if clean_kind:
-                assert (p.pc1_program, p.pc2_program) == (presets["heavy"][0], presets[clean_kind][0]) \
-                    and p.pc1_enabled and p.pc2_enabled, f"bank {bank} {scene}: PCs"
+                assert (p.pc1_program, p.pc2_program, p.pc3_program) == \
+                    (presets["heavy"][0], presets[clean_kind][0], presets["harmony"][0]) \
+                    and p.pc1_enabled and p.pc2_enabled and p.pc3_enabled, f"bank {bank} {scene}: PCs"
                 assert drive == SCENES["rhythm"][0], f"{scene}: a PC-sending scene must use the preset's drive"
             else:
-                assert not (p.pc1_enabled or p.pc2_enabled), f"bank {bank} {scene}: must not send PCs"
+                assert not (p.pc1_enabled or p.pc2_enabled or p.pc3_enabled), f"bank {bank} {scene}: must not send PCs"
             assert (p.cc1_controller, p.cc1_value, p.cc2_controller, p.cc2_value) == \
                 (SCENE_DRIVE_CC, drive, SCENE_SELECT_CC, select), f"bank {bank} {scene}: CCs"
     return data
@@ -180,12 +192,13 @@ def show():
                 print(f"  SW{switch:<2} -> PC {pc:<3} {name}")
         if bank in SCENE_BANKS:
             presets = SCENE_BANKS[bank]
-            print(f"  {presets['heavy'][1]} / {presets['clean'][1]} / {presets['acoustic'][1]}")
+            print(f"  {presets['heavy'][1]} / {presets['clean'][1]} / {presets['acoustic'][1]} / {presets['harmony'][1]}")
             for switch, scene in enumerate(SCENE_SWITCHES, 1):
                 drive, select, clean_kind = SCENES[scene]
-                pcs = f"PC {presets['heavy'][0]} + PC {presets[clean_kind][0]} (ch 2)" if clean_kind else "no PC"
-                print(f"  SW{switch:<2} -> {scene.upper():<9} {pcs:<22} CC {SCENE_DRIVE_CC}={drive} CC {SCENE_SELECT_CC}={select}")
-        for switch, cc, name in TOGGLES:
+                pcs = (f"PC {presets['heavy'][0]} + {presets[clean_kind][0]} (ch2) + {presets['harmony'][0]} (ch3)"
+                       if clean_kind else "no PC")
+                print(f"  SW{switch:<2} -> {scene.upper():<9} {pcs:<32} CC {SCENE_DRIVE_CC}={drive} CC {SCENE_SELECT_CC}={select}")
+        for switch, cc, name in toggles(bank):
             print(f"  SW{switch:<2} -> CC {cc} (127)  {name}")
         print()
 
@@ -300,7 +313,7 @@ def pull(args):
     Path(__file__).parent.joinpath("device-backup.syx").write_bytes(bytes(dump))
     print("Saved to device-backup.syx\n")
     expected = {(b, s): ("PC", pc, n) for b, s, pc, n in SONGS} | \
-               {(b, s): ("CC", cc, n) for b in BANKS_IN_USE for s, cc, n in TOGGLES}
+               {(b, s): ("CC", cc, n) for b in BANKS_IN_USE for s, cc, n in toggles(b)}
     mismatches = 0
     for bank in BANKS_IN_USE:
         for switch in range(1, 11):

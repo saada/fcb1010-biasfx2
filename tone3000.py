@@ -457,10 +457,16 @@ def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=
     return wav_write([v / peak * 0.9 for v in h], rate)
 
 
+# Reverb tails are cut at this length. Long convolutions cost CPU on every cycle and stall
+# preset loads: with three TONE3000s in the DAW, 3.5 s tails gave 71 xruns over 7 bank
+# changes, and without them there were none (experiments D11).
+IR_TAIL_MAX_S = float(os.environ.get("T3K_IR_TAIL_MAX_S", 2.0))
+
+
 def reverb_tail(spec):
     """Catalog reverb IR for an echo block's `reverb`: first channel, 48 kHz, trimmed."""
     raw = model_file(model_of(spec["tone_id"], spec["model_id"]))
-    chans, rate = wav_read(trimmed_ir(raw, float(spec.get("trim_seconds", 3.0))))
+    chans, rate = wav_read(trimmed_ir(raw, min(float(spec.get("trim_seconds", 3.0)), IR_TAIL_MAX_S)))
     return chans[0], float(spec.get("level_db", -6.0))
 
 
@@ -491,8 +497,32 @@ RIGHT_ROLE_SLOTS = {"amp": 1, "cab": 2, "echo": 3}                     # dual-ri
 
 
 def load_rigs():
-    rigs = [json.loads(f.read_text()) | {"_file": f.name} for f in sorted(RIGS.glob("*.json"))]
-    return sorted(rigs, key=lambda r: r["pc"])
+    """rigs/*.json plus a generated `harmony` preset per scene bank, numbered after them."""
+    rigs = sorted([json.loads(f.read_text()) | {"_file": f.name} for f in sorted(RIGS.glob("*.json"))],
+                  key=lambda r: r["pc"])
+    heavy = [r for r in rigs if r.get("scene") == "heavy"]
+    nxt = max(r["pc"] for r in rigs) + 1
+    return rigs + [harmony_rig(r, nxt + i) for i, r in enumerate(sorted(heavy, key=lambda r: r["bank"]))]
+
+
+def harmony_rig(heavy, pc):
+    """The harmony guitarist's rig for a scene bank: the heavy preset's partner side (right
+    chain: Smith / Gers) as one light chain - amp + cab, no delay or reverb IRs - so a third
+    TONE3000 can voice the DAW's twin-lead harmony without the CPU of a full dual rig
+    (experiments D11). Built on the fly; not a file in rigs/."""
+    side = heavy.get("right") or heavy["left"][heavy.get("split_after", 0):]
+    core = [dict(b) for b in side if b.get("role") in ("amp", "cab")]
+    trim = heavy.get("song", {}).get("harmony_trim_db", 0.0)  # harmony = one guitarist, 3 dB under the pair
+    if trim:
+        core[-1]["out_db"] = round(max(-24.0, min(24.0, core[-1].get("out_db", 0.0) + trim)), 1)
+    return {"pc": pc, "name": heavy["name"].replace("Heavy", "Harmony"), "scene": "harmony",
+            "bank": heavy["bank"], "_file": f"(generated from {heavy['_file']})",
+            "reference": f"Twin-lead harmony voice for {heavy['name']}",
+            "rig": "the partner guitarist's amp + cab from " + heavy["name"],
+            "notes": "Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.",
+            "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"}, *core],
+            "params": {k: v for k, v in heavy.get("params", {}).items() if not k.startswith(("chain", "align"))},
+            "levels": heavy.get("levels", {})}
 
 
 def model_of(tone_id, model_id):
@@ -525,7 +555,10 @@ def build_block(spec):
     if kind == "ir":
         raw = model_file(model_of(spec["tone_id"], mid))
         if spec.get("trim_seconds") or not wav_loads_in_tone3000(raw):
-            data = trimmed_ir(raw, float(spec.get("trim_seconds") or 60.0))
+            seconds = float(spec.get("trim_seconds") or 60.0)
+            if spec.get("role") == "ambience":
+                seconds = min(seconds, IR_TAIL_MAX_S)
+            data = trimmed_ir(raw, seconds)
     node = block(kind, on, tone, mid, mix=mix, eq_gains=spec.get("eq"),
                  eq_pre=spec.get("eq_pre", False), data=data)
     if spec.get("out_db"):  # level trim (measured, see rig "levels"); block output is +-24 dB
@@ -590,7 +623,7 @@ SCENES = {  # name: (CC 80, CC 81, preset the clean instance loads; None = send 
 # A Program Change - even re-sending the loaded preset - re-applies the preset's params
 # *after* CCs in the same burst, so a PC would wipe CC 80 (experiments D8). Presets load at
 # the rhythm drive (63), so scenes that send PCs use 63; SOLO/CRUNCH send only CCs.
-SCENE_KINDS = ("heavy", "clean", "acoustic")
+SCENE_KINDS = ("heavy", "clean", "acoustic", "harmony")  # harmony presets are generated
 
 
 def build_preset(rig):
@@ -865,9 +898,17 @@ def cli_docs(args):
     for r in rigs:
         if r.get("scene"):
             banks.setdefault(r["bank"], {})[r["scene"]] = r
-    out += ["", "| Bank | Heavy | Clean | Acoustic |", "|---|---|---|---|"]
-    out += [f"| 0{b} | PC {p['heavy']['pc']} {p['heavy']['name']} | PC {p['clean']['pc']} | PC {p['acoustic']['pc']} |"
-            for b, p in sorted(banks.items()) if len(p) == 3]
+    out += ["", "SW7 in these banks is HARMONY (CC 25): the partner guitarist a diatonic third above, in the",
+            "song's key. On a bank's first load the DAW helper sets the song's solo echo time and harmony scale.",
+            "", "| Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |",
+            "|---|---|---|---|---|---|---|---|"]
+    for b, p in sorted(banks.items()):
+        if {"heavy", "clean", "acoustic", "harmony"} <= set(p):
+            song = p["heavy"].get("song", {})
+            scale = song.get("harmony_scale_note", "").split(" (")[0].split(";")[0]
+            out.append(f"| 0{b} | PC {p['heavy']['pc']} {p['heavy']['name']} | PC {p['clean']['pc']} | "
+                       f"PC {p['acoustic']['pc']} | PC {p['harmony']['pc']} | {song.get('reference', '')} | "
+                       f"{scale} | {song.get('solo_delay_ms', '')} ms |")
     (RIGS / "RIGS.md").write_text("\n".join(out) + "\n")
     print(f"wrote {RIGS / 'RIGS.md'} ({len(rigs)} presets)")
 

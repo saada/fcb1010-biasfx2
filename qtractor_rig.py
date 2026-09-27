@@ -19,7 +19,11 @@ MIDI tracks/buses, and only the CLAP build of TONE3000 gets raw Program Change:
                                           │ send (CC 81 > 63)                                  ├► bus Rig:
                    Clean: [Clean In] ◄────┘ ─► TONE3000 ────────────────────────────────────────┘  Compressor
                                                                               ─► Limiter ─► Scarlett out
-  FCB1010 ─► MIDI bus "FCB" ─► Heavy gets MIDI ch 1, Clean gets ch 2 (their PCs + CCs).
+  Heavy's [Harmony Tap] sends the clean DI ─► Harmony: [Harmony In] (SW7) ─► 3 x42 autotune
+      stages (a diatonic third in the song's key) ─► TONE3000 (partner's amp) ─► bus Rig
+  FCB1010 ─► MIDI bus "FCB" ─► Heavy gets MIDI ch 1, Clean ch 2, Harmony ch 3 (their PCs).
+  `helper` (a user service started by `up`) turns a scene bank's PC into its song's solo
+  echo time and harmony scale (CC 85-88).
 
 Scene banks (tone3000.SCENES) switch instantly with absolute CCs, never a Program Change:
   - CC 81 activates the Selector insert. Bypassed, it passes the guitar on through the
@@ -61,6 +65,10 @@ TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 # EXP A wah sweep, EXP B volume. The DAW takes back SW6/SW7/EXP A for real pedals;
 # TONE3000 keeps the block toggles and output level.
 CC_WAH, CC_OCTAVER, CC_WAH_SWEEP = 20, 21, 27
+CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the octaver
+# Per-song settings the FCB has no room for (two CCs per switch): `helper` watches the
+# FCB for a scene bank's Program Change and sends these to Qtractor.
+CC_SOLO_TIME, CC_HARMONY_SCALE = 85, 86
 TONE3000_MIDI_MAP = [(target, cc) for target, cc in t3k.MIDI_MAP if cc not in (CC_WAH, CC_OCTAVER, CC_WAH_SWEEP)]
 # Scene banks (tone3000.SCENES): CC 80 = the heavy TONE3000's input drive, read by its
 # own MIDI map as value/127; Qtractor also switches the Solo boost + delay on above 63.
@@ -89,7 +97,7 @@ SOLO = ("Solo", "http://lsp-plug.in/plugins/lv2/slap_delay_stereo", False,
          34: ("Delay 1 low-cut", 1), 35: ("Delay 1 low-cut frequency", 250.0),
          36: ("Delay 1 high-cut", 1), 37: ("Delay 1 high-cut frequency", 4500.0),
          43: ("Delay 1 feedback", 0.3), 44: ("Delay 1 gain", db(-10))},
-        {t3k.SCENE_DRIVE_CC: ("Activate", "latch")})
+        {t3k.SCENE_DRIVE_CC: ("Activate", "latch"), CC_SOLO_TIME: (29, "hook")})  # time: per song (helper)
 COMPRESSOR = ("Compressor", "http://lsp-plug.in/plugins/lv2/compressor_stereo", True,
               {29: ("Attack threshold", db(-18)), 30: ("Attack time", 10.0), 32: ("Release time", 120.0),
                34: ("Ratio", 3.0), 38: ("Makeup gain", db(3))}, {})
@@ -101,6 +109,53 @@ CLEAN_T3K = ("TONE3000 Clean", "tone3000", "clean", TONE3000_MIDI_MAP)
 HEAVY_CHAIN = [WAH, HEAVY_T3K, OCTAVER, SOLO]
 CLEAN_CHAIN = [CLEAN_T3K]
 BUS_CHAIN = [COMPRESSOR, LIMITER]  # on bus "Rig": both instances share one set of dynamics
+
+# HARMONY = the second guitarist a diatonic third above, through his own amp. The heavy
+# chain taps the clean DI. Track "Harmony" (SW7 toggles its input) runs it through three x42
+# autotune stages that build the third from scale steps, then through a third TONE3000 on
+# MIDI ch 3. That TONE3000 loads the bank's generated harmony preset: the partner guitarist's
+# amp and cab only, since a full dual rig here cost 80 xruns in 30 s. The song's scale comes
+# from `helper`. Pitch tracking has to happen on the clean DI: after a cranked amp only 64% of
+# frames were right, on the DI 8/8 notes (experiments D11).
+FAT1_SCALES = ["Chromatic"] + [f"{k} Major" for k in "C Db D Eb E F F# G Ab A Bb B".split()] \
+    + [f"{k} Minor" for k in "C C# D Eb E F F# G G# A Bb B".split()]
+def fat1_stage(label, offset, scale_cc=None):
+    """x42 autotune: snap to the song's scale (Manual mode = the scale mask only) and shift."""
+    return (label, "http://gareus.org/oss/lv2/fat1#scales", True,
+            {3: ("Mode", 2.0), 7: ("Filter", 0.02), 8: ("Correction", 1.0), 9: ("Offset", offset),
+             11: ("Fast Correction", 1.0), 12: ("Scale", float(FAT1_SCALES.index("G Major")))},
+            {scale_cc: (12, "hook")} if scale_cc is not None else {})
+
+
+# Diatonic third = two diatonic steps. Each stage shifts +2 semitones and snaps to the scale;
+# a whole step that leaves the scale sits exactly between two scale notes and x42 resolves
+# that tie downward, i.e. to the half step - so each stage is one scale step. A last stage
+# only snaps. Three light stages replaced Rubber Band, whose FFT spikes on top of a third
+# TONE3000 caused xruns (experiments D11). Every stage follows the helper's scale CC... but
+# Qtractor allows one observer per CC, so stages 2-3 get their own CCs (CC_HARMONY_SCALE+1/+2).
+HARMONY_CHAIN = [
+    fat1_stage("Harmony Step 1", 2.0, CC_HARMONY_SCALE),
+    fat1_stage("Harmony Step 2", 2.0, CC_HARMONY_SCALE + 1),
+    fat1_stage("Harmony Snap", 0.0, CC_HARMONY_SCALE + 2),
+    ("TONE3000 Harmony", "tone3000", "harmony", TONE3000_MIDI_MAP),  # light partner-side preset (PC ch 3)
+]
+
+
+def scale_cc(scale):
+    """CC value that lands on fat1's `Scale` index (Qtractor maps 0-127 linearly onto 0-24)."""
+    return -(-FAT1_SCALES.index(scale) * 127 // 24)
+
+
+def song_settings():
+    """{heavy PC: (solo echo ms, harmony scale)} for the scene banks (rigs `song` block)."""
+    out = {}
+    for rig in t3k.load_rigs():
+        if rig.get("scene") == "heavy":
+            song = rig.get("song", {})
+            echo = next((b for b in rig["left"] if b.get("role") == "echo" and b.get("delay_ms")), {})
+            out[rig["pc"]] = (song.get("solo_delay_ms") or echo.get("delay_ms") or 380,
+                              song.get("harmony_scale", "G Major"))
+    return out
 
 
 def el(parent, tag, text=None, **attrs):
@@ -116,21 +171,23 @@ def fields(parent, **values):
 
 
 def connects(parent, tag, ports):
+    """ports: (client, port) per channel, or (channel, client, port) to wire several per channel."""
     c = el(parent, tag)
-    for i, (client, port) in enumerate(ports):
-        e = el(c, "connect", index=i)
+    for i, spec in enumerate(ports):
+        ch, client, port = spec if len(spec) == 3 else (i, *spec)
+        e = el(c, "connect", index=ch)
         el(e, "client", client)
         el(e, "port", port)
 
 
-def audio_bus(parent, name, mode, channels, ins=(), outs=(), plugins=()):
+def audio_bus(parent, name, mode, channels, ins=(), outs=(), plugins=(), panning=0):
     b = el(parent, "audio-bus", name=name, mode=mode)
     fields(b, monitor=0, channels=channels, auto_connect=0)
     if mode != "output":
         fields(b, input_gain=1, input_panning=0)
         connects(b, "input-connects", ins)
     if mode != "input":
-        fields(b, output_gain=1, output_panning=0)
+        fields(b, output_gain=1, output_panning=panning)
         chain = el(b, "output-plugins")
         for spec in plugins:
             plugin(chain, *spec)
@@ -205,7 +262,7 @@ def plugin(parent, label, uri, active, params, ccs=None):
             controller(cs, params[target][0], target, cc, mode)
 
 
-def insert(parent, label, returns, send=0, wet=1, active=True, activate_cc=None):
+def insert(parent, label, returns, send=0, wet=1, active=True, activate_cc=None, dry=0, activate_mode="latch"):
     """Qtractor Audio Insert: JACK ports Qtractor:<label>/out_N (send) and in_N (return).
     On a MIDI track the chain input is silence, so the return is what you hear."""
     p = el(parent, "plugin", type="Insert")
@@ -214,11 +271,11 @@ def insert(parent, label, returns, send=0, wet=1, active=True, activate_cc=None)
     for ch, (client, port) in enumerate(returns):
         el(cfg, "config", f"{ch}|{client}|{port}", key=f"in_{ch}")
     ps = el(p, "params")
-    for i, (name, v) in enumerate([("Send Gain", send), ("Dry Gain", 0), ("Wet Gain", wet), ("Latency (frames)", 0)]):
+    for i, (name, v) in enumerate([("Send Gain", send), ("Dry Gain", dry), ("Wet Gain", wet), ("Latency (frames)", 0)]):
         el(ps, "param", v, index=i, name=name)
     if activate_cc is not None:
         fields(p, activate_subject_index=ACTIVATE_INDEX)
-        controller(el(p, "controllers"), "Activate", ACTIVATE_INDEX, activate_cc, "latch")
+        controller(el(p, "controllers"), "Activate", ACTIVATE_INDEX, activate_cc, activate_mode)
 
 
 def track(parent, name, kind, in_bus, out_bus, monitor=False, mute=False, midi_channel=None, record=False):
@@ -238,7 +295,7 @@ def rig_track(tracks, name, channel, head, chain):
     plugins = el(tr, "plugins")
     head(plugins)
     for spec in chain:
-        plugin(plugins, *spec)
+        spec[0](plugins) if callable(spec[0]) else plugin(plugins, *spec)
     fields(plugins, audio_output_bus=0, audio_output_bus_name="Rig", audio_output_auto_connect=0)
 
 
@@ -267,7 +324,12 @@ def session_xml():
     # guitar to the clean rig and mutes this one) -> wah -> TONE3000 -> octaver -> solo.
     rig_track(tracks, "Heavy", 0, lambda ps: (
         insert(ps, "Guitar", [GUITAR, GUITAR]),
-        insert(ps, "Selector", [], send=1, wet=0, active=False, activate_cc=t3k.SCENE_SELECT_CC)), HEAVY_CHAIN)
+        insert(ps, "Selector", [], send=1, wet=0, active=False, activate_cc=t3k.SCENE_SELECT_CC),
+        insert(ps, "Harmony Tap", [], send=1, dry=1, wet=0)), HEAVY_CHAIN)  # passes on + sends the DI
+    # Harmony (PC ch 3: the bank's light partner-side preset): SW7 opens its input; silent otherwise.
+    rig_track(tracks, "Harmony", 2, lambda ps: insert(
+        ps, "Harmony In", [("Qtractor", "Harmony Tap/out_1"), ("Qtractor", "Harmony Tap/out_2")],
+        active=False, activate_cc=CC_HARMONY, activate_mode="toggle"), HARMONY_CHAIN)
     # Clean (PC ch 2): hears the guitar only through the Selector's send.
     rig_track(tracks, "Clean", 1, lambda ps: insert(
         ps, "Clean In", [("Qtractor", "Selector/out_1"), ("Qtractor", "Selector/out_2")]), CLEAN_CHAIN)
@@ -323,6 +385,38 @@ def build():
     print(f"wrote {SESSION} and patched {QTRACTOR_CONF}")
 
 
+def qtractor_port():
+    out = subprocess.run(["aconnect", "-l"], capture_output=True, text=True).stdout
+    m = re.search(r"client (\d+): 'Qtractor'", out)
+    return f"{m.group(1)}:0" if m else None
+
+
+def send_song(port, pc, settings):
+    ms, scale = settings[pc]
+    for cc, value in ((CC_SOLO_TIME, round(ms / 1000 * 127)), (CC_HARMONY_SCALE, scale_cc(scale)),
+                      (CC_HARMONY_SCALE + 1, scale_cc(scale)), (CC_HARMONY_SCALE + 2, scale_cc(scale))):
+        subprocess.run(["aseqsend", "-p", port, "B0", f"{cc:02X}", f"{value:02X}"], check=True)
+
+
+def helper():
+    """Watch the FCB; on a scene bank's heavy Program Change, send that song's solo echo
+    time and harmony scale to Qtractor (runs as the qtractor-rig-helper user unit)."""
+    settings = song_settings()
+    while not (port := qtractor_port()):
+        time.sleep(1)
+    first = next((r["pc"] for r in t3k.load_rigs() if r.get("scene") == "heavy"), None)
+    if first is not None:
+        send_song(port, first, settings)  # the session starts on the first scene bank
+    source = os.environ.get("RIG_HELPER_SOURCE", "").split() or ["aseqdump", "-p", FCB[0]]  # tests replay a dump
+    fcb = subprocess.Popen(source, stdout=subprocess.PIPE, text=True)
+    for line in fcb.stdout:
+        m = re.search(r"Program change\s+0, program (\d+)", line)
+        if m and int(m.group(1)) in settings:
+            send_song(qtractor_port() or port, int(m.group(1)), settings)
+            print(f"PC {m.group(1)}: solo echo {settings[int(m.group(1))][0]} ms, harmony {settings[int(m.group(1))][1]}",
+                  flush=True)
+
+
 def up():
     build()
     if subprocess.run(["pgrep", "-x", "TONE3000"], capture_output=True).stdout:
@@ -331,13 +425,16 @@ def up():
                     f"--setenv=PIPEWIRE_QUANTUM={QUANTUM}/48000", "qtractor", str(SESSION)], check=True)
     for _ in range(60):
         if pid() and "Qtractor" in subprocess.run(["aconnect", "-l"], capture_output=True, text=True).stdout:
-            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM})")
+            subprocess.run(["systemd-run", "--user", "--quiet", "--collect", "--unit=qtractor-rig-helper",
+                            "-p", "Restart=always", sys.executable, str(Path(__file__).resolve()), "helper"])
+            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM}) + per-song helper")
             return
         time.sleep(0.5)
     sys.exit("Qtractor did not come up — journalctl --user -u qtractor-rig")
 
 
 def down():
+    subprocess.run(["systemctl", "--user", "stop", "qtractor-rig-helper"], capture_output=True)
     if not (p := pid()):
         return print("Qtractor is not running")
     before = SESSION.stat().st_mtime if SESSION.exists() else 0
@@ -400,4 +497,4 @@ def show_map():
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "map"
-    {"build": build, "up": up, "down": down, "record": record, "stop": stop, "map": show_map}.get(cmd, lambda: sys.exit(__doc__))()
+    {"build": build, "up": up, "down": down, "record": record, "stop": stop, "map": show_map, "helper": helper}.get(cmd, lambda: sys.exit(__doc__))()

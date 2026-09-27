@@ -168,5 +168,17 @@
         ]
       }
     ]
+  },
+  "song": {
+    "reference": "Rime of the Ancient Mariner",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor (Aces High's intro modulates, so Rime - almost entirely E minor harmonies - sets the bank)",
+    "tempo_bpm": 112,
+    "solo_delay_ms": 536,
+    "harmony_trim_db": -0.4,
+    "sources": [
+      "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0110405",
+      "https://www.songsterr.com/a/wsa/iron-maiden-aces-high-tab-s10018"
+    ]
   }
 }

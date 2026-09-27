@@ -170,22 +170,27 @@ keep peaks under −1 dBFS; see `experiments/README.md` D0–D4. Run the standal
 Every bank has the same footswitches:
 
 ```
-SW1 RHYTHM   SW2 SOLO   SW3 CLEAN   SW4 ACOUSTIC   SW5 CRUNCH
-SW6 wah      SW7 octaver  SW8 boost  SW9 drive     SW10 delay + reverb
-EXP A wah sweep                      EXP B volume
+SW1 RHYTHM   SW2 SOLO     SW3 CLEAN   SW4 ACOUSTIC   SW5 CRUNCH
+SW6 wah      SW7 HARMONY  SW8 boost   SW9 drive      SW10 delay + reverb
+EXP A wah sweep                        EXP B volume
 ```
 
 Scenes switch instantly. The DAW runs a heavy and a clean TONE3000 side by side, and
 each switch sends absolute CCs, never a mid-song preset load (which would leave a
 60–170 ms hole). What each switch does:
 
-- **SOLO** pushes the amps and adds +2 dB with a 380 ms lead echo.
+- **SOLO** pushes the amps and adds +2 dB with a lead echo timed to the era's signature
+  song (The Trooper 375 ms, Fear of the Dark 750 ms, …).
+- **HARMONY** (toggle) adds the second guitarist, a diatonic third above whatever you play,
+  in the song's key, through the partner's own amp: Smith or Gers for that era. It's built
+  from x42 autotune stages on the clean DI, and pitch tests put 8/8 notes on the right third.
 - **CRUNCH** is the volume-knob-down sound, like the Fear of the Dark intro.
 - **CLEAN** and **ACOUSTIC** use the era's reverby clean and electric-to-acoustic presets.
 - **Changing song or bank:** press RHYTHM, CLEAN or ACOUSTIC first; each of those loads the era.
 
 All 21 presets are levelled and both guitar sides are balanced to within 0.1 dB
-(experiments D8–D10). The gear and its sources are in `rigs/RIGS.md` and each
+(experiments D8–D10). A small helper (`qtractor_rig.py helper`, started by `up`) applies
+each song's echo time and harmony key when the era loads (D11–D12). The gear and its sources are in `rigs/RIGS.md` and each
 `rigs/NN-maiden-*.json`.
 
 Upload the new FCB layout once (`uv run rig.py send`, see RIG-NOTES.md), then
