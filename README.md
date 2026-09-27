@@ -68,6 +68,13 @@ uv run --project guitarmood guitarmood install   # once: Omarchy launcher entry 
 Then **SUPER+SPACE → GuitarMood** turns the rig on and **SUPER+W** turns it off. Launching
 it again only focuses the window, so there is never a second rig.
 
+- **Two-way:** click a switch (or press **1–9, 0** for SW1–SW10) and the rig switches exactly as
+  if you stomped it. GuitarMood sends the same messages the FCB would, taken from the layout
+  `rig.py` uploads, into the same Qtractor port. Clicking a bank in the setlist or the UP/DOWN
+  tile (or pressing **↑/↓**) loads that bank's SW1. The FCB1010 itself can't be told what
+  happened, so its display keeps its own bank, and GuitarMood marks the press "on screen".
+  Toggles, SOLO and CRUNCH work from any bank on the pedal. RHYTHM, CLEAN and ACOUSTIC on the
+  pedal load the bank the pedal shows.
 - **Autoscale:** everything is sized from the window, so any tile works. A wide tile adds the
   setlist; a small one shrinks to the scene name plus the toggles that are lit.
 - **Themed:** colours come from the active Omarchy theme (`colors.toml`) and follow a theme

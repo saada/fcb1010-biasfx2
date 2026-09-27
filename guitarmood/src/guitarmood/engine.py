@@ -39,6 +39,13 @@ def read_daw_toggles():
     return out
 
 
+def midi_hex(ev):
+    """("pc", ch, program) / ("cc", ch, cc, value) -> aseqsend's hex bytes."""
+    if ev[0] == "pc":
+        return [f"{0xC0 | ev[1]:02X}", f"{ev[2]:02X}"]
+    return [f"{0xB0 | ev[1]:02X}", f"{ev[2]:02X}", f"{ev[3]:02X}"]
+
+
 def fcb_present():
     out = subprocess.run(["aseqdump", "-l"], capture_output=True, text=True).stdout
     return qr.FCB[0] in out
@@ -133,6 +140,10 @@ class Engine:
     def act(self, action):
         self.actions.put(action)
 
+    def send(self, events):
+        """A switch pressed on screen: the same messages, into the same Qtractor port as the FCB."""
+        self.actions.put(("send", events))
+
     def _act_loop(self):
         while True:
             kind, arg = self.actions.get()
@@ -142,7 +153,10 @@ class Engine:
             if not port:
                 continue
             try:
-                if kind == "song" and arg in self.settings:
+                if kind == "send":
+                    for ev in arg:
+                        subprocess.run(["aseqsend", "-p", port, *midi_hex(ev)], check=True)
+                elif kind == "song" and arg in self.settings:
                     qr.send_song(port, arg, self.settings)
                 elif kind == "tuner":
                     self.tuning = arg

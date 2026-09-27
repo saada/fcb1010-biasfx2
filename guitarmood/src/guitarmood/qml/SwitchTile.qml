@@ -13,6 +13,23 @@ Rectangle {
     readonly property bool isScene: s.kind === "scene" || s.kind === "song"
 
     radius: 12 * u
+    signal clicked()
+    scale: hit.pressed ? 0.97 : 1
+    Behavior on scale { NumberAnimation { duration: 80 } }
+
+    MouseArea {
+        id: hit
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked: tile.clicked()
+    }
+    Rectangle {  // hover sheen
+        anchors.fill: parent
+        radius: parent.radius
+        color: rig.colors.foreground
+        opacity: hit.containsMouse ? 0.06 : 0
+    }
     color: on ? Qt.rgba(hue.r, hue.g, hue.b, 0.20) : c.lighter_background
     border.width: on ? Math.max(2, 3 * u) : Math.max(1, u)
     border.color: on ? hue : (known ? c.selection : c.muted)

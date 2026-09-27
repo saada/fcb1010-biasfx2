@@ -9,6 +9,23 @@ Rectangle {
     readonly property var c: rig.colors
 
     radius: 12 * u
+    signal clicked()
+    scale: hit.pressed ? 0.97 : 1
+    Behavior on scale { NumberAnimation { duration: 80 } }
+
+    MouseArea {
+        id: hit
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked: step.clicked()
+    }
+    Rectangle {  // hover sheen
+        anchors.fill: parent
+        radius: parent.radius
+        color: rig.colors.foreground
+        opacity: hit.containsMouse ? 0.06 : 0
+    }
     color: c.dark_background
     border.width: Math.max(1, u)
     border.color: c.selection

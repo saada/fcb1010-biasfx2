@@ -94,6 +94,43 @@ def test_live_session_replay(board):
     assert snap["up"]["number"] == 8 and snap["down"]["number"] == 6
 
 
+def test_screen_press_equals_pedal_burst(board):
+    """A click sends what the pedal sends: the last live burst was Seventh Son RHYTHM."""
+    assert board.messages(7, 1) == [("pc", 0, 27), ("pc", 1, 28), ("pc", 2, 40), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert board.messages(7, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # SOLO: no PC, never wipes CC 80
+
+
+def test_every_switch_lights_itself(board):
+    """For every bank and switch, the layout's own messages light that switch on screen."""
+    for bank in board.banks:
+        for sw in range(1, 11):
+            events = board.messages(bank, sw)
+            if not events:
+                continue
+            st = RigState(board)
+            for ev in board.messages(bank, 1):  # land in the bank first, as the screen always is
+                st.feed(ev)
+            if sw == 1:
+                st = RigState(board)
+            for ev in events:
+                st.feed(ev)
+            snap = st.snapshot()
+            assert snap["bank"] == bank, (bank, sw)
+            s = by_sw(snap)[sw]
+            if s["key"] in ("boost", "drive", "delay") and not s["known"]:
+                continue
+            if s["key"] in ("boost", "drive", "delay") and board.block_default(st.heavy_pc, s["key"]):
+                assert not s["on"], (bank, sw)  # on in the preset: one press turns it off
+            else:
+                assert s["on"], (bank, sw, s)
+
+
+def test_midi_hex():
+    from guitarmood.engine import midi_hex
+    assert midi_hex(("pc", 1, 22)) == ["C1", "16"]
+    assert midi_hex(("cc", 0, 81, 127)) == ["B0", "51", "7F"]
+
+
 def test_adopted_rig_never_guesses(board):
     st = RigState(board)
     st.adopt({"wah": True, "harmony": False, "tuner": False})

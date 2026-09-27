@@ -49,6 +49,19 @@ Window {
         rig.shutdown()
     }
 
+    // Keys mirror the board: 1-9 and 0 are SW1-SW10, Up/Down step a bank (loading its SW1).
+    Repeater {
+        model: 10
+        Item {
+            Shortcut {
+                sequence: String((index + 1) % 10)
+                onActivated: rig.pressSwitch(index + 1)
+            }
+        }
+    }
+    Shortcut { sequences: ["Up", "PgUp"]; onActivated: if (win.st.up) rig.loadBank(win.st.up.number) }
+    Shortcut { sequences: ["Down", "PgDown"]; onActivated: if (win.st.down) rig.loadBank(win.st.down.number) }
+
     // ------------------------------------------------------------------ full board
     Item {
         anchors.fill: parent
@@ -197,12 +210,14 @@ Window {
                                     Layout.preferredWidth: 100; Layout.preferredHeight: 100
                                     s: modelData; u: win.u; hue: win.hueFor(modelData)
                                     opacity: win.st.tuning && modelData.key !== "tuner" ? 0.35 : 1
+                                    onClicked: rig.pressSwitch(modelData.sw)
                                 }
                             }
                             BankStep {
                                 Layout.fillWidth: true; Layout.fillHeight: true
                                 Layout.preferredWidth: 100; Layout.preferredHeight: 100
                                 up: true; target: win.st.up; u: win.u
+                                onClicked: if (target) rig.loadBank(target.number)
                             }
                             Repeater {
                                 model: win.sw.slice(0, 5)
@@ -211,12 +226,14 @@ Window {
                                     Layout.preferredWidth: 100; Layout.preferredHeight: 100
                                     s: modelData; u: win.u; hue: win.hueFor(modelData)
                                     opacity: win.st.tuning && modelData.key !== "tuner" ? 0.35 : 1
+                                    onClicked: rig.pressSwitch(modelData.sw)
                                 }
                             }
                             BankStep {
                                 Layout.fillWidth: true; Layout.fillHeight: true
                                 Layout.preferredWidth: 100; Layout.preferredHeight: 100
                                 up: false; target: win.st.down; u: win.u
+                                onClicked: if (target) rig.loadBank(target.number)
                             }
                         }
                         Pedal {
@@ -251,7 +268,7 @@ Window {
                         elide: Text.ElideRight
                     }
                     Text {
-                        text: "close this window to stop the rig"
+                        text: "click a switch or press 1–0 · ↑↓ bank · close to stop the rig"
                         color: win.c.dark_foreground
                         font { family: rig.font; pixelSize: 14 * win.u }
                     }
@@ -277,9 +294,16 @@ Window {
                         Layout.fillHeight: true
                         Layout.maximumHeight: 82 * win.u
                         radius: 10 * win.u
-                        color: modelData.current ? win.c.selection : "transparent"
+                        color: modelData.current ? win.c.selection : rowHit.containsMouse ? win.c.lighter_background : "transparent"
                         border.width: modelData.current ? Math.max(1, 2 * win.u) : 0
                         border.color: win.c.accent
+                        MouseArea {
+                            id: rowHit
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: rig.loadBank(modelData.number)
+                        }
                         RowLayout {
                             anchors.fill: parent
                             anchors.margins: 8 * win.u

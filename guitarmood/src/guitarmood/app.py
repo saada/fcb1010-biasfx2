@@ -78,6 +78,26 @@ class Bridge(QObject):
     def font(self):
         return self._font
 
+    @Slot(int)
+    def pressSwitch(self, sw):
+        """Click or key: press that switch in the bank on screen."""
+        self.press(self.rig.bank, sw)
+
+    @Slot(int)
+    def loadBank(self, bank):
+        """Setlist, UP/DOWN tile or arrow key: press that bank's first switch (RHYTHM / first song)."""
+        self.press(bank, 1)
+
+    def press(self, bank, sw):
+        events = self.board.messages(bank, sw)
+        if not events or self.closing:
+            return
+        self.engine.send(events)  # queued before the helper's reaction to them
+        for ev in events:
+            self._on_event(ev)
+        self.rig.via = "screen"
+        self._flush()
+
     @Slot()
     def shutdown(self):
         """Window closed, SIGTERM or SIGINT: stop the rig off the UI thread, then quit."""
@@ -92,7 +112,9 @@ class Bridge(QObject):
         threading.Thread(target=run, daemon=True, name="rig-stop").start()
 
     # ---------------------------------------------------------------- internals
-    def _on_event(self, ev):
+    def _on_event(self, ev, via="pedal"):
+        if not (ev[0] == "cc" and ev[2] in self.rig.exp):  # rocking a pedal isn't a press
+            self.rig.via = via
         if action := self.rig.feed(ev):
             self.engine.act(action)
         self._dirty = True

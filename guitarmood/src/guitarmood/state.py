@@ -53,6 +53,7 @@ class RigState:
         self.last_sw = None
         self.synced = True
         self.presses = 0
+        self.via = "pedal"  # or "screen": the FCB's own display doesn't follow screen presses
         self.last_at = time.monotonic()
 
     # ---------------------------------------------------------------- input
@@ -213,7 +214,8 @@ class RigState:
                      "live": self.daw["wah"]},
             "expB": {"cc": fcb.VOLUME_CC, "label": "Volume", "value": self.exp[fcb.VOLUME_CC], "live": True},
             "tuning": self.tuning,
-            "last": self.last,
+            "last": self.last + (" · on screen" if self.via == "screen" else ""),
+            "via": self.via,
             "up": nb(numbers[i + 1] if i + 1 < len(numbers) else None),
             "down": nb(numbers[i - 1] if i > 0 else None),
             "banks": [dict(nb(n), current=n == self.bank, kind=b.banks[n].kind) for n in numbers],

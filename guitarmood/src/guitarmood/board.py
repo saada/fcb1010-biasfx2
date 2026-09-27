@@ -79,6 +79,7 @@ class Board:
         for bank in fcb.BANKS_IN_USE:
             self.banks[bank] = self._scene_bank(bank) if bank in fcb.SCENE_BANKS else self._song_bank(bank)
         self.start_bank = min(fcb.SCENE_BANKS) if fcb.SCENE_BANKS else min(self.banks)
+        self._fcb = None  # the FCB layout, built on first use
 
     def _toggle_switches(self, bank, song=None):
         out = {}
@@ -125,6 +126,22 @@ class Board:
                 b.switches[sw] = Switch(sw, "empty", "", "—")
         b.switches.update(self._toggle_switches(bank))
         return b
+
+    def messages(self, bank, sw):
+        """What the FCB sends when that switch is pressed, straight from the layout rig.py
+        uploads: PC 1-3, then CC 1-2 (the pedal's own order). Empty for an unused switch."""
+        if self._fcb is None:
+            self._fcb = fcb.build()
+        f = self._fcb
+        p = f.preset[fcb.preset_index(bank, sw)]
+        out = []
+        for n, ch in ((1, f.pc1_midi_channel), (2, f.pc2_midi_channel), (3, f.pc3_midi_channel)):
+            if getattr(p, f"pc{n}_enabled"):
+                out.append(("pc", ch, getattr(p, f"pc{n}_program")))
+        for n, ch in ((1, f.cc1_midi_channel), (2, f.cc2_midi_channel)):
+            if getattr(p, f"cc{n}_enabled"):
+                out.append(("cc", ch, getattr(p, f"cc{n}_controller"), getattr(p, f"cc{n}_value")))
+        return out
 
     def block_default(self, pc, toggle):
         """The preset's own on/off state for the block a t3k toggle switches (None = empty slot)."""
