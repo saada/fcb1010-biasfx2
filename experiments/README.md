@@ -378,11 +378,14 @@ sends two values to Qtractor:
 
 ## D13 — A tuner on SW10, and muting in Qtractor
 
-- **Tuner:** FMIT (Free Music Instrument Tuner, native Qt, AUR `fmit`). On a CC 28 press the helper opens it and patches `fmit:input` to the clean guitar input only; on the next press it closes it.
-  - Replay test, two presses: after the first, Tuner Mute = 1 and one FMIT window is open; after the second, Tuner Mute = 0 and no windows are left.
+- **Tuner:** Chromatic (GTK4, Flathub `io.github.nate_xyz.Chromatic`).
+  - On a CC 28 press the helper runs it with `PIPEWIRE_NODE` set to the guitar source. Its ALSA-on-PipeWire capture then hears only Input 2; by default it took Input 1. On the next press `flatpak kill` closes it; the sandboxed app outlives `flatpak run`.
+  - A Hyprland rule makes it float, centred, 1100×760 and opaque. At the default tile (466×508) the gauge was clipped, and Omarchy's default opacity let the desktop show through.
+  - Replay test, two presses: after the first, Tuner Mute = 1 and one window is open; after the second, Tuner Mute = 0 and no windows are left.
   - How it got there:
     - A hand-rolled Python tuner was dropped in favour of existing software.
-    - x42 Tuna via `jalv` had to run on XWayland, because x42 UIs embed as X11 and jalv's GtkPlug crashes under Wayland. The user rejected its look.
+    - x42 Tuna via `jalv` needed XWayland: x42 UIs embed as X11 and jalv's GtkPlug crashes under Wayland. Rejected: "ugly".
+    - FMIT (Qt) had fixed layouts that tiling crushed; its note readout was cut off. Rejected.
     - TONE3000's own tuner is a click-only UI button (`setTunerEnabled` from its web UI, with no MIDI target), so no footswitch can reach it.
 - **Muting while tuning:** four ways, tested with the DI loop, measuring bus `Rig`:
 

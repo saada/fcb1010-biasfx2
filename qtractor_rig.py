@@ -67,7 +67,7 @@ TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 # TONE3000 keeps the block toggles and output level.
 CC_WAH, CC_OCTAVER, CC_WAH_SWEEP = 20, 21, 27
 CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the octaver
-CC_TUNER = 28    # SW10 in every bank: the helper opens FMIT (tuner) and mutes the rig
+CC_TUNER = 28    # SW10 in every bank: the helper opens Chromatic (tuner) and mutes the rig
 CC_TUNER_MUTE = 29  # helper -> Qtractor: absolute 127/0 (a toggled Insert lost its input links)
 # Per-song settings the FCB has no room for (two CCs per switch): `helper` watches the
 # FCB for a scene bank's Program Change and sends these to Qtractor.
@@ -419,13 +419,13 @@ def helper():
     tuner_proc, tuning = None, False
     for line in fcb.stdout:
         if re.search(rf"Control change\s+0, controller {CC_TUNER}, value (6[4-9]|[7-9]\d|1[0-2]\d)\b", line):
-            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + FMIT window
+            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + Chromatic window
             subprocess.run(["aseqsend", "-p", qtractor_port() or port, "B0", f"{CC_TUNER_MUTE:02X}",
                             "7F" if tuning else "00"])
             if tuning:
                 tuner_proc = tuner_on()
-            elif tuner_proc:
-                tuner_proc.terminate(); tuner_proc = None
+            else:
+                tuner_off(tuner_proc); tuner_proc = None
             print(f"tuner {'on' if tuning else 'off'}", flush=True)
             continue
         m = re.search(r"Program change\s+0, program (\d+)", line)
@@ -444,29 +444,23 @@ def guitar_source():
     sys.exit("guitar input not found")
 
 
+TUNER_APP = "io.github.nate_xyz.Chromatic"  # Chromatic: GTK4 tuner, Flathub
+
+
 def tuner_on():
-    """Open FMIT (Free Music Instrument Tuner, native Qt) on the clean guitar input."""
-    if not shutil.which("fmit"):
-        subprocess.run(["notify-send", "FCB tuner", "install FMIT: yay -S fmit"])
+    """Open Chromatic on the clean guitar input. PIPEWIRE_NODE points its ALSA-on-PipeWire
+    capture at the guitar. A Hyprland rule floats it, centred and opaque (README)."""
+    if subprocess.run(["flatpak", "info", TUNER_APP], capture_output=True).returncode:
+        subprocess.run(["notify-send", "FCB tuner", f"install it: flatpak install flathub {TUNER_APP}"])
         return None
-    proc = subprocess.Popen(["fmit"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    src = guitar_source() + ":capture_MONO"
-    for _ in range(40):  # wait for its JACK input, then feed it the guitar and nothing else
-        if "fmit:input" in subprocess.run(["pw-link", "-i"], capture_output=True, text=True).stdout.split():
-            time.sleep(0.3)  # let FMIT's own auto-connect land first
-            links = subprocess.run(["pw-link", "-l"], capture_output=True, text=True).stdout.splitlines()
-            for i, line in enumerate(links):
-                if line.strip() == "fmit:input":
-                    for dep in links[i + 1:]:
-                        if not dep.startswith("  |<- "):
-                            break
-                        other = dep[len("  |<- "):].strip()
-                        if other != src:
-                            subprocess.run(["pw-link", "-d", other, "fmit:input"], capture_output=True)
-            subprocess.run(["pw-link", src, "fmit:input"], capture_output=True)
-            break
-        time.sleep(0.25)
-    return proc
+    return subprocess.Popen(["flatpak", "run", f"--env=PIPEWIRE_NODE={guitar_source()}", TUNER_APP],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def tuner_off(proc):
+    subprocess.run(["flatpak", "kill", TUNER_APP], capture_output=True)  # the sandboxed app outlives `flatpak run`
+    if proc:
+        proc.terminate()
 
 
 def up():
