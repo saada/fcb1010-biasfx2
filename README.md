@@ -54,6 +54,53 @@ EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
 the soloists apart, switch pickups: neck for Murray's fluid legato, bridge for Smith's and
 Gers' bite. SOLO then adds the push and the echo on top.
 
+## Practice guide
+
+### Once
+
+1. **Install** the packages from "DAW rig" below, plus Chromatic for the tuner. Run `./bootstrap.sh` to build every preset and the session.
+2. **Program the FCB1010:**
+   - Write the layout: `python3 rig.py syx ~/Music/fcb-rig/fcb1010-maiden.syx`.
+   - Put the pedal in receive mode: hold DOWN at power-on, tap UP to CONFIGURATION, then tap SW7 (SYSEX RCV).
+   - Send it: `amidi -p hw:2,0 -s ~/Music/fcb-rig/fcb1010-maiden.syx`.
+   - Hold DOWN to save.
+   - Recalibrate the pedals: hold SW1+SW5 at power-on, then heel and toe each pedal.
+3. **Real-time audio:** add your user to the `realtime` group (`realtime-privileges`) and log out and back in. `~/.config/pipewire/jack.conf` turns rtkit off for JACK apps, because rtkit's 200 ms cap kills Qtractor.
+4. **Gain staging:** set the Scarlett's monitor knob to your loudest comfortable level. The Linux output (sink) stays at 100 %. Play Spotify or YouTube at 100 %: the guitar is levelled to sit just above it.
+
+### Every session
+
+1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then run `python3 qtractor_rig.py up`. It takes about 10 s and starts on the Maiden 82 bank.
+2. **Tune:** press SW10. The rig mutes and Chromatic opens on your guitar. Tune, then press SW10 again.
+3. **Pick a bank** with UP/DOWN, and press **RHYTHM, CLEAN or ACOUSTIC** first: those load the era. SOLO and CRUNCH only change drive, so they assume the era is already loaded.
+4. Play along with the track in Spotify or YouTube.
+5. **Record** a take: `python3 qtractor_rig.py record` / `stop`. It saves the full rig and the dry DI in `~/Music/fcb-rig/`, so you can re-amp later.
+6. When you're done: `python3 qtractor_rig.py down`.
+
+### Maiden song recipes
+
+| Song (bank) | How to play it on the board |
+|---|---|
+| Hallowed Be Thy Name (03) | CLEAN for the arpeggio intro → RHYTHM when the band comes in → SOLO for the leads. HARMONY on the twin lines (E minor). |
+| The Trooper (04) | RHYTHM gallop → SOLO for the solo. HARMONY for the main riff's twin line. |
+| Rime of the Ancient Mariner (05) | RHYTHM → CLEAN for the quiet middle section → back to RHYTHM → SOLO. |
+| Wasted Years (06) | SOLO + SW9 (delay + reverb) for the intro lead → RHYTHM for the verses. |
+| The Evil That Men Do (07) | RHYTHM, then HARMONY for the harmonised bridge. |
+| Fear of the Dark (08) | CRUNCH + SW9 for the quiet intro melody (750 ms echo) → RHYTHM for the gallop → SOLO. HARMONY is set to D Dorian, but the record plays that melody in unison. |
+| Journeyman (09) | ACOUSTIC for the whole song. |
+
+**Two soloists:** use the neck pickup for Murray's fluid legato and the bridge for Smith's and Gers' bite. **Wah** is SW6 plus EXP A; **volume swells** are EXP B.
+
+### When something's off
+
+| Symptom | Fix |
+|---|---|
+| No sound | The tuner mute may be on: press SW10. Otherwise check Input 2 and the Scarlett's monitor knob. |
+| Wrong era or tone after changing bank | Press RHYTHM, CLEAN or ACOUSTIC to load the era. |
+| Crackles or dropouts | Close the tuner (SW10). Log out and in so Qtractor gets real-time priority. Avoid heavy apps while playing. |
+| Guitar too loud or quiet next to the music | Use the Scarlett monitor knob for overall level and EXP B for the guitar; leave the Linux volume at 100 %. |
+| The rig won't start | `python3 qtractor_rig.py down`, then `up`. For details: `journalctl --user -u qtractor-rig`. |
+
 ## FCB1010 side
 
 ```

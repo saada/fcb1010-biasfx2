@@ -400,3 +400,16 @@ sends two values to Qtractor:
 - **Real-time audio:** `rtkit` gave PipeWire RR priority 20, but PipeWire's rtkit path also caps a real-time process at 200 ms of CPU. Qtractor, even with an empty session, was killed at 0.47 s every time.
   - Fix: `~/.config/pipewire/jack.conf` sets `rtkit.enabled` / `rtportal.enabled = false`. JACK clients then take real-time only from the `realtime` group's rlimits, with no cap, once that group is active in the login session.
   - TONE3000's multiCore stays on: steady xruns in 30 s were 56 with it off, 9 and 7 with it on.
+
+## D14 — The tuner that listened to the mic, and the dropouts it caused
+
+- **Symptom:** during a practice session the sound kept cutting up, and the tuner read the user's voice.
+- **Measured:** Qtractor ERR went up about 250 in 12 s (6620 → 6870). Two Chromatic instances were running at about 96 % CPU combined, and both were recording from **Scarlett Input 1** (the mic), not Input 2 (the guitar).
+- **Cause:**
+  - Chromatic records through ALSA-on-PipeWire and takes the default source. `flatpak run --env=PIPEWIRE_NODE=…` didn't stick when the helper launched it.
+  - A second instance had been left open by an earlier toggle.
+- **Fix:**
+  - The helper kills any running instance before opening one.
+  - Once Chromatic's `ALSA plug-in [chromatic]:input_MONO` port appears, the helper replaces whatever is connected to it with the guitar source.
+- **Result:** one window, fed only from Input 2, and closed cleanly by the second press. With the tuner closed, ERR went up by 1 in about 15 s at B/Q 0.43–0.58.
+- **Still open:** Qtractor's audio thread runs `SCHED_OTHER` until the `realtime` group is active in the login session (see D13), which needs a re-login.
