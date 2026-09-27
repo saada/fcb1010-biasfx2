@@ -378,7 +378,12 @@ sends two values to Qtractor:
 
 ## D13 — A tuner on SW10, and muting in Qtractor
 
-- **Tuner:** x42 Tuna (x42-plugins-lv2), in its own window via `jalv`. On a CC 28 press the helper opens it on the clean guitar input; on the next press it closes it. The first attempt was a hand-rolled tuner in Python, dropped in favour of the existing plugin.
+- **Tuner:** FMIT (Free Music Instrument Tuner, native Qt, AUR `fmit`). On a CC 28 press the helper opens it and patches `fmit:input` to the clean guitar input only; on the next press it closes it.
+  - Replay test, two presses: after the first, Tuner Mute = 1 and one FMIT window is open; after the second, Tuner Mute = 0 and no windows are left.
+  - How it got there:
+    - A hand-rolled Python tuner was dropped in favour of existing software.
+    - x42 Tuna via `jalv` had to run on XWayland, because x42 UIs embed as X11 and jalv's GtkPlug crashes under Wayland. The user rejected its look.
+    - TONE3000's own tuner is a click-only UI button (`setTunerEnabled` from its web UI, with no MIDI target), so no footswitch can reach it.
 - **Muting while tuning:** four ways, tested with the DI loop, measuring bus `Rig`:
 
 | Mute | Engaged | Released |

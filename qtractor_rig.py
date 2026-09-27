@@ -67,7 +67,7 @@ TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 # TONE3000 keeps the block toggles and output level.
 CC_WAH, CC_OCTAVER, CC_WAH_SWEEP = 20, 21, 27
 CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the octaver
-CC_TUNER = 28    # SW10 in every bank: the helper opens x42 Tuna and mutes the rig
+CC_TUNER = 28    # SW10 in every bank: the helper opens FMIT (tuner) and mutes the rig
 CC_TUNER_MUTE = 29  # helper -> Qtractor: absolute 127/0 (a toggled Insert lost its input links)
 # Per-song settings the FCB has no room for (two CCs per switch): `helper` watches the
 # FCB for a scene bank's Program Change and sends these to Qtractor.
@@ -419,7 +419,7 @@ def helper():
     tuner_proc, tuning = None, False
     for line in fcb.stdout:
         if re.search(rf"Control change\s+0, controller {CC_TUNER}, value (6[4-9]|[7-9]\d|1[0-2]\d)\b", line):
-            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + x42 Tuna window
+            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + FMIT window
             subprocess.run(["aseqsend", "-p", qtractor_port() or port, "B0", f"{CC_TUNER_MUTE:02X}",
                             "7F" if tuning else "00"])
             if tuning:
@@ -444,24 +444,26 @@ def guitar_source():
     sys.exit("guitar input not found")
 
 
-TUNER_URI = "http://gareus.org/oss/lv2/tuna#one"  # x42 Tuna: strobe-style tuner (x42-plugins-lv2)
-
-
 def tuner_on():
-    """Open x42 Tuna's own window (via jalv) on the clean guitar input."""
-    host = next((h for h in ("jalv.gtk3", "jalv.gtk", "jalv.qt6", "jalv.qt5", "jalv") if shutil.which(h)), None)
-    if not host:
-        subprocess.run(["notify-send", "FCB tuner", "install jalv: sudo pacman -S jalv"])
+    """Open FMIT (Free Music Instrument Tuner, native Qt) on the clean guitar input."""
+    if not shutil.which("fmit"):
+        subprocess.run(["notify-send", "FCB tuner", "install FMIT: yay -S fmit"])
         return None
-    # x42 UIs embed as X11 windows: under Wayland jalv's GtkPlug crashes, so run it on XWayland
-    proc = subprocess.Popen([host, "-n", "fcb-tuner", TUNER_URI], env=os.environ | {"GDK_BACKEND": "x11"},
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    proc = subprocess.Popen(["fmit"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     src = guitar_source() + ":capture_MONO"
-    for _ in range(40):  # wait for its JACK input, then patch the guitar straight in
-        ports = subprocess.run(["pw-link", "-i"], capture_output=True, text=True).stdout.split()
-        tuna_in = "fcb-tuner:in" if "fcb-tuner:in" in ports else None
-        if tuna_in:
-            subprocess.run(["pw-link", src, tuna_in], capture_output=True)
+    for _ in range(40):  # wait for its JACK input, then feed it the guitar and nothing else
+        if "fmit:input" in subprocess.run(["pw-link", "-i"], capture_output=True, text=True).stdout.split():
+            time.sleep(0.3)  # let FMIT's own auto-connect land first
+            links = subprocess.run(["pw-link", "-l"], capture_output=True, text=True).stdout.splitlines()
+            for i, line in enumerate(links):
+                if line.strip() == "fmit:input":
+                    for dep in links[i + 1:]:
+                        if not dep.startswith("  |<- "):
+                            break
+                        other = dep[len("  |<- "):].strip()
+                        if other != src:
+                            subprocess.run(["pw-link", "-d", other, "fmit:input"], capture_output=True)
+            subprocess.run(["pw-link", src, "fmit:input"], capture_output=True)
             break
         time.sleep(0.25)
     return proc

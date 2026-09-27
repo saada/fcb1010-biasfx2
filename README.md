@@ -48,7 +48,7 @@ EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
 | SW7 OCTAVER / HARMONY | CC 21 / CC 25 (toggle) | octave down in the song banks; twin-lead harmony in the Maiden banks |
 | SW8 LEAD / BOOST | CC 26 / CC 22 (toggle) | song banks: boost + solo echo together; Maiden: the boost pedal |
 | SW9 DRIVE / DELAY + REVERB | CC 23 / CC 24 (toggle) | song banks: the song's drive pedal; Maiden: the era's delay + reverb |
-| SW10 TUNER | CC 28 (toggle) | mutes the rig and opens x42 Tuna on the clean input; press again to play |
+| SW10 TUNER | CC 28 (toggle) | mutes the rig and opens FMIT (native tuner) on the clean input; press again to play |
 
 **Whose solo?** Both guitarists play at once, Murray left and Smith or Gers right. To tell
 the soloists apart, switch pickups: neck for Murray's fluid legato, bridge for Smith's and
@@ -160,7 +160,7 @@ pedals, a compressor and limiter after the amp, and recording. The whole session
 is generated, so there is nothing to click:
 
 ```
-sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix jalv
+sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix && yay -S fmit
 python3 qtractor_rig.py up       # write ~/Music/fcb-rig/rig.qtr, launch at quantum 256
 python3 qtractor_rig.py record   # take: processed stereo rig + dry DI
 python3 qtractor_rig.py stop
@@ -217,8 +217,8 @@ each song's echo time and harmony key when the era loads (D11–D12). The gear a
 `rigs/NN-maiden-*.json`.
 
 Upload the FCB layout (`python3 rig.py syx out.syx && amidi -p hw:2,0 -s out.syx`, with the
-FCB in SYSEX RCV mode; see RIG-NOTES.md), then `python3 qtractor_rig.py up`. The tuner needs
-`jalv`, a minimal LV2 host that shows x42 Tuna's window.
+FCB in SYSEX RCV mode; see RIG-NOTES.md), then `python3 qtractor_rig.py up`. The tuner is
+FMIT (Free Music Instrument Tuner, AUR `fmit`); the helper opens it on the guitar input.
 
 ## License
 
