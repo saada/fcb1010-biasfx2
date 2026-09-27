@@ -1,0 +1,20 @@
+[project]
+name = "guitarmood"
+version = "0.1.0"
+description = "Live FCB1010 status for the Qtractor + TONE3000 rig: one window that starts the rig, shows every pedal, and cleans up when closed"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["PySide6-Essentials>=6.9"]
+
+[project.scripts]
+guitarmood = "guitarmood.app:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["uv_build>=0.8,<0.14"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

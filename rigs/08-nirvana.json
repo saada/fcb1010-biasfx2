@@ -1,0 +1,114 @@
+{
+  "pc": 8,
+  "name": "Nirvana",
+  "reference": "Smells Like Teen Spirit / Breed / In Bloom \u2014 Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City",
+  "rig": "Kurt Cobain: '69 Fender Competition Mustang / '65 Jaguar (DiMarzio Super Distortion) -> Boss DS-1 (tone ~10 o'clock, level max) [+ ProCo RAT, EHX Small Clone] -> Mesa/Boogie Studio Preamp -> Crown Power Base 2 -> 4x12, double-tracked with a Fender Bassman on the heavy parts (AC30 for cleans); SM57/U87/414 close, very little room",
+  "sources": [
+    "https://guitar.com/features/artist-rigs/the-humble-gear-used-by-kurt-cobain-on-nirvana-nevermind/",
+    "https://www.groundguitar.com/tone-breakdown/kurt-cobain-nevermind-guitars-amps-effects/",
+    "https://www.guitarworld.com/features/the-definitive-kurt-cobain-gear-guide",
+    "https://en.wikipedia.org/wiki/Nevermind"
+  ],
+  "notes": "Dual-rig stereo for Vig's double-tracked rhythms: DS-1 (always on) feeds both; left = Mesa Studio Preamp (preamp-only capture, the Crown SS power amp assumed clean) + Nevermind-matched T75 4x12 IR, right = '71 Bassman DI at a pedal-platform setting + a second Nevermind IR, hard-panned. Exact Bassman year and Kurt's preamp settings are unknown (guesses). Small Clone can't be modelled: SW7 (spread) is preset with wobble as a stand-in for the watery verse/Come As You Are chorus. No reverb: Vig kept the guitars dry and in your face. Echo is only a solo helper (not on the record). SW8 = RAT stacked for extra saturation. The DS-1 (SW9) is Kurt's quiet-verse/loud-chorus switch: toggling it off drops ~5 dB by design.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 89711,
+      "model_id": 755715,
+      "enabled": false,
+      "label": "ProCo RAT 2 low (D3 F5 L6), stacks on DS-1"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 2508,
+      "model_id": 419259,
+      "enabled": true,
+      "label": "Boss DS-1, tone 4 dist 7 (Kurt's Nevermind DS-1)",
+      "out_db": -3.9
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 76581,
+      "model_id": 669165,
+      "enabled": true,
+      "label": "Mesa/Boogie Studio Preamp rhythm ch, heavy edge V9 bright off (preamp only)",
+      "out_db": 2.7
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 65695,
+      "model_id": 395205,
+      "enabled": true,
+      "label": "Nevermind 4x12 IR (Celestion T75 blend), DIST 1"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 320,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Solo echo (not on record)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 13776,
+      "model_id": 379761,
+      "enabled": true,
+      "label": "1971 Fender Bassman normal ch, sweet spot V7 T8 B5",
+      "out_db": 1.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 65695,
+      "model_id": 395207,
+      "enabled": true,
+      "label": "Nevermind 4x12 IR (T75/V30/Greenback blend), DIST 4"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 320,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Solo echo (not on record)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.45
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -15.0,
+    "measured_side_lufs": [
+      -17.1,
+      -19.2
+    ],
+    "measured_peak_dbfs": -5.4,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -18.2,
+      -14.4
+    ],
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
+  }
+}

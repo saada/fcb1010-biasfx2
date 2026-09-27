@@ -1,0 +1,193 @@
+{
+  "pc": 17,
+  "name": "Maiden 82 Acoustic",
+  "scene": "acoustic",
+  "bank": 3,
+  "reference": "The Number of the Beast (1982, Battery Studios, prod./eng. Martin Birch): Children of the Damned acoustic intro and verses (steel-string acoustic under the clean electric), acoustic textures in Maiden's quiet intros",
+  "rig": "Adrian Smith plays the steel-string acoustic part on Children of the Damned (model not documented); the clean electric layer is his Les Paul Goldtop through a Marshall. Birch's desk plate (Battery = ex-Morgan Studios, three EMT plates per control room). Here: humbucker electric -> Boss AC-3 acoustic simulator -> acoustic body IR, double-tracked in stereo",
+  "sources": [
+    "https://www.songsterr.com/a/wsa/iron-maiden-children-of-the-damned-tab-s38603t0",
+    "https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-7",
+    "https://en.wikipedia.org/wiki/The_Number_of_the_Beast_(album)",
+    "https://en.wikipedia.org/wiki/Morgan_Studios",
+    "https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/"
+  ],
+  "notes": "Same two-stage electric->acoustic emulation as rigs/13 (AC-3 turns the magnetic pickup into a piezo-like signal, the body IR adds a mic'd wooden body), but as a stereo double-track, the way acoustic parts were layered on the record: left = AC-3 Standard -> Martin dreadnought body IR, right = AC-3 Jumbo -> Gibson J45 body IR (warmer, rounder), so the two sides differ like two takes on two guitars. Pre-EQ thins the humbucker toward a piezo voicing (as rigs/13). The acoustic model Smith used isn't documented (Songsterr's transcription lists the part as steel-string acoustic by Smith), so the dreadnought/J45 pair is a generic early-80s studio-acoustic choice. No compressor (clean/acoustic presets are limited to 2 NAM blocks); play lightly on the neck pickup. Reverb ON (SW9 doesn't reach this instance): echo block = short soft 450 ms repeat + EMT 140-style plate (a DAW EMT140 emulation IR, no capture of Battery's plates exists), slot 6 / R4 = Lexicon 480L Large Wood Room as the room mic (480L is a later unit, used only as a room stand-in). Level: rigs/13's AC-3 chain measured ~24 dB under target before trim, hence the large out_db here; unmeasured, trim after a live sweep.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588442,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Standard, Level/Body/Top noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 20.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174633,
+      "enabled": true,
+      "label": "Acoustic body IR: Martin dreadnought (piezo -> mic)",
+      "eq": [
+        -1.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "out_db": 8.4
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 450,
+      "feedback": 0.2,
+      "cutoff_hz": 3000.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft repeat 450 ms + EMT plate (lush, always on)",
+      "reverb": {
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 3.5,
+        "level_db": -1.5
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.22,
+      "trim_seconds": 2.5,
+      "label": "Large wood room (room mic)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588099,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Jumbo, Level/Body/Top noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 20.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174632,
+      "enabled": true,
+      "label": "Acoustic body IR: Gibson J45 (piezo -> mic)",
+      "eq": [
+        -2.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "out_db": 14.6
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 450,
+      "feedback": 0.2,
+      "cutoff_hz": 3000.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft repeat 450 ms + EMT plate (lush, always on)",
+      "reverb": {
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 3.5,
+        "level_db": -1.5
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.22,
+      "trim_seconds": 2.5,
+      "label": "Large wood room (room mic)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.15,
+    "chainPanRight": 0.85,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -22.7,
+        "trim_db": 12.0
+      },
+      {
+        "measured_lufs": -13.7,
+        "trim_db": -1.8,
+        "side_lufs": [
+          -14.6,
+          -20.9
+        ],
+        "side_trim_db": [
+          -3.2,
+          3.1
+        ]
+      },
+      {
+        "measured_lufs": -16.8,
+        "trim_db": 1.3,
+        "side_lufs": [
+          -19.8,
+          -19.7
+        ],
+        "side_trim_db": [
+          0.1,
+          -0.1
+        ]
+      }
+    ]
+  }
+}

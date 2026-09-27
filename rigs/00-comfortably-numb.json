@@ -1,0 +1,83 @@
+{
+  "pc": 0,
+  "name": "Comfortably Numb",
+  "reference": "Comfortably Numb solos: The Wall (1979), live on Delicate Sound of Thunder (1988) and PULSE (1994)",
+  "rig": "Black Strat (DiMarzio FS-1 bridge) -> MXR Dyna Comp -> Big Muff (Ram's Head c.1974 on The Wall, Sovtek 'Civil War' on PULSE) + Chandler/BK Butler Tube Driver -> Hiwatt DR103 (linked inputs, Normal 7 / Brill 4.5, B6 M4 T5 P6, master 5) into WEM Starfinder 4x12 w/ Fane Crescendos, split to Yamaha RA-200 rotary (Doppola live) -> MXR DDL / TC 2290 delay (~440-500 ms, 3-4 repeats) -> studio plate / Lexicon reverb",
+  "sources": [
+    "https://www.gilmourish.com/?page_id=50",
+    "https://www.gilmourish.com/?page_id=2119",
+    "https://www.gilmourish.com/?page_id=79",
+    "https://www.guitarworld.com/features/the-secrets-behind-david-gilmours-tone-on-pink-floyds-comfortably-numb",
+    "https://reverb.com/news/how-to-nail-gilmours-comfortably-numb-solo",
+    "https://liveplayrock.com/blogs/news/david-gilmour-pulse-gear-guitars-amps-and-effects-info-liveplayrock"
+  ],
+  "notes": "Single rig: real 1972 Hiwatt DR103 + its Fane-loaded 4x12 full rig (linked inputs, clean, like Gilmour's) stands in for the DR103 into WEM Starfinder/Fane Crescendo stacks. The Yamaha RA-200 (studio) / Doppola (live) rotary split can't be captured: both Leslie captures in the catalog (37391, 38834) fail to resolve (null model URLs) and NAM can't rotate anyway, so Spread + wobble 0.4 fakes the rotor movement. Muff is the Vick '73 Ram's Head clone at sustain ~7 / tone 5 (Gilmour ran ~6/6, not maxed; the amp does part of the work); Ram's Head chosen over Sovtek because the only Sovtek capture is maxed and not reamped. No Colorsound Powerboost capture exists: the boost slot is the BK Butler Tube Driver clean-boost setting (Tube Driver #1 on the PULSE board). Electric Mistress/CE2 chorus, MXR Dyna Comp and James Guthrie's heavy studio compression are not modeled. Echo (SW8 (LEAD), off by default): 460 ms, ~4 audible repeats, brighter cutoff for a digital MXR DDL / TC 2290; switch it on for the solos.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 6311,
+      "model_id": 406640,
+      "enabled": false,
+      "label": "BK Butler Tube Driver, clean boost setting (stand-in for Tube Driver #1 / Colorsound Powerboost)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 87333,
+      "model_id": 739329,
+      "enabled": true,
+      "label": "Vick Audio '73 Ram's Head Big Muff, vol 7 sustain 7 tone 5",
+      "out_db": -2.8
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 2711,
+      "model_id": 424952,
+      "enabled": true,
+      "label": "1972 Hiwatt DR103 + its Fane 4x12, linked inputs clean, SM57 (full rig)",
+      "out_db": 0.7
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 460,
+      "feedback": 0.45,
+      "cutoff_hz": 5000.0,
+      "mix": 0.28,
+      "enabled": false,
+      "label": "MXR DDL / TC 2290 solo delay, 460 ms, 3-4 repeats"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "mix": 0.25,
+      "trim_seconds": 4.0,
+      "label": "EMT 140 plate (Sunset Sound), wet 25%"
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.4
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -11.9,
+    "measured_side_lufs": [
+      -17.3,
+      -13.3
+    ],
+    "measured_peak_dbfs": 0.8,
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB",
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
+  }
+}

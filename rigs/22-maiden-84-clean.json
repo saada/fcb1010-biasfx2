@@ -1,0 +1,154 @@
+{
+  "pc": 22,
+  "name": "Maiden 84 Clean",
+  "scene": "clean",
+  "bank": 5,
+  "reference": "Rime of the Ancient Mariner, eerie slow middle section; Powerslave clean middle section (Powerslave, 1984, Compass Point Studios, prod. Martin Birch)",
+  "rig": "Clean parts came from the same Marshalls: Murray's 50 W Super Lead (left) and Smith's 100 W Marshall (right) played clean, Smith's rig adding a Boss CE-3 stereo chorus, two digital delays (Boss DD-2, Ibanez DM2000) and a Lexicon PCM60; Martin Birch adds studio plate/hall reverb at the mix",
+  "sources": [
+    "https://www.yahoo.com/entertainment/adrian-smith-iron-maiden-pyramid-152523270.html",
+    "https://guitargangsters.net/dave-murray-guitars-gear/",
+    "https://www.guitarlobby.com/adrian-smith-guitars-and-gear/",
+    "https://forum.seymourduncan.com/threads/iron-maiden-gear.5644/",
+    "https://en.wikipedia.org/wiki/Powerslave"
+  ],
+  "notes": "No separate clean amp is documented for Powerslave, so the clean is the era's Marshalls at clean settings, fed softer (in_db -6, like rolling the guitar volume back): left = Marshall 1987x 50 W, low-gain input at volume 2/4; right = 1959 Super Lead 100 W, low-gain capture (amp-only). Same G12-65 Marshall 4x12 as the heavy preset. Delay + reverb are ON (SW9 doesn't reach the clean instance): left 500 ms (DM2000), right 750 ms (DD-2), a 2:3 stereo ping for the spacious, eerie Rime feel, each summed with a Lexicon 960 large hall (stand-in for the studio Lexicon 224 / Smith's PCM60; neither is in the catalog), plus an always-on Lexicon PCM90 plate. Boss CE-3 chorus = Align wobble between the two sides (no real modulation in TONE3000). The exact effects on the Rime middle-section guitars aren't documented; delay times are set by ear for the slow section, not from a source. Levels are guesses (clean captures run quieter, hence out_db +6).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 85735,
+      "model_id": 729752,
+      "enabled": true,
+      "label": "Marshall 1987x 50 W, low-gain input, vol 2/4 (Murray clean)",
+      "in_db": -6.0,
+      "out_db": 6.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563625,
+      "enabled": true,
+      "label": "Marshall 1960A JCM800-era 4x12, Celestion G12-65, SM57",
+      "out_db": -0.5
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 500,
+      "feedback": 0.35,
+      "cutoff_hz": 4500.0,
+      "mix": 0.35,
+      "enabled": true,
+      "label": "Ibanez DM2000-style delay 500 ms + Lexicon large hall (Rime middle)",
+      "reverb": {
+        "tone_id": 88467,
+        "model_id": 745849,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 745990,
+      "enabled": true,
+      "mix": 0.22,
+      "trim_seconds": 3.0,
+      "label": "Lexicon PCM90 INSTR rich plate (Birch desk plate)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 80875,
+      "model_id": 695824,
+      "enabled": true,
+      "label": "Marshall 1959 Super Lead 100 W, low gain (Smith clean)",
+      "in_db": -6.0,
+      "out_db": 6.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563624,
+      "enabled": true,
+      "label": "Marshall 1960A JCM800-era 4x12, Celestion G12-65, M160",
+      "out_db": -4.8
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 750,
+      "feedback": 0.35,
+      "cutoff_hz": 4500.0,
+      "mix": 0.35,
+      "enabled": true,
+      "label": "Boss DD-2-style delay 750 ms + Lexicon large hall (Rime middle)",
+      "reverb": {
+        "tone_id": 88467,
+        "model_id": 745849,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 745990,
+      "enabled": true,
+      "mix": 0.22,
+      "trim_seconds": 3.0,
+      "label": "Lexicon PCM90 INSTR rich plate (Birch desk plate)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.45,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -10.6,
+        "trim_db": -3.6
+      },
+      {
+        "measured_lufs": -15.9,
+        "trim_db": 0.4,
+        "side_lufs": [
+          -21.6,
+          -17.3
+        ],
+        "side_trim_db": [
+          2.1,
+          -2.2
+        ]
+      },
+      {
+        "measured_lufs": -16.1,
+        "trim_db": 0.6
+      }
+    ]
+  }
+}

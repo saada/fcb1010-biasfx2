@@ -1,0 +1,118 @@
+{
+  "pc": 2,
+  "name": "Tornado of Souls",
+  "reference": "Tornado of Souls (incl. Marty Friedman's solo) \u2014 Megadeth, Rust in Peace (1990, Rumbo Recorders; prod. Mike Clink then Dave Mustaine/eng. Micajah Ryan, mixed dry by Max Norman)",
+  "rig": "Dave Mustaine: Jackson King V (Seymour Duncan JB) -> Marshall JCM800 2203 heads 'every knob dimed' -> Marshall 4x12s w/ Celestion G12T-75 (left). Marty Friedman: Jackson -> Bogner (Hafler) Triple Giant tube preamp -> VHT/tube power amp -> Marshall/Bogner 4x12 (right). VHT amps and Bogner preamps were in the room; Mustaine: 'It was Marshall stuff... I've always been a Marshall guy.' Dry Max Norman mix, solos with light delay",
+  "sources": [
+    "https://equipboard.com/albums/megadeth-rust-in-peace",
+    "https://equipboard.com/pros/dave-mustaine",
+    "https://equipboard.com/pros/marty-friedman",
+    "https://www.guitarworld.com/features/megadeth-rust-never-sleeps",
+    "https://www.guitarworld.com/news/dave-mustaine-looks-back-on-the-making-of-megadeths-rust-in-peace-in-new-video-interview",
+    "https://riffology.co/2024/08/11/megadeth-rust-in-peace",
+    "https://www.rig-talk.com/forum/threads/mustaine-megadeth-lead-tone.243223/",
+    "https://en.wikipedia.org/wiki/Rust_in_Peace",
+    "https://en.wikipedia.org/wiki/Tornado_of_Souls"
+  ],
+  "notes": "Dual-rig stereo: Mustaine's JCM800 hard left, Friedman's Bogner Triple Giant hard right, both fed by the shared SD-1/TS808 slots. Left = real JCM800 2203 + Marshall 4x12 full-rig capture at the 'HI GAIN' setting (preamp 10, mid 8, treble 7, presence 7) to match Mustaine's 'dimed' 800. Right = Triple Giant Sharp channel, a LiveSPICE circuit-sim preamp capture with flat controls (no real Triple Giant capture exists), sent straight into a 1987 Marshall 1960A G12T-75 IR, i.e. the VHT/clean tube power amp stage is not modelled; small post-EQ tames the flat-knob fizz. The Triple Giant attribution comes from Equipboard; sources conflict (Mustaine says Marshalls, some credit CAE 3+/VHT 2150 which is more the Countdown era; alternative right amp: 'Fig Deth Marty Chug' CAE3+/VHT capture, tone 6144 / model 429759). TS808 (boost setting) left on as the tight front end that 1990 thrash 800s used; it is a guess, turn SW9 off for the rawer amp-only tone. The Tornado solo is Marty through both sides here rather than centred. Echo (SW8 (LEAD)) = ~1/4 note at ~150 BPM, low mix, dark-ish repeats for the solos. No reverb: Max Norman's mix is famously dry. Relative level of the two sides is untested; trim with the rig EQs if one side dominates.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 70280,
+      "model_id": 577281,
+      "enabled": false,
+      "label": "Boss SD-1 Super Overdrive, boost setting (solo push)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 70280,
+      "model_id": 577277,
+      "enabled": true,
+      "label": "Ibanez TS808, boost setting (drive low, level up) tightener"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 89825,
+      "model_id": 756311,
+      "enabled": true,
+      "label": "Marshall JCM800 2203 + Marshall 4x12, SM57, HI GAIN (pre 10, B4 M8 T7 P7) (Mustaine)",
+      "out_db": -14.3
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Rack solo delay, ~1/4 note @150 BPM"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 73550,
+      "model_id": 620778,
+      "enabled": true,
+      "eq": [
+        0,
+        0,
+        1,
+        0.5,
+        -1,
+        -2.5
+      ],
+      "label": "Bogner/Hafler Triple Giant preamp, Sharp ch., flat knobs (Friedman)",
+      "out_db": 0.9
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463987,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone (Friedman)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Rack solo delay, ~1/4 note @150 BPM"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 0.0,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -2.3,
+    "measured_side_lufs": [
+      -17.8,
+      -2.4
+    ],
+    "measured_peak_dbfs": 10.0,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -1.9,
+      -32.5
+    ]
+  }
+}

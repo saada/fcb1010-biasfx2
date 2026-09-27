@@ -1,0 +1,40 @@
+run,phase,buffer_samples,buffer_ms,oversampling,multicore,process_nice,preset_set,long_irs,output_db,preset_pc,preset,seconds,dsp_bq_avg,dsp_bq_max,xruns,xruns_per_min,note
+1,A baseline,128,2.67,off,on,5,v1 single-rig,no,0,4,Slipknot,5,0.11,0.11,0,0,first launch; ~290us busy per 2667us cycle
+2,A baseline,128,2.67,2x,on,5,v1 single-rig,no,0,4,Slipknot,5,0.20,0.23,0,0,2x oversampling first look
+3,A oversampling sweep,128,2.67,4x,on,5,v1 single-rig,no,0,4,Slipknot,20,0.17,0.20,2,6.0,
+4,A oversampling sweep,128,2.67,8x,on,5,v1 single-rig,no,0,4,Slipknot,15,0.24,0.30,3,12.0,
+5,A oversampling sweep,128,2.67,2x,on,5,v1 single-rig,no,0,4,Slipknot,20,0.11,0.27,0,0,
+6,A buffer sweep,64,1.33,2x,on,5,v1 single-rig,no,0,4,Slipknot,30,0.12,0.19,12,24.0,
+7,A buffer sweep,64,1.33,off,on,5,v1 single-rig,no,0,4,Slipknot,30,0.14,0.23,0,0,
+8,A buffer sweep,64,1.33,off,on,5,v1 single-rig,no,0,4,Slipknot,60,0.16,0.30,4,4.0,longer run
+9,A buffer sweep,128,2.67,2x,on,5,v1 single-rig,no,0,4,Slipknot,60,0.18,0.30,0,0,chosen config for v1
+10,B research rigs,128,2.67,2x,on,5,v2 researched,yes,24,12,Petrucci Clean,30,0.25,0.63,3,6.0,dual rig
+11,B research rigs,128,2.67,2x,on,5,v2 researched,yes,24,10,Iron Maiden,30,0.17,0.24,3,6.0,dual rig
+12,B research rigs,128,2.67,2x,on,5,v2 researched,yes,24,6,Radiohead,30,0.21,0.46,3,6.0,dual rig
+13,B research rigs,128,2.67,2x,on,5,v2 researched,yes,24,0,Comfortably Numb,30,0.17,0.26,4,8.0,single rig
+14,B research rigs,128,2.67,2x,on,5,v2 researched,yes,24,13,Acoustic,30,0.18,0.25,5,10.0,single rig
+15,B research rigs,128,2.67,2x,on,5,v2 researched,yes,24,12,Petrucci Clean,30,0.24,0.38,7,14.0,repeat
+16,B priority,128,2.67,2x,on,0,v2 researched,yes,24,0,Comfortably Numb,30,0.18,0.29,7,14.0,launched via systemd (nice 0)
+17,B priority,128,2.67,2x,on,0,v2 researched,yes,24,12,Petrucci Clean,30,0.24,0.30,16,32.0,
+18,B priority,128,2.67,2x,on,0,v2 researched,yes,24,10,Iron Maiden,30,0.15,0.20,16,32.0,
+19,B multicore off,128,2.67,2x,off,0,v2 researched,yes,24,0,Comfortably Numb,30,0.36,0.53,52,104.0,everything on the audio thread
+20,B multicore off,128,2.67,2x,off,0,v2 researched,yes,24,12,Petrucci Clean,30,0.44,0.62,142,284.0,
+21,B multicore off,128,2.67,2x,off,0,v2 researched,yes,24,10,Iron Maiden,30,0.34,0.51,176,352.0,
+22,B oversampling off,128,2.67,off,on,0,v2 researched,yes,24,0,Comfortably Numb,30,0.20,0.25,8,16.0,
+23,B oversampling off,128,2.67,off,on,0,v2 researched,yes,24,12,Petrucci Clean,30,0.23,0.54,8,16.0,
+24,B oversampling off,128,2.67,off,on,0,v2 researched,yes,24,10,Iron Maiden,30,0.15,0.19,9,18.0,
+25,B no long IRs,128,2.67,off,on,0,v2 researched,no,24,0,Comfortably Numb,30,0.14,0.28,3,6.0,echo + reverb IRs removed (diagnostic build)
+26,B no long IRs,128,2.67,off,on,0,v2 researched,no,24,12,Petrucci Clean,30,0.19,0.26,3,6.0,
+27,B no long IRs,128,2.67,off,on,0,v2 researched,no,24,10,Iron Maiden,30,0.11,0.13,4,8.0,
+28,B level fix,128,2.67,off,on,0,v2 researched,yes (trimmed),0,0,Comfortably Numb,30,0.21,0.31,20,40.0,output 0 dB; gate -60 dB; echo IR tails trimmed
+29,B level fix,128,2.67,off,on,0,v2 researched,yes (trimmed),0,12,Petrucci Clean,30,0.21,0.25,20,40.0,
+30,B level fix,128,2.67,off,on,0,v2 researched,yes (trimmed),0,10,Iron Maiden,30,0.14,0.19,21,42.0,
+31,C buffer sweep,256,5.33,off,on,0,v2 researched,yes (trimmed),0,0,Comfortably Numb,30,0.17,0.22,0,0,
+32,C buffer sweep,256,5.33,off,on,0,v2 researched,yes (trimmed),0,12,Petrucci Clean,30,0.23,0.46,0,0,
+33,C buffer sweep,192,4.00,off,on,0,v2 researched,yes (trimmed),0,0,Comfortably Numb,30,0.20,0.32,13,26.0,non power-of-two
+34,C buffer sweep,192,4.00,off,on,0,v2 researched,yes (trimmed),0,12,Petrucci Clean,30,0.23,0.45,13,26.0,
+35,C buffer sweep,192,4.00,off,on,0,v2 researched,yes (trimmed),0,10,Iron Maiden,30,0.16,0.45,13,26.0,
+36,C confirm,256,5.33,off,on,0,v2 researched,yes (trimmed),0,10,Iron Maiden,60,0.11,0.22,0,0,final config
+37,C confirm,256,5.33,off,on,0,v2 researched,yes (trimmed),0,6,Radiohead,60,0.17,0.29,0,0,final config
+38,C oversampling at 256,256,5.33,2x,on,0,v2 researched,yes (trimmed),0,12,Petrucci Clean,60,0.27,0.66,2,2.0,
+39,C oversampling at 256,256,5.33,2x,on,0,v2 researched,yes (trimmed),0,10,Iron Maiden,60,0.19,0.46,2,2.0,

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7aa2f7"/>
+      <stop offset="1" stop-color="#bb9af7"/>
+    </linearGradient>
+  </defs>
+  <!-- a guitar pick -->
+  <path d="M64 120C40 96 14 64 14 38 14 18 36 8 64 8s50 10 50 30c0 26-26 58-50 82z" fill="url(#g)"/>
+  <!-- the FCB's two rows of footswitches -->
+  <g fill="#1a1b26">
+    <circle cx="40" cy="40" r="7"/><circle cx="64" cy="40" r="7"/><circle cx="88" cy="40" r="7"/>
+    <circle cx="48" cy="64" r="7"/><circle cx="80" cy="64" r="7"/>
+  </g>
+  <circle cx="64" cy="40" r="4" fill="#9ece6a"/>
+</svg>

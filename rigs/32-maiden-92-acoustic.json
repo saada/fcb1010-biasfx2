@@ -1,0 +1,112 @@
+{
+  "pc": 32,
+  "name": "Maiden 92 Acoustic",
+  "scene": "acoustic",
+  "bank": 8,
+  "reference": "Wasting Love (Fear of the Dark, 1992; Dickinson/Gers ballad, Janick's acoustic lead and solo) and other acoustic passages on the album",
+  "rig": "Janick Gers: Gibson Chet Atkins steel-string electric-acoustic (credited on the Songsterr transcription's lead acoustic track; Equipboard documents Gers playing a Gibson Chet Atkins electric-acoustic on later tours) -> desk, with Martin Birch's studio reverb (Barnyard Studios)",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Wasting_Love",
+    "https://www.songsterr.com/a/wsa/iron-maiden-wasting-love-tab-s10027t1",
+    "https://equipboard.com/pros/janick-gers",
+    "https://en.wikipedia.org/wiki/Fear_of_the_Dark_(Iron_Maiden_album)"
+  ],
+  "notes": "Electric->acoustic as in rigs/13, but voiced for Gers' Gibson Chet Atkins: that guitar is a thin-body piezo electro-acoustic, so the Boss AC-3 runs in its Piezo mode (the guitar's own DI-piezo character) and the Gibson J-45 body IR (Gibson rather than Martin voicing, warmer mids) sits at 70% so some of the bright piezo edge stays. Humbucker pre-EQ thins the magnetic pickup toward piezo (less 100-250 Hz, more 3.5-8 kHz). Diamond optical comp in slot 2 stands in for desk compression (not documented). Echo block ON: short 380 ms soft repeat at low level + Lexicon 480L Large Hall (studio unit not documented; 480L is a period-typical ballad hall); ambience = 480L Small Wood Room for the small barn room. Spread on for width. No real string/top resonance possible; play the neck pickup lightly. Levels: the Diamond comp capture is ~20 dB quiet (NAM loudness metadata -31), so it gets +20 dB and the AC-3 Piezo +20 dB (rigs/13 left the comp at 0 and measured ~-39 LUFS); untested, trim after measuring. Gain staging: the compressor runs at unity into the AC-3, as in rigs/13 (at +20 dB it overdrove the simulator: +25.9 dBFS peaks, experiments D8).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 88975,
+      "model_id": 749582,
+      "enabled": true,
+      "label": "Diamond Compressor, Comp 5 / EQ 6.5 / Vol 5 (desk compression stand-in)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588443,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Piezo mode (Chet Atkins piezo), knobs noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 14.3
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174632,
+      "enabled": true,
+      "mix": 0.7,
+      "label": "Acoustic body IR: Gibson J-45 (Gibson body voicing, 70%)",
+      "eq": [
+        -1.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.2,
+      "cutoff_hz": 3500.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft delay 380 ms + Lexicon 480L Large Hall (ballad reverb)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": 3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Small Wood Room (small barn room)"
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -7.6,
+        "trim_db": -8.1,
+        "note": "trim landed on the 70%-mix body IR (wet-only); reverted"
+      },
+      {
+        "measured_lufs": -9.8,
+        "trim_db": -5.7
+      },
+      {
+        "measured_lufs": -15.5,
+        "trim_db": 0.0
+      }
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "pc": 10,
+  "name": "Iron Maiden",
+  "reference": "The Evil That Men Do \u2014 Seventh Son of a Seventh Son (1988, Musicland Munich, prod./eng. Martin Birch): rhythms, twin harmony leads, Smith's solo",
+  "rig": "Dave Murray: Fender/ESP Strat -> Gallien-Krueger 250ML-series preamp -> Marshall 4x12 (left). Adrian Smith: Jackson Strat -> MXR -> rack Gallien-Krueger (2000CPL/2100SEL 'new model') + TC 2290 / Lexicon delay, GK stereo chorus -> Marshall 4x12 (right). Both switched from Marshall heads to GK for Somewhere in Time/Seventh Son; Birch adds plate reverb at the desk",
+  "sources": [
+    "https://www.guitarworld.com/gw-archive/steve-harris-and-dave-murray-iron-maiden-open-1988-guitar-world-interview",
+    "https://equipboard.com/albums/iron-maiden-seventh-son-of-a-seventh-son-2015-remaster",
+    "https://equipboard.com/pros/adrian-smith",
+    "https://guitargangsters.net/dave-murray-guitars-gear/",
+    "https://reverb.com/item/29026718-gallien-krueger-2100-sel-1988-gallien-kruger-2000-cpl-iron-maiden-seventh-son-of-a-7th-son-gk",
+    "https://forum.maidenfans.com/threads/info-on-the-recording-of-7th-son-of-a-7th-son.12404/",
+    "https://en.wikipedia.org/wiki/Seventh_Son_of_a_Seventh_Son",
+    "https://en.wikipedia.org/wiki/The_Evil_That_Men_Do_(song)"
+  ],
+  "notes": "Dual-rig stereo, Murray hard left / Smith hard right (Maiden's twin-guitar panning); SD-1/MXR feed both. 1986-88 was Maiden's solid-state GK era for BOTH players (the 'Murray = Marshall' line on the forum/Equipboard summary is generic; the 1988 GW interview and gear histories put both on GK), so the left Marshall JMP full rig was replaced: left = GK 250ML preamp capture voiced for Maiden (capture includes a TS808 push), right = GK 2000CPL ch.B, the preamp inside the 2100SEL rack head used on Seventh Son. Both into the same 1987 Marshall 1960A G12T-75 IR, MD421 left / SM57 right, so the sides differ like two players rather than two mixes. GK built-in stereo chorus + Smith's CE-3 = Align wobble between the sides (no real modulation possible). Echo (SW8 (LEAD)) = quarter note at ~161 BPM (373 ms), brighter digital repeats like the TC 2290, kept low as on the record's solos. No harmonizer: the twin harmony leads need both players, the preset just places them. Keyboards/guitar-synth parts not covered. Relative loudness of the two GK captures is untested; trim with the rig EQs if one side dominates.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 87914,
+      "model_id": 742716,
+      "enabled": false,
+      "label": "Boss SD-1 as clean boost (level 6, drive 0)",
+      "out_db": 4.0
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 35412,
+      "model_id": 381302,
+      "enabled": false,
+      "label": "MXR Distortion+ (Smith's MXR), out 300 / dist 300"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 27127,
+      "model_id": 379866,
+      "enabled": true,
+      "label": "Gallien-Krueger 250ML preamp, 'Maiden' setting (Murray)",
+      "out_db": 2.9
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463991,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, MD421 edge of cone (Murray)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 373,
+      "feedback": 0.3,
+      "cutoff_hz": 5000.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "TC 2290-style solo delay, 1/4 note @161 BPM"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "mix": 0.14,
+      "trim_seconds": 3.5,
+      "label": "Lexicon 480L Large Plate (Birch desk plate)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6203,
+      "model_id": 444217,
+      "enabled": true,
+      "label": "Gallien-Krueger 2000CPL ch.B overdrive, set EQ (2100SEL preamp, Smith)",
+      "out_db": 6.5
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463987,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 373,
+      "feedback": 0.3,
+      "cutoff_hz": 5000.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "TC 2290 / Lexicon solo delay, 1/4 note @161 BPM"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "mix": 0.14,
+      "trim_seconds": 3.5,
+      "label": "Lexicon 480L Large Plate (Birch desk plate)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.3,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -16.0,
+    "measured_side_lufs": [
+      -22.9,
+      -16.9
+    ],
+    "measured_peak_dbfs": -4.5,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -14.0,
+      -23.6
+    ],
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
+  }
+}

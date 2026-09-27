@@ -1,0 +1,184 @@
+{
+  "pc": 21,
+  "name": "Maiden 84 Heavy",
+  "scene": "heavy",
+  "bank": 5,
+  "reference": "Powerslave (1984, Compass Point Studios, Nassau; prod./eng./mix Martin Birch): Aces High, 2 Minutes to Midnight, Powerslave, Rime of the Ancient Mariner (riffs, twin harmonies, solos)",
+  "rig": "Dave Murray: Fender Stratocaster (Floyd Rose, modified pickups) -> 50 W Marshall Super Lead (1987) -> Marshall 4x12, no pedals besides an occasional wah (left). Adrian Smith: Lado Earth / Ibanez -> 100 W Marshall + 'maybe an Ibanez Tube Screamer' ('that was it as far as the guitar sound of Powerslave goes') -> Marshall 4x12 with Celestions (right). Smith's live board added a Boss DD-2 + Ibanez DM2000 digital delays, Boss CE-3 chorus, Furman PQ-3 EQ and a Lexicon PCM60; Birch adds plate/room at the desk",
+  "sources": [
+    "https://www.yahoo.com/entertainment/adrian-smith-iron-maiden-pyramid-152523270.html",
+    "https://guitargangsters.net/dave-murray-guitars-gear/",
+    "https://equipboard.com/pros/adrian-smith",
+    "https://www.guitarlobby.com/adrian-smith-guitars-and-gear/",
+    "https://forum.seymourduncan.com/threads/iron-maiden-gear.5644/",
+    "https://en.wikipedia.org/wiki/Powerslave",
+    "https://maidenrevelations.com/2013/01/18/height-of-the-classic-era-1984-85/",
+    "https://www.tone3000.com/tones/marshall-1978-jmp-2203-1061"
+  ],
+  "notes": "Dual-rig stereo, Murray hard left / Smith hard right. Pre-GK era: both players on non-rack Marshall heads. Left = a real Marshall 1987 50 W (the Super Lead circuit Murray used 1976-86) with Vol 7, mids 10: cranked, no pedal, so it cleans up with the CRUNCH input drop and saturates with SOLO. Right = 1983 JMP 2203 100 W master-volume head at gain 3 o'clock (Smith's '100-watt Marshall'; whether his was a 2203 or a 1959 Super Lead isn't documented, the 2203 is the era's common 100 W lead head). Slot 2 = TS9 (Smith's 'maybe a Tube Screamer'), drive 2 / level 10 push, OFF by default because Murray used none and it feeds both sides; SW9 for thicker leads. Slot 1 = MXR Micro Amp clean lift (not on the record, SW8 convenience). Cab = original JCM800-era Marshall 1960A with G12-65s (the Celestion loaded in 1979-86 Marshall 4x12s; T75s came later), SM57 left / M160 right so the two players differ. Echo (SW9) = Smith's DD-2/DM2000 digital delay, ~1/4 note at ~136 BPM (440 ms), bright repeats, plus a Lexicon 960 large plate standing in for the Compass Point/Birch digital plate (no Lexicon 224 or PCM60 IRs in the catalog). Always-on ambience = a low-mix EMT 140-style plate IR (a DAW plate approximation, not a real EMT capture). CE-3 chorus = Align wobble between sides. No wah (Murray's Cry Baby can't be modeled). Relative level of the two amp captures is a guess; trim out_db after a sweep.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 5122,
+      "model_id": 433832,
+      "enabled": false,
+      "label": "MXR Micro Amp, low gain (clean solo lift, not on record)",
+      "out_db": 3.0
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 36827,
+      "model_id": 381617,
+      "enabled": false,
+      "label": "Ibanez TS9 Drive 2 Tone 7 Level 10 (Smith's 'maybe a Tube Screamer')"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 78417,
+      "model_id": 694014,
+      "enabled": true,
+      "label": "Marshall 1987 50 W (Super Lead circuit) P6 B4 M10 T10 Vol 7 (Murray)",
+      "out_db": 2.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563625,
+      "enabled": true,
+      "label": "Marshall 1960A JCM800-era 4x12, Celestion G12-65, SM57 (Murray)",
+      "out_db": 3.0
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 440,
+      "feedback": 0.3,
+      "cutoff_hz": 6000.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "Boss DD-2 / Ibanez DM2000 digital delay 440 ms + Lexicon plate (intros, melodies)",
+      "reverb": {
+        "tone_id": 88467,
+        "model_id": 745853,
+        "trim_seconds": 2.5,
+        "level_db": -8.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 3.0,
+      "label": "EMT 140-style plate (Birch desk plate), low mix"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 40847,
+      "model_id": 404041,
+      "enabled": true,
+      "label": "Marshall JMP 2203 100 W (1983), gain 3 o'clock, knobs noon (Smith)",
+      "out_db": 2.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563624,
+      "enabled": true,
+      "label": "Marshall 1960A JCM800-era 4x12, Celestion G12-65, M160 (Smith)",
+      "out_db": 0.1
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 440,
+      "feedback": 0.3,
+      "cutoff_hz": 6000.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "Boss DD-2 / Ibanez DM2000 digital delay 440 ms + Lexicon plate (intros, melodies)",
+      "reverb": {
+        "tone_id": 88467,
+        "model_id": 745853,
+        "trim_seconds": 2.5,
+        "level_db": -8.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 3.0,
+      "label": "EMT 140-style plate (Birch desk plate), low mix"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.25,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -11.5,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -12.5,
+        "trim_db": 1.5
+      },
+      {
+        "measured_lufs": -13.7,
+        "trim_db": -0.3,
+        "side_lufs": [
+          -18.5,
+          -15.5
+        ],
+        "side_trim_db": [
+          1.5,
+          -1.5
+        ]
+      },
+      {
+        "measured_lufs": -14.3,
+        "trim_db": 0.3,
+        "side_lufs": [
+          -17.2,
+          -17.3
+        ],
+        "side_trim_db": [
+          -0.1,
+          0.1
+        ]
+      }
+    ]
+  },
+  "song": {
+    "reference": "Rime of the Ancient Mariner",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor (Aces High's intro modulates, so Rime - almost entirely E minor harmonies - sets the bank)",
+    "tempo_bpm": 112,
+    "solo_delay_ms": 536,
+    "harmony_trim_db": -0.4,
+    "sources": [
+      "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0110405",
+      "https://www.songsterr.com/a/wsa/iron-maiden-aces-high-tab-s10018"
+    ]
+  }
+}

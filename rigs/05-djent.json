@@ -1,0 +1,107 @@
+{
+  "pc": 5,
+  "name": "Djent",
+  "reference": "Periphery (2010) / Periphery II: This Time It's Personal (2012) rhythm tones, with Meshuggah obZen (2008) tightness; quad-tracked rhythms hard-panned L/R",
+  "rig": "Ernie Ball JP7 / Blackmachine B6 (DiMarzio humbuckers) -> Maxon OD808 at zero drive (Fortin 33 on Meshuggah side) -> Axe-FX Ultra 'FAS Modern' (P1) / Axe-FX II preamp into a Peavey 5150 power section (P2) -> mic'd Mesa 4x12 V30; tight gate, dry rhythms, quad-tracked with contrasting amp voicings",
+  "sources": [
+    "https://www.premierguitar.com/artists/guitarists/peripherys-alchemic-ambition",
+    "https://sevenstring.org/threads/any-ideas-when-it-comes-to-acquiring-the-periphery-i-guitar-tone.337003/",
+    "https://en.wikipedia.org/wiki/Periphery_II:_This_Time_It%27s_Personal",
+    "https://www.toontrack.com/product/thordendal-guitars-ezmix-pack/",
+    "https://equipboard.com/pros/fredrik-thordendal"
+  ],
+  "notes": "Periphery's records are Axe-FX amp models, so real-amp captures stand in: the 5150 side matches P2 (5150 power amp + Mesa 4x12), and a Mark V in Mark IV mode is the classic contrasting djent voice for the other pair of tracks. Both sides use the same Mesa Oversized V30 / SM57 cab (the L capture was taken with it; the R side gets the same author's IR). The OD808 is a separate zero-drive capture in front of both amps (SW9) rather than baked in, so it can be toggled. The Fortin 33 (Thordendal signature, 50%) sits on SW8 as the Meshuggah-flavoured extra tightener; the real obZen chain (Fortin 33 -> Dual Rectifier Rev D per Toontrack) isn't reproduced amp-wise. Quad-tracking is approximated by two rigs panned hard L/R with Align on but no wobble (keeps it tight). Rhythms are dry, so there's no ambience; the echo is only for leads. Gate comes from the global setting (djent wants it tight).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 93664,
+      "model_id": 784532,
+      "enabled": false,
+      "label": "Fortin 33 (Thordendal sig) boost, 50%"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 72243,
+      "model_id": 598533,
+      "enabled": true,
+      "label": "Maxon OD808, drive min / balance max / tone 1 o'clock"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 32868,
+      "model_id": 418392,
+      "enabled": true,
+      "label": "Peavey 5150 lead ch (no boost) + Mesa OS 4x12 V30, SM57 (full rig)",
+      "out_db": -9.8
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.35,
+      "cutoff_hz": 4000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Lead delay, 400 ms"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 57410,
+      "model_id": 384922,
+      "enabled": true,
+      "label": "Mesa Mark V ch3 MK-IV mode, high gain balanced (DI)",
+      "out_db": 1.4
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 32550,
+      "model_id": 151410,
+      "enabled": true,
+      "label": "Mesa Oversized 4x12 V30, SM57 top-left"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.35,
+      "cutoff_hz": 4000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Lead delay, 400 ms"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -5.7,
+    "measured_side_lufs": [
+      -18.1,
+      -6.0
+    ],
+    "measured_peak_dbfs": 7.2,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -6.1,
+      -29.4
+    ]
+  }
+}

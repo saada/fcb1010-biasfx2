@@ -1,0 +1,99 @@
+{
+  "pc": 14,
+  "name": "Glassy Clean",
+  "reference": "Blackface Fender Twin Reverb clean on record: Dire Straits 'Sultans of Swing' / 'Down to the Waterline' (Dire Straits 1978, Communique 1979 era) and SRV 'Lenny' (Texas Flood, 1983)",
+  "rig": "Strat (bridge/middle-in-between) -> [studio compression] -> Fender blackface Twin Reverb, Vibrato ch., bright on, low volume -> 2x12 -> built-in 4AB3C1B spring reverb (SRV: Vibroverb/Super Reverb clean, guitar volume rolled back)",
+  "sources": [
+    "https://www.mk-guitar.com/2009/01/13/mark-knopflers-sultans-of-swing-amp-the-brown-fender-vibrolux/",
+    "https://www.mk-guitar.com/gear-on-all-songs-for-all-albums-wiki/gear-on-album-dire-straits/",
+    "https://www.guitarworld.com/features/stevie-ray-vaughans-sound-amps",
+    "https://srvarchive.com/amplifiers"
+  ],
+  "notes": "Humbucker (Music Man JP-style) -> single-coil voicing via eq_pre [-3,-2.5,0,1.5,3,2] on the amp block (before the Twin model): trims lows/low-mids, adds 1.6k/3.5k/8k sparkle for the Strat 'glass'. Set it to all zeros if you want a fatter humbucker clean. Amp is pbear's '65 Twin RI full rig (bright on, vol 3.5-4, B7 M4.5 T5.5, G12-65 Heritage, U67+R121 cap edge) - most-downloaded, well-matched Twin clean; a real '67 blackface Twin with Jensen C12N exists (tone 94526) but is ~12 dB quiet and its variants are undocumented. Knopfler's first-album amp may have been a brown Vibrolux (Twin from mid-1978); SRV's Lenny was a Vibroverb/Super - both approximated by the Twin. Light compression = LA-2A 'Leveling - Light' NAM capture post-amp at 50% mix (NAM captures coloration, dynamics only approximately). Spring = Fender Twin's own spring tank IR at 18% mix, trimmed to 3 s. Subtle Spread, no wobble (Twin tremolo/Strat position switching not modelled). SW9 = BD-2 at 25% gain for SRV-ish edge; SW8 = Klon clean boost; SW8 (LEAD) = short slapback-ish delay.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 2599,
+      "model_id": 419209,
+      "enabled": false,
+      "label": "Klon Centaur (silver), low gain clean boost",
+      "out_db": 3.0
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 1729,
+      "model_id": 420026,
+      "enabled": false,
+      "label": "Boss Blues Driver BD-2, gain 25%, level just past unity (edge-of-breakup push)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 35497,
+      "model_id": 381343,
+      "enabled": true,
+      "eq": [
+        -3,
+        -2.5,
+        0,
+        1.5,
+        3,
+        2
+      ],
+      "eq_pre": true,
+      "label": "Fender '65 Twin Reverb RI, Vibrato ch. bright on, vol 3.5, B7 M4.5 T5.5, G12-65 U67+R121 cap edge (pre-EQ: humbucker->single-coil)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 340,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Analog delay 340 ms, 2-3 repeats, low mix"
+    },
+    {
+      "role": "ambience",
+      "type": "nam",
+      "tone_id": 62320,
+      "model_id": 413802,
+      "enabled": true,
+      "mix": 0.5,
+      "label": "Teletronix LA-2A, Leveling - Light, 50% parallel (studio compression)",
+      "out_db": -11.3
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 1730,
+      "model_id": 80866,
+      "enabled": true,
+      "mix": 0.18,
+      "trim_seconds": 3.0,
+      "label": "Fender Twin Reverb spring tank (4AB3C1B), ~reverb 2.5-3"
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobble": 0.1,
+    "spreadWobbleEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -15.5,
+    "measured_lufs": -4.3,
+    "measured_side_lufs": [
+      -5.7,
+      -9.7
+    ],
+    "measured_peak_dbfs": 10.3,
+    "method": "live sweep, user playing one riff, 10 s per preset, output +12 dB",
+    "pedals": "pedal levels set from a live toggle sweep: drive on/off step ~1.5 dB, boosts raised where they measured negative"
+  }
+}

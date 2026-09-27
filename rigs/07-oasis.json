@@ -1,0 +1,125 @@
+{
+  "pc": 7,
+  "name": "Oasis",
+  "reference": "(What's the Story) Morning Glory? (1995, Rockfield) and Definitely Maybe (1994), prod. Owen Morris & Noel Gallagher: Some Might Say, Morning Glory, Don't Look Back in Anger, Rock 'n' Roll Star",
+  "rig": "Noel: Epiphone Riviera / Gibson Les Paul -> (TS9 / SIB Echodrive for extra gain, Space Echo RE-201 then Boss DD-3 for delay) -> cranked Marshall Bluesbreaker combo + early-60s Vox AC30 (plus Orange OR120 / WEM Dominator / Marshall Valvestate 8080 on DM), each miked SM57 + Neumann U87, 3-5 overdubbed electric parts per song, heavily compressed mix",
+  "sources": [
+    "https://www.soundonsound.com/techniques/classic-tracks-oasis-wonderwall",
+    "https://www.oasis-recordinginfo.co.uk/?page_id=393",
+    "https://www.groundguitar.com/noel-gallagher-gear/",
+    "https://mixdownmag.com.au/features/gear-rundown-noel-gallagher-the-oasis-years/",
+    "https://orangeamps.com/en-us/blogs/news/how-what-s-the-story-morning-glory-was-recorded",
+    "https://en.wikipedia.org/wiki/Definitely_Maybe"
+  ],
+  "notes": "Dual-rig stereo for the multi-tracked wall: Marshall Bluesbreaker (JTM45/1962 combo capture, U87-inclusive mic blend) hard left, cranked Vox AC30 Top Boost (own Greenback 2x12, SM57) hard right; pedals before the split feed both. Noel's gain came mostly from cranked amps; the TS9 at low drive/full level is left on to bring these captures up to his saturated rhythm level (stand-in for the SIB Echodrive he used as preamp gain). Align wobble loosens the two sides like separate overdubs. Orange OR120, WEM Dominator and Valvestate 8080 layers not modelled (NAM budget). Owen Morris's heavy bus compression, Riviera vs Les Paul voicing, and wah on solos are not reproduced. Echo = Space Echo/DD-3 solo delay; Rockfield live room approximated with a Lexicon 480L wood room.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 D0 T6 L10 clean push, solos"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 36827,
+      "model_id": 381617,
+      "enabled": true,
+      "label": "Ibanez TS9 Drive 2 Tone 7 Level 10 (always-on push)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 77706,
+      "model_id": 677999,
+      "enabled": true,
+      "label": "1966 Marshall 1962 Bluesbreaker/JTM45 crunch, G12 Alnico 2x12, R121/R160/U87 (L)",
+      "out_db": -15.5
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 360,
+      "feedback": 0.35,
+      "cutoff_hz": 2800.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Roland RE-201 Space Echo / Boss DD-3 solo delay, ~360 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 2.5,
+      "label": "Lexicon 480L Large Wood Room (Rockfield live room)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 2696,
+      "model_id": 413052,
+      "enabled": true,
+      "label": "Vox AC30 Top Boost, Hi input full gain, TC5, master 4, Greenback 2x12, SM57 (R)",
+      "out_db": -15.1
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 360,
+      "feedback": 0.35,
+      "cutoff_hz": 2800.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Roland RE-201 Space Echo / Boss DD-3 solo delay, ~360 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 2.5,
+      "label": "Lexicon 480L Large Wood Room (Rockfield live room)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.15,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": 0.9,
+    "measured_side_lufs": [
+      -2.1,
+      -2.2
+    ],
+    "measured_peak_dbfs": 9.4,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -16.4,
+      -16.7
+    ]
+  }
+}

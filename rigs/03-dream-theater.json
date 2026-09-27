@@ -1,0 +1,126 @@
+{
+  "pc": 3,
+  "name": "Dream Theater",
+  "reference": "6:00 / Caught in a Web / Lie / Erotomania \u2014 Awake (1994); also covers the IIC+-voiced Images and Words (1992: Pull Me Under, Take the Time)",
+  "rig": "John Petrucci: Ibanez JPM / Music Man-style humbuckers (DiMarzio Steve's Special bridge) -> Mesa/Boogie Mark IIC+ (lead ch, GEQ in a V) AND Mesa Dual Rectifier, rhythms quad-tracked (2x IIC+ L/R + 2x Recto L/R) -> Mesa Rectifier Standard 4x12 V30; rack: TC Electronic 2290 (delay/chorus), Lexicon PCM70 reverb. Images and Words was Mesa TriAxis/2:90 (or Quad preamp, both IIC+-lineage) into Mesa 4x12, JC-120 for cleans",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Awake_(Dream_Theater_album)",
+    "https://forums.ernieball.com/threads/petrucci-amp-timeline.44618/",
+    "https://boogieforum.com/threads/dream-theater-petrucci-amp-on-images-words-cd.9604/",
+    "https://www.uberproaudio.com/who-plays-what/190-dream-theater-john-petruccis-guitar-gear-rig-and-equipment",
+    "https://equipboard.com/pros/john-petrucci",
+    "https://en.wikipedia.org/wiki/Mesa/Boogie_Mark_IIC%2B"
+  ],
+  "notes": "Dual-rig stereo for Awake's quad-tracked wall: left = real Mark IIC+ full rig at classic Petrucci settings (bass 0, mid 8, treble 7.5, all pulls, GEQ V 80/45/20/50/80), right = 90s Dual Rectifier (reissue) Red/Modern full rig into a V30 4x12. Pans are 0.15/0.85 rather than hard, because on the record each amp was tracked both left and right. The IIC+ capture was miked on a Mesa 2x12 V30 (not the 4x12 Recto cab), so it's a little tighter than the record. Images and Words' exact amp (TriAxis/2:90 vs Quad vs IIC+) is disputed; all are IIC+ voicings, so the left rig stands in for it; its lone-IIC+ sound is the left rig alone (not separately switchable). TC 2290 chorus can't be modelled: SW7 spread with light wobble plus a slow align wobble stand in for it. Echo (SW8 (LEAD)) = TC 2290-style bright digital lead delay. PCM70 isn't in the catalog: PCM90 (its successor) Rich Plate at a low mix instead. Boost/drive pedals weren't on these records; they're lead pushes (Klon clean lift, TS808 tightener), both off.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 2599,
+      "model_id": 419209,
+      "enabled": false,
+      "label": "Klon Centaur (silver), low gain: solo volume lift (not on record)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 70280,
+      "model_id": 577277,
+      "enabled": false,
+      "label": "Ibanez TS808, boost setting (gain low, level up): Mark-amp lead push (not on record)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 86876,
+      "model_id": 736438,
+      "enabled": true,
+      "label": "Mesa Mark IIC+ lead: V1 6.35 T7.5 B0 M8, lead drive 6, GEQ V (80/45/20/50/80%), Mesa 2x12 V30, SM57+C414",
+      "out_db": -9.6
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 420,
+      "feedback": 0.3,
+      "cutoff_hz": 6500.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "TC 2290-style digital lead delay ~420 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 745990,
+      "enabled": true,
+      "mix": 0.14,
+      "trim_seconds": 2.5,
+      "label": "Lexicon PCM90 INSTR Rich Plate (stands in for PCM70), low mix"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 87866,
+      "model_id": 742072,
+      "enabled": true,
+      "label": "Mesa 90s Dual Rectifier RI, Red ch Modern, Bold, diode (unboosted), V30 4x12, SM57+e906",
+      "out_db": -12.1
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 420,
+      "feedback": 0.3,
+      "cutoff_hz": 6500.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "TC 2290-style digital lead delay ~420 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88475,
+      "model_id": 745990,
+      "enabled": true,
+      "mix": 0.14,
+      "trim_seconds": 2.5,
+      "label": "Lexicon PCM90 INSTR Rich Plate (stands in for PCM70), low mix"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.15,
+    "chainPanRight": 0.85,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.1,
+    "spreadEnabled": 0.0,
+    "spreadWobble": 0.15,
+    "spreadWobbleEnabled": 1.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -2.6,
+    "measured_side_lufs": [
+      -7.7,
+      -4.2
+    ],
+    "measured_peak_dbfs": 8.1,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -16.7,
+      -17.7
+    ]
+  }
+}

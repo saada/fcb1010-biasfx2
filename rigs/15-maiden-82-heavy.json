@@ -1,0 +1,176 @@
+{
+  "pc": 15,
+  "name": "Maiden 82 Heavy",
+  "scene": "heavy",
+  "bank": 3,
+  "reference": "The Number of the Beast (1982, Battery Studios London, prod./eng. Martin Birch): Run to the Hills, The Number of the Beast, 22 Acacia Avenue, Hallowed Be Thy Name riffs, twin harmony leads and solos",
+  "rig": "Dave Murray: black '57 Stratocaster (ex-Paul Kossoff) with DiMarzio Super Distortion bridge / PAF neck -> Pete Cornish board (Cry Baby, MXR Distortion+, MXR Phase 90, DOD flanger, analog delay, Boss FA-1 FET booster 'to overdrive the amps', MXR 10-band EQ left on) -> 50 W Marshall JMP heads -> Marshall 4x12s with Celestions (left). Adrian Smith (first Maiden album): Ibanez Destroyer (DiMarzio Super Distortions; 'probably recorded Number of the Beast on this, the song, the solo, everything') and Les Paul Goldtop -> MXR Micro Amp for solo boost, Boss chorus, flanger -> 50 W Marshall JMP heads, mostly the amps' own overdrive -> Marshall 4x12s (right). Birch mixes at Battery (ex-Morgan Studios rooms, EMT plates)",
+  "sources": [
+    "https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983",
+    "https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-7",
+    "https://www.guitarplayer.com/guitarists/adrian-smith-on-his-number-of-the-beast-ibanez-destroyer",
+    "https://www.ironmaiden-bg.com/web/index.php/en/the-band/dave-murray",
+    "https://en.wikipedia.org/wiki/The_Number_of_the_Beast_(album)",
+    "https://en.wikipedia.org/wiki/Battery_Studios",
+    "https://en.wikipedia.org/wiki/Morgan_Studios"
+  ],
+  "notes": "Dual-rig stereo, Murray hard left / Smith hard right. 1981-83 Maiden = walls of 50 W Marshall JMPs (MaidenFans: they tried JCM800s in 1981 but photos show JMPs/Plexis; GW 1983: 'four fifty-watt Marshalls'), so both sides are real 50 W JMPs from the catalog, one of each JMP 50 W type: left = 1977 JMP 2204 (master-volume 50 W) high input, gain 3 o'clock, other knobs noon; right = 1973 JMP 1987 (non-master 50 W, inputs jumpered) with both volumes full, presence/bass/mid/treble noon, i.e. a cranked 50 W for Smith's 'natural overdriven Marshall' sound. Both are raw DI captures that clean up with input level (CRUNCH -4.5 dB) and saturate more when pushed (SOLO +4.5 dB); no delay baked in. Cab = one original JCM800-era Marshall 1960A with Celestion G12-65s (the stock Marshall 4x12 speaker of the early 80s; GW 1983 only says 'Celestions'), SM57 left / Beyer M160 ribbon right so the two players differ like two mic'd cabs. Slot 1 = MXR Micro Amp mid gain (Smith's solo booster; also stands in for Murray's Boss FA-1 FET booster, no FA-1 capture exists), off. Slot 2 = MXR Distortion+ (Murray's Cornish board), off: the record's rhythms are the amps. Echo (SW9) = soft analog-style repeat (Murray's board had an analog delay) 420 ms plus an EMT 140-style plate (Morgan/Battery control rooms each had three EMT plates) for intros and melodic lines; the EMT IR is a DAW EMT140 emulation ('Sunset Sound plate'), no hardware capture of Battery's plates exists. Slot 6 / R4 = same plate, always on, low mix. Phase 90, flanger, wah and chorus are not possible in TONE3000; a light Align wobble between the sides hints at the double-tracked movement. Levels are unmeasured guesses (the two JMP captures are calibrated/normalized DI captures); trim after a live sweep.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 5122,
+      "model_id": 433831,
+      "enabled": false,
+      "label": "MXR Micro Amp, mid gain (Smith's solo boost / Murray's FET booster)",
+      "out_db": 3.0
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 35412,
+      "model_id": 381302,
+      "enabled": false,
+      "label": "MXR Distortion+ (Murray's Cornish board), out 300 / dist 300"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 41348,
+      "model_id": 387371,
+      "enabled": true,
+      "label": "Marshall JMP 2204 50W (1977), high input, gain 3 o'clock (Murray)",
+      "out_db": 3.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563625,
+      "enabled": true,
+      "label": "Marshall 1960A 4x12, Celestion G12-65, SM57 (Murray)",
+      "out_db": 0.3
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 420,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "Analog delay 420 ms + EMT plate (intros / melodic lines)",
+      "reverb": {
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 3.0,
+        "level_db": -2.5
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 3.0,
+      "label": "EMT 140-style plate (Birch desk plate, Battery/Morgan EMTs)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 48523,
+      "model_id": 387669,
+      "enabled": true,
+      "label": "Marshall JMP 1987 50W (1973), jumpered, P5 B5 M5 T5 vol 10/10 (Smith)",
+      "out_db": 3.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 69659,
+      "model_id": 563624,
+      "enabled": true,
+      "label": "Marshall 1960A 4x12, Celestion G12-65, Beyer M160 (Smith)",
+      "out_db": -2.8
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 420,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.22,
+      "enabled": false,
+      "label": "Analog delay 420 ms + EMT plate (intros / melodic lines)",
+      "reverb": {
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 3.0,
+        "level_db": -2.5
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 3.0,
+      "label": "EMT 140-style plate (Birch desk plate, Battery/Morgan EMTs)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.15,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -11.5,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -10.7,
+        "trim_db": -1.2
+      },
+      {
+        "measured_lufs": -13.7,
+        "trim_db": -0.3,
+        "side_lufs": [
+          -18.5,
+          -15.4
+        ],
+        "side_trim_db": [
+          1.6,
+          -1.5
+        ]
+      },
+      {
+        "measured_lufs": -14.2,
+        "trim_db": 0.2
+      }
+    ]
+  },
+  "song": {
+    "reference": "Hallowed Be Thy Name",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor (E F# G A B C D); harmony all in 3rds",
+    "tempo_bpm": 105,
+    "solo_delay_ms": 571,
+    "harmony_trim_db": -0.3,
+    "sources": [
+      "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0094669",
+      "https://www.songsterr.com/a/wsa/iron-maiden-hallowed-be-thy-name-tab-s482",
+      "https://getsongbpm.com/song/hallowed-be-thy-name/0gEjL"
+    ]
+  }
+}

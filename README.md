@@ -14,22 +14,135 @@ Two scripts configure both ends from plain files:
 Both are single-file [uv](https://docs.astral.sh/uv/) scripts — no install, no
 virtualenv: `uv run rig.py`.
 
-## The layout
+## The layout: full pedal map
 
-Declared once, as data, in `rig.py`:
+Declared once, as data, in `rig.py` (`uv run rig.py show` prints it). Everything is on
+MIDI channel 1, except PC 2 (channel 2, the DAW's clean rig) and PC 3 (channel 3, its
+harmony rig).
 
 ```
-Every bank:  [6 WAH ] [7 OCT/HARM] [8 DLY] [9 DIST] [10 TUNER]
-BANK 00:     five song presets          (PC 0-4)
-BANK 01:     five more                  (PC 5-9)
-BANK 02:     one more + four cleans     (PC 10-14)
+SONG BANKS 00-02: one song per switch
+ BANK 00  SW1 Comfortably Numb  SW2 Purple Rain  SW3 Tornado of Souls  SW4 Dream Theater  SW5 Slipknot
+ BANK 01  SW1 Djent             SW2 Radiohead    SW3 Oasis             SW4 Nirvana        SW5 Foo Fighters
+ BANK 02  SW1 Iron Maiden (88)  SW2 My Clean     SW3 Petrucci Clean    SW4 Acoustic       SW5 Glassy Clean
+          SW6 WAH   SW7 OCTAVER   SW8 LEAD (boost + echo)   SW9 DRIVE   SW10 TUNER
 
-EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
+IRON MAIDEN BANKS 03-09: one album era per bank, same five scenes everywhere
+ 03 Number of the Beast  04 Piece of Mind  05 Powerslave  06 Somewhere in Time
+ 07 Seventh Son          08 Fear of the Dark               09 Brave New World / Dance of Death
+          SW1 RHYTHM   SW2 SOLO   SW3 CLEAN   SW4 ACOUSTIC   SW5 CRUNCH
+          SW6 WAH      SW7 HARMONY  SW8 BOOST  SW9 DELAY + REVERB  SW10 TUNER
+
+EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
 ```
 
-Song switches send a single Program Change; the toggle row sends CC 20–24;
-both expression pedals stay live in every preset. Edit the `SONGS` and
-`TOGGLES` tables and re-send to change any of it.
+| Switch | Sends | Does |
+|---|---|---|
+| Song SW1–5 (00–02) | PC 0–14, CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state (heavy rig, Solo block off) |
+| Maiden SW1 RHYTHM | PC heavy + PC clean (ch 2) + PC harmony (ch 3), CC 80 = 63, CC 81 = 0 | loads the era; twin-guitar rhythm |
+| Maiden SW2 SOLO | CC 80 = 72 | amps pushed, +2 dB, the song's lead echo (no PC, so it's instant) |
+| Maiden SW3 CLEAN | PCs + CC 81 = 127 | the era's reverby clean |
+| Maiden SW4 ACOUSTIC | PCs (acoustic on ch 2) + CC 81 = 127 | electric-to-acoustic |
+| Maiden SW5 CRUNCH | CC 80 = 48 | volume-knob-down drive |
+| SW6 WAH | CC 20 (toggle) | Guitarix wah (DAW); EXP A sweeps it |
+| SW7 OCTAVER / HARMONY | CC 21 / CC 25 (toggle) | octave down in the song banks; twin-lead harmony in the Maiden banks |
+| SW8 LEAD / BOOST | CC 26 / CC 22 (toggle) | song banks: boost + solo echo together; Maiden: the boost pedal |
+| SW9 DRIVE / DELAY + REVERB | CC 23 / CC 24 (toggle) | song banks: the song's drive pedal; Maiden: the era's delay + reverb |
+| SW10 TUNER | CC 28 (toggle) | mutes the rig and opens the Fretwise tuner (Omarchy bar plugin) on the clean input; press again to play |
+
+**Whose solo?** Both guitarists play at once, Murray left and Smith or Gers right. To tell
+the soloists apart, switch pickups: neck for Murray's fluid legato, bridge for Smith's and
+Gers' bite. SOLO then adds the push and the echo on top.
+
+## GuitarMood: the rig as an Omarchy app
+
+GuitarMood (`guitarmood/`) is the rig's face. Open it and the rig starts; close it and the
+rig is saved and shut down. It shows the board as it sits under your feet, live: the bank
+and era, what every switch does in that bank, which scene and toggles are on, both
+expression pedals, the song's key, tempo and solo echo, and what UP/DOWN would take you to.
+
+```
+uv run --project guitarmood guitarmood install   # once: Omarchy launcher entry + Hyprland rules
+```
+
+Then **SUPER+SPACE → GuitarMood** turns the rig on and **SUPER+W** turns it off. Launching
+it again only focuses the window, so there is never a second rig.
+
+- **Two-way:** click a switch (or press **1–9, 0** for SW1–SW10) and the rig switches exactly as
+  if you stomped it. GuitarMood sends the same messages the FCB would, taken from the layout
+  `rig.py` uploads, into the same Qtractor port. Clicking a bank in the setlist or the UP/DOWN
+  tile (or pressing **↑/↓**) loads that bank's SW1. The FCB1010 itself can't be told what
+  happened, so its display keeps its own bank, and GuitarMood marks the press "on screen".
+  Toggles, SOLO and CRUNCH work from any bank on the pedal. RHYTHM, CLEAN and ACOUSTIC on the
+  pedal load the bank the pedal shows.
+- **Autoscale:** everything is sized from the window, so any tile works. A wide tile adds the
+  setlist; a small one shrinks to the scene name plus the toggles that are lit.
+- **Themed:** colours come from the active Omarchy theme (`colors.toml`) and follow a theme
+  switch live. The font is the system monospace.
+- **Out of sight:** Qtractor opens on a hidden special workspace; **SUPER+CTRL+G** peeks at it.
+- **One source of truth:** GuitarMood does the helper's job itself: it sends the per-song echo
+  and harmony key, and runs the SW10 tuner. So the tuner light on screen is the real state.
+  If the rig was already running (`qtractor_rig.py up`), GuitarMood joins it. It takes over
+  the helper, reads the wah, harmony and tuner states from the running session, and shows
+  "?" on anything only a press can tell (bank, scene, TONE3000 blocks) until you press a switch.
+- **The state model** follows the rig's own rules. Wah, octaver and harmony are Qtractor
+  plugins and survive a song change. Boost, drive, delay and lead are TONE3000 blocks, so
+  every preset load puts them back to the preset's state. A scene is read from the CC 81 that
+  ends each scene switch's burst. The FCB's UP/DOWN send no MIDI, so the bank shown is the one
+  your last press came from.
+- **Clean shutdown:** closing the window, logging out (SIGTERM) or Ctrl-C all close the
+  tuner, save the session (SIGUSR1) and quit Qtractor.
+
+Tests replay a real session from the FCB (`guitarmood/tests/fixtures/fcb-live.log`):
+`cd guitarmood && uv run --group dev pytest`.
+
+## Practice guide
+
+### Once
+
+1. **Install** the packages from "DAW rig" below and the Fretwise tuner (`omarchy plugin add https://github.com/WayneKruger/omarchy-fretwise.git --enable`). Run `./bootstrap.sh` to build every preset and the session, then `uv run --project guitarmood guitarmood install`.
+2. **Program the FCB1010:**
+   - Write the layout: `uv run rig.py syx ~/Music/fcb-rig/fcb1010-maiden.syx`.
+   - Put the pedal in receive mode: hold DOWN at power-on, tap UP to CONFIGURATION, then tap SW7 (SYSEX RCV).
+   - Send it: `amidi -p hw:2,0 -s ~/Music/fcb-rig/fcb1010-maiden.syx`.
+   - Hold DOWN to save.
+   - Recalibrate the pedals: hold SW1+SW5 at power-on, then heel and toe each pedal.
+3. **Real-time audio:** add your user to the `realtime` group (`realtime-privileges`) and log out and back in. `~/.config/pipewire/jack.conf` turns rtkit off for JACK apps, because rtkit's 200 ms cap kills Qtractor.
+4. **Gain staging:** set the Scarlett's monitor knob to your loudest comfortable level. The Linux output (sink) stays at 100 %. Play Spotify or YouTube at 100 %: the guitar is levelled to sit just above it.
+
+### Every session
+
+1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then open **GuitarMood** (SUPER+SPACE). It takes about 10 s and starts on the Maiden 82 bank.
+2. **Tune:** press SW10. The rig mutes and Fretwise opens in the bar on your guitar. Tune, then press SW10 again.
+3. **Pick a bank** with UP/DOWN, and press **RHYTHM, CLEAN or ACOUSTIC** first: those load the era. SOLO and CRUNCH only change drive, so they assume the era is already loaded.
+4. Play along with the track in Spotify or YouTube.
+5. **Record** a take: `uv run qtractor_rig.py record` / `stop`. It saves the full rig and the dry DI in `~/Music/fcb-rig/`, so you can re-amp later.
+6. When you're done, close GuitarMood (SUPER+W): it saves and stops the rig.
+
+### Maiden song recipes
+
+| Song (bank) | How to play it on the board |
+|---|---|
+| Hallowed Be Thy Name (03) | CLEAN for the arpeggio intro → RHYTHM when the band comes in → SOLO for the leads. HARMONY on the twin lines (E minor). |
+| The Trooper (04) | RHYTHM gallop → SOLO for the solo. HARMONY for the main riff's twin line. |
+| Rime of the Ancient Mariner (05) | RHYTHM → CLEAN for the quiet middle section → back to RHYTHM → SOLO. |
+| Wasted Years (06) | SOLO + SW9 (delay + reverb) for the intro lead → RHYTHM for the verses. |
+| The Evil That Men Do (07) | RHYTHM, then HARMONY for the harmonised bridge. |
+| Fear of the Dark (08) | CRUNCH + SW9 for the quiet intro melody (750 ms echo) → RHYTHM for the gallop → SOLO. HARMONY is set to D Dorian, but the record plays that melody in unison. |
+| Journeyman (09) | ACOUSTIC for the whole song. |
+
+**Two soloists:** use the neck pickup for Murray's fluid legato and the bridge for Smith's and Gers' bite. **Wah** is SW6 plus EXP A; **volume swells** are EXP B.
+
+### When something's off
+
+| Symptom | Fix |
+|---|---|
+| No sound | The tuner mute may be on: press SW10. Otherwise check Input 2 and the Scarlett's monitor knob. |
+| Wrong era or tone after changing bank | Press RHYTHM, CLEAN or ACOUSTIC to load the era. |
+| Crackles or dropouts | Close the tuner (SW10). Log out and in so Qtractor gets real-time priority. Avoid heavy apps while playing. |
+| Guitar too loud or quiet next to the music | Use the Scarlett monitor knob for overall level and EXP B for the guitar; leave the Linux volume at 100 %. |
+| The rig won't start | GuitarMood shows the error. Close it and open it again; from a terminal, `uv run qtractor_rig.py down`, then `up`. For details: `journalctl --user -u qtractor-rig`. |
+| GuitarMood shows "?" | It joined a rig that was already running: press a scene switch and it syncs. |
 
 ## FCB1010 side
 
@@ -100,6 +213,106 @@ presets — from Gilmour to djent — as a worked example.
 
 Quit the app and back up `~/Documents/PositiveGrid/BIAS_FX2/` before the
 first `wire`.
+
+## TONE3000 side (Linux)
+
+`tone3000.py` builds the same rig for the native TONE3000 plugin (NAM
+captures + IRs), using full-stack captures of each player's actual record/live
+rig from the public TONE3000 catalog:
+
+```
+uv run tone3000.py map        # preview presets and MIDI map
+uv run tone3000.py configure  # standalone: JACK 48k/256, guitar input, FCB MIDI in,
+                              # mono input, NAM calibration, interface at unity
+uv run tone3000.py build      # download captures, write 15 presets + MIDI map
+```
+
+Quit TONE3000 first — the standalone rewrites its settings on exit.
+
+What's reverse-engineered:
+
+| File | Role |
+|---|---|
+| `~/.config/TONE3000/Presets/<id>.t3kpreset` | preset: `T3KB` + JUCE ValueTree binary; each block embeds its tone JSON and the raw `.nam`/`.wav` |
+| `~/.config/TONE3000/Presets/order.json` | JSON array of `user:<id>` / `factory:<id>`; Program Change N = Nth entry |
+| `~/.config/TONE3000/TONE3000.settings` | JUCE standalone settings; `filterState` (JUCE base64) holds plugin state incl. `MidiMappings`, `audioSetup` holds device + enabled MIDI inputs |
+
+TONE3000 has no wah/modulation/delay and maps CCs globally by block
+*position*, so every preset shares one layout: block 1 lead boost (CC 22),
+block 2 song drive (CC 23), block 3 full stack; CC 20 noise gate, CC 21 stereo
+spread, CC 27 treble sweep, CC 7 output level. Toggles flip on any value ≥ 64,
+so the stock FCB1010's constant 127 works. The tuner isn't MIDI-mappable.
+
+## DAW rig (Qtractor, Linux)
+
+`qtractor_rig.py` puts the same TONE3000 presets inside Qtractor. It adds real
+pedals, a compressor and limiter after the amp, and recording. The whole session
+is generated, so there is nothing to click:
+
+```
+sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix uv
+omarchy plugin add https://github.com/WayneKruger/omarchy-fretwise.git --enable   # the SW10 tuner
+uv run qtractor_rig.py up       # write ~/Music/fcb-rig/rig.qtr, launch at quantum 256 (GuitarMood does this for you)
+uv run qtractor_rig.py record   # take: processed stereo rig + dry DI
+uv run qtractor_rig.py stop
+uv run qtractor_rig.py down     # save + quit
+```
+
+```
+Scarlett In 2 ─► Wah ─► TONE3000 (CLAP) ─► Octaver ─► Compressor ─► Limiter ─► Scarlett out
+FCB1010 ─► PC/CC straight into TONE3000; Qtractor binds SW6 wah, SW7 octaver, EXP A wah sweep
+```
+
+This brings back the FCB layout's original intent: SW6 wah, SW7 octaver, EXP A wah
+sweep. TONE3000 keeps its block toggles (song banks: SW8 LEAD, SW9 drive; Maiden banks: SW8 boost, SW9 delay + reverb) and EXP B output level. SW10 is the tuner. The
+compressor and limiter cut the loudness spread across presets from 9.2 to 4.6 dB and
+keep peaks under −1 dBFS; see `experiments/README.md` D0–D4. Run the standalone
+*or* the DAW, not both.
+
+### Iron Maiden banks (03–09): one album era per bank, instant scenes
+
+| Bank | Era | Rigs (Murray left, partner right) |
+|---|---|---|
+| 03 | The Number of the Beast (1982) | Marshall JMP 2204 / JMP 1987 jumpered |
+| 04 | Piece of Mind (1983) | '76 JMP 50 W full rig / JMP 2204 |
+| 05 | Powerslave (1984) | Marshall 1987 50 W / JMP 2203 |
+| 06 | Somewhere in Time (1986) | Gallien-Krueger 250ML ×2 |
+| 07 | Seventh Son (1988) | GK 250ML / GK 2000CPL |
+| 08 | Fear of the Dark (1992) | JCM900 4100 / JCM800 2203 (Gers) |
+| 09 | Brave New World / Dance of Death | Marshall JMP-1 / JCM2000 DSL |
+
+Every bank has the same footswitches (full map at the top of this README):
+
+```
+SW1 RHYTHM   SW2 SOLO     SW3 CLEAN   SW4 ACOUSTIC        SW5 CRUNCH
+SW6 wah      SW7 HARMONY  SW8 boost   SW9 delay + reverb  SW10 TUNER
+EXP A wah sweep                        EXP B volume
+```
+
+Scenes switch instantly. The DAW runs a heavy and a clean TONE3000 side by side, and
+each switch sends absolute CCs, never a mid-song preset load (which would leave a
+60–170 ms hole). What each switch does:
+
+- **SOLO** pushes the amps and adds +2 dB with a lead echo timed to the era's signature
+  song (The Trooper 375 ms, Fear of the Dark 750 ms, …).
+- **HARMONY** (toggle) adds the second guitarist, a diatonic third above whatever you play,
+  in the song's key, through the partner's own amp: Smith or Gers for that era. It's built
+  from x42 autotune stages on the clean DI, and pitch tests put 8/8 notes on the right third.
+- **CRUNCH** is the volume-knob-down sound, like the Fear of the Dark intro.
+- **CLEAN** and **ACOUSTIC** use the era's reverby clean and electric-to-acoustic presets.
+- **Changing song or bank:** press RHYTHM, CLEAN or ACOUSTIC first; each of those loads the era.
+
+All 21 presets are levelled and both guitar sides are balanced to within 0.1 dB
+(experiments D8–D10). A small helper (`qtractor_rig.py helper`, started by `up`; GuitarMood does the same job in-process) applies
+each song's echo time and harmony key when the era loads (D11–D12). The gear and its sources are in `rigs/RIGS.md` and each
+`rigs/NN-maiden-*.json`.
+
+Upload the FCB layout (`uv run rig.py syx out.syx && amidi -p hw:2,0 -s out.syx`, with the
+FCB in SYSEX RCV mode; see RIG-NOTES.md), then open GuitarMood (or `uv run qtractor_rig.py up`).
+The SW10 tuner is [Fretwise](https://github.com/WayneKruger/omarchy-fretwise), a verified
+Omarchy bar plugin. It listens only while its panel is open, so SW10 sets its `captureSource`
+to the guitar input and summons the panel (`omarchy-shell shell summon`), and the next press
+hides it. Off Omarchy, the helper falls back to Chromatic (Flathub), re-patched onto the guitar.
 
 ## License
 

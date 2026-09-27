@@ -1,0 +1,131 @@
+{
+  "pc": 12,
+  "name": "Petrucci Clean",
+  "reference": "Dream Theater cleans: Images and Words (1992; 'Another Day', 'Surrounded', 'Wait for Sleep') and Metropolis Pt. 2: Scenes from a Memory (1999; 'Through Her Eyes', 'The Spirit Carries On')",
+  "rig": "Ibanez JPM / Music Man JP (DiMarzio humbuckers) -> rack: dbx 166 compressor -> Roland JC-120 for cleans (I&W) / Mesa Mark IV + Formula Pre clean channel into Mesa 2:90 and Mesa 4x12 V30 (Scenes) -> TC Electronic 2290 stereo delay/modulation -> Lexicon PCM70 hall, stereo rack",
+  "sources": [
+    "https://forums.ernieball.com/threads/petrucci-amp-timeline.44618/",
+    "https://boogieforum.com/threads/ultimate-question-about-john-petruccis-equipment.12452/",
+    "https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html",
+    "https://forum.seymourduncan.com/threads/amps-petrucci-used-on-scenes-from-a-memory.105696/",
+    "https://sevenstring.org/threads/best-petrucci-guitar-tone-gear-used.309247/",
+    "https://www.musicradar.com/news/rig-tour-dream-theater"
+  ],
+  "notes": "Dual-rig stereo mimics his stereo rack and covers both eras: L = Roland JC-120 full rig (the reported I&W clean amp), R = Mesa Mark IV clean DI capture explicitly dialled as a 'Petrucci Clean' (Mark IV / Formula Pre were the Scenes-era clean sources) into a Mesa 4x12 V30 IR. Panned wide, not hard, so both read as one lush clean. The TC 2290 / JC-120 chorus is time-varying: Align wobble between the two rigs plus Spread wobble stand in for it. The dbx 166 has no capture: the GSSL bus comp (dbx 202C VCAs, same VCA family) at 4:1 fast/auto is the always-on compressor on SW9, though a static NAM capture only approximates gain-reduction dynamics. The TS808 on SW8 is JP's classic boost, for edge-of-breakup. The 2290 stereo echo is left off per slot convention (SW8 (LEAD) turns it on), with L/R times offset for a wide stereo delay. The Lexicon PCM91 Large Hall stands in for the PCM70 (no PCM70 IRs in the catalog). Assumes humbuckers, no piezo. Stereo delay is ON by default (it's part of his clean sound); SW8 (LEAD) turns it off.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 70280,
+      "model_id": 577277,
+      "enabled": false,
+      "label": "Ibanez TS808, boost setting (JP's classic Mesa boost)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 59494,
+      "model_id": 384618,
+      "enabled": true,
+      "label": "Compressor: GSSL bus comp (dbx VCA), attack 10 / release auto / 4:1, stands in for the rack dbx 166"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 10912,
+      "model_id": 379738,
+      "enabled": true,
+      "label": "Roland JC-120B full rig, normal ch, bright on, EQ flat, Royer R-101 + SM57 (I&W cleans)",
+      "out_db": 0.8
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 410,
+      "feedback": 0.35,
+      "cutoff_hz": 6000.0,
+      "mix": 0.25,
+      "enabled": true,
+      "label": "TC 2290-style stereo delay, L 410 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88473,
+      "model_id": 745904,
+      "enabled": true,
+      "mix": 0.28,
+      "trim_seconds": 5.0,
+      "label": "Lexicon PCM91 Large Hall (for PCM70 hall)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6404,
+      "model_id": 418800,
+      "enabled": true,
+      "label": "Mesa Mark IV clean channel, 'Petrucci Clean With EQ' (DI) (Scenes-era Mark clean)",
+      "out_db": 0.1
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 1612,
+      "model_id": 81565,
+      "enabled": true,
+      "label": "Mesa OS 4x12 V30, SM57 cap edge + M160"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 615,
+      "feedback": 0.35,
+      "cutoff_hz": 6000.0,
+      "mix": 0.25,
+      "enabled": true,
+      "label": "TC 2290-style stereo delay, R 615 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88473,
+      "model_id": 745904,
+      "enabled": true,
+      "mix": 0.28,
+      "trim_seconds": 5.0,
+      "label": "Lexicon PCM91 Large Hall (for PCM70 hall)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.15,
+    "chainPanRight": 0.85,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.5,
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.4
+  },
+  "levels": {
+    "target_lufs": -19.1,
+    "measured_lufs": -17.9,
+    "measured_side_lufs": [
+      -20.7,
+      -21.1
+    ],
+    "measured_peak_dbfs": 0.2,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -24.3,
+      -23.2
+    ]
+  }
+}

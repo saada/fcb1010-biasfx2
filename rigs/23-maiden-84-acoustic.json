@@ -1,0 +1,109 @@
+{
+  "pc": 23,
+  "name": "Maiden 84 Acoustic",
+  "scene": "acoustic",
+  "bank": 5,
+  "reference": "Acoustic moments in the Maiden set (e.g. Prodigal Son-style strummed/picked steel-string parts); Powerslave itself has no acoustic guitar, so this is the era's studio-acoustic sound with a Lexicon plate",
+  "rig": "Electric -> optical compressor -> Boss AC-3 acoustic simulator -> Martin dreadnought body IR -> analog-ish echo + Lexicon acoustic-guitar plate -> studio room",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Powerslave",
+    "https://www.tone3000.com/tones/boss-acoustic-simulator-ac-3-71126"
+  ],
+  "notes": "Same two-stage approach as rigs/13 (see its sources) (AC-3 pickup-to-piezo, then a piezo-to-mic acoustic body IR), which the maintainer already leveled (AC-3 needs the full +24 dB). Dropped rigs/13's Micro Amp boost to stay at 2 NAM blocks. Changes for a lusher, Maiden-ballad feel: echo block ON (SW9 doesn't reach this instance) = soft 380 ms echo summed with the Lexicon PCM90 'INSTR a gtr plate' (an acoustic-guitar plate), and a Lexicon 960 medium chamber instead of the medium room, plus Spread for width. No specific Powerslave acoustic track exists, so nothing here is era-documented gear; it's a studio acoustic sound for the bank. Play the neck pickup, lightly.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 88975,
+      "model_id": 749582,
+      "enabled": true,
+      "label": "Diamond Compressor (through-hole), Comp 5 / EQ 6.5 / Vol 5"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588442,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Standard mode, Level/Body/Top noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 24.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174633,
+      "enabled": true,
+      "label": "Acoustic body IR: Martin dreadnought (piezo -> mic)",
+      "eq": [
+        -1.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "out_db": -4.8
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft echo 380 ms + Lexicon PCM90 acoustic-guitar plate",
+      "reverb": {
+        "tone_id": 88475,
+        "model_id": 745983,
+        "trim_seconds": 3.0,
+        "level_db": -2.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88467,
+      "model_id": 745842,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.5,
+      "label": "Lexicon 960 medium chamber (studio space)"
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -11.0,
+        "trim_db": -3.0
+      },
+      {
+        "measured_lufs": -13.6,
+        "trim_db": -1.9
+      },
+      {
+        "measured_lufs": -15.6,
+        "trim_db": 0.1
+      }
+    ]
+  }
+}

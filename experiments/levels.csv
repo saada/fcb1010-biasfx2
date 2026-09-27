@@ -1,0 +1,4 @@
+step,tone3000_output_db,spotify_stream_gain_db,preset,seconds,guitar_rms_dbfs,guitar_peak_dbfs,spotify_rms_dbfs,spotify_peak_dbfs,note
+1,0,0,Iron Maiden,20,-30.6,-17.9,-16.0,-7.8,user playing along; guitar ~15 dB under the music
+2,14,-3,Iron Maiden,20,-18.3,-7.0,-31.3,-18.8,spotify in a quieter passage (stream gain verified: 0.705 linear = -3.0 dB)
+3,14,0 (YouTube/Chromium at 100%),Iron Maiden,20,-16.3,-5.4,-18.9,-1.2,after gain staging: PipeWire Scarlett sink 0.40 (-24 dB!) -> 1.00; reference = YouTube (loudness-normalized ~-14 LUFS)

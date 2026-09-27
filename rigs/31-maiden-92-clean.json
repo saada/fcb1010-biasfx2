@@ -1,0 +1,152 @@
+{
+  "pc": 31,
+  "name": "Maiden 92 Clean",
+  "scene": "clean",
+  "bank": 8,
+  "reference": "Fear of the Dark (1992): Afraid to Shoot Strangers' clean intro (Murray's intro lick 0:00-0:34), the clean electric verses of Wasting Love, the quiet opening of Childhood's End / Judas Be My Guide-style clean passages",
+  "rig": "Dave Murray: Fender Stratocaster -> Marshall JCM900 4100 Hi Gain Dual Reverb clean channel (its built-in spring reverb) -> Marshall 4x12 (left). Janick Gers: Strat (JB Jr) -> Marshall clean -> Marshall 1960 4x12 G12T-75 (right). Martin Birch adds studio digital reverb at the desk (Barnyard Studios, Essex)",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fear_of_the_Dark_(Iron_Maiden_album)",
+    "https://en.wikipedia.org/wiki/Wasting_Love",
+    "https://en.wikipedia.org/wiki/Dave_Murray_(musician)",
+    "https://en.wikipedia.org/wiki/Janick_Gers",
+    "https://guitargangsters.net/dave-murray-guitars-gear/",
+    "https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-30"
+  ],
+  "notes": "Dual-rig stereo from one clean amp family: left = JCM900 4100 CLEAN 01, right = CLEAN 02 (two settings of the same real 4100, deathblossom's pack), both into the 1987 Marshall 1960A G12T-75 IR (MD421 left / SM57 right), panned 0.1/0.9 so a single clean part stays full rather than hollow. Amp model is inferred from Murray's 1990 JCM900 ('go to 20') quote, see the heavy preset; the clean channel of the Dual Reverb is the obvious clean source for that rig. Its onboard spring is approximated with a Marshall Valvestate 8080 spring IR (same early-'90s Marshall spring era; no 4100 spring IR in the catalog) as always-on ambience. Echo block ON (SW9 doesn't reach the clean instance): soft 450 ms delay + Lexicon 480L Large Hall for Birch's big ballad/intro reverb (studio unit not documented; 480L is the period standard). No chorus: no source documents one on these intros, so Align/Spread wobble stays off; enable spreadWobble on the FCB if you want the '90s shimmer. Boost/drive slots are empty to stay within 2 NAM blocks.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 45684,
+      "model_id": 382777,
+      "enabled": true,
+      "label": "Marshall JCM900 4100 Dual Reverb, clean (CLEAN 01, Murray)",
+      "out_db": 8.0
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463991,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, MD421 edge of cone (Murray)",
+      "out_db": 0.5
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 450,
+      "feedback": 0.25,
+      "cutoff_hz": 4000.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft delay 450 ms + Lexicon 480L Large Hall (Birch's intro reverb)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": 0.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 68862,
+      "model_id": 546155,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.5,
+      "label": "Marshall spring reverb (Valvestate 8080 tank, stand-in for the 4100's spring)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 45684,
+      "model_id": 382780,
+      "enabled": true,
+      "label": "Marshall JCM900 4100 Dual Reverb, clean (CLEAN 02, Gers)",
+      "out_db": 5.5
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463987,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone (Gers)",
+      "out_db": -1.4
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 450,
+      "feedback": 0.25,
+      "cutoff_hz": 4000.0,
+      "mix": 0.3,
+      "enabled": true,
+      "label": "Soft delay 450 ms + Lexicon 480L Large Hall (Birch's intro reverb)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": 0.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 68862,
+      "model_id": 546155,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 2.5,
+      "label": "Marshall spring reverb (Valvestate 8080 tank, stand-in for the 4100's spring)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.1,
+    "chainPanRight": 0.9,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -13.1,
+        "trim_db": 0.1
+      },
+      {
+        "measured_lufs": -15.0,
+        "trim_db": -0.5,
+        "side_lufs": [
+          -19.1,
+          -17.2
+        ],
+        "side_trim_db": [
+          1.0,
+          -0.9
+        ]
+      },
+      {
+        "measured_lufs": -15.4,
+        "trim_db": -0.1
+      }
+    ]
+  }
+}

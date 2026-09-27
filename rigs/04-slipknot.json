@@ -1,0 +1,107 @@
+{
+  "pc": 4,
+  "name": "Slipknot",
+  "reference": "Iowa (2001), e.g. People = Shit / Disasterpiece / Left Behind; produced by Ross Robinson, drop-B",
+  "rig": "Both players tracked with Mick's BC Rich (EMG 81, drop B). L = Mick Thomson: VHT Pittbull Ultra Lead -> Carvin 4x12 (Eminence Carvin British BR100). R = Jim Root: Peavey 5150 (split with an old Laney) -> 4x12. No always-on pedals documented; Ross Robinson kept it dry.",
+  "sources": [
+    "https://equipboard.com/albums/slipknot-iowa",
+    "https://equipboard.com/pros/mick-thomson",
+    "https://www.musicradar.com/news/guitars/slipknots-mick-thomson-and-jim-root-talk-gear-tone-and-being-flat-broke-580682",
+    "https://www.rig-talk.com/forum/threads/slipknot-rig-for-iowa-album-recording.138298/",
+    "https://guitarfxdepot.com/rigs/jim-root-slipknot-guitar-rig/"
+  ],
+  "notes": "Two guitarists hard-panned, so this is a dual rig: split after the pedals, L = Mick's VHT, R = Jim's 5150. Mick: a real VHT Pitbull 100UL, ch3 (the lead channel), captured from its line out, into a TONE3000 IR described as Mick's Iowa Carvin 4x12 with British 100 speakers. Jim: a popular unboosted 5150 red-channel full rig into a Mesa OS 4x12 with V30s. His old Laney (a Pro Tube Lead per Guitar World, Aug 2001) is not modelled. A ProTube Lead capture exists (tone 39842), but a chain can hold only one amp, so the right side uses the 5150. Guitar World says Jim used a 5150 plus the Laney; one Equipboard user says he used a Rivera Knucklehead on the back half of Iowa. I went with the 5150. The self-titled album (1999) used different gear: Mick had a Rocktron Piranha preamp into a Mesa 295 power amp, and Jim had Mesa DC-10 heads. Iowa was chosen as the reference era. No boosts are documented, so both are off. SW8 = Maxon OD808 clean boost for solos. SW9 = SD-1 tight boost if you want a more modern chug. The Iowa guitars are dry, so there is no ambience. Whammy and Rotovibe can't be modelled.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 72243,
+      "model_id": 598533,
+      "enabled": false,
+      "label": "Maxon OD808, clean boost (drive min, level max, tone 1 o'clock), for solos"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 70280,
+      "model_id": 577281,
+      "enabled": false,
+      "label": "Boss SD-1 Super OD, tight boost (optional, not on the record)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 66795,
+      "model_id": 477295,
+      "enabled": true,
+      "label": "Mick: VHT Pittbull 100 Ultra Lead, ch3, line-out DI",
+      "out_db": 3.6
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 83052,
+      "model_id": 711364,
+      "enabled": true,
+      "label": "Mick: Carvin 4x12, Eminence Carvin British 100 (Iowa cab)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.35,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Analog solo delay 380 ms (off)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 32868,
+      "model_id": 418392,
+      "enabled": true,
+      "label": "Jim: Peavey 5150 red ch, no boost, Mesa OS 4x12 V30, SM57 (full rig)",
+      "out_db": -14.1
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.35,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Analog solo delay 380 ms (off)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -1.9,
+    "measured_side_lufs": [
+      -2.0,
+      -20.5
+    ],
+    "measured_peak_dbfs": 9.5,
+    "method": "live sweeps, user playing one riff; side trims corrected with deterministic L/R wiring (out_1 = left chain)",
+    "verified_side_lufs_before_correction": [
+      -35.6,
+      0.6
+    ]
+  }
+}
