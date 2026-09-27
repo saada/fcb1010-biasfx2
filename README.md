@@ -48,19 +48,54 @@ EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
 | SW7 OCTAVER / HARMONY | CC 21 / CC 25 (toggle) | octave down in the song banks; twin-lead harmony in the Maiden banks |
 | SW8 LEAD / BOOST | CC 26 / CC 22 (toggle) | song banks: boost + solo echo together; Maiden: the boost pedal |
 | SW9 DRIVE / DELAY + REVERB | CC 23 / CC 24 (toggle) | song banks: the song's drive pedal; Maiden: the era's delay + reverb |
-| SW10 TUNER | CC 28 (toggle) | mutes the rig and opens Chromatic (a GTK4 tuner) on the clean input; press again to play |
+| SW10 TUNER | CC 28 (toggle) | mutes the rig and opens the Fretwise tuner (Omarchy bar plugin) on the clean input; press again to play |
 
 **Whose solo?** Both guitarists play at once, Murray left and Smith or Gers right. To tell
 the soloists apart, switch pickups: neck for Murray's fluid legato, bridge for Smith's and
 Gers' bite. SOLO then adds the push and the echo on top.
 
+## GuitarMood: the rig as an Omarchy app
+
+GuitarMood (`guitarmood/`) is the rig's face. Open it and the rig starts; close it and the
+rig is saved and shut down. It shows the board as it sits under your feet, live: the bank
+and era, what every switch does in that bank, which scene and toggles are on, both
+expression pedals, the song's key, tempo and solo echo, and what UP/DOWN would take you to.
+
+```
+uv run --project guitarmood guitarmood install   # once: Omarchy launcher entry + Hyprland rules
+```
+
+Then **SUPER+SPACE → GuitarMood** turns the rig on and **SUPER+W** turns it off. Launching
+it again only focuses the window, so there is never a second rig.
+
+- **Autoscale:** everything is sized from the window, so any tile works. A wide tile adds the
+  setlist; a small one shrinks to the scene name plus the toggles that are lit.
+- **Themed:** colours come from the active Omarchy theme (`colors.toml`) and follow a theme
+  switch live. The font is the system monospace.
+- **Out of sight:** Qtractor opens on a hidden special workspace; **SUPER+CTRL+G** peeks at it.
+- **One source of truth:** GuitarMood does the helper's job itself: it sends the per-song echo
+  and harmony key, and runs the SW10 tuner. So the tuner light on screen is the real state.
+  If the rig was already running (`qtractor_rig.py up`), GuitarMood joins it. It takes over
+  the helper, reads the wah, harmony and tuner states from the running session, and shows
+  "?" on anything only a press can tell (bank, scene, TONE3000 blocks) until you press a switch.
+- **The state model** follows the rig's own rules. Wah, octaver and harmony are Qtractor
+  plugins and survive a song change. Boost, drive, delay and lead are TONE3000 blocks, so
+  every preset load puts them back to the preset's state. A scene is read from the CC 81 that
+  ends each scene switch's burst. The FCB's UP/DOWN send no MIDI, so the bank shown is the one
+  your last press came from.
+- **Clean shutdown:** closing the window, logging out (SIGTERM) or Ctrl-C all close the
+  tuner, save the session (SIGUSR1) and quit Qtractor.
+
+Tests replay a real session from the FCB (`guitarmood/tests/fixtures/fcb-live.log`):
+`cd guitarmood && uv run --group dev pytest`.
+
 ## Practice guide
 
 ### Once
 
-1. **Install** the packages from "DAW rig" below, plus Chromatic for the tuner. Run `./bootstrap.sh` to build every preset and the session.
+1. **Install** the packages from "DAW rig" below and the Fretwise tuner (`omarchy plugin add https://github.com/WayneKruger/omarchy-fretwise.git --enable`). Run `./bootstrap.sh` to build every preset and the session, then `uv run --project guitarmood guitarmood install`.
 2. **Program the FCB1010:**
-   - Write the layout: `python3 rig.py syx ~/Music/fcb-rig/fcb1010-maiden.syx`.
+   - Write the layout: `uv run rig.py syx ~/Music/fcb-rig/fcb1010-maiden.syx`.
    - Put the pedal in receive mode: hold DOWN at power-on, tap UP to CONFIGURATION, then tap SW7 (SYSEX RCV).
    - Send it: `amidi -p hw:2,0 -s ~/Music/fcb-rig/fcb1010-maiden.syx`.
    - Hold DOWN to save.
@@ -70,12 +105,12 @@ Gers' bite. SOLO then adds the push and the echo on top.
 
 ### Every session
 
-1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then run `python3 qtractor_rig.py up`. It takes about 10 s and starts on the Maiden 82 bank.
-2. **Tune:** press SW10. The rig mutes and Chromatic opens on your guitar. Tune, then press SW10 again.
+1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then open **GuitarMood** (SUPER+SPACE). It takes about 10 s and starts on the Maiden 82 bank.
+2. **Tune:** press SW10. The rig mutes and Fretwise opens in the bar on your guitar. Tune, then press SW10 again.
 3. **Pick a bank** with UP/DOWN, and press **RHYTHM, CLEAN or ACOUSTIC** first: those load the era. SOLO and CRUNCH only change drive, so they assume the era is already loaded.
 4. Play along with the track in Spotify or YouTube.
-5. **Record** a take: `python3 qtractor_rig.py record` / `stop`. It saves the full rig and the dry DI in `~/Music/fcb-rig/`, so you can re-amp later.
-6. When you're done: `python3 qtractor_rig.py down`.
+5. **Record** a take: `uv run qtractor_rig.py record` / `stop`. It saves the full rig and the dry DI in `~/Music/fcb-rig/`, so you can re-amp later.
+6. When you're done, close GuitarMood (SUPER+W): it saves and stops the rig.
 
 ### Maiden song recipes
 
@@ -99,7 +134,8 @@ Gers' bite. SOLO then adds the push and the echo on top.
 | Wrong era or tone after changing bank | Press RHYTHM, CLEAN or ACOUSTIC to load the era. |
 | Crackles or dropouts | Close the tuner (SW10). Log out and in so Qtractor gets real-time priority. Avoid heavy apps while playing. |
 | Guitar too loud or quiet next to the music | Use the Scarlett monitor knob for overall level and EXP B for the guitar; leave the Linux volume at 100 %. |
-| The rig won't start | `python3 qtractor_rig.py down`, then `up`. For details: `journalctl --user -u qtractor-rig`. |
+| The rig won't start | GuitarMood shows the error. Close it and open it again; from a terminal, `uv run qtractor_rig.py down`, then `up`. For details: `journalctl --user -u qtractor-rig`. |
+| GuitarMood shows "?" | It joined a rig that was already running: press a scene switch and it syncs. |
 
 ## FCB1010 side
 
@@ -207,12 +243,12 @@ pedals, a compressor and limiter after the amp, and recording. The whole session
 is generated, so there is nothing to click:
 
 ```
-sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix flatpak
-flatpak install flathub io.github.nate_xyz.Chromatic   # the SW10 tuner
-python3 qtractor_rig.py up       # write ~/Music/fcb-rig/rig.qtr, launch at quantum 256
-python3 qtractor_rig.py record   # take: processed stereo rig + dry DI
-python3 qtractor_rig.py stop
-python3 qtractor_rig.py down     # save + quit
+sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix uv
+omarchy plugin add https://github.com/WayneKruger/omarchy-fretwise.git --enable   # the SW10 tuner
+uv run qtractor_rig.py up       # write ~/Music/fcb-rig/rig.qtr, launch at quantum 256 (GuitarMood does this for you)
+uv run qtractor_rig.py record   # take: processed stereo rig + dry DI
+uv run qtractor_rig.py stop
+uv run qtractor_rig.py down     # save + quit
 ```
 
 ```
@@ -260,19 +296,16 @@ each switch sends absolute CCs, never a mid-song preset load (which would leave 
 - **Changing song or bank:** press RHYTHM, CLEAN or ACOUSTIC first; each of those loads the era.
 
 All 21 presets are levelled and both guitar sides are balanced to within 0.1 dB
-(experiments D8–D10). A small helper (`qtractor_rig.py helper`, started by `up`) applies
+(experiments D8–D10). A small helper (`qtractor_rig.py helper`, started by `up`; GuitarMood does the same job in-process) applies
 each song's echo time and harmony key when the era loads (D11–D12). The gear and its sources are in `rigs/RIGS.md` and each
 `rigs/NN-maiden-*.json`.
 
-Upload the FCB layout (`python3 rig.py syx out.syx && amidi -p hw:2,0 -s out.syx`, with the
-FCB in SYSEX RCV mode; see RIG-NOTES.md), then `python3 qtractor_rig.py up`. The tuner is
-Chromatic (Flathub); the helper opens it on the guitar input. To make it float centred and opaque
-on Hyprland (Omarchy), add to `~/.config/hypr/hyprland.lua`:
-
-```lua
-o.window("^io\\.github\\.nate_xyz\\.Chromatic$", { float = true, center = true, size = { 1100, 760 },
-  tag = "-default-opacity", opacity = "1 1" })
-```
+Upload the FCB layout (`uv run rig.py syx out.syx && amidi -p hw:2,0 -s out.syx`, with the
+FCB in SYSEX RCV mode; see RIG-NOTES.md), then open GuitarMood (or `uv run qtractor_rig.py up`).
+The SW10 tuner is [Fretwise](https://github.com/WayneKruger/omarchy-fretwise), a verified
+Omarchy bar plugin. It listens only while its panel is open, so SW10 sets its `captureSource`
+to the guitar input and summons the panel (`omarchy-shell shell summon`), and the next press
+hides it. Off Omarchy, the helper falls back to Chromatic (Flathub), re-patched onto the guitar.
 
 ## License
 

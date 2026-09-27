@@ -4,13 +4,13 @@
 """Run the FCB1010 + TONE3000 rig inside Qtractor — generated, never clicked.
 
 Usage:
-  python3 qtractor_rig.py build    Write ~/Music/fcb-rig/rig.qtr and patch Qtractor.conf
+  uv run qtractor_rig.py build    Write ~/Music/fcb-rig/rig.qtr and patch Qtractor.conf
                                    (Qtractor must NOT be running: it rewrites its config)
-  python3 qtractor_rig.py up       build + launch Qtractor on the session (quantum 256)
-  python3 qtractor_rig.py down     save (SIGUSR1) and quit Qtractor
-  python3 qtractor_rig.py record   start recording (MMC): the rig in stereo + the dry DI
-  python3 qtractor_rig.py stop     stop the transport and list the new takes
-  python3 qtractor_rig.py map      Show the chain and the footswitch map
+  uv run qtractor_rig.py up       build + launch Qtractor on the session (quantum 256)
+  uv run qtractor_rig.py down     save (SIGUSR1) and quit Qtractor
+  uv run qtractor_rig.py record   start recording (MMC): the rig in stereo + the dry DI
+  uv run qtractor_rig.py stop     stop the transport and list the new takes
+  uv run qtractor_rig.py map      Show the chain and the footswitch map
 
 Signal flow. The rigs sit on MIDI tracks because Qtractor only feeds MIDI to plugins on
 MIDI tracks/buses, and only the CLAP build of TONE3000 gets raw Program Change:
@@ -67,7 +67,7 @@ TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 # TONE3000 keeps the block toggles and output level.
 CC_WAH, CC_OCTAVER, CC_WAH_SWEEP = 20, 21, 27
 CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the octaver
-CC_TUNER = 28    # SW10 in every bank: the helper opens Chromatic (tuner) and mutes the rig
+CC_TUNER = 28    # SW10 in every bank: the helper shows the tuner (Fretwise) and mutes the rig
 CC_TUNER_MUTE = 29  # helper -> Qtractor: absolute 127/0 (a toggled Insert lost its input links)
 # Per-song settings the FCB has no room for (two CCs per switch): `helper` watches the
 # FCB for a scene bank's Program Change and sends these to Qtractor.
@@ -419,13 +419,8 @@ def helper():
     tuner_proc, tuning = None, False
     for line in fcb.stdout:
         if re.search(rf"Control change\s+0, controller {CC_TUNER}, value (6[4-9]|[7-9]\d|1[0-2]\d)\b", line):
-            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + Chromatic window
-            subprocess.run(["aseqsend", "-p", qtractor_port() or port, "B0", f"{CC_TUNER_MUTE:02X}",
-                            "7F" if tuning else "00"])
-            if tuning:
-                tuner_proc = tuner_on()
-            else:
-                tuner_off(tuner_proc); tuner_proc = None
+            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + tuner
+            tuner_proc = set_tuning(tuning, qtractor_port() or port, tuner_proc)
             print(f"tuner {'on' if tuning else 'off'}", flush=True)
             continue
         m = re.search(r"Program change\s+0, program (\d+)", line)
@@ -444,9 +439,12 @@ def guitar_source():
     sys.exit("guitar input not found")
 
 
-TUNER_APP = "io.github.nate_xyz.Chromatic"  # Chromatic: GTK4 tuner, Flathub
-
-
+# SW10's tuner: Fretwise, an Omarchy bar plugin (marketplace, verified). Its panel listens
+# only while it is open, so SW10 summons it on the guitar input and hides it again.
+# Without the plugin (not Omarchy) the helper falls back to Chromatic (Flathub).
+TUNER_PLUGIN = "io.github.waynekruger.fretwise"
+TUNER_PLUGIN_DIR = Path.home() / ".config/omarchy/plugins" / TUNER_PLUGIN
+TUNER_APP = "io.github.nate_xyz.Chromatic"
 TUNER_PORT = "ALSA plug-in [chromatic]:input_MONO"
 
 
@@ -464,12 +462,25 @@ def feed_only(port, src):
     subprocess.run(["pw-link", src, port], capture_output=True)
 
 
+def fretwise():
+    return TUNER_PLUGIN_DIR.is_dir() and shutil.which("omarchy-shell")
+
+
 def tuner_on():
-    """Open Chromatic on the clean guitar input. It records through ALSA-on-PipeWire and
-    grabs the default source (Scarlett Input 1, the mic), so its input is re-patched to the
-    guitar once it appears. A Hyprland rule floats it, centred and opaque (README)."""
+    """Show the tuner on the clean guitar input (Scarlett Input 2, not the mic on Input 1)."""
+    if fretwise():
+        subprocess.run(["omarchy-bar", "set", TUNER_PLUGIN, "captureSource", guitar_source()], capture_output=True)
+        subprocess.run(["omarchy-shell", "-q", "shell", "summon", TUNER_PLUGIN, "{}"], capture_output=True)
+        return None
+    return chromatic_on()
+
+
+def chromatic_on():
+    """Chromatic records through ALSA-on-PipeWire and grabs the default source (the mic), so
+    its input is re-patched to the guitar once it appears. A Hyprland rule floats it (README)."""
     if subprocess.run(["flatpak", "info", TUNER_APP], capture_output=True).returncode:
-        subprocess.run(["notify-send", "FCB tuner", f"install it: flatpak install flathub {TUNER_APP}"])
+        subprocess.run(["notify-send", "FCB tuner",
+                        f"install one: omarchy plugin add https://github.com/WayneKruger/omarchy-fretwise.git --enable"])
         return None
     subprocess.run(["flatpak", "kill", TUNER_APP], capture_output=True)  # never two tuners
     proc = subprocess.Popen(["flatpak", "run", TUNER_APP], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -483,13 +494,25 @@ def tuner_on():
     return proc
 
 
+def set_tuning(on, port, proc=None):
+    """SW10: mute the rig (absolute CC 29 to Qtractor) and show or hide the tuner."""
+    subprocess.run(["aseqsend", "-p", port, "B0", f"{CC_TUNER_MUTE:02X}", "7F" if on else "00"])
+    if on:
+        return tuner_on()
+    tuner_off(proc)
+    return None
+
+
 def tuner_off(proc):
+    if fretwise():
+        subprocess.run(["omarchy-shell", "-q", "shell", "hide", TUNER_PLUGIN], capture_output=True)
     subprocess.run(["flatpak", "kill", TUNER_APP], capture_output=True)  # the sandboxed app outlives `flatpak run`
     if proc:
         proc.terminate()
 
 
-def up():
+def up(helper=True):
+    """build + launch. GuitarMood passes helper=False: it runs the helper's job itself."""
     build()
     if subprocess.run(["pgrep", "-x", "TONE3000"], capture_output=True).stdout:
         print("note: the TONE3000 standalone is running too — quit it or you'll hear both")
@@ -497,9 +520,10 @@ def up():
                     f"--setenv=PIPEWIRE_QUANTUM={QUANTUM}/48000", "qtractor", str(SESSION)], check=True)
     for _ in range(60):
         if pid() and "Qtractor" in subprocess.run(["aconnect", "-l"], capture_output=True, text=True).stdout:
-            subprocess.run(["systemd-run", "--user", "--quiet", "--collect", "--unit=qtractor-rig-helper",
-                            "-p", "Restart=always", sys.executable, str(Path(__file__).resolve()), "helper"])
-            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM}) + per-song helper")
+            if helper:
+                subprocess.run(["systemd-run", "--user", "--quiet", "--collect", "--unit=qtractor-rig-helper",
+                                "-p", "Restart=always", sys.executable, str(Path(__file__).resolve()), "helper"])
+            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM})" + (" + per-song helper" if helper else ""))
             return
         time.sleep(0.5)
     sys.exit("Qtractor did not come up — journalctl --user -u qtractor-rig")
