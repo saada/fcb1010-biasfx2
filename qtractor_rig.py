@@ -447,14 +447,40 @@ def guitar_source():
 TUNER_APP = "io.github.nate_xyz.Chromatic"  # Chromatic: GTK4 tuner, Flathub
 
 
+TUNER_PORT = "ALSA plug-in [chromatic]:input_MONO"
+
+
+def feed_only(port, src):
+    """Connect src to an input port and drop every other connection to it."""
+    lines = subprocess.run(["pw-link", "-l"], capture_output=True, text=True).stdout.splitlines()
+    for i, line in enumerate(lines):
+        if line.strip() == port:
+            for dep in lines[i + 1:]:
+                if not dep.startswith("  |<- "):
+                    break
+                other = dep[len("  |<- "):].strip()
+                if other != src:
+                    subprocess.run(["pw-link", "-d", other, port], capture_output=True)
+    subprocess.run(["pw-link", src, port], capture_output=True)
+
+
 def tuner_on():
-    """Open Chromatic on the clean guitar input. PIPEWIRE_NODE points its ALSA-on-PipeWire
-    capture at the guitar. A Hyprland rule floats it, centred and opaque (README)."""
+    """Open Chromatic on the clean guitar input. It records through ALSA-on-PipeWire and
+    grabs the default source (Scarlett Input 1, the mic), so its input is re-patched to the
+    guitar once it appears. A Hyprland rule floats it, centred and opaque (README)."""
     if subprocess.run(["flatpak", "info", TUNER_APP], capture_output=True).returncode:
         subprocess.run(["notify-send", "FCB tuner", f"install it: flatpak install flathub {TUNER_APP}"])
         return None
-    return subprocess.Popen(["flatpak", "run", f"--env=PIPEWIRE_NODE={guitar_source()}", TUNER_APP],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(["flatpak", "kill", TUNER_APP], capture_output=True)  # never two tuners
+    proc = subprocess.Popen(["flatpak", "run", TUNER_APP], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    src = guitar_source() + ":capture_MONO"
+    for _ in range(60):
+        if TUNER_PORT in subprocess.run(["pw-link", "-i"], capture_output=True, text=True).stdout.splitlines():
+            time.sleep(0.3)  # let its own default connection land, then replace it
+            feed_only(TUNER_PORT, src)
+            break
+        time.sleep(0.2)
+    return proc
 
 
 def tuner_off(proc):
