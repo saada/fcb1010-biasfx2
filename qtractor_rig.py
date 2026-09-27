@@ -453,11 +453,13 @@ def tuner_on():
     if not host:
         subprocess.run(["notify-send", "FCB tuner", "install jalv: sudo pacman -S jalv"])
         return None
-    proc = subprocess.Popen([host, "-n", "fcb-tuner", TUNER_URI], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    # x42 UIs embed as X11 windows: under Wayland jalv's GtkPlug crashes, so run it on XWayland
+    proc = subprocess.Popen([host, "-n", "fcb-tuner", TUNER_URI], env=os.environ | {"GDK_BACKEND": "x11"},
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     src = guitar_source() + ":capture_MONO"
     for _ in range(40):  # wait for its JACK input, then patch the guitar straight in
         ports = subprocess.run(["pw-link", "-i"], capture_output=True, text=True).stdout.split()
-        tuna_in = next((q for q in ports if q.startswith("fcb-tuner:") and "in" in q.split(":", 1)[1]), None)
+        tuna_in = "fcb-tuner:in" if "fcb-tuner:in" in ports else None
         if tuna_in:
             subprocess.run(["pw-link", src, tuna_in], capture_output=True)
             break

@@ -19,8 +19,9 @@ Usage:
 Presets are data: one JSON file per song in rigs/ (format in rigs/README.md).
 Slots are fixed because TONE3000 maps CCs to block *positions*:
 
-  1 boost (SW8/CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (SW10/CC24) | 6+ ambience
-  SW6/CC20 gate · SW7/CC21 spread · EXP A/CC27 treble · EXP B/CC7 output
+  1 boost (CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (CC24) | 6+ ambience
+  Song banks: SW8 LEAD (CC26 = boost + echo) · SW10 TUNER (DAW) · EXP B/CC7 output
+  Scene banks: SW8 boost (CC22) · SW9 delay + reverb (CC24) — see rig.py / README pedal map
 
 Program Change N loads the Nth preset in the browser, so the rig presets are
 written first in Presets/order.json. Captures come from the public TONE3000
@@ -87,10 +88,10 @@ OVERSAMPLING_FACTOR = 0.0  # choice index: 0 = 2x, 1 = 4x
 MIDI_MAP = [  # (targetId, CC) — must match rig.py; one CC may drive several targets
     ("gateEnabled", 20),       # SW6
     ("spreadEnabled", 21),     # SW7  stereo spread / chorus
-    ("block1Power", 22),       # SW8  lead boost
-    ("block2Power", 23),       # SW9  drive
-    ("block5Power", 24),       # SW10 echo (left / mono chain)
-    ("rightBlock3Power", 24),  # SW10 echo (right chain of dual-rig presets)
+    ("block1Power", 22),       # scene banks SW8: boost
+    ("block2Power", 23),       # song banks SW9: drive
+    ("block5Power", 24),       # scene banks SW9: delay + reverb (left / mono chain)
+    ("rightBlock3Power", 24),  # ... and the right chain of dual-rig presets
     ("block1Power", 26),       # song banks SW8 LEAD: boost + echo together
     ("block5Power", 26),
     ("rightBlock3Power", 26),
@@ -884,11 +885,10 @@ def cli_docs(args):
             out += ["", "*Sources:* " + " · ".join(f"<{u}>" for u in r["sources"])]
     out += ["", "## Footswitches", "", "| FCB1010 | CC | TONE3000 |", "|---|---|---|",
             "| SW1–5 (banks 00–02) | PC 0–14 | presets above |",
-            "| SW6 | 20 | noise gate |", "| SW7 | 21 | stereo spread (chorus-ish) |",
-            "| SW8 | 22 | slot 1: lead boost |", "| SW9 | 23 | slot 2: drive |",
-            "| SW10 | 24 | slot 5 / R3: solo echo |", "| EXP A | 27 | treble sweep |", "| EXP B | 7 | output level |",
-            "", "In the DAW rig (`qtractor_rig.py`) SW6/SW7/EXP A drive a real wah and octaver instead of",
-            "gate/spread/treble, and SW10 toggles each preset's delay + reverb.", "",
+            "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone) |",
+            "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
+            "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",
+            "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | output level |", "",
             "## Scene banks (FCB banks 03–09, DAW rig)", "",
             "Every Maiden bank has the same five switches. Each switch sends absolute values, so it",
             "switches instantly and always lands in the same state:", "",
@@ -901,7 +901,8 @@ def cli_docs(args):
     for r in rigs:
         if r.get("scene"):
             banks.setdefault(r["bank"], {})[r["scene"]] = r
-    out += ["", "SW7 in these banks is HARMONY (CC 25): the partner guitarist a diatonic third above, in the",
+    out += ["", "In these banks SW8 = boost (CC 22), SW9 = the era's delay + reverb (CC 24), SW10 = TUNER (CC 28).",
+            "SW7 in these banks is HARMONY (CC 25): the partner guitarist a diatonic third above, in the",
             "song's key. On a bank's first load the DAW helper sets the song's solo echo time and harmony scale.",
             "", "| Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |",
             "|---|---|---|---|---|---|---|---|"]

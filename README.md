@@ -173,7 +173,7 @@ FCB1010 ─► PC/CC straight into TONE3000; Qtractor binds SW6 wah, SW7 octaver
 ```
 
 This brings back the FCB layout's original intent: SW6 wah, SW7 octaver, EXP A wah
-sweep. TONE3000 keeps SW8 boost, SW9 drive, SW10 echo and EXP B output level. The
+sweep. TONE3000 keeps its block toggles (song banks: SW8 LEAD, SW9 drive; Maiden banks: SW8 boost, SW9 delay + reverb) and EXP B output level. SW10 is the tuner. The
 compressor and limiter cut the loudness spread across presets from 9.2 to 4.6 dB and
 keep peaks under −1 dBFS; see `experiments/README.md` D0–D4. Run the standalone
 *or* the DAW, not both.

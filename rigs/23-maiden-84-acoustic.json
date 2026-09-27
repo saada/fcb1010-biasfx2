@@ -9,7 +9,7 @@
     "https://en.wikipedia.org/wiki/Powerslave",
     "https://www.tone3000.com/tones/boss-acoustic-simulator-ac-3-71126"
   ],
-  "notes": "Same two-stage approach as rigs/13 (see its sources) (AC-3 pickup-to-piezo, then a piezo-to-mic acoustic body IR), which the maintainer already leveled (AC-3 needs the full +24 dB). Dropped rigs/13's Micro Amp boost to stay at 2 NAM blocks. Changes for a lusher, Maiden-ballad feel: echo block ON (SW10 doesn't reach this instance) = soft 380 ms echo summed with the Lexicon PCM90 'INSTR a gtr plate' (an acoustic-guitar plate), and a Lexicon 960 medium chamber instead of the medium room, plus Spread for width. No specific Powerslave acoustic track exists, so nothing here is era-documented gear; it's a studio acoustic sound for the bank. Play the neck pickup, lightly.",
+  "notes": "Same two-stage approach as rigs/13 (see its sources) (AC-3 pickup-to-piezo, then a piezo-to-mic acoustic body IR), which the maintainer already leveled (AC-3 needs the full +24 dB). Dropped rigs/13's Micro Amp boost to stay at 2 NAM blocks. Changes for a lusher, Maiden-ballad feel: echo block ON (SW9 doesn't reach this instance) = soft 380 ms echo summed with the Lexicon PCM90 'INSTR a gtr plate' (an acoustic-guitar plate), and a Lexicon 960 medium chamber instead of the medium room, plus Spread for width. No specific Powerslave acoustic track exists, so nothing here is era-documented gear; it's a studio acoustic sound for the bank. Play the neck pickup, lightly.",
   "left": [
     {
       "role": "boost",
