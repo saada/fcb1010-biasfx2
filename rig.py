@@ -50,12 +50,12 @@ SONGS = [
 ]
 
 TOGGLES = [
-    # (switch, CC number, name) — identical row in every bank that has songs
+    # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
     (6, 20, "Wah on/off"),
     (7, 21, "Octaver"),
-    (8, 22, "Boost"),
+    (8, 26, "Lead: boost + echo"),
     (9, 23, "Drive"),
-    (10, 24, "Delay + reverb"),
+    (10, 28, "Tuner (mutes the rig)"),
 ]
 
 # Scene banks (Iron Maiden, one album era per bank) come from rigs/*.json: each bank has a
@@ -83,11 +83,17 @@ BANKS_IN_USE = sorted({bank for bank, *_ in SONGS} | set(SCENE_BANKS))
 HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) instead of the octaver
 
 
+SCENE_TOGGLES = [  # scene banks: SOLO/CRUNCH handle gain, so SW9 carries the song's delay + reverb
+    (6, 20, "Wah on/off"),
+    (7, HARMONY_CC, "Harmony (twin lead)"),
+    (8, 22, "Boost"),
+    (9, 24, "Delay + reverb"),
+    (10, 28, "Tuner (mutes the rig)"),
+]
+
+
 def toggles(bank):
-    if bank in SCENE_BANKS:
-        return [(7, HARMONY_CC, "Harmony (twin lead)") if switch == 7 else (switch, cc, name)
-                for switch, cc, name in TOGGLES]
-    return TOGGLES
+    return SCENE_TOGGLES if bank in SCENE_BANKS else TOGGLES
 
 
 def preset_index(bank, switch):

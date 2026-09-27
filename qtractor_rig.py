@@ -40,6 +40,7 @@ import base64
 import html
 import os
 import re
+import shutil
 import signal
 import struct
 import subprocess
@@ -66,6 +67,8 @@ TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 # TONE3000 keeps the block toggles and output level.
 CC_WAH, CC_OCTAVER, CC_WAH_SWEEP = 20, 21, 27
 CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the octaver
+CC_TUNER = 28    # SW10 in every bank: the helper opens x42 Tuna and mutes the rig
+CC_TUNER_MUTE = 29  # helper -> Qtractor: absolute 127/0 (a toggled Insert lost its input links)
 # Per-song settings the FCB has no room for (two CCs per switch): `helper` watches the
 # FCB for a scene bank's Program Change and sends these to Qtractor.
 CC_SOLO_TIME, CC_HARMONY_SCALE = 85, 86
@@ -190,7 +193,7 @@ def audio_bus(parent, name, mode, channels, ins=(), outs=(), plugins=(), panning
         fields(b, output_gain=1, output_panning=panning)
         chain = el(b, "output-plugins")
         for spec in plugins:
-            plugin(chain, *spec)
+            spec(chain) if callable(spec) else plugin(chain, *spec)
         connects(b, "output-connects", outs)
 
 
@@ -324,6 +327,10 @@ def session_xml():
     # guitar to the clean rig and mutes this one) -> wah -> TONE3000 -> octaver -> solo.
     rig_track(tracks, "Heavy", 0, lambda ps: (
         insert(ps, "Guitar", [GUITAR, GUITAR]),
+        # SW10 tuner: active = silence (dry 0, wet 0). It sits before the Selector and the harmony
+        # tap, so it mutes all three rigs, and their reverb tails ring out. On a bus, a bypassed
+        # Insert stayed silent (experiments D13).
+        insert(ps, "Tuner Mute", [], send=1, wet=0, active=False, activate_cc=CC_TUNER_MUTE),  # latch, like the Selector
         insert(ps, "Selector", [], send=1, wet=0, active=False, activate_cc=t3k.SCENE_SELECT_CC),
         insert(ps, "Harmony Tap", [], send=1, dry=1, wet=0)), HEAVY_CHAIN)  # passes on + sends the DI
     # Harmony (PC ch 3: the bank's light partner-side preset): SW7 opens its input; silent otherwise.
@@ -409,12 +416,53 @@ def helper():
         send_song(port, first, settings)  # the session starts on the first scene bank
     source = os.environ.get("RIG_HELPER_SOURCE", "").split() or ["aseqdump", "-p", FCB[0]]  # tests replay a dump
     fcb = subprocess.Popen(source, stdout=subprocess.PIPE, text=True)
+    tuner_proc, tuning = None, False
     for line in fcb.stdout:
+        if re.search(rf"Control change\s+0, controller {CC_TUNER}, value (6[4-9]|[7-9]\d|1[0-2]\d)\b", line):
+            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + x42 Tuna window
+            subprocess.run(["aseqsend", "-p", qtractor_port() or port, "B0", f"{CC_TUNER_MUTE:02X}",
+                            "7F" if tuning else "00"])
+            if tuning:
+                tuner_proc = tuner_on()
+            elif tuner_proc:
+                tuner_proc.terminate(); tuner_proc = None
+            print(f"tuner {'on' if tuning else 'off'}", flush=True)
+            continue
         m = re.search(r"Program change\s+0, program (\d+)", line)
         if m and int(m.group(1)) in settings:
             send_song(qtractor_port() or port, int(m.group(1)), settings)
             print(f"PC {m.group(1)}: solo echo {settings[int(m.group(1))][0]} ms, harmony {settings[int(m.group(1))][1]}",
                   flush=True)
+
+
+def guitar_source():
+    """PipeWire node name of the guitar input (tone3000.AUDIO's input device)."""
+    out = subprocess.run(["pactl", "list", "sources"], capture_output=True, text=True).stdout
+    for block in out.split("\n\n"):
+        if f"Description: {t3k.AUDIO['audioInputDeviceName']}" in block:
+            return re.search(r"Name: (\S+)", block).group(1)
+    sys.exit("guitar input not found")
+
+
+TUNER_URI = "http://gareus.org/oss/lv2/tuna#one"  # x42 Tuna: strobe-style tuner (x42-plugins-lv2)
+
+
+def tuner_on():
+    """Open x42 Tuna's own window (via jalv) on the clean guitar input."""
+    host = next((h for h in ("jalv.gtk3", "jalv.gtk", "jalv.qt6", "jalv.qt5", "jalv") if shutil.which(h)), None)
+    if not host:
+        subprocess.run(["notify-send", "FCB tuner", "install jalv: sudo pacman -S jalv"])
+        return None
+    proc = subprocess.Popen([host, "-n", "fcb-tuner", TUNER_URI], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    src = guitar_source() + ":capture_MONO"
+    for _ in range(40):  # wait for its JACK input, then patch the guitar straight in
+        ports = subprocess.run(["pw-link", "-i"], capture_output=True, text=True).stdout.split()
+        tuna_in = next((q for q in ports if q.startswith("fcb-tuner:") and "in" in q.split(":", 1)[1]), None)
+        if tuna_in:
+            subprocess.run(["pw-link", src, tuna_in], capture_output=True)
+            break
+        time.sleep(0.25)
+    return proc
 
 
 def up():

@@ -375,3 +375,20 @@ sends two values to Qtractor:
 | 09 | Blood Brothers | E natural minor | 339 ms (177) |
 
 - **Test:** a replayed FCB Program Change 30 set the Solo delay to 748 ms (one CC step is 7.9 ms) and all three autotune stages to scale 1 (C major, the note set of D Dorian). Both were read back from the saved session.
+
+## D13 — A tuner on SW10, and muting in Qtractor
+
+- **Tuner:** x42 Tuna (x42-plugins-lv2), in its own window via `jalv`. On a CC 28 press the helper opens it on the clean guitar input; on the next press it closes it. The first attempt was a hand-rolled tuner in Python, dropped in favour of the existing plugin.
+- **Muting while tuning:** four ways, tested with the DI loop, measuring bus `Rig`:
+
+| Mute | Engaged | Released |
+|---|---|---|
+| Insert on bus `Rig`, toggle mode | −240 dBFS | **stays silent** |
+| Insert at the head of the heavy track, toggle mode | −66.7 dBFS | **stays silent**, and the Guitar insert's input links are gone |
+| `wpctl set-mute` on Qtractor's node | "does not support mute" (JACK node) | — |
+| Insert at the head of the heavy track, latch mode (like the Selector), CC 29 = 127/0 from the helper | −42.5 dBFS within 0.5 s, reverb tails fading | −16.4 dBFS, input links intact |
+
+- **Conclusion:** the helper turns each SW10 press into an absolute CC 29 value, and the mute copies the Selector exactly. It sits before the Selector and the harmony tap, so it silences all three rigs. Unplugging the guitar from the rig doesn't work either: Qtractor re-patches its saved insert connections within seconds.
+- **Real-time audio:** `rtkit` gave PipeWire RR priority 20, but PipeWire's rtkit path also caps a real-time process at 200 ms of CPU. Qtractor, even with an empty session, was killed at 0.47 s every time.
+  - Fix: `~/.config/pipewire/jack.conf` sets `rtkit.enabled` / `rtportal.enabled = false`. JACK clients then take real-time only from the `realtime` group's rlimits, with no cap, once that group is active in the login session.
+  - TONE3000's multiCore stays on: steady xruns in 30 s were 56 with it off, 9 and 7 with it on.

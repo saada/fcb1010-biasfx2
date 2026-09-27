@@ -91,6 +91,9 @@ MIDI_MAP = [  # (targetId, CC) — must match rig.py; one CC may drive several t
     ("block2Power", 23),       # SW9  drive
     ("block5Power", 24),       # SW10 echo (left / mono chain)
     ("rightBlock3Power", 24),  # SW10 echo (right chain of dual-rig presets)
+    ("block1Power", 26),       # song banks SW8 LEAD: boost + echo together
+    ("block5Power", 26),
+    ("rightBlock3Power", 26),
     ("toneTreble", 27),        # EXP A
     ("outputLevel", 7),        # EXP B
 ]

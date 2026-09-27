@@ -14,22 +14,45 @@ Two scripts configure both ends from plain files:
 Both are single-file [uv](https://docs.astral.sh/uv/) scripts — no install, no
 virtualenv: `uv run rig.py`.
 
-## The layout
+## The layout: full pedal map
 
-Declared once, as data, in `rig.py`:
+Declared once, as data, in `rig.py` (`uv run rig.py show` prints it). Everything is on
+MIDI channel 1, except PC 2 (channel 2, the DAW's clean rig) and PC 3 (channel 3, its
+harmony rig).
 
 ```
-Every bank:  [6 WAH ] [7 OCT/HARM] [8 DLY] [9 DIST] [10 TUNER]
-BANK 00:     five song presets          (PC 0-4)
-BANK 01:     five more                  (PC 5-9)
-BANK 02:     one more + four cleans     (PC 10-14)
+SONG BANKS 00-02: one song per switch
+ BANK 00  SW1 Comfortably Numb  SW2 Purple Rain  SW3 Tornado of Souls  SW4 Dream Theater  SW5 Slipknot
+ BANK 01  SW1 Djent             SW2 Radiohead    SW3 Oasis             SW4 Nirvana        SW5 Foo Fighters
+ BANK 02  SW1 Iron Maiden (88)  SW2 My Clean     SW3 Petrucci Clean    SW4 Acoustic       SW5 Glassy Clean
+          SW6 WAH   SW7 OCTAVER   SW8 LEAD (boost + echo)   SW9 DRIVE   SW10 TUNER
 
-EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
+IRON MAIDEN BANKS 03-09: one album era per bank, same five scenes everywhere
+ 03 Number of the Beast  04 Piece of Mind  05 Powerslave  06 Somewhere in Time
+ 07 Seventh Son          08 Fear of the Dark               09 Brave New World / Dance of Death
+          SW1 RHYTHM   SW2 SOLO   SW3 CLEAN   SW4 ACOUSTIC   SW5 CRUNCH
+          SW6 WAH      SW7 HARMONY  SW8 BOOST  SW9 DELAY + REVERB  SW10 TUNER
+
+EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
 ```
 
-Song switches send a single Program Change; the toggle row sends CC 20–24;
-both expression pedals stay live in every preset. Edit the `SONGS` and
-`TOGGLES` tables and re-send to change any of it.
+| Switch | Sends | Does |
+|---|---|---|
+| Song SW1–5 (00–02) | PC 0–14, CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state (heavy rig, Solo block off) |
+| Maiden SW1 RHYTHM | PC heavy + PC clean (ch 2) + PC harmony (ch 3), CC 80 = 63, CC 81 = 0 | loads the era; twin-guitar rhythm |
+| Maiden SW2 SOLO | CC 80 = 72 | amps pushed, +2 dB, the song's lead echo (no PC, so it's instant) |
+| Maiden SW3 CLEAN | PCs + CC 81 = 127 | the era's reverby clean |
+| Maiden SW4 ACOUSTIC | PCs (acoustic on ch 2) + CC 81 = 127 | electric-to-acoustic |
+| Maiden SW5 CRUNCH | CC 80 = 48 | volume-knob-down drive |
+| SW6 WAH | CC 20 (toggle) | Guitarix wah (DAW); EXP A sweeps it |
+| SW7 OCTAVER / HARMONY | CC 21 / CC 25 (toggle) | octave down in the song banks; twin-lead harmony in the Maiden banks |
+| SW8 LEAD / BOOST | CC 26 / CC 22 (toggle) | song banks: boost + solo echo together; Maiden: the boost pedal |
+| SW9 DRIVE / DELAY + REVERB | CC 23 / CC 24 (toggle) | song banks: the song's drive pedal; Maiden: the era's delay + reverb |
+| SW10 TUNER | CC 28 (toggle) | mutes the rig and opens x42 Tuna on the clean input; press again to play |
+
+**Whose solo?** Both guitarists play at once, Murray left and Smith or Gers right. To tell
+the soloists apart, switch pickups: neck for Murray's fluid legato, bridge for Smith's and
+Gers' bite. SOLO then adds the push and the echo on top.
 
 ## FCB1010 side
 
@@ -137,7 +160,7 @@ pedals, a compressor and limiter after the amp, and recording. The whole session
 is generated, so there is nothing to click:
 
 ```
-sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix
+sudo pacman -S --needed qtractor x42-plugins-lv2 lsp-plugins-lv2 guitarix jalv
 python3 qtractor_rig.py up       # write ~/Music/fcb-rig/rig.qtr, launch at quantum 256
 python3 qtractor_rig.py record   # take: processed stereo rig + dry DI
 python3 qtractor_rig.py stop
@@ -167,11 +190,11 @@ keep peaks under −1 dBFS; see `experiments/README.md` D0–D4. Run the standal
 | 08 | Fear of the Dark (1992) | JCM900 4100 / JCM800 2203 (Gers) |
 | 09 | Brave New World / Dance of Death | Marshall JMP-1 / JCM2000 DSL |
 
-Every bank has the same footswitches:
+Every bank has the same footswitches (full map at the top of this README):
 
 ```
-SW1 RHYTHM   SW2 SOLO     SW3 CLEAN   SW4 ACOUSTIC   SW5 CRUNCH
-SW6 wah      SW7 HARMONY  SW8 boost   SW9 drive      SW10 delay + reverb
+SW1 RHYTHM   SW2 SOLO     SW3 CLEAN   SW4 ACOUSTIC        SW5 CRUNCH
+SW6 wah      SW7 HARMONY  SW8 boost   SW9 delay + reverb  SW10 TUNER
 EXP A wah sweep                        EXP B volume
 ```
 
@@ -193,8 +216,9 @@ All 21 presets are levelled and both guitar sides are balanced to within 0.1 dB
 each song's echo time and harmony key when the era loads (D11–D12). The gear and its sources are in `rigs/RIGS.md` and each
 `rigs/NN-maiden-*.json`.
 
-Upload the new FCB layout once (`uv run rig.py send`, see RIG-NOTES.md), then
-`python3 qtractor_rig.py up`.
+Upload the FCB layout (`python3 rig.py syx out.syx && amidi -p hw:2,0 -s out.syx`, with the
+FCB in SYSEX RCV mode; see RIG-NOTES.md), then `python3 qtractor_rig.py up`. The tuner needs
+`jalv`, a minimal LV2 host that shows x42 Tuna's window.
 
 ## License
 
