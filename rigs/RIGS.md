@@ -17,7 +17,7 @@ Every capture links to its TONE3000 page (free download).
 | 9 | [Radiohead](#radiohead) | The Bends (1995) / OK Computer (1997), prod. John Leckie / Nigel Godrich: Just, My Iron Lung, Airbag, Paranoid Android, Let Down |
 | 10 | [Nirvana](#nirvana) | Smells Like Teen Spirit / Breed / In Bloom — Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City |
 | 11 | [Djent](#djent) | Periphery (2010) / Periphery II: This Time It's Personal (2012) rhythm tones, with Meshuggah obZen (2008) tightness; quad-tracked rhythms hard-panned L/R |
-| 12 | [Glassy Clean](#glassy-clean) | Blackface Fender Twin Reverb clean on record: Dire Straits 'Sultans of Swing' / 'Down to the Waterline' (Dire Straits 1978, Communique 1979 era) and SRV 'Lenny' (Texas Flood, 1983) |
+| 12 | [Purple Rain](#purple-rain) | Purple Rain (1984) — title track, recorded live at First Avenue 3 Aug 1983, overdubs/mix at Sunset Sound |
 | 13 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
@@ -285,24 +285,24 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://www.premierguitar.com/artists/guitarists/peripherys-alchemic-ambition> · <https://sevenstring.org/threads/any-ideas-when-it-comes-to-acquiring-the-periphery-i-guitar-tone.337003/> · <https://en.wikipedia.org/wiki/Periphery_II:_This_Time_It%27s_Personal> · <https://www.toontrack.com/product/thordendal-guitars-ezmix-pack/> · <https://equipboard.com/pros/fredrik-thordendal>
 
-## Glassy Clean
+## Purple Rain
 
-**PC 12** — Blackface Fender Twin Reverb clean on record: Dire Straits 'Sultans of Swing' / 'Down to the Waterline' (Dire Straits 1978, Communique 1979 era) and SRV 'Lenny' (Texas Flood, 1983)
+**PC 12** — Purple Rain (1984) — title track, recorded live at First Avenue 3 Aug 1983, overdubs/mix at Sunset Sound
 
-*Original rig:* Strat (bridge/middle-in-between) -> [studio compression] -> Fender blackface Twin Reverb, Vibrato ch., bright on, low volume -> 2x12 -> built-in 4AB3C1B spring reverb (SRV: Vibroverb/Super Reverb clean, guitar volume rolled back)
+*Original rig:* Hohner MadCat (single coils) -> Boss SD-1 (low-gain boost) / DS-1 (solo) / DM-2, CE-2 chorus -> Mesa/Boogie Mark IIB set crystal-clean (1981 heads; converted to IIC+ spec only for the 1984 tour) -> Bag End sealed cabs with JBL D120F 12s; Sunset Sound EMT plate at mix
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
-| L1 | boost | [Klon Centaur (Silver)](https://www.tone3000.com/tones/2599) — Klon Centaur (silver), low gain clean boost | off |
-| L2 | drive | [Boss Blues Driver BD-2](https://www.tone3000.com/tones/1729) — Boss Blues Driver BD-2, gain 25%, level just past unity (edge-of-breakup push) | off |
-| L3 | amp | [Fender '65 Twin Reverb + Celestion G12-65 Heritage + R121+U67](https://www.tone3000.com/tones/35497) — Fender '65 Twin Reverb RI, Vibrato ch. bright on, vol 3.5, B7 M4.5 T5.5, G12-65 U67+R121 cap edge (pre-EQ: humbucker->single-coil) | on |
-| L5 | echo | Analog delay 340 ms, 2-3 repeats, low mix — generated 340 ms BBD-style IR (mix 20%) | off |
-| L6 | ambience | [Teletronix LA-2A Tube Compressor ](https://www.tone3000.com/tones/62320) — Teletronix LA-2A, Leveling - Light, 50% parallel (studio compression) (mix 50%) | on |
-| L7 | ambience | [Fender Twin Spring Reverb](https://www.tone3000.com/tones/1730) — Fender Twin Reverb spring tank (4AB3C1B), ~reverb 2.5-3 (mix 18%) | on |
+| L1 | boost | [Boss SD-1 Super Overdrive](https://www.tone3000.com/tones/87914) — Boss SD-1, level 6 / drive 0 (low-gain boost) | off |
+| L2 | drive | [Boss DS-1 Distortion Pack](https://www.tone3000.com/tones/2508) — Boss DS-1, tone 4 / dist 8 (solo) | off |
+| L3 | amp | ["Silver Zephyr" | 1984 Factory Mesa Boogie Mark IIC+ (DRG, 105PT) | Community Pack](https://www.tone3000.com/tones/87223) — 1984 Mesa Mark IIC+ Silver Zephyr, Dynamic Airy Clean (DI) -- stands in for clean Mark IIB | on |
+| L4 | cab | [1976 Deluxe Reverb Cabinet with JBL E120-8](https://www.tone3000.com/tones/5719) — JBL E120 12" (for Bag End JBL D120F), SM57 cap edge | on |
+| L5 | echo | Boss DM-2 style, 300 ms — generated 300 ms BBD-style IR (mix 35%) | off |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate, Sunset Sound (mix 30%) | on |
 
-*Notes:* Humbucker (Music Man JP-style) -> single-coil voicing via eq_pre [-3,-2.5,0,1.5,3,2] on the amp block (before the Twin model): trims lows/low-mids, adds 1.6k/3.5k/8k sparkle for the Strat 'glass'. Set it to all zeros if you want a fatter humbucker clean. Amp is pbear's '65 Twin RI full rig (bright on, vol 3.5-4, B7 M4.5 T5.5, G12-65 Heritage, U67+R121 cap edge) - most-downloaded, well-matched Twin clean; a real '67 blackface Twin with Jensen C12N exists (tone 94526) but is ~12 dB quiet and its variants are undocumented. Knopfler's first-album amp may have been a brown Vibrolux (Twin from mid-1978); SRV's Lenny was a Vibroverb/Super - both approximated by the Twin. Light compression = LA-2A 'Leveling - Light' NAM capture post-amp at 50% mix (NAM captures coloration, dynamics only approximately). Spring = Fender Twin's own spring tank IR at 18% mix, trimmed to 3 s. Subtle Spread, no wobble (Twin tremolo/Strat position switching not modelled). SW9 = BD-2 at 25% gain for SRV-ish edge; SW8 = Klon clean boost; SW8 (LEAD) = short slapback-ish delay.
+*Notes:* Aug 1983 First Avenue take used Prince's Mark IIB heads run clean (IIC+ conversion came at the 1984 tour rehearsals). No Mark IIB capture exists: a real 1984 IIC+ (Silver Zephyr) clean model stands in -- the Mark II clean/rhythm channel is near-identical across A/B/C+; the only true pre-C+ capture (24644, 1979 Mark IIA) is a crunch-only DI, too dirty for the clean intro. Amp switched from 'Airy Edge' to 'Airy Clean' to match the documented crystal-clean setting; dirt comes from the DS-1 (SW9) for the solo, as Prince did. Cab: Bag End sealed 4x12 with JBL D120F; no raw D120F IR in the catalog (the Twin D120 IRs are pre-EQ'd), so a JBL E120 (same-family cone, open-back 1x12) SM57 cap-edge IR is used -- expect slightly less low-end thump than a sealed 4x12. CE-2 is time-varying, so Spread wobble approximates it. DM-2 echo is generated (no DM-2 IR exists). Plate IR is a DAW emulation of the Sunset Sound EMT 140, not a sample of the real plate. DS-1 settings for the solo are undocumented; T4/D8 gives a warm, sustaining lead into a clean amp. Humbucker->single-coil pre-EQ on the amp assumes a humbucker guitar (JP70).
 
-*Sources:* <https://www.mk-guitar.com/2009/01/13/mark-knopflers-sultans-of-swing-amp-the-brown-fender-vibrolux/> · <https://www.mk-guitar.com/gear-on-all-songs-for-all-albums-wiki/gear-on-album-dire-straits/> · <https://www.guitarworld.com/features/stevie-ray-vaughans-sound-amps> · <https://srvarchive.com/amplifiers>
+*Sources:* <https://guitar.com/features/artist-rigs/the-guitars-used-by-prince-on-purple-rain/> · <https://www.guitarcloud.org/era/purple-rain/> · <https://mixdownmag.com.au/features/rig-rundown-princes-purple-rain/> · <https://tonesmatch.com/tones/purple-rain-prince-the-revolution-solo-distorted-4287> · <https://www.tonemirror.so/tones/prince-purple-rain> · <https://www.guitarplayer.com/gear/how-princes-purple-rain-mesaboogie-mark-iic-turned-up-in-a-minneapolis-music-store> · <https://www.guitarcloud.org/equipment/mesaboogie-mark-ii/>
 
 ## Maiden Harmony
 

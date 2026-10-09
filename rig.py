@@ -43,7 +43,7 @@ SONGS = [
     (2, 2, 9, "Radiohead"),
     (2, 3, 10, "Nirvana"),
     (2, 4, 11, "Djent"),
-    (2, 5, 12, "Glassy Clean"),
+    (2, 5, 12, "Purple Rain"),
 ]
 BANK_NAMES = {0: "Maiden", 1: "80s", 2: "Variety"}
 

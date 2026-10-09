@@ -30,7 +30,7 @@ BANK 1  80s: one song preset per switch
           SW6 WAH      SW7 OCTAVER  SW8 BOOST        SW9 DELAY          SW10 TUNER
 
 BANK 2  VARIETY: one song preset per switch
-          SW1 COMFORTABLY NUMB   SW2 RADIOHEAD   SW3 NIRVANA   SW4 DJENT   SW5 GLASSY CLEAN
+          SW1 COMFORTABLY NUMB   SW2 RADIOHEAD   SW3 NIRVANA   SW4 DJENT   SW5 PURPLE RAIN
           SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
 EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
