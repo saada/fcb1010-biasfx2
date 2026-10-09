@@ -276,8 +276,9 @@ FCB1010 ─► PC/CC straight into TONE3000; Qtractor binds SW6 wah, SW7 octaver
 
 This brings back the FCB layout's original intent: SW6 wah, SW7 octaver, EXP A wah
 sweep. TONE3000 keeps its block toggles (song banks: SW8 LEAD, SW9 drive; Maiden banks: SW8 boost, SW9 delay + reverb) and EXP B output level. SW10 is the tuner. The
-compressor and limiter cut the loudness spread across presets from 9.2 to 4.6 dB and
-keep peaks under −1 dBFS; see `experiments/README.md` D0–D4. Run the standalone
+limiter keeps peaks under −1 dBFS. The compressor is in the chain but bypassed by default:
+it cut the loudness spread across presets from 9.2 to 4.6 dB (`experiments/README.md` D0–D4),
+but it also flattened palm mutes, and the rig sounds better without it (D16). Run the standalone
 *or* the DAW, not both.
 
 ### Iron Maiden banks (03–09): one album era per bank, instant scenes

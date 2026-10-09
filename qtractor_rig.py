@@ -101,7 +101,10 @@ SOLO = ("Solo", "http://lsp-plug.in/plugins/lv2/slap_delay_stereo", False,
          36: ("Delay 1 high-cut", 1), 37: ("Delay 1 high-cut frequency", 4500.0),
          43: ("Delay 1 feedback", 0.3), 44: ("Delay 1 gain", db(-10))},
         {t3k.SCENE_DRIVE_CC: ("Activate", "latch"), CC_SOLO_TIME: (29, "hook")})  # time: per song (helper)
-COMPRESSOR = ("Compressor", "http://lsp-plug.in/plugins/lv2/compressor_stereo", True,
+# Bypassed by default: at -18 dB / 3:1 / 10 ms attack it sat on every heavy preset and flattened
+# palm-mute chugs ("too muffled"); the owner preferred the rig with it off (experiments D16).
+# The limiter alone keeps peaks under -1 dBTP. It stays in the chain to switch on in Qtractor.
+COMPRESSOR = ("Compressor", "http://lsp-plug.in/plugins/lv2/compressor_stereo", False,
               {29: ("Attack threshold", db(-18)), 30: ("Attack time", 10.0), 32: ("Release time", 120.0),
                34: ("Ratio", 3.0), 38: ("Makeup gain", db(3))}, {})
 LIMITER = ("Limiter", "http://gareus.org/oss/lv2/dpl#stereo", True,

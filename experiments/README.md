@@ -444,3 +444,15 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   to v0.0.9's in params and chains (only `id`, the `T3KH` header and the 0.0.11 gate/pitch params
   are added). Not yet re-run on v0.0.12: the full 43-preset level sweep and the CC 22/23/24
   audio toggle test.
+
+## D16 — Palm mutes "too muffled": gate or compressor?
+
+- **Symptom (owner):** "palm muting sounds too muffled like almost nothing gets through."
+- **Gate:** cleared. An offline port of the v0.0.12 gate at the rig's settings (−60 dB threshold,
+  hold 50 ms, release 100 ms, range 80 dB) passes 80 ms plucked bursts at −30, −40 and −50 dBFS peak
+  with 0.0 dB change; only a −60 dBFS burst loses 4.9 dB of its pick. Simulation, not a rig run.
+- **Compressor:** the bus compressor (−18 dB, 3:1, 10 ms attack, +3 dB makeup) sits on every heavy
+  preset at the rig's +14 dB output, so it clamps each chug's pick transient. During the D15 runs
+  (dynamics bypassed) the owner said the rig "sounds way better".
+- **Change:** the compressor is bypassed by default; the −1 dBTP limiter stays. Not yet measured:
+  a palm-mute level/transient A/B with the compressor on vs off on the rig.
