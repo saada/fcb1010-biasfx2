@@ -68,14 +68,21 @@ humbucker → single-coil voicing `[-3, -2.5, 0, 1.5, 3, 2]`).
 widening / chorus-like movement. For dual rigs: `chainPanLeft` 0 /
 `chainPanRight` 1, `alignEnabled`, `alignWobbleEnabled`, `alignWobble`
 (inter-rig chorus). `toneBass`/`toneMid`/`toneTreble` (0–10, 5 = flat).
-Output level and gate (+24 dB, on at −35 dB) are global and always win.
+Gate (TONE3000 ≥ 0.0.11): `gateRelease` (5–500 ms, default here 100), `gateHold` (0–200 ms,
+here 50), `gateRange` (20–80 dB, here 80): the builder's defaults reproduce v0.0.9's fixed gate;
+a tight high-gain preset can set e.g. release 15 / hold 10. Pitch (≥ 0.0.11, off by default):
+`pitchEnabled`, `pitchSemitones` (−24…24), `pitchStep` (1 = whole semitones), `pitchTonality`
+(1000–20000 Hz, 20000 = off), `pitchWindow` (0–3 = 20/30/40/60 ms; adds 11/16/21/31 ms latency
+while on). Unknown ids are an error. The full baseline is `BASE_PARAMS` in tone3000.py.
+Output level (+12 dB) and gate (on at −60 dB) are global (`GLOBAL_PARAMS`) and always win.
 
 IRs that aren't 48 kHz, or whose data chunk has an odd byte length, load as *silence*
 in TONE3000; the builder re-encodes them
 automatically (mono, first channel), so any catalog IR is usable.
 
-TONE3000 can't do time-varying effects (chorus/flanger/phaser/wah/pitch):
-use Spread/Align for chorus-like movement and note the gap in `notes`.
+TONE3000 has no modulation, wah or delay blocks (chorus/flanger/phaser/wah): use Spread/Align
+for chorus-like movement and note the gap in `notes`. Since v0.0.11 it can pitch-shift the whole
+input (see Useful `params`), but with no dry blend and no scale awareness.
 
 ## Scene banks (Iron Maiden, FCB banks 03–09)
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Bootstrap the FCB1010 rig on a fresh Linux box (PipeWire + JACK).
 #
-#   ./bootstrap.sh [path/to/TONE3000-*-linux-x64.tar.gz]
+#   ./bootstrap.sh [path/to/TONE3000-*-linux-x64.tar.gz]   (default: download T3K_VERSION)
 #
-# 1. Installs the TONE3000 plugin/standalone from its release tarball (if given or
-#    found in ~/Downloads and not installed yet).
+# 1. Installs (or upgrades to) the pinned TONE3000 release, T3K_VERSION, from its tarball (given,
+#    in ~/Downloads, or downloaded from GitHub and checksum-verified).
 # 2. Opens + closes the standalone once so it writes its settings file.
 # 3. `tone3000.py configure` — audio/MIDI/calibration/oversampling for this rig.
 # 4. `tone3000.py build`     — every rigs/*.json preset, PC order, FCB MIDI map.
@@ -18,6 +18,10 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 T3K_BIN="$HOME/.local/bin/TONE3000"
+# The plugin release the rig is built and measured against (README "TONE3000 side").
+# Its install.sh rewrites the desktop entry; `tone3000.py configure` below restores the quantum.
+T3K_VERSION="v0.0.12"
+T3K_SHA256="c45ea5d64e6eef991b14f1883a4249ed1a883253db1a9d9f0605e0540aba5fc7"
 SETTINGS="$HOME/.config/TONE3000/TONE3000.settings"
 
 say() { printf '\n==> %s\n' "$*"; }
@@ -39,14 +43,20 @@ close_tone3000() {
   exit 1
 }
 
-# 1. install
-if [[ ! -x "$T3K_BIN" ]]; then
-  tarball="${1:-$(ls -t "$HOME"/Downloads/TONE3000-*-linux-x64.tar.gz 2>/dev/null | head -1 || true)}"
-  [[ -n "$tarball" && -f "$tarball" ]] || {
-    echo "TONE3000 isn't installed and no release tarball was found." >&2
-    echo "Download the Linux build from https://www.tone3000.com and pass its path." >&2
+# 1. install (or upgrade to) the pinned TONE3000 release
+if [[ ! -x "$T3K_BIN" ]] || ! grep -aq "${T3K_VERSION#v}" "$T3K_BIN"; then
+  tarball="${1:-$HOME/Downloads/TONE3000-$T3K_VERSION-linux-x64.tar.gz}"
+  if [[ ! -f "$tarball" ]]; then
+    say "Downloading TONE3000 $T3K_VERSION"
+    mkdir -p "$(dirname "$tarball")"
+    curl -fL --retry 3 -o "$tarball" \
+      "https://github.com/tone-3000/tone3000-plugin/releases/download/$T3K_VERSION/TONE3000-$T3K_VERSION-linux-x64.tar.gz"
+  fi
+  if [[ -z "${1:-}" ]] && ! echo "$T3K_SHA256  $tarball" | sha256sum -c --quiet; then
+    echo "Checksum mismatch for $tarball — delete it and re-run." >&2
     exit 1
-  }
+  fi
+  close_tone3000
   say "Installing TONE3000 from $tarball"
   tmp="$(mktemp -d)"
   tar xzf "$tarball" -C "$tmp"

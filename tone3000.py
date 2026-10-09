@@ -189,6 +189,14 @@ def write_tree(node):
 
 
 def load_t3kb(data):
+    """Plugin state and v0.0.9 presets ("T3KB" + tree), or a preset file in the framing
+    TONE3000 writes since 0.0.10 ("T3KH" + int32 LE header size + header tree + body tree;
+    plugin/src/PresetFile.cpp). Returns the body."""
+    if data[:4] == b"T3KH":
+        size = struct.unpack_from("<i", data, 4)[0]
+        node, end = read_tree(data, 8 + size)
+        assert end == len(data)
+        return node
     assert data[:4] == b"T3KB", "not a TONE3000 file"
     node, end = read_tree(data, 4)
     assert end == len(data)
@@ -197,6 +205,26 @@ def load_t3kb(data):
 
 def dump_t3kb(node):
     return b"T3KB" + write_tree(node)
+
+
+def dump_preset(node):
+    """A .t3kpreset in TONE3000's v2 framing: a small T3KPresetHeader (id, name) ahead of the
+    body, so the browser (and every Program Change, which lists the folder) reads a few
+    hundred bytes per preset instead of parsing megabytes of embedded models."""
+    header = write_tree(Node("T3KPresetHeader").set("id", node.get("id", "")).set("name", node.get("name", "")))
+    return b"T3KH" + struct.pack("<i", len(header)) + header + write_tree(node)
+
+
+def preset_header(path):
+    """(id, name) as TONE3000 lists a preset file: a legacy file with no id uses its stem."""
+    data = path.read_bytes()
+    if data[:4] == b"T3KH":
+        size = struct.unpack_from("<i", data, 4)[0]
+        header, _ = read_tree(data, 8)
+        assert 8 + size <= len(data)
+    else:
+        header = load_t3kb(data)
+    return header.get("id") or path.stem, header.get("name") or path.stem
 
 
 # --- JUCE MemoryBlock base64 ("<size>.<chars>", little-endian bit stream) ---
@@ -486,10 +514,34 @@ def synth_tone(model_id, title, description, gear="pedal"):
     }
 
 
-def default_params():
-    """Params node from a factory preset, so every parameter gets a sane value."""
-    factory = sorted((PRESETS / "Factory").glob("*.t3kpreset"))[0]
-    return load_t3kb(factory.read_bytes()).child("Params")
+# Every preset's faceplate parameters (TONE3000's presetParameterIds, ProcessorPresets.cpp),
+# in the plugin's real units: knobs 0-1, tone 0-10, gate dB/ms. A preset sets *all* of them on
+# load and missing ones fall back to the plugin default, so they're spelled out here.
+# The first block is what the rig has always used: until v0.0.9 the builder copied them
+# from the first factory preset (Bogner Fullstack), which is why outputBalance, spreadOffset
+# and align* aren't plugin defaults. Frozen so a new plugin's factory set can't move the sound.
+BASE_PARAMS = {
+    "inputLevel": 0.5, "outputLevel": 0.5299999713897705, "outputBalance": 0.5600000023841858,
+    "toneBass": 5.0, "toneMid": 5.0, "toneTreble": 5.0, "gateThreshold": -70.0, "gateEnabled": 1.0,
+    "toneEqEnabled": 1.0, "spreadEnabled": 0.0, "spreadOffset": 0.8100000023841858, "spreadWobble": 0.25,
+    "spreadWobbleEnabled": 1.0, "spreadCrossover": 0.5, "spreadCrossoverEnabled": 1.0,
+    "spreadDiffuseEnabled": 1.0, "alignEnabled": 1.0, "alignOffset": 0.5299999713897705, "alignWobble": 0.25,
+    "alignWobbleEnabled": 0.0, "alignCrossover": 0.5, "alignCrossoverEnabled": 0.0, "alignDiffuseEnabled": 0.0,
+    "chainPanLeft": 0.0, "chainPanRight": 1.0, "chainPanLinked": 1.0, "chainInvertLeft": 0.0,
+    "chainInvertRight": 0.0,
+    # TONE3000 >= 0.0.11. Gate release/hold: v0.0.9's hard-wired 100 ms / 50 ms (its gate had no
+    # knobs for them). The plugin's new defaults, 50 / 20 ms, close the note tail twice as fast;
+    # a preset may opt into that per song with "params". Range 80 dB = v0.0.9's -80 dB floor.
+    "gateRelease": 100.0, "gateHold": 50.0, "gateRange": 80.0,
+    # Pitch shift (input stage, before the amps; adds 11-31 ms latency while on): off.
+    # pitchSemitones -24..24, pitchStep 1 = whole semitones, pitchTonality 20000 Hz = off,
+    # pitchWindow = choice index of 20/30/40/60 ms (1 = 30 ms, the plugin default).
+    "pitchEnabled": 0.0, "pitchSemitones": 0.0, "pitchStep": 1.0, "pitchTonality": 20000.0, "pitchWindow": 1.0,
+}
+
+
+def params_node(values):
+    return Node("Params", children=[Node("Param").set("id", k).set("value", float(v)) for k, v in values.items()])
 
 
 def preset_id(name):
@@ -594,6 +646,8 @@ def validate(rig):
         for i, spec in enumerate(rig.get(side, []), 1):
             if spec.get("type") == "echo" and not spec.get("delay_ms") and not spec.get("reverb"):
                 errs.append(f"{side}[{i}] echo needs delay_ms and/or reverb")
+    if unknown := sorted(set(rig.get("params", {})) - set(BASE_PARAMS)):
+        errs.append(f"unknown params {unknown} (TONE3000 ignores them)")
     if len(rig.get("left", [])) > 12 or len(rig.get("right", [])) > 12:
         errs.append("max 12 blocks per chain")
     return errs
@@ -639,15 +693,11 @@ def build_preset(rig):
     snap = Node("ChainSnapshot").set("stereoEnabled", bool(split)).set("branchSide", "left")
     snap.set("branchAfterBlockId", left[split - 1].get("id") if split else "")
     snap.children = [Node("ChainBlocks", children=left), Node("RightChainBlocks", children=right)]
-    params = default_params()
-    values = {"gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS}
+    values = {**BASE_PARAMS, "gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS}
     if rig.get("scene") == "heavy":  # loads at the RHYTHM scene's input drive
         values["inputLevel"] = SCENES["rhythm"][0] / 127  # = every PC-sending scene's CC 80
-    for p in params.children:
-        if p.get("id") in values:
-            p.set("value", float(values[p.get("id")]))
-    root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"])
-    root.children = [snap, params]
+    root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"]).set("id", preset_id(rig["name"]))
+    root.children = [snap, params_node(values)]
     return root
 
 
@@ -764,12 +814,19 @@ def build():
     ids = []
     for rig in rigs:
         pid = preset_id(rig["name"])
-        (PRESETS / f"{pid}.t3kpreset").write_bytes(dump_t3kb(build_preset(rig)))
+        atomic_write(PRESETS / f"{pid}.t3kpreset", dump_preset(build_preset(rig)))
         ids.append(f"user:{pid}")
         print(f"PC {rig['pc']:<3} {rig['name']}")
+    # Saving over a rig preset in the app renames its file to the display name (same id inside).
+    # Two files with one id both list, which would shift every Program Change after them.
+    ours = {i.removeprefix("user:") for i in ids}
+    for path in PRESETS.glob("*.t3kpreset"):
+        if path.stem not in ours and preset_header(path)[0] in ours:
+            path.unlink()
+            print(f"removed {path.name}: an app-saved copy of a rig preset (rebuilt from rigs/)")
     order_path = PRESETS / "order.json"
     old = json.loads(order_path.read_text()) if order_path.exists() else []
-    factory = [f"factory:{p.stem}" for p in sorted((PRESETS / "Factory").glob("*.t3kpreset"))]
+    factory = [f"factory:{preset_header(p)[0]}" for p in sorted((PRESETS / "Factory").glob("*.t3kpreset"))]
     rest_ids = [i for i in old + factory if i not in ids]
     order_path.write_text(json.dumps(ids + list(dict.fromkeys(rest_ids)), indent=2))
     write_midi_map()
@@ -838,7 +895,7 @@ def cli_check(files):
         errs = validate(rig)
         if not errs:
             try:
-                size = len(dump_t3kb(build_preset(rig)))
+                size = len(dump_preset(build_preset(rig)))
             except Exception as e:  # unknown tone/model, bad IR, network
                 errs = [f"{type(e).__name__}: {e}"]
         ok &= not errs

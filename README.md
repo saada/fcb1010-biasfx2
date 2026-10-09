@@ -218,7 +218,16 @@ first `wire`.
 
 `tone3000.py` builds the same rig for the native TONE3000 plugin (NAM
 captures + IRs), using full-stack captures of each player's actual record/live
-rig from the public TONE3000 catalog:
+rig from the public TONE3000 catalog.
+
+The rig is built and measured against **TONE3000 v0.0.12** (linux-x64 release from
+[GitHub](https://github.com/tone-3000/tone3000-plugin/releases/tag/v0.0.12), sha256
+`c45ea5d64e6eef991b14f1883a4249ed1a883253db1a9d9f0605e0540aba5fc7`). `./bootstrap.sh`
+downloads, checks and installs that release; by hand it's `tar xzf` and the tarball's
+`./install.sh` (VST3/LV2/CLAP/standalone + factory presets under `~/.config/TONE3000`),
+then `uv run tone3000.py configure` to restore the launcher's PipeWire quantum. Don't run
+an older build: v0.0.9 sized every IR convolver to the host's *maximum* block (Qtractor
+promises 2048 at a 256 quantum), which glitched the acoustic presets (experiments D15).
 
 ```
 uv run tone3000.py map        # preview presets and MIDI map
@@ -233,14 +242,16 @@ What's reverse-engineered:
 
 | File | Role |
 |---|---|
-| `~/.config/TONE3000/Presets/<id>.t3kpreset` | preset: `T3KB` + JUCE ValueTree binary; each block embeds its tone JSON and the raw `.nam`/`.wav` |
+| `~/.config/TONE3000/Presets/<id>.t3kpreset` | preset: `T3KH` + int32 header size + a `T3KPresetHeader` (id, name) ValueTree + the `T3KPreset` body (TONE3000 ≥ 0.0.10; v0.0.9's `T3KB` + body still loads, its id = the file stem); each block embeds its tone JSON and the raw `.nam`/`.wav` |
 | `~/.config/TONE3000/Presets/order.json` | JSON array of `user:<id>` / `factory:<id>`; Program Change N = Nth entry |
 | `~/.config/TONE3000/TONE3000.settings` | JUCE standalone settings; `filterState` (JUCE base64) holds plugin state incl. `MidiMappings`, `audioSetup` holds device + enabled MIDI inputs |
 
-TONE3000 has no wah/modulation/delay and maps CCs globally by block
+TONE3000 has no wah/modulation/delay blocks (v0.0.12 adds only a global input pitch
+shifter, see TONE3000.md) and maps CCs globally by block
 *position*, so every preset shares one layout: block 1 lead boost (CC 22),
 block 2 song drive (CC 23), block 3 full stack; CC 20 noise gate, CC 21 stereo
-spread, CC 27 treble sweep, CC 7 output level. Toggles flip on any value ≥ 64,
+spread, CC 27 treble sweep, CC 7 output level. Toggles flip on any value ≥ 64 (and on a
+value < 64 that doesn't follow one ≥ 64, i.e. isn't a release),
 so the stock FCB1010's constant 127 works. The tuner isn't MIDI-mappable.
 
 ## DAW rig (Qtractor, Linux)

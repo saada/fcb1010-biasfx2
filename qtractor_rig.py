@@ -229,9 +229,13 @@ def tone3000_state(midi_map, scene):
         preset = t3k.load_t3kb(path.read_bytes())
         state.children = [preset.child("ChainSnapshot") if c.type == "ChainSnapshot" else c for c in state.children]
         values = {q.get("id"): q.get("value") for q in preset.child("Params").children}
-        for q in state.child("PARAMETERS").children:
+        params = state.child("PARAMETERS")
+        for q in params.children:
             if q.get("id") in values:
-                q.set("value", float(values[q.get("id")]))
+                q.set("value", float(values.pop(q.get("id"))))
+        # Parameters newer than the standalone's saved state (e.g. the 0.0.11 gate/pitch knobs)
+        # would otherwise restore at the plugin default rather than the preset's value.
+        params.children += [t3k.Node("PARAM").set("id", k).set("value", float(v)) for k, v in values.items()]
         state.set("activePresetId", f"user:{t3k.preset_id(rig['name'])}").set("activePresetName", rig["name"])
     for q in state.child("PARAMETERS").children:  # EXP B may have left outputLevel anywhere
         if q.get("id") in t3k.GLOBAL_PARAMS:
