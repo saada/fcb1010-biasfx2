@@ -1,15 +1,22 @@
 {
   "pc": 3,
   "name": "Van Halen I Brown",
-  "reference": "Ain't Talkin' 'bout Love / Runnin' with the Devil: Van Halen (1978, Sunset Sound, prod. Ted Templeman, eng. Donn Landee)",
-  "rig": "Frankenstrat (single rewound PAF bridge humbucker) -> unmodified late-60s Marshall 1959 Super Lead 100 W, everything on 10, mains turned down with a Variac -> Marshall 4x12; Sunset Sound plate/chamber on the other side of the mix",
+  "reference": "Ain't Talkin' 'bout Love (~139 BPM) / Runnin' with the Devil (~96 BPM): Van Halen (1978, Sunset Sound, prod. Ted Templeman, eng. Donn Landee)",
+  "rig": "Frankenstrat (one wax-potted PAF bridge humbucker, one volume knob) or Ibanez Destroyer (Runnin') -> stock 1968 Marshall 1959 Super Lead 100 W, everything on 10, mains lowered to ~89-90 V with a Variac, dummy load -> two basket-weave Marshall 4x12s (one G12M-25 Greenback, one JBL D120F), SM57s; Sunset Sound Studio 1 live echo chamber panned opposite the guitar",
   "sources": [
     "https://en.wikipedia.org/wiki/Van_Halen_(album)",
-    "https://en.wikipedia.org/wiki/Frankenstrat",
-    "https://www.tone3000.com/tones/6220",
-    "https://www.tone3000.com/tones/84558"
+    "https://www.loudersound.com/features/eddie-van-halen-the-long-lost-interview",
+    "https://www.guitarplayer.com/players/eddie-van-halen-shares-the-guitars-behind-his-quest-for-tone",
+    "https://guitar.com/features/artist-rigs/the-gear-used-by-eddie-van-halen-on-van-halen-i",
+    "https://ultimateclassicrock.com/eddie-van-halen-reveals-his-biggest-lie/",
+    "https://legendarytones.com/edward-van-halen-brown-sound/",
+    "https://us-store.two-notes.com/blogs/news/george-lynch-artist-series-of-dynir-virtual-cabinets",
+    "https://www.vhnd.com/2013/12/13/former-van-halen-engineer-donn-landee-discusses-recording-van-halen/",
+    "https://tapeop.com/interviews/159/donn-landee-1",
+    "https://www.vhnd.com/2014/09/29/eddie-van-halen-signature-sound-mxrs-phase-90-flanger-pedals/",
+    "https://www.tone3000.com/tones/6220"
   ],
-  "notes": "Amp = Slammin 1959HW captured through a real Variac at 180 V with EQ and Volume I dimed (the author's recommended start). Cab = plain Greenback 1960TV SM57 (the song-voiced VH IRs are of unknown method). Ambience = Sunset Sound plate IR made to approximate the VH plate, 25% wet. SW8 LEAD = TS9 clean push (not on the record) + a generic 340 ms solo echo (the record has no tempo-synced delay). Unconfirmed [verify]: the Variac voltage (interviews quote 89 V to 'around 90'), Greenback vs JBL speakers, and the opposite-side plate panning. No Phase 90 or electric sitar in TONE3000; Spread is off. Levels are unmeasured. Research: 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`).",
+  "notes": "Dual rig, same Variac'd plexi on both sides (the Slammin 1959HW at 180 V is 75% of its 240 V mains, i.e. EVH's documented 89-90 of 120 V). Left = G12M-25 Greenback 4x12 SM57, right = JBL E120 standing in for the documented JBL D120F cab. Landee panned the guitar to one side and the live chamber to the other: the 480L Large Chamber sits at 15% left and 40% right. SW8 BOOST = TS9 clean push (not on the record). SW9 DELAY = a generic 320 ms solo slap (the record has no tempo-synced delay). Phase 90 (Ain't Talkin', slow speed) and the electric-sitar double can't be modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
   "left": [
     {
       "role": "boost",
@@ -29,7 +36,7 @@
       "tone_id": 6220,
       "model_id": 418910,
       "enabled": true,
-      "label": "Marshall 1959HW Plexi on a Variac, 180 V, dimed 10"
+      "label": "Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10"
     },
     {
       "role": "cab",
@@ -37,27 +44,71 @@
       "tone_id": 45022,
       "model_id": 239175,
       "enabled": true,
-      "label": "Marshall 1960TV 4x12 Greenback, SM57"
+      "label": "Marshall 1960TV 4x12 G12M-25 Greenback, SM57"
     },
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 340,
+      "delay_ms": 320,
       "feedback": 0.25,
       "cutoff_hz": 3500.0,
       "mix": 0.18,
       "enabled": false,
-      "label": "Solo delay 340 ms"
+      "label": "Solo delay 320 ms"
     },
     {
       "role": "ambience",
       "type": "ir",
-      "tone_id": 84558,
-      "model_id": 719211,
+      "tone_id": 88464,
+      "model_id": 745820,
       "enabled": true,
-      "mix": 0.25,
-      "trim_seconds": 2.0,
-      "label": "Sunset Sound plate (VH reverb)"
+      "label": "Lexicon 480L Large Chamber (Sunset Sound live chamber)",
+      "mix": 0.15,
+      "trim_seconds": 2.0
     }
-  ]
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6220,
+      "model_id": 418910,
+      "enabled": true,
+      "label": "Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 5719,
+      "model_id": 59206,
+      "enabled": true,
+      "label": "JBL E120 12\" (for EVH's JBL D120F 4x12)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 320,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Solo delay 320 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745820,
+      "enabled": true,
+      "label": "Lexicon 480L Large Chamber, opposite side (Landee's panning)",
+      "mix": 0.4,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.2,
+    "chainPanRight": 0.8,
+    "chainPanLinked": 1.0
+  }
 }

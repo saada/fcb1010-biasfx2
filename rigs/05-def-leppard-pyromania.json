@@ -1,13 +1,17 @@
 {
   "pc": 5,
   "name": "Def Leppard Pyromania",
-  "reference": "Photograph / Rock of Ages: Def Leppard, Pyromania (1983, Battery Studios London, prod. Robert John 'Mutt' Lange)",
-  "rig": "Steve Clark (Gibson Les Pauls) and Phil Collen -> Marshall master-volume heads (JMP/JCM800 2203 type) -> Marshall 4x12s; Lange's layered, compressed multi-tracking",
+  "reference": "Photograph (~124 BPM) / Rock of Ages (~106 BPM): Def Leppard, Pyromania (1982 sessions at Park Gate and Battery Studios, prod. Robert John 'Mutt' Lange, eng. Mike Shipley)",
+  "rig": "Pete Willis and Steve Clark rhythm beds (Les Paul low end, SG mids, Telecaster top, up to six tracks), Phil Collen solos (Photograph: Ibanez Destroyer into a 50 W Marshall); Shipley: 'we ended up with just a little Marshall combo amp', miked with Neumann U87 / U67s; guitars recorded dry, to a Linn LM-1 click",
   "sources": [
     "https://en.wikipedia.org/wiki/Pyromania_(album)",
-    "https://www.tone3000.com/tones/1061"
+    "https://steveclarkguitar.com/articles-interviews/twin-blades/",
+    "https://tapeop.com/interviews/118/mike-shipley",
+    "https://www.premierguitar.com/podcast/shred-with-shifty/phil-collen-on-his-bombastic-photograph-solo",
+    "https://equipboard.com/albums/def-leppard-pyromania",
+    "https://songbpm.com/@def-leppard/photograph"
   ],
-  "notes": "Amp = 1978 Marshall JMP 2203, the DI capture 'HiSens-Gain9-Mast5-nocab' (the pack's cabbed captures were the research's first pick, but they may already include a cab, so the safe DI one is used) into the rig's 1987 1960A G12T-75 SM57 IR. Align wobble 0.2 for double-tracked width; 480L Large Plate at 15% for Lange's big, polished sound. SW8 LEAD = TS9 push + 380 ms digital solo echo. Unconfirmed [verify]: the exact Marshall models and any pedals Clark/Collen used. Levels are unmeasured. Research: 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`).",
+  "notes": "Dual rig for the Willis / Clark beds: the same 1980 Marshall JMP 2204 50 W (the 2104 combo's circuit; matches Collen's '50 W Marshall' and Shipley's small combo) on both sides, panned L/R, into a G12M Greenback 4x12 miked with a U87 (Shipley's mic). The right side has single-coil pre-EQ for Clark's Telecaster 'top end' layer; Align wobble 0.2 for the stacked takes. Equipboard's 100 W 2203 heads conflict with the stronger Shipley/Collen sources. SW8 BOOST = TS9 push (not on the record); SW9 DELAY = 363 ms (dotted eighth at Photograph's 124 BPM; Rock of Ages would be 425 ms). 480L Large Plate at 15% is a polished-mix guess (Lange's desk effects are undocumented). Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
   "left": [
     {
       "role": "boost",
@@ -24,28 +28,28 @@
     {
       "role": "amp",
       "type": "nam",
-      "tone_id": 1061,
-      "model_id": 436429,
+      "tone_id": 70525,
+      "model_id": 577107,
       "enabled": true,
-      "label": "Marshall 1978 JMP 2203, high input, gain 9 / master 5 (DI)"
+      "label": "1980 Marshall JMP 2204 50 W, high input ('Classic Hits')"
     },
     {
       "role": "cab",
       "type": "ir",
-      "tone_id": 67526,
-      "model_id": 463990,
+      "tone_id": 98754,
+      "model_id": 824751,
       "enabled": true,
-      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone"
+      "label": "Marshall 4x12 G12M Greenback, U87"
     },
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 380,
+      "delay_ms": 363,
       "feedback": 0.3,
       "cutoff_hz": 5500.0,
-      "mix": 0.2,
+      "mix": 0.18,
       "enabled": false,
-      "label": "Solo delay 380 ms"
+      "label": "Dotted-eighth delay 363 ms (Photograph, 124 BPM)"
     },
     {
       "role": "ambience",
@@ -53,12 +57,63 @@
       "tone_id": 88464,
       "model_id": 745821,
       "enabled": true,
+      "label": "Lexicon 480L Large Plate",
       "mix": 0.15,
-      "trim_seconds": 2.0,
-      "label": "Lexicon 480L Large Plate"
+      "trim_seconds": 2.0
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 70525,
+      "model_id": 577107,
+      "enabled": true,
+      "label": "1980 Marshall JMP 2204 50 W, high input ('Classic Hits')",
+      "eq": [
+        -3.0,
+        -2.5,
+        0.0,
+        1.5,
+        3.0,
+        2.0
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 98754,
+      "model_id": 824751,
+      "enabled": true,
+      "label": "Marshall 4x12 G12M Greenback, U87"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 363,
+      "feedback": 0.3,
+      "cutoff_hz": 5500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Dotted-eighth delay 363 ms (Photograph, 124 BPM)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate",
+      "mix": 0.15,
+      "trim_seconds": 2.0
     }
   ],
   "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
     "alignEnabled": 1.0,
     "alignWobbleEnabled": 1.0,
     "alignWobble": 0.2

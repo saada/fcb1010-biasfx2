@@ -90,8 +90,18 @@ SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the tw
 ]
 
 
+EIGHTIES_TOGGLES = [  # bank 1: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
+    (6, 20, "Wah on/off"),
+    (7, 21, "Octaver"),
+    (8, 22, "Boost"),
+    (9, 24, "Delay (the song's echo)"),
+    (10, 28, "Tuner (mutes the rig)"),
+]
+BANK_TOGGLES = {1: EIGHTIES_TOGGLES}
+
+
 def toggles(bank):
-    return SCENE_TOGGLES if bank in SCENE_BANKS else TOGGLES
+    return SCENE_TOGGLES if bank in SCENE_BANKS else BANK_TOGGLES.get(bank, TOGGLES)
 
 
 def preset_index(bank, switch):

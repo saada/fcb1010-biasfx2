@@ -88,7 +88,7 @@ class Board:
             tid, _ = TOGGLES[cc]
             label = {"wah": "Wah", "octaver": "Octaver", "harmony": "Harmony", "boost": "Boost",
                      "drive": "Drive", "delay": "Delay", "delay2": "Delay 2", "lead": "Lead", "tuner": "Tuner"}[tid]
-            if tid in ("delay", "delay2"):  # the bank's signature echoes: "Evil That Men Do delay (375 ms)"
+            if tid in ("delay", "delay2") and bank in fcb.SCENE_BANKS:  # "Evil That Men Do delay (375 ms)"
                 label = short(name, 40).replace(" delay", "").replace("Can I Play with ", "") + " Delay"
             detail = {"wah": "EXP A sweeps it", "octaver": "an octave down", "lead": "boost + echo",
                       "tuner": "mutes the rig"}.get(tid, "")
@@ -101,12 +101,9 @@ class Board:
         p = fcb.SCENE_BANKS[bank]
         heavy = self.rigs[p["heavy"][0]]
         song = heavy.get("song", {})
-        year = re.search(r"(\d{2,4}s?)", heavy["name"]).group(1)
-        year = year if len(year) > 2 else f"19{year}" if int(year) > 50 else f"20{year}"
-        album = short(heavy["reference"], 60)
-        subtitle = f"{year} · {song.get('reference', '')}".strip(" ·")
-        b = Bank(bank, "scenes", album, subtitle, song=song, presets={k: v[0] for k, v in p.items()})
-        ms, _ = self.settings.get(p["heavy"][0], (380, ""))
+        title = fcb.BANK_NAMES.get(bank, short(heavy["name"]))
+        subtitle = f"Brave New World tone · {song.get('reference', '')}".strip(" ·")
+        b = Bank(bank, "scenes", title, subtitle, song=song, presets={k: v[0] for k, v in p.items()})
         details = {"rhythm": "both guitars · unity", "solo": "amps pushed · +2 dB",
                    "clean": short(self.rigs[p["clean"][0]]["name"]), "acoustic": short(self.rigs[p["acoustic"][0]]["name"]),
                    "crunch": "volume rolled back"}

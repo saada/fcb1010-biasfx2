@@ -1,14 +1,17 @@
 {
   "pc": 6,
   "name": "Def Leppard Hysteria",
-  "reference": "Pour Some Sugar on Me / Armageddon It: Def Leppard, Hysteria (1987, prod. Mutt Lange)",
-  "rig": "Guitars recorded largely direct through Tom Scholz's Rockman units instead of miked amps, layered heavily; the Rockman's own cab voicing, stereo chorus and short echo are part of the sound",
+  "reference": "Pour Some Sugar on Me (~85 BPM) / Armageddon It (~120 BPM): Def Leppard, Hysteria (1987, prod. Mutt Lange)",
+  "rig": "Lange moved Collen and Clark from Marshalls to custom-modified Tom Scholz Rockman headphone amps (Scholz changed the distortion and turned the chorus and reverb off), because 15-16 guitar tracks of Marshalls wouldn't fit; Nigel Green also used a JHS Rock Box and sometimes a Roland studio flanger on power chords. Collen: 'Felix', a '78 Japanese Strat with a DiMarzio Super Distortion; Clark: a three-pickup Les Paul",
   "sources": [
+    "https://guitar.com/features/artist-rigs/gear-used-by-phil-collen-steve-clark-def-leppard-hysteria",
     "https://en.wikipedia.org/wiki/Hysteria_(Def_Leppard_album)",
-    "https://en.wikipedia.org/wiki/Tom_Scholz",
+    "https://equipboard.com/albums/def-leppard-hysteria",
+    "https://en.wikipedia.org/wiki/Armageddon_It",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/DEFLEPRD_HYS/DEFLEPRD_HYS-05.html",
     "https://www.tone3000.com/tones/30352"
   ],
-  "notes": "Amp = Slammin MXR/Rockman X100, Distortion mode at half: the Rockman's output is cab-simulated, so the cab slot is empty. The Rockman's short stereo echo is ON by default (110 ms, feedback 0.15, mix 15%): it thickens rather than repeats. Spread with wobble 0.35 stands in for the Rockman stereo chorus. SW8 LEAD here turns that short echo OFF (the boost slot is a TS9 push). Unconfirmed [verify]: which Rockman units (X100 headphone amp vs Sustainor/XPR rack) and the Rockman echo time. Levels are unmeasured. Research: 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`).",
+  "notes": "Amp = Slammin MXR/Rockman X100, Distortion mode at half. The Rockman's output is cab-simulated and it was a headphone amp, so the cab slot is empty (recording direct is an inference). Spread with only 0.15 wobble (the chorus was off; the only documented modulation is Green's occasional flanger) plus Align wobble 0.2 for the layering. SW8 BOOST = TS9 push (not on the record); SW9 DELAY = 529 ms solo echo (dotted eighth at Pour Some Sugar's 85 BPM; Armageddon It would be 375 ms), off by default: no echo is documented on the parts. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
   "left": [
     {
       "role": "boost",
@@ -37,12 +40,12 @@
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 110,
-      "feedback": 0.15,
+      "delay_ms": 529,
+      "feedback": 0.25,
       "cutoff_hz": 6000.0,
       "mix": 0.15,
-      "enabled": true,
-      "label": "Rockman-style short stereo echo 110 ms"
+      "enabled": false,
+      "label": "Dotted-eighth delay 529 ms (Pour Some Sugar, 85 BPM)"
     },
     {
       "role": "ambience",
@@ -50,14 +53,17 @@
       "tone_id": 88464,
       "model_id": 745821,
       "enabled": true,
+      "label": "Lexicon 480L Large Plate",
       "mix": 0.15,
-      "trim_seconds": 2.0,
-      "label": "Lexicon 480L Large Plate"
+      "trim_seconds": 2.0
     }
   ],
   "params": {
     "spreadEnabled": 1.0,
     "spreadWobbleEnabled": 1.0,
-    "spreadWobble": 0.35
+    "spreadWobble": 0.15,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.2
   }
 }
