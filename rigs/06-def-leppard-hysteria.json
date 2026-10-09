@@ -1,0 +1,63 @@
+{
+  "pc": 6,
+  "name": "Def Leppard Hysteria",
+  "reference": "Pour Some Sugar on Me / Armageddon It: Def Leppard, Hysteria (1987, prod. Mutt Lange)",
+  "rig": "Guitars recorded largely direct through Tom Scholz's Rockman units instead of miked amps, layered heavily; the Rockman's own cab voicing, stereo chorus and short echo are part of the sound",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hysteria_(Def_Leppard_album)",
+    "https://en.wikipedia.org/wiki/Tom_Scholz",
+    "https://www.tone3000.com/tones/30352"
+  ],
+  "notes": "Amp = Slammin MXR/Rockman X100, Distortion mode at half: the Rockman's output is cab-simulated, so the cab slot is empty. The Rockman's short stereo echo is ON by default (110 ms, feedback 0.15, mix 15%): it thickens rather than repeats. Spread with wobble 0.35 stands in for the Rockman stereo chorus. SW8 LEAD here turns that short echo OFF (the boost slot is a TS9 push). Unconfirmed [verify]: which Rockman units (X100 headphone amp vs Sustainor/XPR rack) and the Rockman echo time. Levels are unmeasured. Research: 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 30352,
+      "model_id": 413455,
+      "enabled": true,
+      "label": "MXR X100 Rockman, Distortion half"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 110,
+      "feedback": 0.15,
+      "cutoff_hz": 6000.0,
+      "mix": 0.15,
+      "enabled": true,
+      "label": "Rockman-style short stereo echo 110 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "mix": 0.15,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Large Plate"
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.35
+  }
+}

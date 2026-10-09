@@ -1,0 +1,57 @@
+{
+  "pc": 7,
+  "name": "U2 Streets",
+  "reference": "Where the Streets Have No Name: U2, The Joshua Tree (1987, prod. Brian Eno and Daniel Lanois)",
+  "rig": "The Edge: Gibson Explorer / Fender Strat -> Vox AC30 Top Boost, with a dotted-eighth digital delay (Korg SDD-3000 era) that makes the sixteenth-note arpeggio",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Where_the_Streets_Have_No_Name",
+    "https://www.tone3000.com/tones/31267",
+    "https://www.tone3000.com/tones/79866"
+  ],
+  "notes": "Amp = Slammin Vox AC30 Top Boost, volume 5, cut 4, at the edge of breakup. Cab = '64 AC30 2x12 Blue Alnico (57 + R121 blend). The delay IS the part, so it is ON by default: 357 ms = a dotted eighth at ~126 BPM, feedback 0.45, bright (6.5 kHz), mix 40% so the repeats are nearly as loud as the dry, plus a short 480L Large Hall tail. SW8 LEAD turns that delay OFF (the boost slot is empty). Spread is on for width. Unconfirmed [verify]: the guitar and the delay unit on the record. Levels are unmeasured. Research: 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 31267,
+      "model_id": 494040,
+      "enabled": true,
+      "label": "Vox AC30 Top Boost, vol 5 / cut 4, noon EQ"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 79866,
+      "model_id": 690292,
+      "enabled": true,
+      "label": "'64 Vox AC30 2x12 Blue Alnico, 57 + R121"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 357,
+      "feedback": 0.45,
+      "cutoff_hz": 6500.0,
+      "mix": 0.4,
+      "enabled": true,
+      "label": "Dotted-eighth delay 357 ms (126 BPM)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "pc": 4,
+  "name": "Van Halen 1984",
+  "reference": "Panama / Hot for Teacher, plus the Jump guitar solo: 1984 (1984, 5150 Studios, prod. Ted Templeman, eng. Donn Landee)",
+  "rig": "Kramer 5150 / Frankenstrat-derived guitars -> the Variac'd Marshall Super Lead, hotter and drier than Van Halen I -> Marshall 4x12",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1984_(Van_Halen_album)",
+    "https://www.tone3000.com/tones/6220"
+  ],
+  "notes": "Amp = Slammin 1959HW Variac at 190 V, dimed 7, with the capture's 8 dB clean boost baked in: the tighter, hotter 1984 sound. Cab = plain Greenback 1960TV SM57 instead of the song-voiced 'panama ir' (unknown quality). Drier room (480L Large Wood Room 12%) for 5150 Studios. SW8 LEAD = TS9 push + 380 ms solo echo. Unconfirmed [verify]: which Kramer per song and whether a preamp or boost sat in front of the Marshall. No flanger. Levels are unmeasured. Research: 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6220,
+      "model_id": 418912,
+      "enabled": true,
+      "label": "Marshall 1959HW Plexi on a Variac, 190 V, dimed 7, +8 dB boost"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 45022,
+      "model_id": 239175,
+      "enabled": true,
+      "label": "Marshall 1960TV 4x12 Greenback, SM57"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 380,
+      "feedback": 0.25,
+      "cutoff_hz": 4500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Solo delay 380 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.12,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Large Wood Room (5150 Studios)"
+    }
+  ]
+}

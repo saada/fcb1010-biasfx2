@@ -90,11 +90,12 @@ WAH = ("Wah", "http://guitarix.sourceforge.net/plugins/gxautowah#wah", False,
        {3: ("Wah", 0.5)}, {CC_WAH: ("Activate", "toggle"), CC_WAH_SWEEP: (3, "hook")})
 OCTAVER = ("Octaver", "http://guitarix.sourceforge.net/plugins/gx_detune_#_detune_", False,
            {2: ("DETUNE", -12.0), 6: ("WET", 45.0), 7: ("DRY", 80.0)}, {CC_OCTAVER: ("Activate", "toggle")})
-# SOLO = one switch: +2 dB and a dark 380 ms lead echo. LSP Slap-back Delay passes the dry
-# signal at "Dry amount", so while it is active (CC 80 > 63) it is the boost *and* the delay;
-# bypassed it is unity. (A cranked amp's input push alone adds only ~+0.5 dB: experiments D8.)
+# SOLO (labelled LEAD on the board) = one switch: amps pushed + 2 dB, no echo. LSP Slap-back Delay
+# passes the dry signal at "Dry amount", so while it is active (CC 80 > 63) it is a +2 dB boost;
+# bypassed it is unity. Its echo is muted (Wet 0): the Maiden bank has its own echo switches
+# (SW8/SW9, TONE3000 blocks) and two echoes at different times would flam. (A cranked amp's input push alone adds only ~+0.5 dB: experiments D8.)
 SOLO = ("Solo", "http://lsp-plug.in/plugins/lv2/slap_delay_stereo", False,
-        {15: ("Dry amount", db(2)), 17: ("Wet amount", 1.0),
+        {15: ("Dry amount", db(2)), 17: ("Wet amount", 0.0),
          22: ("Delay 1 mode", 1), 23: ("Delay 1 left channel panorama", -100.0),
          24: ("Delay 1 right channel panorama", 100.0), 29: ("Delay 1 time", 380.0),
          34: ("Delay 1 low-cut", 1), 35: ("Delay 1 low-cut frequency", 250.0),

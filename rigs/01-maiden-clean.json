@@ -1,0 +1,151 @@
+{
+  "pc": 1,
+  "name": "Maiden Clean",
+  "scene": "clean",
+  "bank": 0,
+  "reference": "Brave New World (2000) / Dance of Death (2003) clean passages: Blood Brothers and Ghost of the Navigator clean intros, Brave New World's quiet opening, the clean arpeggios under Dance of Death's build-up",
+  "rig": "Same live-in-the-studio rigs as the heavy preset, on their clean channels. Dave Murray (left): Fender Custom Shop Strat (Hot Rails) -> Marshall JMP-1 clean program -> Marshall JFX-1 / TC Electronic G-Force delays and reverbs -> Marshall 9200 -> 1960BV Vintage 30. Adrian Smith (right): Strat -> Marshall JCM2000 Dual Super Lead, Classic Gain clean -> 1960A G12T-75; per Blackstar's era breakdown his reunion tone ran no delay or chorus, just a touch of reverb for space. Kevin Shirley: Beyer M201 + SM57 on the cabs, room mics instead of added reverb on Dance of Death",
+  "sources": [
+    "https://guitar.com/rig-diagrams/rig-diagram-dave-murray-iron-maiden-2003/",
+    "https://www.uberproaudio.com/who-plays-what/199-iron-maiden-dave-murrays-guitar-gear-rig-and-equipment",
+    "https://equipboard.com/pros/adrian-smith",
+    "https://blackstaramps.com/lessons/how-to-dial-in-adrian-smith-iron-maiden-tones/",
+    "https://www.soundonsound.com/people/kevin-caveman-shirley",
+    "https://forum.seymourduncan.com/threads/iron-maiden-brave-new-world-tone.296075/"
+  ],
+  "notes": "Dual-rig clean, Murray left / Smith right as in the heavy preset, so switching CLEAN keeps the guitars where they were. Left = Marshall JMP-1 factory preset 25 'Mellow' (clean & pretty), right = Marshall JCM2000 DSL clean channel (Tim R), same cabs as the heavy preset. Delay and reverb are ON (SW9 does not reach the clean instance): 410 ms digital repeats with a Lexicon 480L Large Hall tail in the echo block (Murray's G-Force / JFX-1 are digital, so the repeats stay bright), plus a PCM91 Large Hall bed at 22%. This is lusher than the records (Shirley kept the Dance of Death mix dry and used room mics; the BNW mix is similarly direct) because the user wants a beautiful, reverby clean; lower the ambience mix for a record-accurate dry clean. The chorus-like shimmer is Align wobble between the two rigs (TONE3000 has no modulation; neither Smith's reunion tone nor the record uses obvious chorus). No boost/drive on the clean instance. Levels are estimates for the maintainer to trim (JMP-1 clean and JCM2000 clean captures unmeasured).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "insert"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 52855,
+      "model_id": 383571,
+      "enabled": true,
+      "label": "Marshall JMP-1 preset 25 'Mellow' clean (Murray)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 51086,
+      "model_id": 284291,
+      "enabled": true,
+      "label": "Marshall 1960BV 4x12 Vintage 30, SM57 (Murray)",
+      "out_db": 5.2
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 410,
+      "feedback": 0.35,
+      "cutoff_hz": 4500.0,
+      "mix": 0.22,
+      "enabled": true,
+      "label": "G-Force-style delay 410 ms + 480L Large Hall",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88473,
+      "model_id": 745904,
+      "enabled": true,
+      "mix": 0.22,
+      "trim_seconds": 3.5,
+      "label": "Lexicon PCM91 Large Hall"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 700,
+      "model_id": 427906,
+      "enabled": true,
+      "label": "Marshall JCM2000 DSL clean channel (Smith)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463990,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith)",
+      "out_db": 12.1
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 410,
+      "feedback": 0.35,
+      "cutoff_hz": 4500.0,
+      "mix": 0.22,
+      "enabled": true,
+      "label": "Digital delay 410 ms + 480L Large Hall",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": -3.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88473,
+      "model_id": 745904,
+      "enabled": true,
+      "mix": 0.22,
+      "trim_seconds": 3.5,
+      "label": "Lexicon PCM91 Large Hall"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.4,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -19.9,
+        "trim_db": 10.3
+      },
+      {
+        "measured_lufs": -12.6,
+        "trim_db": -2.9,
+        "side_lufs": [
+          -13.4,
+          -20.3
+        ],
+        "side_trim_db": [
+          -3.5,
+          3.4
+        ]
+      },
+      {
+        "measured_lufs": -16.8,
+        "trim_db": 1.3
+      }
+    ]
+  }
+}

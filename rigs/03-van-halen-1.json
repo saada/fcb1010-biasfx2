@@ -1,0 +1,63 @@
+{
+  "pc": 3,
+  "name": "Van Halen I Brown",
+  "reference": "Ain't Talkin' 'bout Love / Runnin' with the Devil: Van Halen (1978, Sunset Sound, prod. Ted Templeman, eng. Donn Landee)",
+  "rig": "Frankenstrat (single rewound PAF bridge humbucker) -> unmodified late-60s Marshall 1959 Super Lead 100 W, everything on 10, mains turned down with a Variac -> Marshall 4x12; Sunset Sound plate/chamber on the other side of the mix",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Van_Halen_(album)",
+    "https://en.wikipedia.org/wiki/Frankenstrat",
+    "https://www.tone3000.com/tones/6220",
+    "https://www.tone3000.com/tones/84558"
+  ],
+  "notes": "Amp = Slammin 1959HW captured through a real Variac at 180 V with EQ and Volume I dimed (the author's recommended start). Cab = plain Greenback 1960TV SM57 (the song-voiced VH IRs are of unknown method). Ambience = Sunset Sound plate IR made to approximate the VH plate, 25% wet. SW8 LEAD = TS9 clean push (not on the record) + a generic 340 ms solo echo (the record has no tempo-synced delay). Unconfirmed [verify]: the Variac voltage (interviews quote 89 V to 'around 90'), Greenback vs JBL speakers, and the opposite-side plate panning. No Phase 90 or electric sitar in TONE3000; Spread is off. Levels are unmeasured. Research: 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6220,
+      "model_id": 418910,
+      "enabled": true,
+      "label": "Marshall 1959HW Plexi on a Variac, 180 V, dimed 10"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 45022,
+      "model_id": 239175,
+      "enabled": true,
+      "label": "Marshall 1960TV 4x12 Greenback, SM57"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 340,
+      "feedback": 0.25,
+      "cutoff_hz": 3500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Solo delay 340 ms"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "mix": 0.25,
+      "trim_seconds": 2.0,
+      "label": "Sunset Sound plate (VH reverb)"
+    }
+  ]
+}
