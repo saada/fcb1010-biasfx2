@@ -19,9 +19,9 @@ Usage:
 Presets are data: one JSON file per song in rigs/ (format in rigs/README.md).
 Slots are fixed because TONE3000 maps CCs to block *positions*:
 
-  1 boost (CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (CC24) | 6+ ambience
+  1 boost (CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (CC24) | 6 echo 2 or ambience (CC30) | 7+ ambience
   Song banks: SW8 LEAD (CC26 = boost + echo) · SW10 TUNER (DAW) · EXP B/CC7 output
-  Scene banks: SW8 boost (CC22) · SW9 delay + reverb (CC24) — see rig.py / README pedal map
+  Maiden scene bank: SW8 echo (CC24, slot 5) · SW9 echo 2 (CC30, slot 6) — see rig.py / README pedal map
 
 Program Change N loads the Nth preset in the browser, so the rig presets are
 written first in Presets/order.json. Captures come from the public TONE3000
@@ -88,10 +88,12 @@ OVERSAMPLING_FACTOR = 0.0  # choice index: 0 = 2x, 1 = 4x
 MIDI_MAP = [  # (targetId, CC) — must match rig.py; one CC may drive several targets
     ("gateEnabled", 20),       # SW6
     ("spreadEnabled", 21),     # SW7  stereo spread / chorus
-    ("block1Power", 22),       # scene banks SW8: boost
+    ("block1Power", 22),       # boost (no switch since the bank redesign; kept for manual use)
     ("block2Power", 23),       # song banks SW9: drive
-    ("block5Power", 24),       # scene banks SW9: delay + reverb (left / mono chain)
+    ("block5Power", 24),       # Maiden SW8: signature echo 1 (The Evil That Men Do), left / mono chain
     ("rightBlock3Power", 24),  # ... and the right chain of dual-rig presets
+    ("block6Power", 30),       # Maiden SW9: second signature echo (Can I Play with Madness)
+    ("rightBlock4Power", 30),
     ("block1Power", 26),       # song banks SW8 LEAD: boost + echo together
     ("block5Power", 26),
     ("rightBlock3Power", 26),
@@ -548,8 +550,8 @@ def preset_id(name):
     return uuid.uuid5(uuid.NAMESPACE_URL, f"fcb1010-rig/{name}").hex
 
 
-ROLE_SLOTS = {"boost": 1, "drive": 2, "amp": 3, "cab": 4, "echo": 5}  # left/mono chain
-RIGHT_ROLE_SLOTS = {"amp": 1, "cab": 2, "echo": 3}                     # dual-rig right chain
+ROLE_SLOTS = {"boost": 1, "drive": 2, "amp": 3, "cab": 4, "echo": 5, "echo2": 6}  # left/mono chain
+RIGHT_ROLE_SLOTS = {"amp": 1, "cab": 2, "echo": 3, "echo2": 4}                     # dual-rig right chain
 
 
 def load_rigs():
@@ -664,7 +666,7 @@ GLOBAL_PARAMS = {
 }
 
 
-# Scene banks (Iron Maiden, FCB banks 03-09): every switch in a bank sends absolute
+# Scene bank (Iron Maiden, FCB bank 0): every switch in a bank sends absolute
 # values, so a scene always lands in the same state and never needs a reload (a
 # Program Change leaves a 60-170 ms hole, experiments D5). The DAW (qtractor_rig.py)
 # runs two TONE3000s: "heavy" (PC ch 1) and "clean" (PC ch 2, clean or acoustic preset).
@@ -941,13 +943,13 @@ def cli_docs(args):
         if r.get("sources"):
             out += ["", "*Sources:* " + " · ".join(f"<{u}>" for u in r["sources"])]
     out += ["", "## Footswitches", "", "| FCB1010 | CC | TONE3000 |", "|---|---|---|",
-            "| SW1–5 (banks 00–02) | PC 0–14 | presets above |",
+            "| SW1–5 (song banks 01–02) | PC | presets above |",
             "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone) |",
             "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
             "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",
             "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | output level |", "",
-            "## Scene banks (FCB banks 03–09, DAW rig)", "",
-            "Every Maiden bank has the same five switches. Each switch sends absolute values, so it",
+            "## Maiden scene bank (FCB bank 00, DAW rig)", "",
+            "The Maiden bank has five scene switches. Each switch sends absolute values, so it",
             "switches instantly and always lands in the same state:", "",
             "| Switch | Scene | Heavy PC (ch 1) | Clean PC (ch 2) | CC 80 drive | CC 81 rig |", "|---|---|---|---|---|---|"]
     for scene, (drive, select, kind) in SCENES.items():
@@ -958,8 +960,8 @@ def cli_docs(args):
     for r in rigs:
         if r.get("scene"):
             banks.setdefault(r["bank"], {})[r["scene"]] = r
-    out += ["", "In these banks SW8 = boost (CC 22), SW9 = the era's delay + reverb (CC 24), SW10 = TUNER (CC 28).",
-            "SW7 in these banks is HARMONY (CC 25): the partner guitarist a diatonic third above, in the",
+    out += ["", "In this bank SW8 = The Evil That Men Do echo (CC 24, slot 5), SW9 = Can I Play with Madness echo (CC 30, slot 6),",
+            "SW10 = TUNER (CC 28). SOLO is labelled LEAD on the board. SW7 is HARMONY (CC 25): the partner guitarist a diatonic third above, in the",
             "song's key. On a bank's first load the DAW helper sets the song's solo echo time and harmony scale.",
             "", "| Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |",
             "|---|---|---|---|---|---|---|---|"]

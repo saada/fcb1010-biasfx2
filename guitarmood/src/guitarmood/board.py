@@ -26,12 +26,13 @@ TOGGLES = {
     22: ("boost", "t3k"),
     23: ("drive", "t3k"),
     24: ("delay", "t3k"),
+    30: ("delay2", "t3k"),
     26: ("lead", "t3k"),
     qr.CC_TUNER: ("tuner", "helper"),
 }
 # Which TONE3000 chain block each t3k toggle switches (left chain, 0-based).
-TOGGLE_BLOCK = {"boost": 0, "drive": 1, "delay": 4, "lead": 4}
-SCENE_LABELS = {"rhythm": "Rhythm", "solo": "Solo", "clean": "Clean", "acoustic": "Acoustic", "crunch": "Crunch"}
+TOGGLE_BLOCK = {"boost": 0, "drive": 1, "delay": 4, "delay2": 5, "lead": 4}
+SCENE_LABELS = {"rhythm": "Rhythm", "solo": "Lead", "clean": "Clean", "acoustic": "Acoustic", "crunch": "Crunch"}
 
 
 @dataclass
@@ -86,7 +87,9 @@ class Board:
         for sw, cc, name in fcb.toggles(bank):
             tid, _ = TOGGLES[cc]
             label = {"wah": "Wah", "octaver": "Octaver", "harmony": "Harmony", "boost": "Boost",
-                     "drive": "Drive", "delay": "Delay + Verb", "lead": "Lead", "tuner": "Tuner"}[tid]
+                     "drive": "Drive", "delay": "Delay", "delay2": "Delay 2", "lead": "Lead", "tuner": "Tuner"}[tid]
+            if tid in ("delay", "delay2") and bank in fcb.SCENE_BANKS:  # "Evil That Men Do delay (375 ms)"
+                label = short(name, 40).replace(" delay", "") + " Delay"
             detail = {"wah": "EXP A sweeps it", "octaver": "an octave down", "lead": "boost + echo",
                       "tuner": "mutes the rig"}.get(tid, "")
             if tid == "harmony" and song:
@@ -98,13 +101,10 @@ class Board:
         p = fcb.SCENE_BANKS[bank]
         heavy = self.rigs[p["heavy"][0]]
         song = heavy.get("song", {})
-        year = re.search(r"(\d{2,4}s?)", heavy["name"]).group(1)
-        year = year if len(year) > 2 else f"19{year}" if int(year) > 50 else f"20{year}"
-        album = short(heavy["reference"], 60)
-        subtitle = f"{year} · {song.get('reference', '')}".strip(" ·")
-        b = Bank(bank, "scenes", album, subtitle, song=song, presets={k: v[0] for k, v in p.items()})
-        ms, _ = self.settings.get(p["heavy"][0], (380, ""))
-        details = {"rhythm": "both guitars · unity", "solo": f"+2 dB · {ms} ms echo",
+        title = fcb.BANK_NAMES.get(bank, short(heavy["name"]))
+        subtitle = f"Brave New World tone · {song.get('reference', '')}".strip(" ·")
+        b = Bank(bank, "scenes", title, subtitle, song=song, presets={k: v[0] for k, v in p.items()})
+        details = {"rhythm": "both guitars · unity", "solo": "amps pushed · +2 dB",
                    "clean": short(self.rigs[p["clean"][0]]["name"]), "acoustic": short(self.rigs[p["acoustic"][0]]["name"]),
                    "crunch": "volume rolled back"}
         for sw, scene in enumerate(fcb.SCENE_SWITCHES, 1):
@@ -115,7 +115,7 @@ class Board:
 
     def _song_bank(self, bank):
         songs = [(sw, pc, name) for b, sw, pc, name in fcb.SONGS if b == bank]
-        b = Bank(bank, "songs", f"Songs {bank + 1}", " · ".join(n for _, _, n in songs))
+        b = Bank(bank, "songs", fcb.BANK_NAMES.get(bank, f"Songs {bank}"), " · ".join(n for _, _, n in songs))
         for sw in range(1, 6):
             hit = next(((pc, name) for s, pc, name in songs if s == sw), None)
             if hit:

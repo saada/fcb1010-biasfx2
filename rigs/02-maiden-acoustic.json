@@ -1,0 +1,180 @@
+{
+  "pc": 2,
+  "name": "Maiden Acoustic",
+  "scene": "acoustic",
+  "bank": 0,
+  "reference": "Journeyman (Dance of Death, 2003, Sarm West, prod. Kevin Shirley / Steve Harris): Maiden's first and only fully acoustic song, strummed steel-string acoustics under orchestra; also the acoustic-guitar intro of Dance of Death",
+  "rig": "Journeyman was written and recorded 'totally based on acoustic guitars' (Harris); the chorus/opening is by Dickinson and Smith, the rest by Harris; the album version adds orchestration. Which guitarist played which acoustic, and the make/model of the studio acoustics, are not documented. Emulated here as: electric -> Diamond optical compressor -> Boss AC-3 acoustic simulator (Standard) -> two acoustic body IRs (Martin dreadnought left, Gibson J-45 right) for a double-tracked acoustic pair -> hall + room",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dance_of_Death_(album)",
+    "https://forum.maidenfans.com/threads/interview-with-steve-harris-in-metalworld-no-38.2289/",
+    "https://forum.maidenfans.com/threads/journeyman.3963/",
+    "https://www.soundonsound.com/people/kevin-caveman-shirley",
+    "https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/"
+  ],
+  "notes": "Built on the rigs/13 chain (compressor -> AC-3 -> body IR), made stereo: slots 1-2 (compressor + AC-3) feed both sides, then a Martin dreadnought body IR on the left and a Gibson J-45 body IR on the right, panned apart with a little Align wobble, so strummed chords sound like two acoustics tracked separately (Journeyman is layered acoustics). The compressor sits in the 'boost' slot and the AC-3 in the 'drive' slot (both on) and the amp slots are empty inserts: this keeps the instance at 2 NAM blocks, and SW8/SW9 don't reach the clean/acoustic instance anyway. No 12-string or specific-model acoustic IR exists on TONE3000, and the studio acoustics aren't documented, so steel-string dreadnought/J-45 bodies are the closest honest match. Pre-EQ thins the humbucker toward a piezo/single-coil voicing as in rigs/13; body IRs get a slight low cut. Reverb is ON: echo block = reverb only (Lexicon 480L Large Hall, the lush tail the user wants; on the record Shirley added reverb only to the orchestra and used room mics), plus a 480L Small Wood Room at 20% for the room-mic sound. Level: rigs/13 measured ~24 dB under target with the AC-3 at +24 dB out, so the body IRs carry +18 dB here; treat all gains as starting points for the maintainer's measurement. Best on the neck pickup, picked lightly.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 88975,
+      "model_id": 749582,
+      "enabled": true,
+      "label": "Diamond Compressor, Comp 5 / EQ 6.5 / Vol 5 (acoustic strum leveller)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 71126,
+      "model_id": 588442,
+      "enabled": true,
+      "label": "Boss AC-3 Acoustic Simulator, Standard, Level/Body/Top noon",
+      "eq": [
+        -4.0,
+        -3.0,
+        -1.0,
+        1.0,
+        2.5,
+        2.0
+      ],
+      "eq_pre": true,
+      "out_db": 24.0
+    },
+    {
+      "role": "amp",
+      "type": "insert"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174633,
+      "enabled": true,
+      "label": "Acoustic body IR: Martin dreadnought (left acoustic)",
+      "eq": [
+        -1.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "out_db": -3.5
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 0,
+      "mix": 0.25,
+      "enabled": true,
+      "label": "Lexicon 480L Large Hall (reverb only)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": 0.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 1.5,
+      "label": "Lexicon 480L Small Wood Room (room mics)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "insert"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 36381,
+      "model_id": 174632,
+      "enabled": true,
+      "label": "Acoustic body IR: Gibson J-45 (right acoustic)",
+      "eq": [
+        -2.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        1.5
+      ],
+      "out_db": -1.2
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 0,
+      "mix": 0.25,
+      "enabled": true,
+      "label": "Lexicon 480L Large Hall (reverb only)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 3.5,
+        "level_db": 0.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "mix": 0.2,
+      "trim_seconds": 1.5,
+      "label": "Lexicon 480L Small Wood Room (room mics)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.15,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -13.0,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -7.1,
+        "trim_db": -8.9
+      },
+      {
+        "measured_lufs": -3.9,
+        "trim_db": -11.6,
+        "side_lufs": [
+          -5.9,
+          -8.2
+        ],
+        "side_trim_db": [
+          -1.1,
+          1.1
+        ]
+      },
+      {
+        "measured_lufs": -15.6,
+        "trim_db": 0.1,
+        "side_lufs": [
+          -18.7,
+          -18.6
+        ],
+        "side_trim_db": [
+          0.1,
+          -0.0
+        ]
+      }
+    ]
+  }
+}
