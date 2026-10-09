@@ -21,38 +21,44 @@ MIDI channel 1, except PC 2 (channel 2, the DAW's clean rig) and PC 3 (channel 3
 harmony rig).
 
 ```
-SONG BANKS 00-02: one song per switch
- BANK 00  SW1 Comfortably Numb  SW2 Purple Rain  SW3 Tornado of Souls  SW4 Dream Theater  SW5 Slipknot
- BANK 01  SW1 Djent             SW2 Radiohead    SW3 Oasis             SW4 Nirvana        SW5 Foo Fighters
- BANK 02  SW1 Iron Maiden (88)  SW2 My Clean     SW3 Petrucci Clean    SW4 Acoustic       SW5 Glassy Clean
-          SW6 WAH   SW7 OCTAVER   SW8 LEAD (boost + echo)   SW9 DRIVE   SW10 TUNER
+BANK 0  MAIDEN (home bank, Brave New World / Dance of Death tone)
+          SW1 RHYTHM   SW2 LEAD     SW3 CLEAN        SW4 ACOUSTIC       SW5 CRUNCH
+          SW6 WAH      SW7 HARMONY  SW8 EVIL DELAY   SW9 MADNESS DELAY  SW10 TUNER
 
-IRON MAIDEN BANKS 03-09: one album era per bank, same five scenes everywhere
- 03 Number of the Beast  04 Piece of Mind  05 Powerslave  06 Somewhere in Time
- 07 Seventh Son          08 Fear of the Dark               09 Brave New World / Dance of Death
-          SW1 RHYTHM   SW2 SOLO   SW3 CLEAN   SW4 ACOUSTIC   SW5 CRUNCH
-          SW6 WAH      SW7 HARMONY  SW8 BOOST  SW9 DELAY + REVERB  SW10 TUNER
+BANK 1  80s: one song preset per switch
+          SW1 VAN HALEN I   SW2 VAN HALEN 1984   SW3 DEF LEPPARD PYROMANIA   SW4 DEF LEPPARD HYSTERIA   SW5 U2 STREETS
+          SW6 WAH      SW7 OCTAVER  SW8 BOOST        SW9 DELAY          SW10 TUNER
+
+BANK 2  VARIETY: one song preset per switch
+          SW1 COMFORTABLY NUMB   SW2 RADIOHEAD   SW3 NIRVANA   SW4 DJENT   SW5 GLASSY CLEAN
+          SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
 EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
 ```
 
 | Switch | Sends | Does |
 |---|---|---|
-| Song SW1–5 (00–02) | PC 0–14, CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state (heavy rig, Solo block off) |
-| Maiden SW1 RHYTHM | PC heavy + PC clean (ch 2) + PC harmony (ch 3), CC 80 = 63, CC 81 = 0 | loads the era; twin-guitar rhythm |
-| Maiden SW2 SOLO | CC 80 = 72 | amps pushed, +2 dB, the song's lead echo (no PC, so it's instant) |
-| Maiden SW3 CLEAN | PCs + CC 81 = 127 | the era's reverby clean |
-| Maiden SW4 ACOUSTIC | PCs (acoustic on ch 2) + CC 81 = 127 | electric-to-acoustic |
+| Maiden SW1 RHYTHM | PC 0 + PC 1 (ch 2) + PC 13 (ch 3), CC 80 = 63, CC 81 = 0 | loads the bank; twin-guitar rhythm (Murray JMP-1 left, Smith JCM2000 right); turns both delays off |
+| Maiden SW2 LEAD | CC 80 = 72 | amps pushed and +2 dB; no echo of its own (no PC, so it's instant) |
+| Maiden SW3 CLEAN | PCs + CC 81 = 127 | the reverby clean (its own 410 ms echo is always on) |
+| Maiden SW4 ACOUSTIC | PCs (acoustic on ch 2) + CC 81 = 127 | electric-to-acoustic (Journeyman) |
 | Maiden SW5 CRUNCH | CC 80 = 48 | volume-knob-down drive |
+| Maiden SW8 EVIL DELAY | CC 24 (toggle) | The Evil That Men Do: 375 ms, feedback 0.3, 25 % wet, bright, short plate tail |
+| Maiden SW9 MADNESS DELAY | CC 30 (toggle) | Can I Play with Madness: 415 ms, feedback 0.35, 25 % wet, darker, plate tail |
+| Song SW1–5 (banks 1–2) | PC 3–12, CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state |
 | SW6 WAH | CC 20 (toggle) | Guitarix wah (DAW); EXP A sweeps it |
-| SW7 OCTAVER / HARMONY | CC 21 / CC 25 (toggle) | octave down in the song banks; twin-lead harmony in the Maiden banks |
-| SW8 LEAD / BOOST | CC 26 / CC 22 (toggle) | song banks: boost + solo echo together; Maiden: the boost pedal |
-| SW9 DRIVE / DELAY + REVERB | CC 23 / CC 24 (toggle) | song banks: the song's drive pedal; Maiden: the era's delay + reverb |
+| SW7 HARMONY / OCTAVER | CC 25 / CC 21 (toggle) | Maiden: twin-lead harmony a third up in E minor; song banks: octave down |
+| 80s SW8 BOOST / SW9 DELAY | CC 22 / CC 24 (toggle) | the preset's lead boost; the song's delay (on by default in U2 Streets) |
+| Variety SW8 LEAD / SW9 DRIVE | CC 26 / CC 23 (toggle) | boost + solo echo together; the song's drive pedal |
 | SW10 TUNER | CC 28 (toggle) | mutes the rig and opens the Fretwise tuner (Omarchy bar plugin) on the clean input; press again to play |
+
+The two Maiden delays are blocks in the heavy TONE3000 preset, so they work in RHYTHM, LEAD
+and CRUNCH, and a RHYTHM press (it reloads the preset) turns them off. They don't reach
+CLEAN or ACOUSTIC, which carry their own echo and reverb.
 
 **Whose solo?** Both guitarists play at once, Murray left and Smith or Gers right. To tell
 the soloists apart, switch pickups: neck for Murray's fluid legato, bridge for Smith's and
-Gers' bite. SOLO then adds the push and the echo on top.
+Gers' bite. LEAD then adds the push on top; add a delay with SW8 or SW9.
 
 ## GuitarMood: the rig as an Omarchy app
 
@@ -112,24 +118,33 @@ Tests replay a real session from the FCB (`guitarmood/tests/fixtures/fcb-live.lo
 
 ### Every session
 
-1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then open **GuitarMood** (SUPER+SPACE). It takes about 10 s and starts on the Maiden 82 bank.
+1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then open **GuitarMood** (SUPER+SPACE). It takes about 10 s and starts on the Maiden bank (bank 0).
 2. **Tune:** press SW10. The rig mutes and Fretwise opens in the bar on your guitar. Tune, then press SW10 again.
-3. **Pick a bank** with UP/DOWN, and press **RHYTHM, CLEAN or ACOUSTIC** first: those load the era. SOLO and CRUNCH only change drive, so they assume the era is already loaded.
+3. **Pick a bank** with UP/DOWN. In the Maiden bank press **RHYTHM, CLEAN or ACOUSTIC** first: those load it. LEAD and CRUNCH only change drive, so they assume the bank is already loaded. In the 80s and Variety banks each of SW1–5 is a song.
 4. Play along with the track in Spotify or YouTube.
 5. **Record** a take: `uv run qtractor_rig.py record` / `stop`. It saves the full rig and the dry DI in `~/Music/fcb-rig/`, so you can re-amp later.
 6. When you're done, close GuitarMood (SUPER+W): it saves and stops the rig.
 
-### Maiden song recipes
+### Song recipes
+
+Maiden songs all play on bank 0, which has the Brave New World / Dance of Death tone.
 
 | Song (bank) | How to play it on the board |
 |---|---|
-| Hallowed Be Thy Name (03) | CLEAN for the arpeggio intro → RHYTHM when the band comes in → SOLO for the leads. HARMONY on the twin lines (E minor). |
-| The Trooper (04) | RHYTHM gallop → SOLO for the solo. HARMONY for the main riff's twin line. |
-| Rime of the Ancient Mariner (05) | RHYTHM → CLEAN for the quiet middle section → back to RHYTHM → SOLO. |
-| Wasted Years (06) | SOLO + SW9 (delay + reverb) for the intro lead → RHYTHM for the verses. |
-| The Evil That Men Do (07) | RHYTHM, then HARMONY for the harmonised bridge. |
-| Fear of the Dark (08) | CRUNCH + SW9 for the quiet intro melody (750 ms echo) → RHYTHM for the gallop → SOLO. HARMONY is set to D Dorian, but the record plays that melody in unison. |
-| Journeyman (09) | ACOUSTIC for the whole song. |
+| The Evil That Men Do (0) | RHYTHM, then **SW8 EVIL DELAY** for the melodic lines and the solo (LEAD). HARMONY for the harmonised bridge. |
+| Can I Play with Madness (0) | RHYTHM, then **SW9 MADNESS DELAY** + LEAD for the lead lines and the solo. |
+| The Wicker Man / Blood Brothers (0) | RHYTHM gallop → LEAD for the solos. HARMONY on the twin lines (E minor). |
+| Hallowed Be Thy Name / The Trooper (0) | CLEAN for the Hallowed intro → RHYTHM → LEAD. HARMONY for the twin lines. |
+| Fear of the Dark (0) | CRUNCH + SW9 for the quiet intro melody → RHYTHM for the gallop → LEAD. |
+| Journeyman (0) | ACOUSTIC for the whole song. |
+| Ain't Talkin' 'bout Love / Runnin' with the Devil (1) | SW1 VAN HALEN I. SW8 BOOST for the solos. |
+| Panama / Hot for Teacher (1) | SW2 VAN HALEN 1984. SW9 DELAY (319 ms) for the solo. |
+| Photograph / Rock of Ages (1) | SW3 PYROMANIA. SW9 DELAY (363 ms) for Photograph's solo. |
+| Pour Some Sugar on Me / Armageddon It (1) | SW4 HYSTERIA. SW9 DELAY (529 ms) for the solo. |
+| Where the Streets Have No Name (1) | SW5 U2 STREETS: the dotted-eighth delays are already on; play eighths. |
+
+The seven Maiden era banks (Number of the Beast to Dance of Death) are retired. Their research
+is in `rigs/archive/`, and the builder skips it.
 
 **Two soloists:** use the neck pickup for Murray's fluid legato and the bridge for Smith's and Gers' bite. **Wah** is SW6 plus EXP A; **volume swells** are EXP B.
 
@@ -281,7 +296,7 @@ it cut the loudness spread across presets from 9.2 to 4.6 dB (`experiments/READM
 but it also flattened palm mutes, and the rig sounds better without it (D16). Run the standalone
 *or* the DAW, not both.
 
-### Iron Maiden banks (03–09): one album era per bank, instant scenes
+### Iron Maiden scenes (history: the seven era banks 03–09, now retired to rigs/archive; bank 0 keeps the 2000s rig and the same scene mechanics)
 
 | Bank | Era | Rigs (Murray left, partner right) |
 |---|---|---|

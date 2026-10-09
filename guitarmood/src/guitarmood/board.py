@@ -89,7 +89,7 @@ class Board:
             label = {"wah": "Wah", "octaver": "Octaver", "harmony": "Harmony", "boost": "Boost",
                      "drive": "Drive", "delay": "Delay", "delay2": "Delay 2", "lead": "Lead", "tuner": "Tuner"}[tid]
             if tid in ("delay", "delay2") and bank in fcb.SCENE_BANKS:  # "Evil That Men Do delay (375 ms)"
-                label = short(name, 40).replace(" delay", "").replace("Can I Play with ", "") + " Delay"
+                label = short(name, 40).replace(" delay", "") + " Delay"
             detail = {"wah": "EXP A sweeps it", "octaver": "an octave down", "lead": "boost + echo",
                       "tuner": "mutes the rig"}.get(tid, "")
             if tid == "harmony" and song:

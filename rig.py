@@ -84,8 +84,8 @@ HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) inst
 SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the two signature echoes
     (6, 20, "Wah on/off"),
     (7, HARMONY_CC, "Harmony (twin lead)"),
-    (8, 24, "Evil That Men Do delay (375 ms)"),   # heavy preset slot 5 / R3
-    (9, 30, "Can I Play with Madness delay (415 ms)"),  # heavy preset slot 6 / R4
+    (8, 24, "Evil delay (The Evil That Men Do, 375 ms)"),   # heavy preset slot 5 / R3
+    (9, 30, "Madness delay (Can I Play with Madness, 415 ms)"),  # heavy preset slot 6 / R4
     (10, 28, "Tuner (mutes the rig)"),
 ]
 

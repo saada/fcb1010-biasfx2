@@ -46,7 +46,7 @@ def test_board_matches_rig(board):
     assert sorted(board.banks) == [0, 1, 2]
     assert board.banks[0].kind == "scenes" and board.banks[0].subtitle.endswith("The Evil That Men Do")
     assert [board.banks[0].switches[sw].label for sw in range(1, 11)] == \
-        ["Rhythm", "Lead", "Clean", "Acoustic", "Crunch", "Wah", "Harmony", "Evil That Men Do Delay",
+        ["Rhythm", "Lead", "Clean", "Acoustic", "Crunch", "Wah", "Harmony", "Evil Delay",
          "Madness Delay", "Tuner"]
     assert (board.banks[1].title, board.banks[2].title) == ("80s", "Variety")
     assert board.banks[1].switches[1].label == "Van Halen I"
