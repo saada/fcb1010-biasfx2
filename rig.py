@@ -30,24 +30,22 @@ HARMONY_CHANNEL = 2  # PC 3 -> the DAW's harmony TONE3000 on MIDI channel 3
 WAH_SWEEP_CC = 27
 VOLUME_CC = 7
 
+# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-2 are song
+# banks: one preset per switch.
 SONGS = [
     # (bank, switch, PC number, name)
-    (0, 1, 0, "Comfortably Numb"),
-    (0, 2, 1, "Purple Rain"),
-    (0, 3, 2, "Tornado of Souls"),
-    (0, 4, 3, "Dream Theater"),
-    (0, 5, 4, "Slipknot"),
-    (1, 1, 5, "Djent"),
-    (1, 2, 6, "Radiohead"),
-    (1, 3, 7, "Oasis"),
-    (1, 4, 8, "Nirvana"),
-    (1, 5, 9, "Foo Fighters"),
-    (2, 1, 10, "Iron Maiden"),
-    (2, 2, 11, "My Clean"),
-    (2, 3, 12, "Petrucci Clean"),
-    (2, 4, 13, "Acoustic"),
-    (2, 5, 14, "Glassy Clean"),
+    (1, 1, 3, "Van Halen I"),
+    (1, 2, 4, "Van Halen 1984"),
+    (1, 3, 5, "Def Leppard Pyromania"),
+    (1, 4, 6, "Def Leppard Hysteria"),
+    (1, 5, 7, "U2 Streets"),
+    (2, 1, 8, "Comfortably Numb"),
+    (2, 2, 9, "Radiohead"),
+    (2, 3, 10, "Nirvana"),
+    (2, 4, 11, "Djent"),
+    (2, 5, 12, "Purple Rain"),
 ]
+BANK_NAMES = {0: "Maiden", 1: "80s", 2: "Variety"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
@@ -58,10 +56,10 @@ TOGGLES = [
     (10, 28, "Tuner (mutes the rig)"),
 ]
 
-# Scene banks (Iron Maiden, one album era per bank) come from rigs/*.json: each bank has a
-# "heavy", a "clean" and an "acoustic" preset. Every switch sends both PCs and two absolute
+# The scene bank (Iron Maiden, bank 0) comes from rigs/*.json: it has a "heavy", a "clean" and an
+# "acoustic" preset (plus a generated harmony one). Every switch sends both PCs and two absolute
 # CCs (tone3000.SCENES), so a scene switch is instant and always lands in the same state.
-SCENE_SWITCHES = ["rhythm", "solo", "clean", "acoustic", "crunch"]  # SW1..SW5
+SCENE_SWITCHES = ["rhythm", "solo", "clean", "acoustic", "crunch"]  # SW1..SW5 ("solo" is labelled LEAD)
 
 
 def scene_banks():
@@ -83,17 +81,27 @@ BANKS_IN_USE = sorted({bank for bank, *_ in SONGS} | set(SCENE_BANKS))
 HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) instead of the octaver
 
 
-SCENE_TOGGLES = [  # scene banks: SOLO/CRUNCH handle gain, so SW9 carries the song's delay + reverb
+SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the two signature echoes
     (6, 20, "Wah on/off"),
     (7, HARMONY_CC, "Harmony (twin lead)"),
-    (8, 22, "Boost"),
-    (9, 24, "Delay + reverb"),
+    (8, 24, "Evil delay (The Evil That Men Do, 375 ms)"),   # heavy preset slot 5 / R3
+    (9, 30, "Madness delay (Can I Play with Madness, 415 ms)"),  # heavy preset slot 6 / R4
     (10, 28, "Tuner (mutes the rig)"),
 ]
 
 
+EIGHTIES_TOGGLES = [  # bank 1: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
+    (6, 20, "Wah on/off"),
+    (7, 21, "Octaver"),
+    (8, 22, "Boost"),
+    (9, 24, "Delay (the song's echo)"),
+    (10, 28, "Tuner (mutes the rig)"),
+]
+BANK_TOGGLES = {1: EIGHTIES_TOGGLES}
+
+
 def toggles(bank):
-    return SCENE_TOGGLES if bank in SCENE_BANKS else TOGGLES
+    return SCENE_TOGGLES if bank in SCENE_BANKS else BANK_TOGGLES.get(bank, TOGGLES)
 
 
 def preset_index(bank, switch):

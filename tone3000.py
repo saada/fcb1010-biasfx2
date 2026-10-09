@@ -19,9 +19,9 @@ Usage:
 Presets are data: one JSON file per song in rigs/ (format in rigs/README.md).
 Slots are fixed because TONE3000 maps CCs to block *positions*:
 
-  1 boost (CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (CC24) | 6+ ambience
+  1 boost (CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (CC24) | 6 echo 2 or ambience (CC30) | 7+ ambience
   Song banks: SW8 LEAD (CC26 = boost + echo) · SW10 TUNER (DAW) · EXP B/CC7 output
-  Scene banks: SW8 boost (CC22) · SW9 delay + reverb (CC24) — see rig.py / README pedal map
+  Maiden scene bank: SW8 echo (CC24, slot 5) · SW9 echo 2 (CC30, slot 6) — see rig.py / README pedal map
 
 Program Change N loads the Nth preset in the browser, so the rig presets are
 written first in Presets/order.json. Captures come from the public TONE3000
@@ -88,10 +88,12 @@ OVERSAMPLING_FACTOR = 0.0  # choice index: 0 = 2x, 1 = 4x
 MIDI_MAP = [  # (targetId, CC) — must match rig.py; one CC may drive several targets
     ("gateEnabled", 20),       # SW6
     ("spreadEnabled", 21),     # SW7  stereo spread / chorus
-    ("block1Power", 22),       # scene banks SW8: boost
+    ("block1Power", 22),       # boost (no switch since the bank redesign; kept for manual use)
     ("block2Power", 23),       # song banks SW9: drive
-    ("block5Power", 24),       # scene banks SW9: delay + reverb (left / mono chain)
+    ("block5Power", 24),       # Maiden SW8: signature echo 1 (The Evil That Men Do), left / mono chain
     ("rightBlock3Power", 24),  # ... and the right chain of dual-rig presets
+    ("block6Power", 30),       # Maiden SW9: second signature echo (Can I Play with Madness)
+    ("rightBlock4Power", 30),
     ("block1Power", 26),       # song banks SW8 LEAD: boost + echo together
     ("block5Power", 26),
     ("rightBlock3Power", 26),
@@ -189,6 +191,14 @@ def write_tree(node):
 
 
 def load_t3kb(data):
+    """Plugin state and v0.0.9 presets ("T3KB" + tree), or a preset file in the framing
+    TONE3000 writes since 0.0.10 ("T3KH" + int32 LE header size + header tree + body tree;
+    plugin/src/PresetFile.cpp). Returns the body."""
+    if data[:4] == b"T3KH":
+        size = struct.unpack_from("<i", data, 4)[0]
+        node, end = read_tree(data, 8 + size)
+        assert end == len(data)
+        return node
     assert data[:4] == b"T3KB", "not a TONE3000 file"
     node, end = read_tree(data, 4)
     assert end == len(data)
@@ -197,6 +207,26 @@ def load_t3kb(data):
 
 def dump_t3kb(node):
     return b"T3KB" + write_tree(node)
+
+
+def dump_preset(node):
+    """A .t3kpreset in TONE3000's v2 framing: a small T3KPresetHeader (id, name) ahead of the
+    body, so the browser (and every Program Change, which lists the folder) reads a few
+    hundred bytes per preset instead of parsing megabytes of embedded models."""
+    header = write_tree(Node("T3KPresetHeader").set("id", node.get("id", "")).set("name", node.get("name", "")))
+    return b"T3KH" + struct.pack("<i", len(header)) + header + write_tree(node)
+
+
+def preset_header(path):
+    """(id, name) as TONE3000 lists a preset file: a legacy file with no id uses its stem."""
+    data = path.read_bytes()
+    if data[:4] == b"T3KH":
+        size = struct.unpack_from("<i", data, 4)[0]
+        header, _ = read_tree(data, 8)
+        assert 8 + size <= len(data)
+    else:
+        header = load_t3kb(data)
+    return header.get("id") or path.stem, header.get("name") or path.stem
 
 
 # --- JUCE MemoryBlock base64 ("<size>.<chars>", little-endian bit stream) ---
@@ -486,18 +516,42 @@ def synth_tone(model_id, title, description, gear="pedal"):
     }
 
 
-def default_params():
-    """Params node from a factory preset, so every parameter gets a sane value."""
-    factory = sorted((PRESETS / "Factory").glob("*.t3kpreset"))[0]
-    return load_t3kb(factory.read_bytes()).child("Params")
+# Every preset's faceplate parameters (TONE3000's presetParameterIds, ProcessorPresets.cpp),
+# in the plugin's real units: knobs 0-1, tone 0-10, gate dB/ms. A preset sets *all* of them on
+# load and missing ones fall back to the plugin default, so they're spelled out here.
+# The first block is what the rig has always used: until v0.0.9 the builder copied them
+# from the first factory preset (Bogner Fullstack), which is why outputBalance, spreadOffset
+# and align* aren't plugin defaults. Frozen so a new plugin's factory set can't move the sound.
+BASE_PARAMS = {
+    "inputLevel": 0.5, "outputLevel": 0.5299999713897705, "outputBalance": 0.5600000023841858,
+    "toneBass": 5.0, "toneMid": 5.0, "toneTreble": 5.0, "gateThreshold": -70.0, "gateEnabled": 1.0,
+    "toneEqEnabled": 1.0, "spreadEnabled": 0.0, "spreadOffset": 0.8100000023841858, "spreadWobble": 0.25,
+    "spreadWobbleEnabled": 1.0, "spreadCrossover": 0.5, "spreadCrossoverEnabled": 1.0,
+    "spreadDiffuseEnabled": 1.0, "alignEnabled": 1.0, "alignOffset": 0.5299999713897705, "alignWobble": 0.25,
+    "alignWobbleEnabled": 0.0, "alignCrossover": 0.5, "alignCrossoverEnabled": 0.0, "alignDiffuseEnabled": 0.0,
+    "chainPanLeft": 0.0, "chainPanRight": 1.0, "chainPanLinked": 1.0, "chainInvertLeft": 0.0,
+    "chainInvertRight": 0.0,
+    # TONE3000 >= 0.0.11. Gate release/hold: v0.0.9's hard-wired 100 ms / 50 ms (its gate had no
+    # knobs for them). The plugin's new defaults, 50 / 20 ms, close the note tail twice as fast;
+    # a preset may opt into that per song with "params". Range 80 dB = v0.0.9's -80 dB floor.
+    "gateRelease": 100.0, "gateHold": 50.0, "gateRange": 80.0,
+    # Pitch shift (input stage, before the amps; adds 11-31 ms latency while on): off.
+    # pitchSemitones -24..24, pitchStep 1 = whole semitones, pitchTonality 20000 Hz = off,
+    # pitchWindow = choice index of 20/30/40/60 ms (1 = 30 ms, the plugin default).
+    "pitchEnabled": 0.0, "pitchSemitones": 0.0, "pitchStep": 1.0, "pitchTonality": 20000.0, "pitchWindow": 1.0,
+}
+
+
+def params_node(values):
+    return Node("Params", children=[Node("Param").set("id", k).set("value", float(v)) for k, v in values.items()])
 
 
 def preset_id(name):
     return uuid.uuid5(uuid.NAMESPACE_URL, f"fcb1010-rig/{name}").hex
 
 
-ROLE_SLOTS = {"boost": 1, "drive": 2, "amp": 3, "cab": 4, "echo": 5}  # left/mono chain
-RIGHT_ROLE_SLOTS = {"amp": 1, "cab": 2, "echo": 3}                     # dual-rig right chain
+ROLE_SLOTS = {"boost": 1, "drive": 2, "amp": 3, "cab": 4, "echo": 5, "echo2": 6}  # left/mono chain
+RIGHT_ROLE_SLOTS = {"amp": 1, "cab": 2, "echo": 3, "echo2": 4}                     # dual-rig right chain
 
 
 def load_rigs():
@@ -594,6 +648,8 @@ def validate(rig):
         for i, spec in enumerate(rig.get(side, []), 1):
             if spec.get("type") == "echo" and not spec.get("delay_ms") and not spec.get("reverb"):
                 errs.append(f"{side}[{i}] echo needs delay_ms and/or reverb")
+    if unknown := sorted(set(rig.get("params", {})) - set(BASE_PARAMS)):
+        errs.append(f"unknown params {unknown} (TONE3000 ignores them)")
     if len(rig.get("left", [])) > 12 or len(rig.get("right", [])) > 12:
         errs.append("max 12 blocks per chain")
     return errs
@@ -610,7 +666,7 @@ GLOBAL_PARAMS = {
 }
 
 
-# Scene banks (Iron Maiden, FCB banks 03-09): every switch in a bank sends absolute
+# Scene bank (Iron Maiden, FCB bank 0): every switch in a bank sends absolute
 # values, so a scene always lands in the same state and never needs a reload (a
 # Program Change leaves a 60-170 ms hole, experiments D5). The DAW (qtractor_rig.py)
 # runs two TONE3000s: "heavy" (PC ch 1) and "clean" (PC ch 2, clean or acoustic preset).
@@ -639,15 +695,11 @@ def build_preset(rig):
     snap = Node("ChainSnapshot").set("stereoEnabled", bool(split)).set("branchSide", "left")
     snap.set("branchAfterBlockId", left[split - 1].get("id") if split else "")
     snap.children = [Node("ChainBlocks", children=left), Node("RightChainBlocks", children=right)]
-    params = default_params()
-    values = {"gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS}
+    values = {**BASE_PARAMS, "gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS}
     if rig.get("scene") == "heavy":  # loads at the RHYTHM scene's input drive
         values["inputLevel"] = SCENES["rhythm"][0] / 127  # = every PC-sending scene's CC 80
-    for p in params.children:
-        if p.get("id") in values:
-            p.set("value", float(values[p.get("id")]))
-    root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"])
-    root.children = [snap, params]
+    root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"]).set("id", preset_id(rig["name"]))
+    root.children = [snap, params_node(values)]
     return root
 
 
@@ -764,12 +816,19 @@ def build():
     ids = []
     for rig in rigs:
         pid = preset_id(rig["name"])
-        (PRESETS / f"{pid}.t3kpreset").write_bytes(dump_t3kb(build_preset(rig)))
+        atomic_write(PRESETS / f"{pid}.t3kpreset", dump_preset(build_preset(rig)))
         ids.append(f"user:{pid}")
         print(f"PC {rig['pc']:<3} {rig['name']}")
+    # Saving over a rig preset in the app renames its file to the display name (same id inside).
+    # Two files with one id both list, which would shift every Program Change after them.
+    ours = {i.removeprefix("user:") for i in ids}
+    for path in PRESETS.glob("*.t3kpreset"):
+        if path.stem not in ours and preset_header(path)[0] in ours:
+            path.unlink()
+            print(f"removed {path.name}: an app-saved copy of a rig preset (rebuilt from rigs/)")
     order_path = PRESETS / "order.json"
     old = json.loads(order_path.read_text()) if order_path.exists() else []
-    factory = [f"factory:{p.stem}" for p in sorted((PRESETS / "Factory").glob("*.t3kpreset"))]
+    factory = [f"factory:{preset_header(p)[0]}" for p in sorted((PRESETS / "Factory").glob("*.t3kpreset"))]
     rest_ids = [i for i in old + factory if i not in ids]
     order_path.write_text(json.dumps(ids + list(dict.fromkeys(rest_ids)), indent=2))
     write_midi_map()
@@ -838,7 +897,7 @@ def cli_check(files):
         errs = validate(rig)
         if not errs:
             try:
-                size = len(dump_t3kb(build_preset(rig)))
+                size = len(dump_preset(build_preset(rig)))
             except Exception as e:  # unknown tone/model, bad IR, network
                 errs = [f"{type(e).__name__}: {e}"]
         ok &= not errs
@@ -884,13 +943,13 @@ def cli_docs(args):
         if r.get("sources"):
             out += ["", "*Sources:* " + " · ".join(f"<{u}>" for u in r["sources"])]
     out += ["", "## Footswitches", "", "| FCB1010 | CC | TONE3000 |", "|---|---|---|",
-            "| SW1–5 (banks 00–02) | PC 0–14 | presets above |",
+            "| SW1–5 (song banks 01–02) | PC | presets above |",
             "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone) |",
             "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
             "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",
             "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | output level |", "",
-            "## Scene banks (FCB banks 03–09, DAW rig)", "",
-            "Every Maiden bank has the same five switches. Each switch sends absolute values, so it",
+            "## Maiden scene bank (FCB bank 00, DAW rig)", "",
+            "The Maiden bank has five scene switches. Each switch sends absolute values, so it",
             "switches instantly and always lands in the same state:", "",
             "| Switch | Scene | Heavy PC (ch 1) | Clean PC (ch 2) | CC 80 drive | CC 81 rig |", "|---|---|---|---|---|---|"]
     for scene, (drive, select, kind) in SCENES.items():
@@ -901,8 +960,8 @@ def cli_docs(args):
     for r in rigs:
         if r.get("scene"):
             banks.setdefault(r["bank"], {})[r["scene"]] = r
-    out += ["", "In these banks SW8 = boost (CC 22), SW9 = the era's delay + reverb (CC 24), SW10 = TUNER (CC 28).",
-            "SW7 in these banks is HARMONY (CC 25): the partner guitarist a diatonic third above, in the",
+    out += ["", "In this bank SW8 = The Evil That Men Do echo (CC 24, slot 5), SW9 = Can I Play with Madness echo (CC 30, slot 6),",
+            "SW10 = TUNER (CC 28). SOLO is labelled LEAD on the board. SW7 is HARMONY (CC 25): the partner guitarist a diatonic third above, in the",
             "song's key. On a bank's first load the DAW helper sets the song's solo echo time and harmony scale.",
             "", "| Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |",
             "|---|---|---|---|---|---|---|---|"]

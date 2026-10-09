@@ -1,0 +1,69 @@
+{
+  "pc": 6,
+  "name": "Def Leppard Hysteria",
+  "reference": "Pour Some Sugar on Me (~85 BPM) / Armageddon It (~120 BPM): Def Leppard, Hysteria (1987, prod. Mutt Lange)",
+  "rig": "Lange moved Collen and Clark from Marshalls to custom-modified Tom Scholz Rockman headphone amps (Scholz changed the distortion and turned the chorus and reverb off), because 15-16 guitar tracks of Marshalls wouldn't fit; Nigel Green also used a JHS Rock Box and sometimes a Roland studio flanger on power chords. Collen: 'Felix', a '78 Japanese Strat with a DiMarzio Super Distortion; Clark: a three-pickup Les Paul",
+  "sources": [
+    "https://guitar.com/features/artist-rigs/gear-used-by-phil-collen-steve-clark-def-leppard-hysteria",
+    "https://en.wikipedia.org/wiki/Hysteria_(Def_Leppard_album)",
+    "https://equipboard.com/albums/def-leppard-hysteria",
+    "https://en.wikipedia.org/wiki/Armageddon_It",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/DEFLEPRD_HYS/DEFLEPRD_HYS-05.html",
+    "https://www.tone3000.com/tones/30352"
+  ],
+  "notes": "Amp = Slammin MXR/Rockman X100, Distortion mode at half. The Rockman's output is cab-simulated and it was a headphone amp, so the cab slot is empty (recording direct is an inference). Spread with only 0.15 wobble (the chorus was off; the only documented modulation is Green's occasional flanger) plus Align wobble 0.2 for the layering. SW8 BOOST = TS9 push (not on the record); SW9 DELAY = 529 ms solo echo (dotted eighth at Pour Some Sugar's 85 BPM; Armageddon It would be 375 ms), off by default: no echo is documented on the parts. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 30352,
+      "model_id": 413455,
+      "enabled": true,
+      "label": "MXR X100 Rockman, Distortion half"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 529,
+      "feedback": 0.25,
+      "cutoff_hz": 6000.0,
+      "mix": 0.15,
+      "enabled": false,
+      "label": "Dotted-eighth delay 529 ms (Pour Some Sugar, 85 BPM)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate",
+      "mix": 0.15,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.15,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.2
+  }
+}

@@ -182,7 +182,7 @@ class RigState:
             elif s.kind == "toggle":
                 state = self.toggle_on(s.key)
                 on, known = bool(state), state is not None
-                if s.key in ("boost", "drive", "delay") and not detail:
+                if s.key in ("boost", "drive", "delay", "delay2") and not detail:
                     detail = b.block_label(self.heavy_pc, s.key)
                     if b.block_default(self.heavy_pc, s.key) is None and self.t3k_known:
                         known = True  # an empty slot: the switch does nothing in this preset
@@ -196,8 +196,7 @@ class RigState:
         facts = []
         if bank.kind == "scenes":
             facts = [f for f in (key_name(song) and f"Key {key_name(song)}",
-                                 song.get("tempo_bpm") and f"{song['tempo_bpm']} BPM",
-                                 ms and f"Solo echo {ms} ms") if f]
+                                 song.get("tempo_bpm") and f"{song['tempo_bpm']} BPM") if f]
         playing = ""
         if bank.kind == "scenes" and self.scene and self.synced:
             playing = bank.switches[next(sw for sw, s in bank.switches.items() if s.key == self.scene)].label

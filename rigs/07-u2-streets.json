@@ -1,0 +1,104 @@
+{
+  "pc": 7,
+  "name": "U2 Streets",
+  "reference": "Where the Streets Have No Name: U2, The Joshua Tree (1987, Windmill Lane, prod. Brian Eno and Daniel Lanois), ~126 BPM, D major",
+  "rig": "Lanois: 'just a guitar he liked through a Korg SDD-3000 digital delay into a Vox. Three components, mono'; the SDD-3000's level switch hits the amp with ~10 dB more. Live (Rattle and Hum): a Strat, 352 ms (3/16) at ~70% to amp 1 panned right and 523 ms (9/32) at ~50% to amp 2 panned left; the studio take shows 350 and 531 ms taps",
+  "sources": [
+    "https://www.amnesta.net/edge_delay/lanois.html",
+    "https://www.amnesta.net/edge_delay/musician_magazine_1986.html",
+    "https://www.amnesta.net/edge_delay/streets.html",
+    "https://en.wikipedia.org/wiki/Where_the_Streets_Have_No_Name",
+    "https://www.tone3000.com/tones/31267",
+    "https://www.tone3000.com/tones/79866"
+  ],
+  "notes": "The documented two-amp setup: the same AC30 Top Boost (edge of breakup) and '64 Blue Alnico 2x12 on both sides, panned apart. The delay IS the part, so both echoes are ON by default: right 357 ms (dotted eighth at 126 BPM), feedback 0.25, mix 45%; left 531 ms (9/32), feedback 0.1, mix 35%; bright (7 kHz) digital repeats with a short 480L Large Hall tail. Together they make Darling's measured 350 + 531 ms taps. SW9 DELAY switches both off. SW8 BOOST = a Korg SDD preamp capture standing in for the SDD-3000's +10 dB front end (95 downloads, no description: untested, off by default). Spread wobble 0.1 for the slight modulation. AC30 normal vs Top Boost channel is low confidence. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 70036,
+      "model_id": 568886,
+      "enabled": false,
+      "label": "Korg SDD-3000 preamp (+10 dB into the AC30)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 31267,
+      "model_id": 494040,
+      "enabled": true,
+      "label": "Vox AC30 Top Boost, vol 5 / cut 4, noon EQ"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 79866,
+      "model_id": 690292,
+      "enabled": true,
+      "label": "'64 Vox AC30 2x12 Blue Alnico, 57 + R121"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 531,
+      "feedback": 0.1,
+      "cutoff_hz": 7000.0,
+      "mix": 0.35,
+      "enabled": true,
+      "label": "Delay 531 ms (9/32, amp 2)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 2.0,
+        "level_db": -10.0
+      }
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 31267,
+      "model_id": 494040,
+      "enabled": true,
+      "label": "Vox AC30 Top Boost, vol 5 / cut 4, noon EQ"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 79866,
+      "model_id": 690292,
+      "enabled": true,
+      "label": "'64 Vox AC30 2x12 Blue Alnico, 57 + R121"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 357,
+      "feedback": 0.25,
+      "cutoff_hz": 7000.0,
+      "mix": 0.45,
+      "enabled": true,
+      "label": "Dotted-eighth delay 357 ms (126 BPM, amp 1)",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 2.0,
+        "level_db": -10.0
+      }
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.1
+  }
+}

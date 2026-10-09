@@ -413,3 +413,46 @@ sends two values to Qtractor:
   - Once Chromatic's `ALSA plug-in [chromatic]:input_MONO` port appears, the helper replaces whatever is connected to it with the guitar source.
 - **Result:** one window, fed only from Input 2, and closed cleanly by the second press. With the tuner closed, ERR went up by 1 in about 15 s at B/Q 0.43–0.58.
 - **Still open:** Qtractor's audio thread runs `SCHED_OTHER` until the `realtime` group is active in the login session (see D13), which needs a re-login.
+
+## D15 — TONE3000 v0.0.9 → v0.0.12: acoustic glitches and compatibility
+
+- **Symptom:** acoustic presets hiccup, worse with delay on.
+- **Cause:** Qtractor promises the CLAP a 2048-frame maximum block (`prepareToPlay … samplesPerBlock=2048`
+  in TONE3000.log) while running 256-frame cycles. v0.0.9 prepared every IR convolver at that
+  maximum, so each 256-frame callback ran a 2048-partition FFT per IR (upstream issue #146).
+  v0.0.12 caps the convolver block at 256 (PR #223, `kIrConvolverMaxBlockSize`, ChainBlock.h).
+- **Method:** DAW rig, dynamics bypassed, clean instance (PC ch 2, CC 81 = 127), continuous DI loop,
+  Qtractor ERR from `pw-top -b` once a second; delay = CC 24 on ch 2 (slot 5 + R3).
+
+| Preset | v0.0.9 delay on | v0.0.9 delay off | v0.0.12 delay on | v0.0.12 delay off |
+|---|---|---|---|---|
+| 13 Acoustic | 360/min | 64/min | 0 | 0 |
+| 17 Maiden 82 Acoustic | 1401/min | 162/min | — | — |
+| 20 Maiden 83 Acoustic | 0 | 0 | — | — |
+| 23 Maiden 84 Acoustic | 62/min | 875/min | 5/min (1 in 12 s) | 0 |
+| 26 Maiden 86 Acoustic | 4/min | 0 | — | — |
+| 29 Maiden 88 Acoustic | 4/min | 80/min | — | — |
+| 32 Maiden 92 Acoustic | 67/min | 381/min | — | — |
+| 35 Maiden 2000s Acoustic | 2/min | 2611/min | 400/min right after the PC, **0** re-measured | 0 |
+
+v0.0.9 runs were 30 s (B/Q up to 1.24), v0.0.12 runs 15 s. On v0.0.12 the only xruns left came in
+the first seconds after a Program Change, while the new chain's convolvers were still loading; the
+same preset settled read 0 with delay on and off. Generated echo IR lengths on these presets:
+1.77–2.95 s (echo + reverb tail, `ir_lengths`), ambience 1.0–2.0 s.
+- **Compatibility (v0.0.12):** all 43 presets loaded in PC order on the heavy instance (log
+  `Loaded preset:` = expected name, 43/43, v0.0.9 sweep); the new builder's presets are identical
+  to v0.0.9's in params and chains (only `id`, the `T3KH` header and the 0.0.11 gate/pitch params
+  are added). Not yet re-run on v0.0.12: the full 43-preset level sweep and the CC 22/23/24
+  audio toggle test.
+
+## D16 — Palm mutes "too muffled": gate or compressor?
+
+- **Symptom (owner):** "palm muting sounds too muffled like almost nothing gets through."
+- **Gate:** cleared. An offline port of the v0.0.12 gate at the rig's settings (−60 dB threshold,
+  hold 50 ms, release 100 ms, range 80 dB) passes 80 ms plucked bursts at −30, −40 and −50 dBFS peak
+  with 0.0 dB change; only a −60 dBFS burst loses 4.9 dB of its pick. Simulation, not a rig run.
+- **Compressor:** the bus compressor (−18 dB, 3:1, 10 ms attack, +3 dB makeup) sits on every heavy
+  preset at the rig's +14 dB output, so it clamps each chug's pick transient. During the D15 runs
+  (dynamics bypassed) the owner said the rig "sounds way better".
+- **Change:** the compressor is bypassed by default; the −1 dBTP limiter stays. Not yet measured:
+  a palm-mute level/transient A/B with the compressor on vs off on the rig.

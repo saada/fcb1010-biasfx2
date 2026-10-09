@@ -1,0 +1,217 @@
+{
+  "pc": 0,
+  "name": "Maiden Heavy",
+  "scene": "heavy",
+  "bank": 0,
+  "reference": "Iron Maiden home bank on the Brave New World / Dance of Death chain (the rig's best tone): RHYTHM and LEAD, plus switchable signature echoes for The Evil That Men Do and Can I Play with Madness (Seventh Son of a Seventh Son, 1988). Brave New World (2000, Guillaume Tell Paris) and Dance of Death (2003, Sarm West London), both prod. Kevin Shirley with Steve Harris: The Wicker Man, Blood Brothers and Ghost of the Navigator heavy sections, Brave New World, Dance of Death main riff and harmony leads",
+  "rig": "Reunion three-guitar line-up, recorded live in the studio with the amps in the room. Dave Murray (left): Fender Custom Shop Strat with Seymour Duncan Hot Rails -> Pete Cornish routing -> Marshall JMP-1 valve MIDI preamp -> Marshall JFX-1 / TC Electronic G-Force -> Marshall 9200 power amp (JCM2000 heads as power amps on tour) -> Marshall 1960BV 4x12 Vintage 30. Adrian Smith (right): Fender Strat (DiMarzio Super Distortion bridge) or Les Paul/Jackson on BNW -> Ibanez TS9 (tech-switched) -> Marshall JCM2000 Dual Super Lead, Ultra Gain channel ('used since the return to the band'; 30th Anniversary 6100LM heads by 2006) -> Marshall 1960A 4x12 G12T-75. Janick Gers (not modelled as a side): Strat -> Ibanez TS9 + Boss GE-7 -> Marshall rack -> 1960B. Shirley miked each 4x12 with a Beyer M201 + Shure SM57 at 90 degrees ~6 in from the cone, Neve 8069 pres -> Drawmer 1961 -> UREI 1176; on Dance of Death he added no reverb, only the studio room mics, and fitted the guitars together with panning",
+  "sources": [
+    "https://guitar.com/rig-diagrams/rig-diagram-dave-murray-iron-maiden-2003/",
+    "https://guitar.com/rig-diagrams/rig-diagram-adrian-smith-iron-maiden-2006/",
+    "https://www.soundonsound.com/people/kevin-caveman-shirley",
+    "https://equipboard.com/pros/adrian-smith",
+    "https://equipboard.com/pros/dave-murray",
+    "https://equipboard.com/pros/janick-gers",
+    "https://www.uberproaudio.com/who-plays-what/199-iron-maiden-dave-murrays-guitar-gear-rig-and-equipment",
+    "https://www.uberproaudio.com/who-plays-what/107-iron-maiden-adrian-smiths-guitar-gear-rig-and-equipment",
+    "https://forum.seymourduncan.com/threads/iron-maiden-brave-new-world-tone.296075/",
+    "https://blackstaramps.com/lessons/how-to-dial-in-adrian-smith-iron-maiden-tones/",
+    "https://en.wikipedia.org/wiki/Brave_New_World_(Iron_Maiden_album)",
+    "https://en.wikipedia.org/wiki/Dance_of_Death_(album)",
+    "https://en.wikipedia.org/wiki/The_Wicker_Man_(song)",
+    "https://www.songsterr.com/a/wsa/iron-maiden-the-evil-that-men-do-tab-s10085",
+    "https://songbpm.com/@iron-maiden/the-evil-that-men-do---2015-remaster",
+    "https://www.songsterr.com/a/wsa/iron-maiden-can-i-play-with-madness-tab-s10052",
+    "https://en.wikipedia.org/wiki/Can_I_Play_with_Madness"
+  ],
+  "notes": "Stereo pair = Murray hard left / Smith hard right. Why these two: Murray is the constant of every Maiden record and his 2003 rack (JMP-1 -> 9200 -> 1960BV V30) is fully documented; Smith's return is what defines this era (The Wicker Man riff is his), and his Marshall head + TS9 is the other documented 'reunion' rig. Gers shares the Marshall/TS9 platform, so the stereo pair still sounds like the three-guitar wall; his TS9 and GE-7 live in the shared pedal slots. Left = Marshall JMP-1 factory preset 04 'British Steel' (warm & heavy OD, a real JMP-1 preset, not a sim); right = Marshall JCM2000 DSL Ultra Gain, Lead 2 at gain 6 (Tim R). Both are dry DI captures with no delay baked in and are moderate-gain valve preamps, so the DAW's SOLO (+4.5 dB) / CRUNCH (-4.5 dB) input moves behave like guitar volume. Equipboard's JCM2000 claim for Smith is undated ('since the return'); the 2006 diagram shows 6100LM heads, which is the next era, so the DSL stays. BNW-era studio amps for Smith are not documented (a forum post suggests JMP-1/ADA MP-1), so this side is a best guess. Cabs: Murray = real 1960BV V30 SM57 (the diagram's cab), Smith = 1987 1960A G12T-75 SM57 edge (his 1960A T-75 cabs); Shirley's second mic, a Beyer M201, isn't available on these IR packs. Boost (SW8) = Boss GE-7 mid boost (Gers' pedal, +3 dB) for leads; drive (SW9) = Ibanez TS9 at drive 3 (Smith/Gers), off by default because Smith's was tech-switched, not always on. SW9 echo = 380 ms repeats (same as the DAW SOLO delay so they never flam) plus a Lexicon 480L Large Hall tail, for the Ghost of the Navigator / Blood Brothers melodic lines; Murray's G-Force/JFX-1 delays are digital, so repeats stay fairly bright. Always-on ambience = 480L Large Wood Room at 10% standing in for Shirley's room mics (he added no reverb on DoD). No modulation/wah/whammy possible; Align wobble gives a slight double-tracked movement. out_db are estimates (both captures unmeasured) for the maintainer to trim. BANK 0 REWORK: the old single era echo (slot 5) is now two signature echoes. Slot 5 / R3 (SW8, CC 24) = The Evil That Men Do: TC 2290-style bright digital repeats at a quarter note of the song (~160 BPM = 375 ms, research carried over from rigs/archive/27-maiden-88-heavy.json: Songsterr / songbpm), feedback 0.3, mix 25%, with a short 480L Fat Plate tail. Slot 6 / R4 (SW9, CC 30) = Can I Play with Madness: 415 ms, feedback 0.35, mix 25%, darker (4.5 kHz), 480L Large Plate tail. UNCONFIRMED: no tempo for Can I Play with Madness is documented in a source we trust (the only listing found, musiciwant.com, is an AI estimate of 102 BPM); 415 ms is a quarter note at ~145 BPM, an ear estimate to verify against the record. Both echoes live in the heavy instance only, so they work in RHYTHM, LEAD and CRUNCH; a RHYTHM press (it reloads the preset) turns them back off. The DAW's LEAD scene adds no echo of its own, so the two never flam. Ambience moved to slot 7 / R5.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 5007,
+      "model_id": 430124,
+      "enabled": false,
+      "label": "Boss GE-7 mid boost (Gers' GE-7) as lead boost",
+      "out_db": 3.0
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733130,
+      "enabled": false,
+      "label": "Ibanez TS9, drive 3 / tone 5 / level 5 (Smith's & Gers' TS9)",
+      "out_db": 1.5
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 52855,
+      "model_id": 383565,
+      "enabled": true,
+      "label": "Marshall JMP-1 preset 04 'British Steel' (Murray's rack preamp)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 51086,
+      "model_id": 284291,
+      "enabled": true,
+      "label": "Marshall 1960BV 4x12 Vintage 30, SM57 (Murray's 1960BV V30s)",
+      "out_db": 1.5
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 375,
+      "feedback": 0.3,
+      "cutoff_hz": 5000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Evil That Men Do delay 375 ms (TC 2290-style, quarter @160) + 480L Fat Plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745819,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    },
+    {
+      "role": "echo2",
+      "type": "echo",
+      "delay_ms": 415,
+      "feedback": 0.35,
+      "cutoff_hz": 4500.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Madness delay 415 ms (quarter @~145, unconfirmed) + 480L Large Plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.1,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Large Wood Room (Shirley's room mics)"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 700,
+      "model_id": 427909,
+      "enabled": true,
+      "label": "Marshall JCM2000 DSL Ultra Gain, Lead 2 gain 6 (Smith)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 67526,
+      "model_id": 463990,
+      "enabled": true,
+      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith's 1960A T-75s)",
+      "out_db": -0.7
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 375,
+      "feedback": 0.3,
+      "cutoff_hz": 5000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Evil That Men Do delay 375 ms (TC 2290-style, quarter @160) + 480L Fat Plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745819,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    },
+    {
+      "role": "echo2",
+      "type": "echo",
+      "delay_ms": 415,
+      "feedback": 0.35,
+      "cutoff_hz": 4500.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Madness delay 415 ms (quarter @~145, unconfirmed) + 480L Large Plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "mix": 0.1,
+      "trim_seconds": 2.0,
+      "label": "Lexicon 480L Large Wood Room (Shirley's room mics)"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.2,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -11.5,
+    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "history": [
+      {
+        "measured_lufs": -12.6,
+        "trim_db": 1.6
+      },
+      {
+        "measured_lufs": -12.6,
+        "trim_db": -1.4,
+        "side_lufs": [
+          -16.9,
+          -14.7
+        ],
+        "side_trim_db": [
+          1.1,
+          -1.1
+        ]
+      },
+      {
+        "measured_lufs": -14.2,
+        "trim_db": 0.2
+      }
+    ]
+  },
+  "song": {
+    "reference": "The Evil That Men Do",
+    "harmony_scale": "G Major",
+    "harmony_scale_note": "E natural minor (Evil That Men Do bridge harmony, Wicker Man, Blood Brothers)",
+    "tempo_bpm": 160,
+    "solo_delay_ms": 375,
+    "harmony_trim_db": -0.4,
+    "sources": [
+      "https://songbpm.com/@iron-maiden/blood-brothers",
+      "https://www.songsterr.com/a/wsa/iron-maiden-blood-brothers-tab-s304",
+      "https://www.songsterr.com/a/wsa/iron-maiden-the-evil-that-men-do-tab-s10085"
+    ]
+  }
+}

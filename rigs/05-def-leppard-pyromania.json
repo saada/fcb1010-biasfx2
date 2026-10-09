@@ -1,0 +1,121 @@
+{
+  "pc": 5,
+  "name": "Def Leppard Pyromania",
+  "reference": "Photograph (~124 BPM) / Rock of Ages (~106 BPM): Def Leppard, Pyromania (1982 sessions at Park Gate and Battery Studios, prod. Robert John 'Mutt' Lange, eng. Mike Shipley)",
+  "rig": "Pete Willis and Steve Clark rhythm beds (Les Paul low end, SG mids, Telecaster top, up to six tracks), Phil Collen solos (Photograph: Ibanez Destroyer into a 50 W Marshall); Shipley: 'we ended up with just a little Marshall combo amp', miked with Neumann U87 / U67s; guitars recorded dry, to a Linn LM-1 click",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pyromania_(album)",
+    "https://steveclarkguitar.com/articles-interviews/twin-blades/",
+    "https://tapeop.com/interviews/118/mike-shipley",
+    "https://www.premierguitar.com/podcast/shred-with-shifty/phil-collen-on-his-bombastic-photograph-solo",
+    "https://equipboard.com/albums/def-leppard-pyromania",
+    "https://songbpm.com/@def-leppard/photograph"
+  ],
+  "notes": "Dual rig for the Willis / Clark beds: the same 1980 Marshall JMP 2204 50 W (the 2104 combo's circuit; matches Collen's '50 W Marshall' and Shipley's small combo) on both sides, panned L/R, into a G12M Greenback 4x12 miked with a U87 (Shipley's mic). The right side has single-coil pre-EQ for Clark's Telecaster 'top end' layer; Align wobble 0.2 for the stacked takes. Equipboard's 100 W 2203 heads conflict with the stronger Shipley/Collen sources. SW8 BOOST = TS9 push (not on the record); SW9 DELAY = 363 ms (dotted eighth at Photograph's 124 BPM; Rock of Ages would be 425 ms). 480L Large Plate at 15% is a polished-mix guess (Lange's desk effects are undocumented). Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 70525,
+      "model_id": 577107,
+      "enabled": true,
+      "label": "1980 Marshall JMP 2204 50 W, high input ('Classic Hits')"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 98754,
+      "model_id": 824751,
+      "enabled": true,
+      "label": "Marshall 4x12 G12M Greenback, U87"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 363,
+      "feedback": 0.3,
+      "cutoff_hz": 5500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Dotted-eighth delay 363 ms (Photograph, 124 BPM)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate",
+      "mix": 0.15,
+      "trim_seconds": 2.0
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 70525,
+      "model_id": 577107,
+      "enabled": true,
+      "label": "1980 Marshall JMP 2204 50 W, high input ('Classic Hits')",
+      "eq": [
+        -3.0,
+        -2.5,
+        0.0,
+        1.5,
+        3.0,
+        2.0
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 98754,
+      "model_id": 824751,
+      "enabled": true,
+      "label": "Marshall 4x12 G12M Greenback, U87"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 363,
+      "feedback": 0.3,
+      "cutoff_hz": 5500.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Dotted-eighth delay 363 ms (Photograph, 124 BPM)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate",
+      "mix": 0.15,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.2
+  }
+}

@@ -1,7 +1,9 @@
 # rigs/ — one TONE3000 preset per file
 
 `tone3000.py build` turns every `NN-slug.json` here into a TONE3000 preset and
-loads them into PC order (`pc` 0–14 = FCB1010 song switches). Captures and
+loads them into PC order (`pc` 0–12; bank 0 = Maiden scene presets, banks 1–2 = song
+switches). `rigs/archive/` keeps retired presets (the seven Maiden era banks and the song
+presets no longer on the board) for their research; the builder only reads `rigs/*.json`. Captures and
 IRs come from the public [TONE3000](https://www.tone3000.com) catalog by id.
 
 ## Research helpers
@@ -41,11 +43,12 @@ use A2 models (`a2` in `models` output). IR blocks use `a-` models.
 | 2 | `drive` — the song's drive pedal | SW9 (CC 23) | on if always-on in the song |
 | 3 | `amp` — amp capture (full rig or DI) | — | on |
 | 4 | `cab` — cab IR, or `insert` if slot 3 is a full rig | — | on |
-| 5 | `echo` — solo delay | SW10 (CC 24) | off |
+| 5 | `echo` — solo delay | Maiden SW8 / 80s SW9 (CC 24) | off |
+| 6 | `echo2` — second delay (Maiden heavy only), else `ambience` | Maiden SW9 (CC 30) | off |
 | 6+ | `ambience` — reverb/space IRs, extra always-on blocks | — | on |
 
-Right chain (only with `split_after`): R1 `amp`, R2 `cab`, R3 `echo` (also
-SW10), R4+ `ambience`. Everything before the split (slots 1..N) feeds both.
+Right chain (only with `split_after`): R1 `amp`, R2 `cab`, R3 `echo` (same CC as
+slot 5), R4 `echo2` (same CC as slot 6) or `ambience`, then `ambience`. Everything before the split (slots 1..N) feeds both.
 Other globals: SW6 (CC 20) noise gate, SW7 (CC 21) `spreadEnabled`, EXP A
 (CC 27) treble, EXP B (CC 7) output level.
 
@@ -68,18 +71,28 @@ humbucker → single-coil voicing `[-3, -2.5, 0, 1.5, 3, 2]`).
 widening / chorus-like movement. For dual rigs: `chainPanLeft` 0 /
 `chainPanRight` 1, `alignEnabled`, `alignWobbleEnabled`, `alignWobble`
 (inter-rig chorus). `toneBass`/`toneMid`/`toneTreble` (0–10, 5 = flat).
-Output level and gate (+24 dB, on at −35 dB) are global and always win.
+Gate (TONE3000 ≥ 0.0.11): `gateRelease` (5–500 ms, default here 100), `gateHold` (0–200 ms,
+here 50), `gateRange` (20–80 dB, here 80): the builder's defaults reproduce v0.0.9's fixed gate;
+a tight high-gain preset can set e.g. release 15 / hold 10. Pitch (≥ 0.0.11, off by default):
+`pitchEnabled`, `pitchSemitones` (−24…24), `pitchStep` (1 = whole semitones), `pitchTonality`
+(1000–20000 Hz, 20000 = off), `pitchWindow` (0–3 = 20/30/40/60 ms; adds 11/16/21/31 ms latency
+while on). Unknown ids are an error. The full baseline is `BASE_PARAMS` in tone3000.py.
+Output level (+12 dB) and gate (on at −60 dB) are global (`GLOBAL_PARAMS`) and always win.
 
 IRs that aren't 48 kHz, or whose data chunk has an odd byte length, load as *silence*
 in TONE3000; the builder re-encodes them
 automatically (mono, first channel), so any catalog IR is usable.
 
-TONE3000 can't do time-varying effects (chorus/flanger/phaser/wah/pitch):
-use Spread/Align for chorus-like movement and note the gap in `notes`.
+TONE3000 has no modulation, wah or delay blocks (chorus/flanger/phaser/wah): use Spread/Align
+for chorus-like movement and note the gap in `notes`. Since v0.0.11 it can pitch-shift the whole
+input (see Useful `params`), but with no dry blend and no scale awareness.
 
-## Scene banks (Iron Maiden, FCB banks 03–09)
+## Scene bank (Iron Maiden, FCB bank 0)
 
-Each bank is one album era and has three presets. The DAW rig (`qtractor_rig.py`) runs
+The Maiden bank has three presets on the Brave New World / Dance of Death chain (heavy,
+clean, acoustic). In it SW8 toggles the heavy preset's slot 5 / R3 echo (The Evil That Men
+Do, 375 ms) and SW9 its slot 6 / R4 `echo2` (Can I Play with Madness, 415 ms); SW2 is
+labelled LEAD (the `solo` scene) and adds no echo of its own. The DAW rig (`qtractor_rig.py`) runs
 two TONE3000s:
 
 | `scene` | loaded into | used by |

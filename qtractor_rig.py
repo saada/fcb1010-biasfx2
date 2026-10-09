@@ -90,18 +90,22 @@ WAH = ("Wah", "http://guitarix.sourceforge.net/plugins/gxautowah#wah", False,
        {3: ("Wah", 0.5)}, {CC_WAH: ("Activate", "toggle"), CC_WAH_SWEEP: (3, "hook")})
 OCTAVER = ("Octaver", "http://guitarix.sourceforge.net/plugins/gx_detune_#_detune_", False,
            {2: ("DETUNE", -12.0), 6: ("WET", 45.0), 7: ("DRY", 80.0)}, {CC_OCTAVER: ("Activate", "toggle")})
-# SOLO = one switch: +2 dB and a dark 380 ms lead echo. LSP Slap-back Delay passes the dry
-# signal at "Dry amount", so while it is active (CC 80 > 63) it is the boost *and* the delay;
-# bypassed it is unity. (A cranked amp's input push alone adds only ~+0.5 dB: experiments D8.)
+# SOLO (labelled LEAD on the board) = one switch: amps pushed + 2 dB, no echo. LSP Slap-back Delay
+# passes the dry signal at "Dry amount", so while it is active (CC 80 > 63) it is a +2 dB boost;
+# bypassed it is unity. Its echo is muted (Wet 0): the Maiden bank has its own echo switches
+# (SW8/SW9, TONE3000 blocks) and two echoes at different times would flam. (A cranked amp's input push alone adds only ~+0.5 dB: experiments D8.)
 SOLO = ("Solo", "http://lsp-plug.in/plugins/lv2/slap_delay_stereo", False,
-        {15: ("Dry amount", db(2)), 17: ("Wet amount", 1.0),
+        {15: ("Dry amount", db(2)), 17: ("Wet amount", 0.0),
          22: ("Delay 1 mode", 1), 23: ("Delay 1 left channel panorama", -100.0),
          24: ("Delay 1 right channel panorama", 100.0), 29: ("Delay 1 time", 380.0),
          34: ("Delay 1 low-cut", 1), 35: ("Delay 1 low-cut frequency", 250.0),
          36: ("Delay 1 high-cut", 1), 37: ("Delay 1 high-cut frequency", 4500.0),
          43: ("Delay 1 feedback", 0.3), 44: ("Delay 1 gain", db(-10))},
         {t3k.SCENE_DRIVE_CC: ("Activate", "latch"), CC_SOLO_TIME: (29, "hook")})  # time: per song (helper)
-COMPRESSOR = ("Compressor", "http://lsp-plug.in/plugins/lv2/compressor_stereo", True,
+# Bypassed by default: at -18 dB / 3:1 / 10 ms attack it sat on every heavy preset and flattened
+# palm-mute chugs ("too muffled"); the owner preferred the rig with it off (experiments D16).
+# The limiter alone keeps peaks under -1 dBTP. It stays in the chain to switch on in Qtractor.
+COMPRESSOR = ("Compressor", "http://lsp-plug.in/plugins/lv2/compressor_stereo", False,
               {29: ("Attack threshold", db(-18)), 30: ("Attack time", 10.0), 32: ("Release time", 120.0),
                34: ("Ratio", 3.0), 38: ("Makeup gain", db(3))}, {})
 LIMITER = ("Limiter", "http://gareus.org/oss/lv2/dpl#stereo", True,
@@ -229,9 +233,13 @@ def tone3000_state(midi_map, scene):
         preset = t3k.load_t3kb(path.read_bytes())
         state.children = [preset.child("ChainSnapshot") if c.type == "ChainSnapshot" else c for c in state.children]
         values = {q.get("id"): q.get("value") for q in preset.child("Params").children}
-        for q in state.child("PARAMETERS").children:
+        params = state.child("PARAMETERS")
+        for q in params.children:
             if q.get("id") in values:
-                q.set("value", float(values[q.get("id")]))
+                q.set("value", float(values.pop(q.get("id"))))
+        # Parameters newer than the standalone's saved state (e.g. the 0.0.11 gate/pitch knobs)
+        # would otherwise restore at the plugin default rather than the preset's value.
+        params.children += [t3k.Node("PARAM").set("id", k).set("value", float(v)) for k, v in values.items()]
         state.set("activePresetId", f"user:{t3k.preset_id(rig['name'])}").set("activePresetName", rig["name"])
     for q in state.child("PARAMETERS").children:  # EXP B may have left outputLevel anywhere
         if q.get("id") in t3k.GLOBAL_PARAMS:
