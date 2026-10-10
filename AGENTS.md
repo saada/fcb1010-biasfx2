@@ -8,6 +8,9 @@ TONE3000 (NAM captures + IRs) inside a generated Qtractor session, and GuitarMoo
 The owner plays and agents change the rig, through files and generators, so the rig rebuilds
 the same way every time and nobody clicks.
 - Sounds live in `rigs/*.json`: edit, then `uv run tone3000.py check`, `build`, `docs` (RIGS.md is generated).
+- Every number we tune (levels, EQ, drive, switches, echo, gate, tone stack) lives in
+  `rigs/tone.csv` and wins over the JSON. Tune by words with `tone3000.py tune @tag <word>`
+  (rigs/vocab.csv); rigs/README.md has the rules.
 - The session is an output of `qtractor_rig.py`: change the generator and rebuild `rig.qtr`.
 - The FCB layout lives in `rig.py`'s tables and changes often, so read it fresh each time from
   `uv run rig.py show` and the README practice guide.

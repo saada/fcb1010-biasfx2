@@ -1,5 +1,16 @@
 # rigs/ — one TONE3000 preset per file
 
+Every number we tune lives in **`tone.csv`**, one sheet; the JSONs keep captures, ids, files and research.
+- **Add columns** (`add dB`: levels, `in_db`, `eq_*`): a `*` or `@tag` cell is an offset added to each preset's own value.
+- **Set columns** (`set …`: switches, echo, ambience, gate, tone stack): a `*` or `@tag` cell is the default for presets whose own cell is empty.
+
+Precedence: JSON → `*` → `@tag` rows (file order) → the preset's row. Empty cell = inherit.
+
+Workflow, from words to sound:
+1. Say it: "make all cleans fatter".
+2. `uv run tone3000.py tune @clean fatter` edits one row of tone.csv and prints each affected preset's before → after (`x2` doubles, `--undo` reverts).
+3. `sim`: render the affected presets offline (`affected()` + `build_presets()`) before `build` puts them on the rig.
+
 `tone3000.py build` turns every `NN-slug.json` here into a TONE3000 preset and
 loads them into PC order (`pc` 0–17; bank 0 = Maiden scene presets, banks 1–3 = song
 switches). `rigs/archive/` keeps retired presets (the seven Maiden era banks and the song
@@ -84,6 +95,54 @@ generations, A2 (`SlimmableContainer`) and A1 (plain `WaveNet`), so an older fre
 works. A1 files may lack loudness metadata, so re-level with `out_db` after a swap
 (experiments D17: the A1 Satan 50 played 5.7 dB under its A2 twin).
 
+## Tone sheet (`tone.csv`)
+
+`uv run tone3000.py csv` prints what every preset resolves to (`L/R` where its two chains
+differ, `-` where it has no such block); `column -t -s, rigs/tone.csv` shows the raw sheet.
+Rows: the header, a `#rule` row (each column's rule and unit), `*`, any `@tag` rows, then one row
+per preset keyed by its JSON stem. A preset's `tags` cell (space separated: bank `maiden` `80s`
+`variety` `modern`, character `clean` `crunch` `heavy` `lead` `acoustic`, `stereo`) is what
+`@tag` rows match; edit the tags freely. `check` rejects unknown stems, columns and tags,
+non-numbers and out-of-range cells, and names the line, row and column.
+
+| column | sets | rule |
+|---|---|---|
+| `out_db` | preset fader: added to each chain's end block (its cab, or its amp when the cab slot is empty) | add, and the preset cell adds too |
+| `in_db` | drive into every amp capture (`in_db` of the amp blocks, both chains) | add |
+| `boost_db` `drive_db` `amp_db` `cab_db` | `out_db` of slots 1–4, left/mono chain | add |
+| `r_amp_db` `r_cab_db` | `out_db` of R1, R2 | add |
+| `eq_100` `eq_250` `eq_650` `eq_1k6` `eq_3k5` `eq_8k` | the six `eq` bands (dB) of each chain's end block | add |
+| `boost_on` `drive_on` `echo_on` | slot 1, slot 2, slot 5 + R3 on at preset load (0/1) | set |
+| `echo_ms` `echo_fb` `echo_mix` `echo_cutoff` | the echo blocks' `delay_ms`, `feedback`, `mix`, `cutoff_hz` (slot 5 + R3) | set |
+| `amb_mix` | `mix` of the ambience IRs | set |
+| `gate_db` `gate_hold` `gate_release` `gate_range` | `gateThreshold` (beats `GLOBAL_PARAMS`), `gateHold`, `gateRelease`, `gateRange` | set |
+| `bass` `mid` `treble` | the TONE3000 tone stack, 0–10, 5 = flat | set |
+
+A preset cell overrides its blocks on both chains. Where the two chains differ today (U2 and
+Radiohead echoes, Van Halen I ambience, the acoustic's cab EQ), `csv --init` left the cell empty
+and the JSON keeps the numbers; `*` and `@tag` offsets still reach both chains. Pre-model EQ
+voicings (`eq_pre`), `echo2`, reverb tails and `params` stay in the JSON.
+`csv --init [--force]` regenerates the sheet from the JSONs. The bootstrap built all 19 presets
+byte for byte as before, also with every CSV-covered JSON field deleted.
+
+`tune` moves come from **`vocab.csv`** (word, column steps, why): fatter, thinner, brighter,
+darker, tighter, looser, more/less attack, more/less gain, less fizz, warmer, more air, scooped,
+mid-forward. A `*`/`@tag` add cell moves its offset; an empty preset cell starts from the
+preset's JSON value; a set cell starts from today's resolved value. A tune that would take a
+value out of range leaves tone.csv unchanged. History is `rigs/.tune-history` (gitignored).
+Hooks for the simulator and docs, in tone3000.py: `resolved(name)` (merged settings, params and
+resolved blocks), `affected(target)` (preset names a `*`/`@tag`/preset target reaches) and
+`build_presets(names, out_dir)` (the `.t3kpreset` files, never into `~/.config/TONE3000`).
+
+### "More attack"
+
+| lever | move | rough effect on pick attack | basis |
+|---|---|---|---|
+| `eq_3k5` | +1.5 dB | +1.5 dB at 3.5 kHz and about +0.7 dB at 2.5 and 5 kHz (bell, Q 1.4): the pick click rises against the note body. The cleanest lever. | EQ curve; not yet measured on the rig |
+| `in_db` | −1 to −3 dB | On high-gain captures less drive means less of the capture's own compression, so each pick stands further above the sustain; +3 dB does the reverse (more grind, softer edge). On clean or edge-of-breakup captures, + adds bite instead. Re-level with `out_db`. | not yet measured |
+| `gate_hold` / `gate_release` | 50 / 100 → 10 / 15 ms | Leaves the onset alone (picks at −30 to −50 dBFS pass with 0.0 dB change; a −60 dBFS pick loses 4.9 dB) but ends each chug sooner, so the next one starts from silence and reads punchier. | experiments D16, simulated |
+| bus compressor | keep bypassed | Its −18 dB threshold, 3:1 ratio and 10 ms attack take a pick 6 dB over threshold down by about 4 dB after the first 10 ms; it flattened palm mutes ("too muffled"). It is one bus for all presets (`qtractor_rig.py` `COMPRESSOR`), not a tone.csv column. | experiments D16 |
+
 ### Useful `params`
 
 `spreadEnabled`, `spreadWobble` (0–1), `spreadWobbleEnabled` — stereo
@@ -96,7 +155,7 @@ a tight high-gain preset can set e.g. release 15 / hold 10. Pitch (≥ 0.0.11, o
 `pitchEnabled`, `pitchSemitones` (−24…24), `pitchStep` (1 = whole semitones), `pitchTonality`
 (1000–20000 Hz, 20000 = off), `pitchWindow` (0–3 = 20/30/40/60 ms; adds 11/16/21/31 ms latency
 while on). Unknown ids are an error. The full baseline is `BASE_PARAMS` in tone3000.py.
-Output level (+12 dB) and gate (on at −60 dB) are global (`GLOBAL_PARAMS`) and always win.
+Output level (+12 dB) and gate (on at −60 dB) are global (`GLOBAL_PARAMS`) and win over `params`; tone.csv's gate and tone-stack columns win over both.
 
 IRs that aren't 48 kHz, or whose data chunk has an odd byte length, load as *silence*
 in TONE3000; the builder re-encodes them

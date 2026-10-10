@@ -1,0 +1,21 @@
+preset,tags,out_db,in_db,boost_db,drive_db,amp_db,cab_db,r_amp_db,r_cab_db,eq_100,eq_250,eq_650,eq_1k6,eq_3k5,eq_8k,boost_on,drive_on,echo_on,echo_ms,echo_fb,echo_mix,echo_cutoff,amb_mix,gate_db,gate_hold,gate_release,gate_range,bass,mid,treble
+#rule,words,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,set 0/1,set 0/1,set 0/1,set ms,set 0-0.8,set 0-1,set Hz,set 0-1,set dB,set ms,set ms,set dB,set 0-10,set 0-10,set 0-10
+*,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,,,,,-60,50,100,80,5,5,5
+00-maiden-heavy,maiden heavy stereo,,,3,1.5,,1.5,,-0.7,,,,,,,0,0,0,375,0.3,0.25,5000,0.1,,,,,,,
+01-maiden-clean,maiden clean stereo,,,,,,5.2,,12.1,,,,,,,,,1,410,0.35,0.22,4500,0.22,,,,,,,
+02-maiden-acoustic,maiden acoustic stereo,,,,24,,-3.5,,-1.2,,-1,,,0.5,,1,1,1,0,0.5,0.25,3500,0.2,,,,,,,
+03-van-halen-1,80s crunch stereo,,,,,,,,,,,,,,,0,,0,320,0.25,0.18,3500,,,,,,,,
+04-van-halen-1984,80s crunch,,,,,,,,,,,,,,,0,,0,319,0.25,0.15,4500,0.1,,,,,,,
+05-def-leppard-pyromania,80s crunch stereo,,,,,,,,,,,,,,,0,,0,363,0.3,0.18,5500,0.15,,,,,,,
+06-def-leppard-hysteria,80s crunch,,,,,,,,,,,,,,,0,,0,529,0.25,0.15,6000,0.15,,,,,,,
+07-u2-streets,80s clean stereo,,,,,,,,,,,,,,,0,,1,,,,7000,,,,,,,,
+08-comfortably-numb,variety lead,,,,-2.8,0.7,,,,,,,,,,0,1,0,460,0.45,0.28,5000,0.25,,,,,,,
+09-radiohead,variety crunch stereo,,,,-1.5,-7.9,,-10.3,,,,,,,,0,1,0,,,0.3,,,,,,,,,
+10-nirvana,variety heavy stereo,,,,-3.9,2.7,,1,,,,,,,,0,1,0,320,0.3,0.2,3000,,,,,,,,
+11-djent,variety heavy stereo,,,,,-9.8,,1.4,,,,,,,,0,1,0,400,0.35,0.25,4000,,,,,,,,
+12-purple-rain,variety clean,,,6,-13.6,9.1,,,,,,,,,,0,0,0,300,0.6,0.35,2800,0.3,,,,,,,
+13-satan-full-rig,modern heavy,,,,,-12.5,,,,,,,,,,0,0,0,400,0.35,0.25,4000,,,,,,,,
+14-satan-50-modern,modern heavy,,,,,2.4,,,,,,,,,,0,1,0,400,0.35,0.25,4000,,,,,,,,
+15-satan-50-low-tuned,modern heavy,,,,,-0.9,,,,,,,,,,0,1,0,400,0.35,0.25,4000,,,,,,,,
+16-satan-50-lead,modern heavy lead,,,,,,,,,,,,,,,0,1,0,450,0.35,0.25,4000,,,,,,,,
+17-stormblade,modern heavy stereo,,,,,4.6,,1.2,,,,,,,,0,0,0,400,0.35,0.25,4000,,,,,,,,
