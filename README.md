@@ -169,16 +169,36 @@ is in `rigs/archive/`, and the builder skips it.
 
 ## FCB1010 side
 
+**The pedal is a fixed address generator, flashed once; all mapping is software.** Every
+switch sends only its own address on MIDI channel 16 (bank b: SW1–5 = PC `b*10 + sw-1`, SW6–10 =
+CC 102–106 with value `b`; EXP A/B stay CC 27/7 on channel 1). `fcb_router.py`, a persistent
+ALSA sequencer client ("FCB Router"), sits between the FCB and Qtractor's "FCB" bus: it turns
+each address into exactly what `rig.py`'s layout defines for that switch (plus the song's
+chorus CCs after a song's PC), passes everything else through, and reloads the layout within a
+second of any edit to `rig.py`, `tone3000.py` or `rigs/`. **A layout change never needs a flash.**
+
 ```
-uv run rig.py show      # print the board layout
-uv run rig.py syx       # write rig.syx (verified round-trip)
-uv run rig.py send      # upload to the pedal over MIDI
-uv run rig.py monitor   # watch what each pedal press actually sends
-uv run rig.py pull      # read back the device's memory and diff vs the rig
+FCB1010 ──ch16 address──► FCB Router ──rig.py layout──► Qtractor "FCB" bus ──► TONE3000s, DAW plugins
 ```
 
-Upload flow (stock firmware): hold DOWN while powering on → tap UP until the
-CONFIGURATION LED lights → tap footswitch 7 (SYSEX RCV) → `rig.py send` →
+The router runs whenever the rig is up: in-process in GuitarMood, or inside the
+`qtractor-rig-helper` unit that `qtractor_rig.py up` starts (never both: GuitarMood stops the
+unit when it joins). It connects itself (FCB → router → Qtractor) and drops any direct
+FCB → Qtractor link, so nothing arrives twice. If no router runs, GuitarMood's footer says
+**FCB ROUTER DOWN** in red. It adds about 0.06 ms (experiments D21).
+
+```
+uv run rig.py show              # print the board layout
+uv run fcb_router.py table      # every address and what it sends right now
+uv run rig.py syx --universal   # write ~/Music/fcb-rig/fcb1010-universal.syx (verified)
+uv run rig.py send --port "USB Midi"   # the one-time flash: the universal address map
+uv run rig.py monitor           # watch what each press sends (decodes the addresses)
+uv run rig.py pull              # read back the device's memory and check it
+uv run fcb_router.py bench      # measure the router's added latency on test ports
+```
+
+Upload flow (stock firmware, once): hold DOWN while powering on → tap UP until the
+CONFIGURATION LED lights → tap footswitch 7 (SYSEX RCV) → `rig.py send --port "USB Midi"` →
 **hold DOWN ~2.5 s to save** → recalibrate the expression pedals (hold 1+5
 while powering on). Full details in [RIG-NOTES.md](RIG-NOTES.md).
 

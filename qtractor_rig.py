@@ -1,5 +1,6 @@
 # /// script
 # requires-python = ">=3.10"
+# dependencies = ["alsa-midi>=1.0.4"]
 # ///
 """Run the FCB1010 + TONE3000 rig inside Qtractor — generated, never clicked.
 
@@ -21,7 +22,8 @@ MIDI tracks/buses, and only the CLAP build of TONE3000 gets raw Program Change:
                                                                               ─► Limiter ─► Scarlett out
   Heavy's [Harmony Tap] sends the clean DI ─► Harmony: [Harmony In] (SW7) ─► 3 x42 autotune
       stages (a diatonic third in the song's key) ─► TONE3000 (partner's amp) ─► bus Rig
-  FCB1010 ─► MIDI bus "FCB" ─► Heavy gets MIDI ch 1, Clean ch 2, Harmony ch 3 (their PCs).
+  FCB1010 ─► fcb_router.py ─► MIDI bus "FCB" ─► Heavy gets MIDI ch 1, Clean ch 2, Harmony ch 3.
+  The pedal only sends addresses (bank, switch); the router turns them into rig.py's layout.
   `helper` (a user service started by `up`) turns a scene bank's PC into its song's solo
   echo time and harmony scale (CC 85-88).
 
@@ -45,11 +47,14 @@ import signal
 import struct
 import subprocess
 import sys
+import threading
 import time
 import xml.etree.ElementTree as ET
 import zlib
 from pathlib import Path
+from queue import Queue
 
+import fcb_router
 import tone3000 as t3k
 
 SESSION_DIR = Path.home() / "Music/fcb-rig"
@@ -60,6 +65,7 @@ QUANTUM = 256  # same as the standalone (experiments L1–L4)
 GUITAR = (t3k.AUDIO["audioInputDeviceName"], "capture_MONO")
 OUTPUT = t3k.AUDIO["audioOutputDeviceName"]
 FCB = ("USB Midi", t3k.MIDI_PORT)
+ROUTER = (fcb_router.CLIENT, fcb_router.OUT_PORT)  # what the FCB bus listens to (the router feeds it)
 TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 
 # FCB1010 row (rig.py): SW6 wah, SW7 octaver, SW8 boost, SW9 drive, SW10 echo,
@@ -361,7 +367,7 @@ def session_xml():
     fields(el(midi, "midi-control"), mmc_mode="input", mmc_device=127, spp_mode="none", clock_mode="none")
     fcb = el(midi, "midi-bus", name="FCB", mode="input")  # first MIDI input = control bus
     fields(fcb, monitor=0)
-    connects(fcb, "input-connects", [FCB])
+    connects(fcb, "input-connects", [ROUTER])  # the router also connects itself and drops any direct FCB link
     fields(el(midi, "midi-bus", name="MIDI Out", mode="output"), monitor=0)
 
     tracks = el(root, "tracks")
@@ -448,29 +454,62 @@ def send_song(port, pc, settings):
         subprocess.run(["aseqsend", "-p", port, "B0", f"{cc:02X}", f"{value:02X}"], check=True)
 
 
+def start_router(work):
+    """The FCB router (fcb_router.py) in a thread: each translated burst lands in `work`, and
+    None when the router stops. RIG_HELPER_SOURCE replays an aseqdump log instead (tests)."""
+    if replay := os.environ.get("RIG_HELPER_SOURCE", "").split():
+        translator = fcb_router.Translator()
+
+        def feed():
+            for line in subprocess.Popen(replay, stdout=subprocess.PIPE, text=True).stdout:
+                if ev := fcb_router.parse_aseqdump(line):
+                    work.put(translator.translate(ev)[1])
+            work.put(None)
+        threading.Thread(target=feed, daemon=True).start()
+        return None
+    router = fcb_router.Router(on_events=lambda addr, events: work.put(events),
+                               on_status=lambda s: print(f"router: {s}", flush=True))
+
+    def run():
+        try:
+            router.run()
+        except Exception as e:  # noqa: BLE001 - another owner, or no ALSA sequencer
+            print(f"FCB router failed: {e}", flush=True)
+        work.put(None)
+    router.thread = threading.Thread(target=run, daemon=True, name="fcb-router")
+    router.thread.start()
+    return router
+
+
 def helper():
-    """Watch the FCB; on a scene bank's heavy Program Change, send that song's solo echo
-    time and harmony scale to Qtractor (runs as the qtractor-rig-helper user unit)."""
+    """The rig's MIDI side when GuitarMood isn't running (the qtractor-rig-helper user unit):
+    the FCB router (pedal addresses -> rig.py's layout -> Qtractor), and on its translated
+    stream, a scene bank's heavy Program Change sends that song's solo echo time and harmony
+    scale, and SW10 toggles the tuner."""
+    work = Queue()
+    router = start_router(work)
+    if router:
+        signal.signal(signal.SIGTERM, lambda *_: router.stop())  # systemctl stop: the router exits cleanly
     settings = song_settings()
     while not (port := qtractor_port()):
         time.sleep(1)
     first = next((r["pc"] for r in t3k.load_rigs() if r.get("scene") == "heavy"), None)
     if first is not None:
         send_song(port, first, settings)  # the session starts on the first scene bank
-    source = os.environ.get("RIG_HELPER_SOURCE", "").split() or ["aseqdump", "-p", FCB[0]]  # tests replay a dump
-    fcb = subprocess.Popen(source, stdout=subprocess.PIPE, text=True)
     tuner_proc, tuning = None, False
-    for line in fcb.stdout:
-        if re.search(rf"Control change\s+0, controller {CC_TUNER}, value (6[4-9]|[7-9]\d|1[0-2]\d)\b", line):
-            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + tuner
-            tuner_proc = set_tuning(tuning, qtractor_port() or port, tuner_proc)
-            print(f"tuner {'on' if tuning else 'off'}", flush=True)
-            continue
-        m = re.search(r"Program change\s+0, program (\d+)", line)
-        if m and int(m.group(1)) in settings:
-            send_song(qtractor_port() or port, int(m.group(1)), settings)
-            print(f"PC {m.group(1)}: solo echo {settings[int(m.group(1))][0]} ms, harmony {settings[int(m.group(1))][1]}",
-                  flush=True)
+    while (events := work.get()) is not None:
+        for kind, ch, *rest in events:
+            if kind == "cc" and ch == 0 and rest[0] == CC_TUNER and rest[1] >= 64:
+                tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + tuner
+                tuner_proc = set_tuning(tuning, qtractor_port() or port, tuner_proc)
+                print(f"tuner {'on' if tuning else 'off'}", flush=True)
+            elif kind == "pc" and ch == 0 and rest[0] in settings:
+                send_song(qtractor_port() or port, rest[0], settings)
+                print(f"PC {rest[0]}: solo echo {settings[rest[0]][0]} ms, harmony {settings[rest[0]][1]}", flush=True)
+    if router:
+        router.thread.join(3)
+        if not router.stopping.is_set():
+            sys.exit(1)  # the router died: let systemd restart the unit
 
 
 def guitar_source():
@@ -565,8 +604,9 @@ def up(helper=True):
         if pid() and "Qtractor" in subprocess.run(["aconnect", "-l"], capture_output=True, text=True).stdout:
             if helper:
                 subprocess.run(["systemd-run", "--user", "--quiet", "--collect", "--unit=qtractor-rig-helper",
-                                "-p", "Restart=always", sys.executable, str(Path(__file__).resolve()), "helper"])
-            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM})" + (" + per-song helper" if helper else ""))
+                                "-p", "Restart=always", "-p", "RestartSec=2",
+                                sys.executable, str(Path(__file__).resolve()), "helper"])
+            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM})" + (" + FCB router and per-song helper" if helper else ""))
             return
         time.sleep(0.5)
     sys.exit("Qtractor did not come up — journalctl --user -u qtractor-rig")

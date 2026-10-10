@@ -14,6 +14,9 @@ the same way every time and nobody clicks.
 - The session is an output of `qtractor_rig.py`: change the generator and rebuild `rig.qtr`.
 - The FCB layout lives in `rig.py`'s tables and changes often, so read it fresh each time from
   `uv run rig.py show` and the README practice guide.
+- Layout changes never need a flash. The pedal holds the universal address map for good, and
+  `fcb_router.py` maps addresses to `rig.py`'s layout live (README "FCB1010 side"). Never ask
+  the owner to flash for a layout change, and never `rig.py send --legacy`.
 - Free software only: Qtractor, LV2/CLAP plugins, Omarchy plugins, all native (Wine never got
   the latency right, experiments B1). `biasfx2.py`, TONES.md and the BIAS FX 2 parts of
   RIG-NOTES.md are that retired Wine rig, kept as history.

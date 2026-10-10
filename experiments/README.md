@@ -657,3 +657,23 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   (`logarithmic=0` in the session, as for the Solo time). The rate port is marked logarithmic in
   its TTL, so check it on the first live run. Until whatever reads the FCB sends `chorus_ccs`,
   the session default plays: 0.6 Hz, 4 ms, 50 %.
+
+## D21 — A universal flash and a software router: what the extra hop costs
+
+- **Question:** if the FCB1010 only sends fixed addresses (channel 16) and a Python ALSA client
+  (`fcb_router.py`) maps them to the layout, how much latency does the hop add?
+- **Hypothesis:** well under 1 ms; Python dispatch is tens of µs, kernel sequencer hops are cheap.
+- **Method:** `uv run fcb_router.py bench 2000` on test ports (no FCB, no Qtractor). A bench
+  client sends each mapped address (50 switches, round robin) from its own port and stamps it,
+  and receives the router's output on another of its ports (same process, same monotonic clock).
+  Baseline: the same send with a direct link (bench out → bench in), no router. Laptop busy
+  (Steam, desktop); router unprivileged, no RT priority. Raw data: router-latency.csv.
+- **Result (µs):** direct link median 66, p99 254, max 554. Via the router, first message:
+  median 114, p99 385, max 575; whole burst (up to 8 messages): median 153, p99 433, max 661.
+  Added by the router: about 0.05 ms median, under 0.2 ms at p99. Earlier runs on the same
+  machine gave a 0.05–0.09 ms median and a rare max of 0.8–1.3 ms (scheduler wake-up).
+- **Conclusion:** the router is free in practice. It also shortens the wire: the FCB now sends
+  one 2–3 byte message per press instead of a burst of up to 12 bytes over 31.25 kbaud DIN
+  (320 µs per byte), so a scene switch's last message reaches the rig about 3 ms sooner
+  (computed, not measured on the pedal).
+- **Not measured:** the FCB's own DIN/USB path (it is not changed by the router), and RT priority.

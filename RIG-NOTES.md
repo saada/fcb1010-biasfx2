@@ -1,8 +1,28 @@
 # FCB1010 rig for BIAS FX 2
 
 Everything the FCB1010 needs is uploaded over MIDI — no front-panel programming.
-The layout (11 song presets, effect-toggle row, expression pedals) lives in
-`rig.py` as the `SONGS` / `TOGGLES` tables; edit those and re-send to change it.
+
+**Since the router (October 2026) the pedal is flashed once, with the universal address map,
+and never again.** Every switch sends only its own address on MIDI channel 16; `fcb_router.py`
+turns each address into the messages `rig.py`'s layout defines, live. Edit the layout
+(`SONGS` / `TOGGLES` / banks in `rig.py`, `rigs/`) and it plays at once: no upload.
+
+| Switch | The FCB sends (ch 16) | The router sends |
+|---|---|---|
+| bank b, SW1–5 | Program Change `b*10 + sw-1` (0–99) | `rig.py layout` for (b, sw): what `build()` puts on the switch, then the song's chorus CCs 89–91 after a ch-1 PC |
+| bank b, SW6–10 | CC 102–106 (SW6..SW10), value `b` | the same, e.g. CC 20 = 127 (wah) |
+| EXP A / EXP B | CC 27 / CC 7 on ch 1 | passed straight through |
+
+SW6–10 are encoded like the old toggle presets (CC 1 only, no PC), so the LEDs behave as
+before. UP/DOWN still send nothing, but every press now carries its bank, so GuitarMood's bank
+is exact even on a toggle. Anything not on channel 16 passes through unchanged, so the old
+per-layout flash keeps working through the router until the one-time flash.
+
+The one-time flash is the upload below with `uv run rig.py send --port "USB Midi"` (it sends
+the universal map; `--legacy` sends the old per-layout config). The same bytes are in
+`~/Music/fcb-rig/fcb1010-universal.syx` (`uv run rig.py syx --universal`). After it,
+`uv run rig.py pull` says "Device holds the universal address map", and `monitor` prints
+`= bank b SWs` next to each press.
 
 ## One-time upload
 
@@ -16,7 +36,7 @@ The layout (11 song presets, effect-toggle row, expression pedals) lives in
 3. Run:
 
    ```
-   uv run rig.py send
+   uv run rig.py send --port "USB Midi"
    ```
 
    The footswitch 7 LED flashes during transfer, then goes out. Then **hold

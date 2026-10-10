@@ -60,6 +60,13 @@ class RigState:
     def feed(self, event):
         """Apply one MIDI event. Returns an action for the helper side, or None:
         ("song", heavy_pc) on a scene bank's heavy PC, ("tuner", on) on SW10."""
+        if event[0] == "addr":  # the router's decoded address: the bank, exactly (UP/DOWN send nothing)
+            _, bank, sw = event
+            if bank in self.board.banks:
+                self.bank = bank
+            else:
+                self.last, self.last_sw = f"Bank {bank} SW{sw}: nothing on it in the layout", None
+            return None
         kind, ch, *rest = event
         self.last_at = time.monotonic()
         if kind == "pc":
