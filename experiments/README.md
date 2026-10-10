@@ -277,7 +277,7 @@ using the exact messages the FCB sends. *Data:* `maiden-levels.csv`.
   - Method: send the loaded preset's PC and CC 80 = 72 in one burst, then read the heavy `inputLevel` back from the saved session.
   - Result: 0.496, the preset's value. CC 80 on its own gives 0.567, and it also works when sent 100 ms after the PC.
   - Cause: TONE3000 re-applies a preset's parameters asynchronously after a PC, even for the preset already loaded.
-  - Fix: SOLO and CRUNCH send only CCs. RHYTHM, CLEAN and ACOUSTIC send PCs, but at CC 80 = 63, which is exactly the preset's own drive, so the race can't change anything. `rig.py verify` enforces this.
+  - Fix: SOLO and CRUNCH send only CCs. RHYTHM, CLEAN and ACOUSTIC send PCs, but at CC 80 = 63, which is exactly the preset's own drive, so the race can't change anything. `verify()` in rig.py, run by `rig.py syx` and `send`, enforces this.
 - **Pushing a cranked amp's input barely raises the level.**
   - With dynamics bypassed, SOLO's input push (0.496 → 0.567, about +3.4 dB if the parameter spans ±24 dB like the block gains) gave only +0.4 … +1.1 LUFS.
   - Raising the Guitarix delay's GAIN from 0 to 120 moved the level by ≤ 0.2 dB, because it only scales the echoes.

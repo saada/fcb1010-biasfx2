@@ -21,9 +21,9 @@ IRs come from the public [TONE3000](https://www.tone3000.com) catalog by id.
 ## Research helpers
 
 ```
-python3 tone3000.py search <words> [--gear=amp|amp-cab|pedal|cab|outboard|space|experimental] [--arch=2|1|any]
-python3 tone3000.py models <tone_id> [...]     # description + every model id/name
-python3 tone3000.py check [rigs/NN-x.json ...] # validate + resolve + build in memory
+uv run tone3000.py search <words> [--gear=amp|amp-cab|pedal|cab|outboard|space|experimental] [--arch=2|1|any]
+uv run tone3000.py models <tone_id> [...]     # description + every model id/name
+uv run tone3000.py check [rigs/NN-x.json ...] # validate + resolve + build in memory
 ```
 
 `--gear=amp-cab` is a full rig (amp + cab); `amp` is a DI/preamp capture that
