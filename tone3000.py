@@ -804,7 +804,9 @@ def apply_tone(rig, sheet):
     layers = [sheet["star"], *(r for tag, r, _ in sheet["tag_rows"] if tag in tags)]
     where = f"{TONE_CSV.name} line {sheet['line'].get(stem, '?')} ({stem})"
     errors, params = [], dict(rig.get("tone_params", {}))
-    for col, (rule, unit, lo, hi, _, role, _, field) in TONE_COLUMNS.items():
+    # out_db last: it's a fader on the end block, which amp_db/cab_db (preset cells replace)
+    # also write, so it must add on top of what they resolve to, not be overwritten by them.
+    for col, (rule, unit, lo, hi, _, role, _, field) in sorted(TONE_COLUMNS.items(), key=lambda kv: kv[0] == "out_db"):
         cell = row.get(col)
         inherited = [layer[col] for layer in layers if layer.get(col) is not None]
         default = cell if cell is not None else inherited[-1] if inherited else None  # "set" rule
