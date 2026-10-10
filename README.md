@@ -41,7 +41,7 @@ BANK 4  MODERN: Randall Satan sounds (Ola Englund's rig) and Glenn Fricker's Sto
           SW1 SATAN FULL RIG   SW2 SATAN 50 MODERN   SW3 SATAN 50 LOW TUNED   SW4 SATAN 50 LEAD   SW5 STORMBLADE
           SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
-EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
+EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7): heel silent, ~78 % = +3 dB (the startup level), toe +6 dB
 ```
 
 | Switch | Sends | Does |
@@ -293,7 +293,7 @@ TONE3000 has no wah/modulation/delay blocks (v0.0.12 adds only a global input pi
 shifter, see TONE3000.md) and maps CCs globally by block
 *position*, so every preset shares one layout: block 1 lead boost (CC 22),
 block 2 song drive (CC 23), block 3 full stack; CC 20 noise gate, CC 21 stereo
-spread, CC 27 treble sweep, CC 7 output level. Toggles flip on any value ≥ 64 (and on a
+spread, CC 27 treble sweep. Toggles flip on any value ≥ 64 (and on a
 value < 64 that doesn't follow one ≥ 64, i.e. isn't a release),
 so the stock FCB1010's constant 127 works. The tuner isn't MIDI-mappable.
 
@@ -313,12 +313,17 @@ uv run qtractor_rig.py down     # save + quit
 ```
 
 ```
-Scarlett In 2 ─► Wah ─► TONE3000 (CLAP) ─► Octaver ─► Compressor ─► Limiter ─► Scarlett out
-FCB1010 ─► PC/CC straight into TONE3000; Qtractor binds SW6 wah, SW7 octaver, EXP A wah sweep
+Scarlett In 2 ─► Wah ─► TONE3000 (CLAP) ─► Octaver ─► Compressor ─► Volume ─► Limiter ─► Scarlett out
+FCB1010 ─► PC/CC straight into TONE3000; Qtractor binds SW6 wah, SW7 octaver, EXP A wah sweep,
+           EXP B the Volume stage (Rig bus, before the limiter)
 ```
 
 This brings back the FCB layout's original intent: SW6 wah, SW7 octaver, EXP A wah
-sweep. TONE3000 keeps its block toggles (song banks: SW8 LEAD, SW9 drive; Maiden banks: SW8 boost, SW9 delay + reverb) and EXP B output level. SW10 is the tuner. The
+sweep. TONE3000 keeps its block toggles (song banks: SW8 LEAD, SW9 drive; Maiden banks: SW8 boost, SW9 delay + reverb) SW10 is the tuner. EXP B is the
+DAW's Volume stage on the Rig bus, just before the limiter: it covers all three rigs, a preset
+change never resets it, and the router gives it an audio taper (heel silent, about 78 % of the
+travel = +3 dB, where the rig starts, toe +6 dB; `uv run fcb_router.py volume` prints the curve,
+experiments D22). The
 limiter keeps peaks under −1 dBFS. The compressor is in the chain but bypassed by default:
 it cut the loudness spread across presets from 9.2 to 4.6 dB (`experiments/README.md` D0–D4),
 but it also flattened palm mutes, and the rig sounds better without it (D16). Run the standalone

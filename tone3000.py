@@ -105,8 +105,7 @@ MIDI_MAP = [  # (targetId, CC) — must match rig.py; one CC may drive several t
     ("block5Power", 26),
     ("rightBlock3Power", 26),
     ("toneTreble", 27),        # EXP A
-    ("outputLevel", 7),        # EXP B
-]
+]  # EXP B (CC 7) is not here: it is the DAW's volume stage (qtractor_rig.VOLUME), which no PC resets (D22)
 
 
 # --- JUCE ValueTree binary (T3KB) -------------------------------------------
@@ -1253,7 +1252,8 @@ def validate(rig):
 GLOBAL_PARAMS = {
     # +14 dB (normalized: 0.5 = 0 dB, 48 dB span). With the interface at unity this
     # puts the guitar ~2.5 dB above loudness-normalized music (YouTube, -14 LUFS),
-    # peaks ~-5 dBFS (experiments L6). +24 dB hard-clipped. EXP B sweeps it live.
+    # peaks ~-5 dBFS (experiments L6). +24 dB hard-clipped. EXP B no longer touches it: the
+    # pedal is a DAW gain stage after both instances (qtractor_rig.VOLUME, experiments D22).
     "outputLevel": 0.5 + 12 / 48,
     "gateEnabled": 1.0,
     "gateThreshold": -60.0,    # dB; -35 dB chopped note decays and quiet playing
@@ -1568,7 +1568,7 @@ def cli_docs(args):
             "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |",
             "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
             "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",
-            "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | output level |", "",
+            "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | volume (DAW stage before the limiter, not a preset param) |", "",
             "## Maiden scene bank (FCB bank 00, DAW rig)", "",
             "The Maiden bank has five scene switches. Each switch sends absolute values, so it",
             "switches instantly and always lands in the same state:", "",

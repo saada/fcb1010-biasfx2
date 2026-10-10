@@ -7,7 +7,7 @@ engine, faster than real time, with no audio device, no Qtractor and no live con
 
 Usage:
   uv run rigsim.py [SELECTOR ...] [--exact] [--before auto|undo|REV|worktree|last|none]
-                   [--sheet tone.csv] [--jobs N] [--csv F] [--wav DIR] [--di DI.wav]
+                   [--sheet tone.csv] [--jobs N] [--csv F] [--wav DIR] [--di DI.wav] [--volume]
 
   SELECTOR: what `tone3000.py tune` takes ("*", "@tag", a preset's stem, name or PC; through
             tone3000.affected, which adds a heavy preset's generated harmony), or "all", a
@@ -18,6 +18,8 @@ Usage:
             `tone3000.py tune` if there is one to undo, else HEAD; "undo"; a git REV; "worktree"
             (rigs/ as on disk, for --sheet what-ifs); "last" (this preset's previous run); "none".
   --sheet   render with another tone.csv (a what-if; nothing in rigs/ is written).
+  --volume  also the pre-limiter peak, and how hard the EXP B Volume stage at 0 / +3 / +6 dB
+            drives the limiter (experiments D22).
 
 Each preset is built in memory exactly as `tone3000.py build` builds it and loaded into the
 native TONE3000 VST3 (Spotify's pedalboard as the host) through the plugin state blob
@@ -61,7 +63,7 @@ REPO = Path(os.environ.get("FCB_REPO", Path(__file__).resolve().parent))
 sys.path.insert(0, str(REPO))
 import tone3000 as t3k  # noqa: E402  (reads rigs/, the model cache and the saved state; writes nothing)
 
-SIM_VERSION = 3  # bump when rendering or measuring changes, to invalidate cached results
+SIM_VERSION = 4  # bump when rendering or measuring changes, to invalidate cached results
 REAL_HOME = os.environ["HOME"]
 VST3 = Path.home() / ".vst3/TONE3000.vst3"
 CACHE = Path(os.environ.get("RIGSIM_CACHE", t3k.CACHE / "sim"))
@@ -232,12 +234,12 @@ def vst3_state(t3kb, template):
 
 # --- rig bus and measures ------------------------------------------------------------------
 
-def limiter(y):
-    """Lookahead brickwall at LIMIT_DB, linked stereo, exponential release."""
+def limiter_gain(y):
+    """The gain (per sample, <= 1) of a lookahead brickwall at LIMIT_DB, linked stereo, exponential release."""
     thr = 10 ** (LIMIT_DB / 20)
     pk = np.abs(y).max(1)
     if pk.max() <= thr:
-        return y
+        return np.ones(len(y))
     la = int(LIMIT_LOOKAHEAD_S * RATE)
     need = np.minimum(1.0, thr / np.maximum(pk, 1e-12))
     g = np.lib.stride_tricks.sliding_window_view(np.concatenate([need, np.ones(la)]), la + 1).min(1)
@@ -245,7 +247,26 @@ def limiter(y):
     for i, gi in enumerate(g.tolist()):
         cur = gi if gi < cur else gi + (cur - gi) * a
         out[i] = cur
-    return y * out[:, None]
+    return out
+
+
+def limiter(y):
+    return y * limiter_gain(y)[:, None]
+
+
+# The Rig bus's Volume stage (EXP B) sits before the limiter: how hard would each DAW level push
+# it? (experiments D22: 0 = the old fixed level, +3 = the new nominal, +6 = full toe.)
+VOLUME_CHECK_DB = (0.0, 3.0, 6.0)
+
+
+def volume_headroom(y):
+    """{dB: (% of time the limiter reduces gain by > 0.5 dB, max reduction dB)} with the Volume
+    stage at each VOLUME_CHECK_DB, on a pre-limiter render."""
+    out = {}
+    for db in VOLUME_CHECK_DB:
+        gr = -20 * np.log10(limiter_gain(y * 10 ** (db / 20)))
+        out[f"{db:+.0f}"] = (round(float((gr > 0.5).mean() * 100), 2), round(max(0.0, float(gr.max())), 2))
+    return out
 
 
 # BS.1770 K-weighting at 48 kHz (pre-filter shelf, then the RLB high-pass), applied through
@@ -350,8 +371,10 @@ def render(job):
     y = plugin.process(x, RATE, buffer_size=BLOCK, reset=False).T.astype(np.float64)
     t_render = time.monotonic() - t2
     del plugin
+    pre = dict(pre_peak_dbfs=round(20 * math.log10(float(np.abs(y[a:b]).max()) + 1e-20), 2),
+               volume=volume_headroom(y[a:b]))
     y = limiter(y)
-    res = dict(**measure(y[a:b]), loaded=loaded, load_errors=failed[:3], t_build=round(t_build, 2), t_load=round(t_load, 2),
+    res = dict(**measure(y[a:b]), **pre, loaded=loaded, load_errors=failed[:3], t_build=round(t_build, 2), t_load=round(t_load, 2),
                t_render=round(t_render, 2), t_total=round(time.monotonic() - t0, 2))
     if job.get("wav"):
         raw = y.astype("<f4").tobytes()
@@ -494,6 +517,21 @@ def table(rows):
     return "\n".join([fmt(head), "-" * (sum(w) + 2 * len(w))] + [fmt(x) if len(x) == len(head) else "  ".join(x) for x in lines])
 
 
+def volume_table(rows):
+    """Per preset: the pre-limiter peak, then for each Volume stage level the % of time the
+    limiter holds more than 0.5 dB and its deepest reduction."""
+    levels = [f"{db:+.0f}" for db in VOLUME_CHECK_DB]
+    lines = ["\nEXP B Volume stage vs the -1 dB limiter (pre-limiter peak; per level: % of time > 0.5 dB GR / max GR dB)",
+             f"{'PC':>3}  {'preset':<30} {'peak':>6}  " + "  ".join(f"{lv + ' dB':>14}" for lv in levels)]
+    for r in rows:
+        a = r["after"]
+        if "volume" not in a:
+            continue
+        cells = "  ".join(f"{a['volume'][lv][0]:6.2f}% / {a['volume'][lv][1]:4.1f}" for lv in levels)
+        lines.append(f"{r['pc']:>3}  {r['name'][:30]:<30} {a['pre_peak_dbfs']:6.1f}  {cells}")
+    return "\n".join(lines)
+
+
 # --- main ---------------------------------------------------------------------------------------
 
 def set_di(path):
@@ -550,6 +588,8 @@ def main(argv=None):
     ap.add_argument("--load-timeout", type=float, default=20.0)
     ap.add_argument("--sheet", help="render with this tone.csv instead of rigs/tone.csv (what-if; nothing is written)")
     ap.add_argument("--no-cache", action="store_true", help="re-render even when a result is cached")
+    ap.add_argument("--volume", action="store_true",
+                    help="also print the pre-limiter peak and how hard each EXP B level drives the limiter (D22)")
     args = ap.parse_args(argv)
     t0 = time.monotonic()
     di_name = set_di(args.di)
@@ -604,17 +644,24 @@ def main(argv=None):
     vs = {"none": "", "last": ", before = last run"}.get(args.before, f", before = {before_label}")
     print(f"DI: {di_name}, {what}; limiter {LIMIT_DB} dBFS; bands in dB of 40 Hz-10 kHz energy{vs}")
     print(table(rows))
-    rendered = [results[k] for k in todo]
+    if args.volume:
+        print(volume_table(rows))
+    rendered =[results[k] for k in todo]
     print(f"\n{len(rows)} presets, {len(todo)} rendered, {len(results) - len(todo)} from cache "
           f"in {time.monotonic() - t0:.2f} s wall ({t_prep:.2f} s setup)"
           + (f"; per render: max {max(r.get('t_total', 0) for r in rendered):.2f} s" if rendered else ""))
     if args.csv:
         keys = ["lufs", "peak_dbfs", "left_lufs", "right_lufs", "crest_db", "centroid_hz", *EDGES, "t_build", "t_load", "t_render", "t_total"]
+        levels = [f"{db:+.0f}" for db in VOLUME_CHECK_DB] if args.volume else []
+        extra = ["pre_peak_dbfs"] * bool(levels) + [f"{c}_{lv}dB" for lv in levels for c in ("limited_pct", "max_gr_db")]
         with open(args.csv, "w") as fh:
-            fh.write("pc,preset," + ",".join(keys) + "\n")
+            fh.write("pc,preset," + ",".join(keys + extra) + "\n")
             for row in rows:
-                if "error" not in row["after"]:
-                    fh.write(f"{row['pc']},{row['name']}," + ",".join(str(row["after"][k]) for k in keys) + "\n")
+                a = row["after"]
+                if "error" not in a:
+                    vals = [a[k] for k in keys] + ([a["pre_peak_dbfs"]] + [x for lv in levels for x in a["volume"][lv]]
+                                                   if levels else [])
+                    fh.write(f"{row['pc']},{row['name']}," + ",".join(map(str, vals)) + "\n")
     return rows
 
 

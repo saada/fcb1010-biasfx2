@@ -1,6 +1,7 @@
 """The universal flash and the FCB router: every address the pedal can send becomes exactly
 the messages rig.py's layout defines for that (bank, switch)."""
 
+import math
 import os
 import subprocess
 import threading
@@ -62,7 +63,8 @@ def test_song_switch_carries_its_chorus():
 def test_non_addresses_pass_through_and_stray_ch16_drops():
     t = router.Translator(LAYOUT)
     assert t.translate(("cc", 0, 27, 90)) == (None, [("cc", 0, 27, 90)])  # EXP A
-    assert t.translate(("cc", 0, 7, 10)) == (None, [("cc", 0, 7, 10)])  # EXP B
+    assert t.translate(("cc", 0, 7, 10)) == (None, [("cc", 0, 7, router.volume_cc(10))])  # EXP B: tapered
+    assert t.translate(("cc", 1, 7, 10)) == (None, [("cc", 1, 7, 10)])  # CC 7 on another channel isn't EXP B
     assert t.translate(("pc", 0, 3)) == (None, [("pc", 0, 3)])  # the old flash, before the one-time flash
     assert t.translate(("cc", 15, 50, 1)) == (None, [])
     assert t.translate(("pc", 15, 7)) == (None, [])  # x5-x9 are not switches
@@ -127,3 +129,64 @@ def test_router_on_test_ports_with_aseqsend():
         r.closed.wait(2)
         sink.close()
         src.close()
+
+
+# ---------------------------------------------------------------- EXP B volume (experiments D22)
+def test_volume_taper():
+    """Heel is silent, nominal travel gives the nominal level, toe the toe level, and the curve
+    never steps back down; the session starts at the nominal level."""
+    db = lambda raw: router.volume_db(router.volume_cc(raw))
+    assert router.volume_cc(0) == 0 and db(0) is None
+    assert abs(router.volume_db(router.VOLUME_NOMINAL_CC) - router.VOLUME_NOMINAL_DB) < 0.1
+    assert abs(db(round(router.VOLUME_NOMINAL_TRAVEL * 127)) - router.VOLUME_NOMINAL_DB) < 0.3
+    assert abs(db(127) - router.VOLUME_TOE_DB) < 0.1
+    ccs = [router.volume_cc(raw) for raw in range(128)]
+    assert ccs == sorted(ccs) and max(ccs) < 127  # monotonic, and the toe stays under the stage's +8 dB top
+    for raw in range(1, 128):  # the board reads the travel back from the CC it got
+        assert abs(router.volume_travel(router.volume_cc(raw)) - raw / 127) < 0.08
+
+
+def test_volume_is_a_daw_stage_no_preset_touches():
+    """CC 7 reaches no TONE3000 (its MIDI maps), only the Rig bus's Volume stage, which sits
+    before the limiter and starts at the nominal level."""
+    assert all(cc != 7 for _, cc in qr.t3k.MIDI_MAP + qr.HEAVY_MIDI_MAP + qr.TONE3000_MIDI_MAP)
+    assert "outputLevel" not in {t for t, _ in qr.t3k.MIDI_MAP}
+    labels = [spec[0] for spec in qr.BUS_CHAIN]
+    assert labels.index("Volume") == labels.index("Limiter") - 1
+    label, uri, active, params, ccs = qr.VOLUME
+    assert active and ccs == {7: (15, "hook")}
+    gain = params[15][1] * params[21][1]
+    assert abs(20 * math.log10(gain) - router.VOLUME_NOMINAL_DB) < 0.1
+    bound = [spec for spec in qr.HEAVY_CHAIN + qr.CLEAN_CHAIN + qr.HARMONY_CHAIN + qr.BUS_CHAIN
+             if spec[1] != "tone3000" and 7 in spec[4]]
+    assert bound == [qr.VOLUME]  # Qtractor allows one observer per CC
+
+
+def test_pc_burst_does_not_change_volume():
+    """No switch's burst (pedal or screen) carries CC 7, so a preset change or a GuitarMood
+    click leaves the volume where EXP B put it."""
+    t = router.Translator(LAYOUT)
+    for (bank, sw) in LAYOUT:
+        _, events = t.translate(router.address(bank, sw))
+        assert not any(e[0] == "cc" and e[2] == 7 for e in events), (bank, sw, events)
+    board = Board()
+    for bank in board.banks:
+        for sw in range(1, 11):
+            assert not any(e[0] == "cc" and e[2] == 7 for e in board.messages(bank, sw)), (bank, sw)
+    st = RigState(board)
+    st.feed(("cc", 0, 7, router.volume_cc(100)))
+    level = st.snapshot()["expB"]["readout"]
+    for e in board.messages(0, 1) + board.messages(1, 2):  # a scene burst, then a song's PC
+        st.feed(e)
+    assert st.snapshot()["expB"]["readout"] == level
+
+
+def test_board_shows_volume_db():
+    st = RigState(Board())
+    snap = st.snapshot()["expB"]
+    assert snap["value"] is None and snap["readout"] == f"{router.VOLUME_NOMINAL_DB:+.1f} dB"  # unmoved: nominal
+    st.feed(("cc", 0, 7, 0))
+    assert st.snapshot()["expB"]["readout"] == "mute" and st.snapshot()["expB"]["value"] == 0
+    st.feed(("cc", 0, 7, router.volume_cc(127)))
+    assert st.snapshot()["expB"]["readout"] == f"{router.VOLUME_TOE_DB:+.1f} dB"
+    assert st.snapshot()["expB"]["value"] > 0.95

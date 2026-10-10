@@ -13,16 +13,20 @@ never needs a flash.
 
   uv run fcb_router.py              run in the foreground (the helper unit and GuitarMood run it in-process)
   uv run fcb_router.py table        print every address and what it sends now
+  uv run fcb_router.py volume       print the EXP B volume taper (pedal % -> CC 7 -> dB)
   uv run fcb_router.py bench [N]    measure the added latency on test ports (no FCB, no Qtractor)
 
 Address scheme (channel 16, which nothing in the rig uses):
   bank b, SW1-5    Program Change b*10 + (sw - 1)        (0-99)
   bank b, SW6-10   CC 102-106 (SW6..SW10), value b       (0-9)
-Everything else passes straight through: EXP A/B (CC 27/7 on channel 1), and every message of
-the old per-layout flash, so the rig plays the same before and after the one-time flash.
+Everything else passes straight through: EXP A (CC 27 on channel 1), and every message of the
+old per-layout flash, so the rig plays the same before and after the one-time flash. EXP B
+(CC 7 on channel 1) is the rig's volume: its raw position is remapped through an audio taper
+(volume_cc) onto the DAW's volume stage (qtractor_rig.VOLUME, experiments D22).
 """
 
 import json
+import math
 import os
 import signal
 import subprocess
@@ -41,6 +45,62 @@ FCB_CLIENT = "USB Midi"  # the FCB1010's USB-MIDI interface
 DEST = ("Qtractor", "FCB")  # Qtractor's first MIDI input bus
 # Files the layout is generated from: any mtime change reloads it.
 WATCH = [REPO / "rig.py", REPO / "tone3000.py", REPO / "lib/fcb1010.py", REPO / "rigs"]
+
+
+# ---------------------------------------------------------------- EXP B volume (pure, no ALSA)
+# EXP B drives a gain stage on Qtractor's "Rig" bus, before the limiter (qtractor_rig.VOLUME), so
+# no Program Change resets it and the limiter still guards every rig. Levels are DAW gain in dB
+# over the presets' own level (TONE3000 outputLevel, fixed at +12 dB in every preset).
+VOLUME_CC = 7                 # EXP B, MIDI channel 1 (rig.VOLUME_CC)
+VOLUME_NOMINAL_DB = 3.0       # the rig's level until EXP B moves: 3 dB over the old fixed level, which the owner found too quiet
+VOLUME_NOMINAL_TRAVEL = 0.78  # pedal travel (0 = heel, 1 = toe) that gives VOLUME_NOMINAL_DB
+VOLUME_TOE_DB = 6.0           # full toe: a modest 3 dB lift over nominal (was +12 dB, slammed into the limiter)
+VOLUME_FLOOR_DB = -40.0       # the taper's bottom just off the heel (dB-linear up to nominal); full heel is silence
+# The stage: LSP Slap-back Delay, dry only. Its "Dry amount" (0-10, linear gain) is bound to CC 7,
+# which Qtractor maps linearly (logarithmic=0, D21); "Output gain" is a fixed trim, so CC 127 is
+# +8 dB and CC 1 about -34 dB, with 0.1-0.2 dB steps around nominal.
+VOLUME_STAGE_MAX = 10.0       # the bound port's range top ("Dry amount" spans 0-10)
+VOLUME_STAGE_TRIM = 0.25      # the stage's fixed "Output gain" (-12 dB)
+
+
+def volume_db(cc):
+    """CC 7 value -> the stage's gain in dB (None = silence), from Qtractor's linear mapping."""
+    gain = VOLUME_STAGE_TRIM * VOLUME_STAGE_MAX * cc / 127
+    return 20 * math.log10(gain) if gain > 0 else None
+
+
+def volume_cc_for_db(db):
+    """The CC 7 value whose gain is nearest `db` (never past the toe's)."""
+    cc = round(10 ** (db / 20) / (VOLUME_STAGE_TRIM * VOLUME_STAGE_MAX) * 127)
+    return max(0, min(127, cc))
+
+
+def volume_taper_db(travel):
+    """Pedal travel 0-1 -> target dB (None at full heel): dB-linear from the floor to nominal,
+    then to the toe, so equal pedal moves sound like equal steps (an audio taper)."""
+    if travel <= 0:
+        return None
+    if travel <= VOLUME_NOMINAL_TRAVEL:
+        return VOLUME_FLOOR_DB + (VOLUME_NOMINAL_DB - VOLUME_FLOOR_DB) * travel / VOLUME_NOMINAL_TRAVEL
+    return VOLUME_NOMINAL_DB + (VOLUME_TOE_DB - VOLUME_NOMINAL_DB) * (travel - VOLUME_NOMINAL_TRAVEL) / (1 - VOLUME_NOMINAL_TRAVEL)
+
+
+def volume_cc(raw):
+    """EXP B's raw 0-127 -> the CC 7 value the router sends to Qtractor."""
+    db = volume_taper_db(raw / 127)
+    return 0 if db is None else volume_cc_for_db(db)
+
+
+VOLUME_TABLE = [volume_cc(raw) for raw in range(128)]  # the hot path's lookup
+VOLUME_NOMINAL_CC = volume_cc_for_db(VOLUME_NOMINAL_DB)  # the stage's startup value (qtractor_rig)
+
+
+def volume_travel(cc):
+    """CC 7 as sent -> the pedal travel (0-1) that produced it: the board shows the pedal, not the CC."""
+    raws = [raw for raw, v in enumerate(VOLUME_TABLE) if v == cc]
+    if raws:
+        return sum(raws) / len(raws) / 127
+    return min(range(128), key=lambda raw: abs(VOLUME_TABLE[raw] - cc)) / 127
 
 
 # ---------------------------------------------------------------- addresses (pure, no ALSA)
@@ -99,9 +159,12 @@ class Translator:
         self.table = load_layout() if table is None else table
 
     def translate(self, ev):
-        """-> ((bank, sw) | None, events to send). Non-address messages pass through unchanged."""
+        """-> ((bank, sw) | None, events to send). Non-address messages pass through unchanged,
+        except EXP B, whose value goes through the volume taper."""
         addr = decode(ev)
         if addr is None:  # stray channel-16 messages are dropped, everything else passes
+            if ev[0] == "cc" and ev[1] == 0 and ev[2] == VOLUME_CC:
+                return None, [("cc", 0, VOLUME_CC, VOLUME_TABLE[ev[3]])]
             return None, [] if ev[1] == ADDRESS_CHANNEL else [ev]
         return addr, list(self.table.get(addr, ()))
 
@@ -350,11 +413,23 @@ def bench(n=1000):
     return base, routed
 
 
+def volume():
+    """The EXP B taper: pedal % -> CC 7 sent -> dB on the Rig bus."""
+    print(f"EXP B volume: floor {VOLUME_FLOOR_DB:+.0f} dB, nominal {VOLUME_NOMINAL_DB:+.0f} dB at "
+          f"{VOLUME_NOMINAL_TRAVEL:.0%}, toe {VOLUME_TOE_DB:+.0f} dB; startup CC {VOLUME_NOMINAL_CC}")
+    for pct in range(0, 101, 5):
+        cc = volume_cc(round(pct / 100 * 127))
+        db = volume_db(cc)
+        print(f"  {pct:3d} %  CC {cc:3d}  " + ("silent" if db is None else f"{db:+6.1f} dB"))
+
+
 def main():
     args = sys.argv[1:]
     cmd = args[0] if args else "run"
     if cmd == "table":
         return table()
+    if cmd == "volume":
+        return volume()
     if cmd == "bench":
         return bench(int(args[1]) if len(args) > 1 else 1000)
     if cmd != "run":
