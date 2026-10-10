@@ -11,7 +11,7 @@ turns each address into the messages `rig.py`'s layout defines, live. Edit the l
 |---|---|---|
 | bank b, SW1–5 | Program Change `b*10 + sw-1` (0–99) | `rig.py layout` for (b, sw): what `build()` puts on the switch, then the song's chorus CCs 89–91 after a ch-1 PC |
 | bank b, SW6–10 | CC 102–106 (SW6..SW10), value `b` | the same, e.g. CC 20 = 127 (wah) |
-| EXP A / EXP B | CC 27 / CC 7 on ch 1 | passed straight through |
+| EXP A / EXP B | CC 27 / CC 7 on ch 1 | EXP A passed straight through; EXP B through the volume taper (`volume_cc`, D22) |
 
 SW6–10 are encoded like the old toggle presets (CC 1 only, no PC), so the LEDs behave as
 before. UP/DOWN still send nothing, but every press now carries its bank, so GuitarMood's bank

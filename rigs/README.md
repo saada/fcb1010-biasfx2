@@ -63,8 +63,9 @@ models (`a2` in `models` output). IR blocks use `a-` models.
 Right chain (only with `split_after`): R1 `amp`, R2 `cab`, R3 `echo` (same CC as
 slot 5), R4 `echo2` (same CC as slot 6) or `ambience`, then `ambience`. Everything before the split (slots 1..N) feeds both.
 Other globals: SW6 (CC 20) noise gate, SW7 (CC 21) `spreadEnabled`, EXP A
-(CC 27) treble, EXP B (CC 7) output level. (In the DAW rig Qtractor takes CC 20/21/27 for the
-wah and octaver, and the 80s banks' SW7 sends CC 31 to the DAW chorus.)
+(CC 27) treble. (In the DAW rig Qtractor takes CC 20/21/27 for the wah and octaver, and the
+80s banks' SW7 sends CC 31 to the DAW chorus.) EXP B (CC 7) is not a TONE3000 param: it is the
+DAW's Volume stage before the limiter, so presets never reset it (experiments D22).
 
 ### The DAW chorus (`chorus`)
 
@@ -170,6 +171,8 @@ a tight high-gain preset can set e.g. release 15 / hold 10. Pitch (≥ 0.0.11, o
 (1000–20000 Hz, 20000 = off), `pitchWindow` (0–3 = 20/30/40/60 ms; adds 11/16/21/31 ms latency
 while on). Unknown ids are an error. The full baseline is `BASE_PARAMS` in tone3000.py.
 Output level (+12 dB) and gate (on at −60 dB) are global (`GLOBAL_PARAMS`) and win over `params`; tone.csv's gate and tone-stack columns win over both.
+`outputLevel` is a fixed per-preset level, not the volume pedal: EXP B drives the DAW's Volume
+stage on top of it (0 dB at full toe and until the pedal moves, heel silent; `fcb_router.py`, D22).
 
 IRs that aren't 48 kHz, or whose data chunk has an odd byte length, load as *silence*
 in TONE3000; the builder re-encodes them

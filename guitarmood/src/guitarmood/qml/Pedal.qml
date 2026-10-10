@@ -48,11 +48,19 @@ Rectangle {
             Behavior on height { NumberAnimation { duration: 60 } }
         }
     }
-    Text {
+    Text {  // a pedal with a readout (EXP B: the volume stage's dB) shows it under the travel %
         id: pct
-        anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter; bottomMargin: 12 * pedal.u }
+        anchors { bottom: readout.top; horizontalCenter: parent.horizontalCenter; bottomMargin: 2 * pedal.u }
         text: pedal.moved ? Math.round(pedal.level * 100) + "%" : "—"
         color: pedal.c.bright_foreground
         font { family: rig.font; pixelSize: 20 * pedal.u; bold: true }
+    }
+    Text {
+        id: readout
+        anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter; bottomMargin: 12 * pedal.u }
+        height: pedal.p.readout ? implicitHeight : 0
+        text: pedal.p.readout || ""
+        color: pedal.p.live ? pedal.hue : pedal.c.foreground
+        font { family: rig.font; pixelSize: 15 * pedal.u; bold: true }
     }
 }

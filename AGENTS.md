@@ -28,6 +28,8 @@ TONE3000 maps CCs to block positions, so slot order is fixed (rigs/README.md). A
 Change re-applies the preset's params after any CCs in the same burst (experiments D8): a
 switch that sends a PC sends only CC values equal to the preset's own, and a switch that
 changes a param sends CCs alone. `rig.py syx` and `send` assert this through `verify()`.
+So a control that must survive a preset change, like EXP B's volume, lives in the DAW, not in
+TONE3000's MIDI map (experiments D22).
 
 ## Shared hardware
 The rig is the owner's instrument, and they may be playing it right now.

@@ -19,7 +19,7 @@ MIDI tracks/buses, and only the CLAP build of TONE3000 gets raw Program Change:
   Scarlett In 2 ─► Heavy: [Guitar] ─► [Selector] ─► Wah ─► TONE3000 ─► Octaver ─► Chorus ─► Solo ┐
                                           │ send (CC 81 > 63)                                  ├► bus Rig:
                    Clean: [Clean In] ◄────┘ ─► TONE3000 ────────────────────────────────────────┘  Compressor
-                                                                              ─► Limiter ─► Scarlett out
+                                                                 ─► Volume (EXP B) ─► Limiter ─► Scarlett out
   Heavy's [Harmony Tap] sends the clean DI ─► Harmony: [Harmony In] (SW7) ─► 3 x42 autotune
       stages (a diatonic third in the song's key) ─► TONE3000 (partner's amp) ─► bus Rig
   FCB1010 ─► fcb_router.py ─► MIDI bus "FCB" ─► Heavy gets MIDI ch 1, Clean ch 2, Harmony ch 3.
@@ -32,7 +32,8 @@ Scene banks (tone3000.SCENES) switch instantly with absolute CCs, never a Progra
     heavy chain. Active, it sends the guitar to the clean TONE3000 and mutes the heavy one.
   - CC 80 is read by the heavy TONE3000 as inputLevel (value/127). Qtractor switches the
     Solo block (+2 dB and a 380 ms lead echo) on above 63.
-Qtractor also binds SW6/SW7/EXP A to the wah and octaver (SW7 = the chorus in the 80s banks).
+Qtractor also binds SW6/SW7/EXP A to the wah and octaver (SW7 = the chorus in the 80s banks),
+and EXP B (CC 7, tapered by the router) to the Rig bus's Volume stage.
 
 Tracks for recording: "Rig Print" (the processed stereo rig, fed back from bus
 "Rig"), "DI" (dry guitar, muted, for re-amping) and "Backing" (drop a song here).
@@ -69,8 +70,8 @@ ROUTER = (fcb_router.CLIENT, fcb_router.OUT_PORT)  # what the FCB bus listens to
 TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 
 # FCB1010 row (rig.py): SW6 wah, SW7 octaver, SW8 boost, SW9 drive, SW10 echo,
-# EXP A wah sweep, EXP B volume. The DAW takes back SW6/SW7/EXP A for real pedals;
-# TONE3000 keeps the block toggles and output level.
+# EXP A wah sweep, EXP B volume. The DAW takes back SW6/SW7/EXP A for real pedals, and EXP B
+# for the Rig bus's Volume stage; TONE3000 keeps the block toggles.
 CC_WAH, CC_OCTAVER, CC_WAH_SWEEP = 20, 21, 27
 CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the octaver
 CC_CHORUS = 31   # SW7 in the 80s banks (rig.CHORUS_CC): the stereo chorus instead of the octaver
@@ -134,6 +135,16 @@ SOLO = ("Solo", "http://lsp-plug.in/plugins/lv2/slap_delay_stereo", False,
 COMPRESSOR = ("Compressor", "http://lsp-plug.in/plugins/lv2/compressor_stereo", False,
               {29: ("Attack threshold", db(-18)), 30: ("Attack time", 10.0), 32: ("Release time", 120.0),
                34: ("Ratio", 3.0), 38: ("Makeup gain", db(3))}, {})
+# VOLUME = EXP B (CC 7): one gain stage for all three rigs, before the limiter, so it guards the
+# toe and no Program Change resets the level (a preset param would: experiments D8, D22). LSP
+# Slap-back Delay, dry only: "Dry amount" (0-10, linear) follows CC 7, which the router sends
+# through an audio taper (fcb_router.volume_cc), and a fixed "Output gain" trim makes CC 127
+# exactly 0 dB (full toe = the presets' YouTube-matched level). It starts at 0 dB.
+VOLUME = ("Volume", "http://lsp-plug.in/plugins/lv2/slap_delay_stereo", True,
+          {15: ("Dry amount", round(fcb_router.VOLUME_STAGE_MAX * fcb_router.VOLUME_NOMINAL_CC / 127, 6)),
+           16: ("Dry mute", 0), 17: ("Wet amount", 0.0), 18: ("Wet mute", 1),
+           19: ("Dry/Wet balance", 100.0), 20: ("Mono output", 0), 21: ("Output gain", fcb_router.VOLUME_STAGE_TRIM)},
+          {fcb_router.VOLUME_CC: (15, "hook")})
 LIMITER = ("Limiter", "http://gareus.org/oss/lv2/dpl#stereo", True,
            {3: ("Input Gain", 0.0), 4: ("Threshold", -1.0), 5: ("Release Time", 0.01), 6: ("True Peak", 1.0)}, {})
 # TONE3000: (label, "tone3000", scene its startup preset comes from, MIDI map)
@@ -141,7 +152,7 @@ HEAVY_T3K = ("TONE3000 Heavy", "tone3000", "heavy", HEAVY_MIDI_MAP)
 CLEAN_T3K = ("TONE3000 Clean", "tone3000", "clean", TONE3000_MIDI_MAP)
 HEAVY_CHAIN = [WAH, HEAVY_T3K, OCTAVER, CHORUS, SOLO]
 CLEAN_CHAIN = [CLEAN_T3K]
-BUS_CHAIN = [COMPRESSOR, LIMITER]  # on bus "Rig": both instances share one set of dynamics
+BUS_CHAIN = [COMPRESSOR, VOLUME, LIMITER]  # on bus "Rig": every rig shares the volume and the dynamics
 
 # HARMONY = the second guitarist a diatonic third above, through his own amp. The heavy
 # chain taps the clean DI. Track "Harmony" (SW7 toggles its input) runs it through three x42
@@ -282,7 +293,7 @@ def tone3000_state(midi_map, scene):
         # would otherwise restore at the plugin default rather than the preset's value.
         params.children += [t3k.Node("PARAM").set("id", k).set("value", float(v)) for k, v in values.items()]
         state.set("activePresetId", f"user:{t3k.preset_id(rig['name'])}").set("activePresetName", rig["name"])
-    for q in state.child("PARAMETERS").children:  # EXP B may have left outputLevel anywhere
+    for q in state.child("PARAMETERS").children:  # the standalone may have saved any outputLevel
         if q.get("id") in t3k.GLOBAL_PARAMS:
             q.set("value", float(t3k.GLOBAL_PARAMS[q.get("id")]))
     return t3k.dump_t3kb(state)
@@ -670,6 +681,8 @@ def show_map():
     for target, cc in TONE3000_MIDI_MAP:
         print(f"  {'':8} CC {cc:<5} TONE3000 {target}")
     print(f"  EXP A    CC {CC_WAH_SWEEP}     wah sweep (Qtractor)")
+    print(f"  EXP B    CC {fcb_router.VOLUME_CC}      volume (Qtractor, Rig bus, before the limiter; "
+          "0 dB at the toe and until moved, heel silent)")
     print("\nScene banks (03-09), CC 80 drive / CC 81 selector:")
     for name, (drive, select, clean) in t3k.SCENES.items():
         print(f"  {name:<9} CC80={drive:<3} CC81={select:<3} clean instance: {clean} preset")

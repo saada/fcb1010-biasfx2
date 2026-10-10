@@ -537,7 +537,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | SW9 | 23 | slot 2: drive |
 | SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |
 | EXP A | 27 | wah sweep (DAW) / treble (standalone) |
-| EXP B | 7 | output level |
+| EXP B | 7 | volume (DAW stage before the limiter, not a preset param) |
 
 ## Maiden scene bank (FCB bank 00, DAW rig)
 

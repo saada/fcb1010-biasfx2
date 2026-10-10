@@ -687,3 +687,65 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   within a second. A separate probe process timed 300 round trips through the live router,
   probe → router → probe (bank 0 SW2, two CCs): first message median 0.28 ms, p99 0.60 ms,
   max 0.64 ms; whole burst max 0.67 ms. That is two sequencer hops plus the probe, under audio load.
+
+## D22 — EXP B: from a preset param to a DAW volume stage with a taper
+
+- **Question:** the owner reported three things: toe is "super loud", a sound change resets the
+  volume, and the default is too quiet next to what the pedal can reach. Why, and what fixes all three?
+- **Hypothesis:** EXP B sent CC 7 straight into TONE3000's `outputLevel` (±24 dB span), so
+  toe = +24 dB, 12 dB over the presets' own +12 dB and deep into the limiter. Every Program
+  Change re-applies the preset's params (D8), outputLevel included, which resets the pedal. A
+  gain stage in the DAW that no preset owns, with a taper and a toe only a little above the
+  default, fixes all three.
+- **Method:** CC 7 leaves TONE3000's MIDI map. A new "Volume" stage sits on Qtractor's Rig bus
+  right before the x42 dpl limiter, so it covers heavy, clean and harmony and the limiter still
+  guards it. dpl's own Input Gain only reaches −10 dB, so the stage is an LSP Slap-back Delay,
+  dry only (proven here as the Solo block): "Dry amount" (0–10, linear) bound to CC 7 (hook,
+  `logarithmic=0`, which D21 measured as linear), and a fixed "Output gain" of 0.25, so CC 127 =
+  +8 dB, CC 1 ≈ −34 dB and CC 0 = silence. The router maps EXP B's raw 0–127 onto the CC that
+  gives a dB-linear (audio) taper: −40 dB just off the heel, `VOLUME_NOMINAL_DB` = +3 dB at 78 %
+  of the travel, `VOLUME_TOE_DB` = +6 dB at the toe (constants at the top of `fcb_router.py`;
+  `uv run fcb_router.py volume` prints the curve). The session starts the stage at CC 72
+  (+3.0 dB). Headroom: `uv run rigsim.py all --exact --before none --volume`, which now also keeps
+  the pre-limiter render and runs the limiter at 0, +3 and +6 dB of stage gain.
+  Raw data: volume-taper.csv, volume-headroom.csv.
+- **Result, the curve (dB over the presets' own level):**
+
+  | pedal | 0 % | 10 % | 20 % | 30 % | 40 % | 50 % | 60 % | 70 % | 75 % | 80 % | 90 % | 100 % |
+  |---|---|---|---|---|---|---|---|---|---|---|---|---|
+  | CC 7 | 0 | 1 | 2 | 3 | 6 | 12 | 23 | 43 | 59 | 74 | 86 | 101 |
+  | dB | silent | −34.1 | −28.1 | −24.6 | −18.6 | −12.5 | −6.9 | −1.4 | +1.3 | +3.3 | +4.6 | +6.0 |
+
+  Steps are 0.1–0.2 dB around nominal; the bottom fifth of the travel only has CC 1–2 to work
+  with (≈ −34 / −28 dB), which a linear 0–10 port can't refine.
+- **Result, headroom (sim, 24 presets, % of time the limiter holds > 0.5 dB / its deepest dB):**
+  - Pre-limiter peaks at 0 dB: heavy presets −3.7 to −8.4 dBFS (Satan Full Rig −0.3); the cleans
+    and 80s/Variety presets −2.6 to +4.1 dBFS; Def Leppard Hysteria +11.0 (it is −6.6 LUFS, 8 dB
+    over the target).
+  - At +3 (nominal): 15 presets limit < 1 % of the time (Maiden Heavy, Acoustic and Harmony, both Van Halens,
+    Pyromania, Nirvana, Djent, the four Satans, Stormblade, Is This Love, Hysteria Clean);
+    4 limit 3–6 % (Maiden Clean 5.0, Every Breath 6.4, Rule the World 3.8, Charming Man 3.0);
+    4 limit 10–38 % (U2 Streets 38.4, Radiohead 35.0, Comfortably Numb 10.8, Purple Rain 10.3);
+    Hysteria 98 %.
+  - At +6 (toe): heavy presets 0–6 % (Nirvana 5.8), cleans 9–28 %, U2 Streets 85 %, Radiohead 63 %,
+    Comfortably Numb 66 %. Old toe (+12 dB over default) was 6 dB beyond this.
+- **Conclusion:** the pedal no longer resets on a preset change (CC 7 reaches only the DAW, and no
+  switch burst carries CC 7: router tests), toe is +6 dB instead of +24, and the default is 3 dB
+  louder. +3 is the right nominal for the heavy banks. The presets that over-limit at +3 already
+  limit at 0 dB: their trims are too hot for their crest factor (17–19 dB), so the fix is per
+  preset in tone.csv (Hysteria about −10 dB, U2 Streets and Radiohead −4 to −5, Comfortably Numb
+  and Purple Rain −2 to −3), not a lower global nominal: even at 0 dB, Radiohead limits 10 % and
+  Hysteria 98 %.
+- **Not measured:** live. The owner's rig was running, so the stage hasn't been heard or
+  metered in Qtractor; the sim's limiter is a sample-peak stand-in for dpl's true peak. The
+  LSP stage's response to a fast sweep (zipper) is unmeasured. The FCB's EXP B may not reach
+  raw 0 or 127; if heel isn't silent or toe isn't +6 dB, recalibrate it (README).
+
+- **Revised the same day.** The owner asked "how do i quickly reset the pedal to 0db? and why is
+  max at +6db?", then "whatever we should set for youtube play along". Full toe is now exactly
+  0 dB (the stage's CC 127 = unity) and the rig starts there; heel is silent; the curve is
+  dB-linear from -40 dB just off the heel to 0 dB at the toe. Like a real volume pedal it only
+  turns down, so rocking it fully forward resets it. 0 dB is the presets' own level, which every
+  preset is levelled to offline (rigsim --exact): -14 LUFS heavies, -15 cleans, matching YouTube's
+  -14 LUFS normalization, so a YouTube backing track and the rig play balanced and the monitor
+  knob sets both. The +3 dB baseline and the +6 dB toe are gone.

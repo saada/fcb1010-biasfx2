@@ -30,6 +30,12 @@ def parse(line):
     return ("cc", int(m.group(2)), int(m.group(4)), int(m.group(5)))
 
 
+def volume_readout(cc):
+    """EXP B's readout: the Volume stage's gain for this CC 7 value, e.g. "+3.0 dB"."""
+    db = qr.fcb_router.volume_db(cc)
+    return "mute" if db is None else f"{db:+.1f} dB"
+
+
 SCENE_BY_DRIVE = {drive: name for name, (drive, select, kind) in t3k.SCENES.items() if not select and name != "rhythm"}
 
 
@@ -49,6 +55,7 @@ class RigState:
         self.t3k_known = True
         self.tuning = False
         self.exp = {qr.CC_WAH_SWEEP: None, fcb.VOLUME_CC: None}  # EXP A, EXP B: unknown until moved
+        self.volume_cc = qr.fcb_router.VOLUME_NOMINAL_CC  # the Rig bus's Volume stage, as the session starts
         self.last = "Session start: " + start.title
         self.last_sw = None
         self.synced = True
@@ -80,6 +87,10 @@ class RigState:
             return None
         cc, value = rest
         if ch != 0:
+            return None
+        if cc == fcb.VOLUME_CC:  # the router's tapered CC: show the pedal's travel and the stage's dB
+            self.volume_cc = value
+            self.exp[cc] = qr.fcb_router.volume_travel(value)
             return None
         if cc in self.exp:
             self.exp[cc] = value / 127
@@ -218,7 +229,8 @@ class RigState:
             "switches": switches,
             "expA": {"cc": qr.CC_WAH_SWEEP, "label": "Wah sweep", "value": self.exp[qr.CC_WAH_SWEEP],
                      "live": self.daw["wah"]},
-            "expB": {"cc": fcb.VOLUME_CC, "label": "Volume", "value": self.exp[fcb.VOLUME_CC], "live": True},
+            "expB": {"cc": fcb.VOLUME_CC, "label": "Volume", "value": self.exp[fcb.VOLUME_CC], "live": True,
+                     "readout": volume_readout(self.volume_cc)},
             "tuning": self.tuning,
             "last": self.last + (" · on screen" if self.via == "screen" else ""),
             "via": self.via,
