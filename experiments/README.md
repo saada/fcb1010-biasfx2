@@ -456,3 +456,42 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   (dynamics bypassed) the owner said the rig "sounds way better".
 - **Change:** the compressor is bypassed by default; the −1 dBTP limiter stays. Not yet measured:
   a palm-mute level/transient A/B with the compressor on vs off on the rig.
+
+## D17 — Bank 3 (Modern) levels, and does TONE3000 play A1 `.nam` files?
+
+- **Question:** where do the five new Randall Satan presets (PC 13–17) sit against the −14 LUFS
+  target, and can a local A1 `.nam` (the format of Ola Englund's 2023 free models) replace a
+  catalog A2 model?
+- **Hypothesis:** the full-rig capture runs hot like Djent's (−9.8 dB trim). TONE3000 is built on
+  NAM A2, so A1 might not load.
+- **Method:** bench, owner not playing. The DI loop (`pw-play`, persistent node) went into
+  `Qtractor:Guitar/in_*` and each PC went into the FCB port with `aseqsend` (CC 80 = 63,
+  CC 81 = 0 first). After 3 s to load, 5.2 s of `Qtractor:Rig/out_*` was recorded on a persistent
+  `pw-record` node. Speakers and the live guitar input were unlinked during the run and relinked
+  after. Measured with BS.1770 integrated loudness and sample peak (ffmpeg ebur128), per side
+  too. Compressor bypassed (default since D16), limiter on. The A1 test was a temporary PC 18:
+  PC 14 with its amp replaced by `"file"` = Jacovino's A1 Satan 50 Modern (model 81534).
+- **Result** (`bank3-levels.csv`, four passes):
+
+| PC | Preset | untrimmed | `out_db` | final LUFS | peak dBFS |
+|---|---|---|---|---|---|
+| 13 | Satan Full Rig | −6.0 | −12.5 | −14.1 | −3.3 |
+| 14 | Satan 50 Modern | −15.0 | +1.0 | −14.1 | −4.4 |
+| 15 | Satan 50 Low Tuned | −13.8 | −0.2 | −14.0 | −8.1 |
+| 16 | Satan 50 Lead | −14.0 | 0 | −14.1 | −1.0 (limiter) |
+| 17 | Satan Wall (L/R) | −13.4 (−15.3 / −17.9) | −1.7 / +0.9 | −13.5 (−16.3 / −16.7) | −1.0 (limiter) |
+
+  - The full rig's trim isn't linear: −8 dB of `out_db` bought only 3.8 dB, because the limiter
+    was holding its untrimmed −1 dBFS peaks. The second step was linear.
+  - **A1:** TONE3000 0.0.12 loaded the A1 file (log: `Preparing NAM model … (407762 bytes)`,
+    `NAM model reports -1 Hz; the chain runs at 48000 Hz regardless`, `Loaded preset: A1 Test`)
+    and played it: −20.7 LUFS untrimmed, 5.7 dB under its A2 twin. Peak-to-loudness was 8.0 dB
+    against the A2's 9.6 dB, so it was distorting rather than passing the DI through.
+  - All five presets logged `Loaded preset:` with their own names and produced sound. Qtractor
+    ran with B/Q 0.44 and 0 ERR in a closing `pw-top` sample.
+- **Conclusion:** bank 3 sits at −14 ± 0.5 LUFS. A1 `.nam` files play, so a block's local
+  `file` can take Ola's own free models once they're downloaded. Re-level with `out_db` after a
+  swap, because an A1 file may carry no loudness metadata.
+- **Not measured:** a live riff from the owner (L7: the DI bench can read differently), the CC 23
+  and CC 26 toggles on these presets, and xruns over a long run. "Sounds best" among the
+  @nillmtd models was not judged by ear: SW1 uses the author's "My EQ" model.

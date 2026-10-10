@@ -1,7 +1,7 @@
 # rigs/ — one TONE3000 preset per file
 
 `tone3000.py build` turns every `NN-slug.json` here into a TONE3000 preset and
-loads them into PC order (`pc` 0–12; bank 0 = Maiden scene presets, banks 1–2 = song
+loads them into PC order (`pc` 0–17; bank 0 = Maiden scene presets, banks 1–3 = song
 switches). `rigs/archive/` keeps retired presets (the seven Maiden era banks and the song
 presets no longer on the board) for their research; the builder only reads `rigs/*.json`. Captures and
 IRs come from the public [TONE3000](https://www.tone3000.com) catalog by id.
@@ -15,8 +15,8 @@ python3 tone3000.py check [rigs/NN-x.json ...] # validate + resolve + build in m
 ```
 
 `--gear=amp-cab` is a full rig (amp + cab); `amp` is a DI/preamp capture that
-needs a `cab` IR; `cab` = speaker IRs; `space` = reverb IRs. NAM blocks must
-use A2 models (`a2` in `models` output). IR blocks use `a-` models.
+needs a `cab` IR; `cab` = speaker IRs; `space` = reverb IRs. Catalog NAM blocks use A2
+models (`a2` in `models` output). IR blocks use `a-` models.
 
 ## File format
 
@@ -56,14 +56,33 @@ Other globals: SW6 (CC 20) noise gate, SW7 (CC 21) `spreadEnabled`, EXP A
 
 | type | fields |
 |---|---|
-| `nam` | `tone_id`, `model_id` (A2), `enabled`, optional `mix`, `eq`, `eq_pre`, `label`, `in_db` (drive the capture harder/softer, ±24), `out_db` |
-| `ir` | `tone_id`, `model_id`, `enabled`, optional `mix` (wet/dry), `trim_seconds` (long reverbs: trims to mono N s), `eq`, `label` |
+| `nam` | `tone_id`, `model_id` (A2), `enabled`, optional `mix`, `eq`, `eq_pre`, `label`, `in_db` (drive the capture harder/softer, ±24), `out_db`, `file` (see Local files) |
+| `ir` | `tone_id`, `model_id`, `enabled`, optional `mix` (wet/dry), `trim_seconds` (long reverbs: trims to mono N s), `eq`, `label`, `file` |
 | `echo` | generated analog (BBD) delay IR: `delay_ms`, `feedback` (0–0.8), `cutoff_hz` (repeat darkening), `mix`, `enabled`, `label`; optional `reverb` = `{tone_id, model_id, trim_seconds, level_db}` (a catalog reverb IR summed into the same block, so SW10 toggles delay *and* reverb). `delay_ms` 0 = reverb only |
 | `insert` | empty slot |
 
 `eq` = 6 gains in dB for bands [lowshelf 100 Hz, bell 250, bell 650, bell 1600,
 bell 3500, highshelf 8 kHz]; `eq_pre: true` applies it before the model (e.g.
 humbucker → single-coil voicing `[-3, -2.5, 0, 1.5, 3, 2]`).
+
+### Local files (packs outside the catalog)
+
+A `nam` or `ir` block may add `"file"`, the path of a `.nam` model or IR `.wav` on this
+machine. At build time the file replaces the block's catalog `tone_id`/`model_id` (keep
+those as the fallback and the credit) and is embedded in the preset like a catalog model.
+A missing file fails `check` and `build` with its path; delete the field to fall back.
+
+```jsonc
+{"role": "amp", "type": "nam", "tone_id": 1627, "model_id": 425687,
+ "file": "~/Music/fcb-rig/packs/ola/randall-satan-50.nam", "label": "...", "out_db": 0.0}
+```
+
+Drop folder: `~/Music/fcb-rig/packs/<pack>/`, e.g. `packs/ola/` for Ola Englund's free
+Randall Satan 50 and Solar CHUG models (olaenglundshop.com). Pack files never go in git:
+the repo is public and those packs grant no redistribution. TONE3000 0.0.12 plays both NAM
+generations, A2 (`SlimmableContainer`) and A1 (plain `WaveNet`), so an older free `.nam`
+works. A1 files may lack loudness metadata, so re-level with `out_db` after a swap
+(experiments D17: the A1 Satan 50 played 5.7 dB under its A2 twin).
 
 ### Useful `params`
 

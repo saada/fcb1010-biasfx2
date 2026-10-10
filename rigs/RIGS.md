@@ -18,7 +18,12 @@ Every capture links to its TONE3000 page (free download).
 | 10 | [Nirvana](#nirvana) | Smells Like Teen Spirit / Breed / In Bloom — Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City |
 | 11 | [Djent](#djent) | Periphery (2010) / Periphery II: This Time It's Personal (2012) rhythm tones, with Meshuggah obZen (2008) tightness; quad-tracked rhythms hard-panned L/R |
 | 12 | [Purple Rain](#purple-rain) | Purple Rain (1984) — title track, recorded live at First Avenue 3 Aug 1983, overdubs/mix at Sunset Sound |
-| 13 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
+| 13 | [Satan Full Rig](#satan-full-rig) | Ola Englund's own Randall Satan + Fortin 33, as one full-rig capture: tight modern-metal rhythm |
+| 14 | [Satan 50 Modern](#satan-50-modern) | Satan 50 'Modern' + Fortin 33 at 3 o'clock: the same recipe from separate captures |
+| 15 | [Satan 50 Low Tuned](#satan-50-low-tuned) | Satan 50 'Low Tuned' + Solar CHUG: drop tunings and extended-range guitars |
+| 16 | [Satan 50 Lead](#satan-50-lead) | Satan 50 'Lead' + Solar CHUG lead setting: solos |
+| 17 | [Satan Wall](#satan-wall) | Full rig left, Satan 50 right: a double-tracked rhythm wall |
+| 18 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
 
@@ -304,9 +309,102 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://guitar.com/features/artist-rigs/the-guitars-used-by-prince-on-purple-rain/> · <https://www.guitarcloud.org/era/purple-rain/> · <https://mixdownmag.com.au/features/rig-rundown-princes-purple-rain/> · <https://tonesmatch.com/tones/purple-rain-prince-the-revolution-solo-distorted-4287> · <https://www.tonemirror.so/tones/prince-purple-rain> · <https://www.guitarplayer.com/gear/how-princes-purple-rain-mesaboogie-mark-iic-turned-up-in-a-minneapolis-music-store> · <https://www.guitarcloud.org/equipment/mesaboogie-mark-ii/>
 
+## Satan Full Rig
+
+**PC 13** — Ola Englund's own Randall Satan + Fortin 33, as one full-rig capture: tight modern-metal rhythm
+
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
+| L2 | drive | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'The Crushinator' (Paul Jacovino capture) | off |
+| L3 | amp | [Ola's Randall Satan Full Rig](https://www.tone3000.com/tones/44730) — Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, author's 'My EQ' model (full rig, capture by @nillmtd) | on |
+| L5 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
+
+*Notes:* The main sound: a full-rig capture (amp, Fortin 33 and cab IR baked in) that its author @nillmtd describes as Ola Englund's own Randall Satan; it is a community capture, not Ola's release. 'My EQ' is the author's voicing (FLAT 413603 and 'My EQ + volume' 382693 are the alternatives). The Fortin is already in the capture, so SW9's drive (Solar CHUG 'Crushinator') starts off as an extra tightener, and SW8's boost is the Fortin 33 at its mildest setting. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+
+## Satan 50 Modern
+
+**PC 14** — Satan 50 'Modern' + Fortin 33 at 3 o'clock: the same recipe from separate captures
+
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'Weedaly Waaahh' (Paul Jacovino capture) | off |
+| L2 | drive | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 3 o'clock (capture by @elihis) | on |
+| L3 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Modern' setting (Paul Jacovino, DI) | on |
+| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| L5 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
+
+*Notes:* The same recipe from separate parts: Paul Jacovino's Randall Satan 50 (his amp, not Ola's) on its 'Modern' setting, the Fortin 33 at 3 o'clock as in the @nillmtd full rig, and the same Res New Old Dude IR. SW8 adds the CHUG's lead setting as a boost. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+
+## Satan 50 Low Tuned
+
+**PC 15** — Satan 50 'Low Tuned' + Solar CHUG: drop tunings and extended-range guitars
+
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
+| L2 | drive | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'The Crushinator' (Paul Jacovino capture) | on |
+| L3 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Low Tuned' setting (Paul Jacovino, DI) | on |
+| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| L5 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
+
+*Notes:* For drop tunings and extended-range guitars: Jacovino's 'Low Tuned' Satan 50 setting, tightened by the Solar CHUG (Ola's Solar Guitars pedal; Jacovino's 'Crushinator' rhythm setting) instead of the Fortin. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+
+## Satan 50 Lead
+
+**PC 16** — Satan 50 'Lead' + Solar CHUG lead setting: solos
+
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
+| L2 | drive | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'Weedaly Waaahh' (Paul Jacovino capture) | on |
+| L3 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Lead' setting (Paul Jacovino, DI) | on |
+| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| L5 | echo | Lead delay, 450 ms — generated 450 ms BBD-style IR (mix 25%) | off |
+
+*Notes:* Solo sound: Jacovino's 'Lead' Satan 50 setting with the CHUG on his 'Weedaly Waaahh' lead setting. SW8 adds the mild Fortin and a 450 ms echo. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+
+## Satan Wall
+
+**PC 17** · dual-rig stereo — Full rig left, Satan 50 right: a double-tracked rhythm wall
+
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
+| L2 | drive | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'The Crushinator' (Paul Jacovino capture) | off |
+| L3 | amp | [Ola's Randall Satan Full Rig](https://www.tone3000.com/tones/44730) — Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, FLAT model (full rig, capture by @nillmtd) | on |
+| L5 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
+| R1 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Modern' setting (Paul Jacovino, DI) | on |
+| R2 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| R3 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Double-tracked wall: left is the @nillmtd full rig (FLAT model), right is Jacovino's Satan 50 'Modern' through the Res New Old Dude IR, hard-panned with Align on and no wobble (as in Djent). The split is after slot 2, so SW8 and SW9 feed both sides; the right side has no Fortin of its own, so SW9's CHUG tightens it. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+
 ## Maiden Harmony
 
-**PC 13** — Twin-lead harmony voice for Maiden Heavy
+**PC 18** — Twin-lead harmony voice for Maiden Heavy
 
 *Original rig:* the partner guitarist's amp + cab from Maiden Heavy
 
@@ -349,4 +447,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 13 | The Evil That Men Do | E natural minor | 375 ms |
+| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 18 | The Evil That Men Do | E natural minor | 375 ms |

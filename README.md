@@ -33,23 +33,27 @@ BANK 2  VARIETY: one song preset per switch
           SW1 COMFORTABLY NUMB   SW2 RADIOHEAD   SW3 NIRVANA   SW4 DJENT   SW5 PURPLE RAIN
           SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
+BANK 3  MODERN: Randall Satan sounds (Ola Englund's rig), one preset per switch
+          SW1 SATAN FULL RIG   SW2 SATAN 50 MODERN   SW3 SATAN 50 LOW TUNED   SW4 SATAN 50 LEAD   SW5 SATAN WALL
+          SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
+
 EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)
 ```
 
 | Switch | Sends | Does |
 |---|---|---|
-| Maiden SW1 RHYTHM | PC 0 + PC 1 (ch 2) + PC 13 (ch 3), CC 80 = 63, CC 81 = 0 | loads the bank; twin-guitar rhythm (Murray JMP-1 left, Smith JCM2000 right); turns both delays off |
+| Maiden SW1 RHYTHM | PC 0 + PC 1 (ch 2) + PC 18 (ch 3), CC 80 = 63, CC 81 = 0 | loads the bank; twin-guitar rhythm (Murray JMP-1 left, Smith JCM2000 right); turns both delays off |
 | Maiden SW2 LEAD | CC 80 = 72 | amps pushed and +2 dB; no echo of its own (no PC, so it's instant) |
 | Maiden SW3 CLEAN | PCs + CC 81 = 127 | the reverby clean (its own 410 ms echo is always on) |
 | Maiden SW4 ACOUSTIC | PCs (acoustic on ch 2) + CC 81 = 127 | electric-to-acoustic (Journeyman) |
 | Maiden SW5 CRUNCH | CC 80 = 48 | volume-knob-down drive |
 | Maiden SW8 EVIL DELAY | CC 24 (toggle) | The Evil That Men Do: 375 ms, feedback 0.3, 25 % wet, bright, short plate tail |
 | Maiden SW9 MADNESS DELAY | CC 30 (toggle) | Can I Play with Madness: 415 ms, feedback 0.35, 25 % wet, darker, plate tail |
-| Song SW1–5 (banks 1–2) | PC 3–12, CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state |
+| Song SW1–5 (banks 1–3) | PC 3–17, CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state |
 | SW6 WAH | CC 20 (toggle) | Guitarix wah (DAW); EXP A sweeps it |
 | SW7 HARMONY / OCTAVER | CC 25 / CC 21 (toggle) | Maiden: twin-lead harmony a third up in E minor; song banks: octave down |
 | 80s SW8 BOOST / SW9 DELAY | CC 22 / CC 24 (toggle) | the preset's lead boost; the song's delay (on by default in U2 Streets) |
-| Variety SW8 LEAD / SW9 DRIVE | CC 26 / CC 23 (toggle) | boost + solo echo together; the song's drive pedal |
+| Variety/Modern SW8 LEAD / SW9 DRIVE | CC 26 / CC 23 (toggle) | boost + solo echo together; the song's drive pedal (Modern: the Fortin 33 or Solar CHUG) |
 | SW10 TUNER | CC 28 (toggle) | mutes the rig and opens the Fretwise tuner (Omarchy bar plugin) on the clean input; press again to play |
 
 The two Maiden delays are blocks in the heavy TONE3000 preset, so they work in RHYTHM, LEAD
@@ -120,7 +124,7 @@ Tests replay a real session from the FCB (`guitarmood/tests/fixtures/fcb-live.lo
 
 1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then open **GuitarMood** (SUPER+SPACE). It takes about 10 s and starts on the Maiden bank (bank 0).
 2. **Tune:** press SW10. The rig mutes and Fretwise opens in the bar on your guitar. Tune, then press SW10 again.
-3. **Pick a bank** with UP/DOWN. In the Maiden bank press **RHYTHM, CLEAN or ACOUSTIC** first: those load it. LEAD and CRUNCH only change drive, so they assume the bank is already loaded. In the 80s and Variety banks each of SW1–5 is a song.
+3. **Pick a bank** with UP/DOWN. In the Maiden bank press **RHYTHM, CLEAN or ACOUSTIC** first: those load it. LEAD and CRUNCH only change drive, so they assume the bank is already loaded. In the 80s, Variety and Modern banks each of SW1–5 is a song.
 4. Play along with the track in Spotify or YouTube.
 5. **Record** a take: `uv run qtractor_rig.py record` / `stop`. It saves the full rig and the dry DI in `~/Music/fcb-rig/`, so you can re-amp later.
 6. When you're done, close GuitarMood (SUPER+W): it saves and stops the rig.

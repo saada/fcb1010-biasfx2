@@ -1,7 +1,7 @@
 {
   "pc": 14,
   "name": "Satan 50 Modern",
-  "reference": "Ola Englund's Randall Satan rig: his signature Randall Satan head with a Fortin 33 in front, tight modern-metal rhythm",
+  "reference": "Satan 50 'Modern' + Fortin 33 at 3 o'clock: the same recipe from separate captures",
   "rig": "Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)",
   "sources": [
     "https://www.tone3000.com/tones/44730",
@@ -35,7 +35,8 @@
       "tone_id": 1627,
       "model_id": 425687,
       "enabled": true,
-      "label": "Randall Satan 50, 'Modern' setting (Paul Jacovino, DI)"
+      "label": "Randall Satan 50, 'Modern' setting (Paul Jacovino, DI)",
+      "out_db": 1.0
     },
     {
       "role": "cab",
@@ -55,5 +56,11 @@
       "enabled": false,
       "label": "Lead delay, 400 ms"
     }
-  ]
+  ],
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -14.1,
+    "measured_peak_dbfs": -4.4,
+    "method": "bench: dry DI loop into Qtractor:Guitar/in_*, PCs into the FCB port, 5.2 s of Qtractor:Rig/out per preset (compressor bypassed, limiter on); experiments D17"
+  }
 }

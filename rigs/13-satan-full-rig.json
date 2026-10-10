@@ -1,7 +1,7 @@
 {
   "pc": 13,
   "name": "Satan Full Rig",
-  "reference": "Ola Englund's Randall Satan rig: his signature Randall Satan head with a Fortin 33 in front, tight modern-metal rhythm",
+  "reference": "Ola Englund's own Randall Satan + Fortin 33, as one full-rig capture: tight modern-metal rhythm",
   "rig": "Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)",
   "sources": [
     "https://www.tone3000.com/tones/44730",
@@ -35,7 +35,8 @@
       "tone_id": 44730,
       "model_id": 382687,
       "enabled": true,
-      "label": "Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, author's 'My EQ' model (full rig, capture by @nillmtd)"
+      "label": "Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, author's 'My EQ' model (full rig, capture by @nillmtd)",
+      "out_db": -12.5
     },
     {
       "role": "cab",
@@ -51,5 +52,11 @@
       "enabled": false,
       "label": "Lead delay, 400 ms"
     }
-  ]
+  ],
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -14.1,
+    "measured_peak_dbfs": -3.3,
+    "method": "bench: dry DI loop into Qtractor:Guitar/in_*, PCs into the FCB port, 5.2 s of Qtractor:Rig/out per preset (compressor bypassed, limiter on); experiments D17"
+  }
 }

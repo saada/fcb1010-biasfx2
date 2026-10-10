@@ -1,7 +1,7 @@
 {
   "pc": 17,
   "name": "Satan Wall",
-  "reference": "Ola Englund's Randall Satan rig: his signature Randall Satan head with a Fortin 33 in front, tight modern-metal rhythm",
+  "reference": "Full rig left, Satan 50 right: a double-tracked rhythm wall",
   "rig": "Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)",
   "sources": [
     "https://www.tone3000.com/tones/44730",
@@ -35,7 +35,8 @@
       "tone_id": 44730,
       "model_id": 413603,
       "enabled": true,
-      "label": "Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, FLAT model (full rig, capture by @nillmtd)"
+      "label": "Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, FLAT model (full rig, capture by @nillmtd)",
+      "out_db": -1.7
     },
     {
       "role": "cab",
@@ -60,7 +61,8 @@
       "tone_id": 1627,
       "model_id": 425687,
       "enabled": true,
-      "label": "Randall Satan 50, 'Modern' setting (Paul Jacovino, DI)"
+      "label": "Randall Satan 50, 'Modern' setting (Paul Jacovino, DI)",
+      "out_db": 0.9
     },
     {
       "role": "cab",
@@ -88,5 +90,15 @@
     "alignEnabled": 1.0,
     "alignWobbleEnabled": 0.0,
     "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -13.5,
+    "measured_peak_dbfs": -1.0,
+    "measured_side_lufs": [
+      -16.3,
+      -16.7
+    ],
+    "method": "bench: dry DI loop into Qtractor:Guitar/in_*, PCs into the FCB port, 5.2 s of Qtractor:Rig/out per preset (compressor bypassed, limiter on); experiments D17"
   }
 }
