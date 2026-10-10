@@ -1,0 +1,45 @@
+set,case,sim_lufs,live_lufs,delta,sim_peak,live_peak,sim_centroid,live_centroid
+D17 levels,pass 1 PC 13 Satan Full Rig,-5.22,-6.0,0.78,-1.0,-1.0,1424,
+D17 levels,pass 1 PC 14 Satan 50 Modern,-16.12,-15.0,-1.12,-7.37,-5.4,1472,
+D17 levels,pass 1 PC 15 Satan 50 Low Tuned,-13.55,-13.8,0.25,-7.39,-7.9,2443,
+D17 levels,pass 1 PC 16 Satan 50 Lead,-14.55,-14.0,-0.55,-5.96,-1.0,1585,
+D17 levels,pass 1 PC 17 Satan Wall,-12.99,-13.4,0.41,-1.0,-1.0,844,
+D17 levels,pass 2 PC 13 Satan Full Rig,-9.93,-9.8,-0.13,-1.0,-1.0,1140,
+D17 levels,pass 2 PC 14 Satan 50 Modern,-15.12,-14.1,-1.02,-6.37,-4.4,1472,
+D17 levels,pass 2 PC 15 Satan 50 Low Tuned,-13.35,-13.6,0.25,-7.19,-7.7,2443,
+D17 levels,pass 2 PC 16 Satan 50 Lead,-14.55,-14.1,-0.45,-5.96,-1.0,1585,
+D17 levels,pass 2 PC 17 Satan Wall,-13.29,-13.9,0.61,-1.0,-1.0,866,
+D17 levels,pass 3 PC 13 Satan Full Rig,-14.3,-14.1,-0.2,-1.0,-3.3,1098,
+D17 levels,pass 3 PC 14 Satan 50 Modern,-15.12,-14.0,-1.12,-6.37,-4.4,1472,
+D17 levels,pass 3 PC 15 Satan 50 Low Tuned,-12.95,-13.2,0.25,-6.79,-7.3,2443,
+D17 levels,pass 3 PC 16 Satan 50 Lead,-14.55,-14.1,-0.45,-5.96,-1.0,1585,
+D17 levels,pass 3 PC 17 Satan Wall,-13.29,-13.8,0.51,-1.0,-1.0,866,
+D17 levels,pass 4 PC 13 Satan Full Rig,-14.3,-14.1,-0.2,-1.0,-3.3,1098,
+D17 levels,pass 4 PC 14 Satan 50 Modern,-15.12,-14.1,-1.02,-6.37,-4.4,1472,
+D17 levels,pass 4 PC 15 Satan 50 Low Tuned,-13.75,-14.0,0.25,-7.59,-8.1,2443,
+D17 levels,pass 4 PC 16 Satan 50 Lead,-14.55,-14.1,-0.45,-5.96,-1.0,1585,
+D17 levels,pass 4 PC 17 Satan Wall,-13.29,-13.5,0.21,-1.0,-1.0,866,
+D18 levels,pass 5 PC 13 Satan Full Rig,-14.3,-14.3,0.0,-1.0,-1.0,1098,
+D18 levels,pass 5 PC 14 Satan 50 Modern (D18 cabs),-14.0,-14.0,0.0,-6.41,-6.4,1754,
+D18 levels,pass 5 PC 15 Satan 50 Low Tuned (D18 cabs),-14.01,-14.0,-0.01,-8.38,-8.4,2412,
+D18 levels,pass 5 PC 16 Satan 50 Lead (D18 cabs),-14.01,-14.0,-0.01,-4.49,-4.5,1417,
+D18 levels,pass 5 PC 17 Stormblade,-16.57,-16.6,0.03,-6.1,-6.1,1234,
+D18 levels,pass 6 PC 13 Satan Full Rig,-14.3,-14.3,0.0,-1.0,-1.0,1098,
+D18 levels,pass 6 PC 14 Satan 50 Modern (D18 cabs),-14.0,-14.2,0.2,-6.41,-5.2,1754,
+D18 levels,pass 6 PC 15 Satan 50 Low Tuned (D18 cabs),-14.01,-14.0,-0.01,-8.38,-3.8,2412,
+D18 levels,pass 6 PC 16 Satan 50 Lead (D18 cabs),-14.01,-13.9,-0.11,-4.49,-5.0,1417,
+D18 levels,pass 6 PC 17 Stormblade,-13.99,-14.0,0.01,-4.9,-5.4,1300,
+D18 cabs,Satan 50 Modern / Res New Old Dude (catalog 59,-15.12,-15.1,-0.02,-6.37,-6.4,1472,1473
+D18 cabs,Satan 50 Modern / Lancaster PLAP Cameron Webb ,-15.03,-15.0,-0.03,-6.28,-6.3,1504,1505
+D18 cabs,Satan 50 Modern / Lancaster PLAP Warren Huart ,-15.4,-15.4,0.0,-7.81,-7.8,1754,1755
+D18 cabs,Satan 50 Modern / Lancaster PLAP Ulrich Wild A,-14.39,-14.4,0.01,-5.78,-5.8,1300,1303
+D18 cabs,Satan 50 Low Tuned / Res New Old Dude (catalog 59,-13.75,-13.8,0.05,-7.59,-7.6,2443,2456
+D18 cabs,Satan 50 Low Tuned / Lancaster PLAP Cameron Webb ,-13.31,-13.3,-0.01,-7.68,-7.7,2412,2423
+D18 cabs,Satan 50 Low Tuned / Lancaster PLAP Warren Huart ,-13.77,-13.8,0.03,-9.29,-9.3,2846,2857
+D18 cabs,Satan 50 Low Tuned / Lancaster PLAP Ulrich Wild A,-13.24,-13.4,0.16,-6.03,-5.7,2345,2480
+D18 cabs,Satan 50 Lead / Res New Old Dude (catalog 59,-14.55,-14.6,0.05,-5.96,-5.4,1585,1828
+D18 cabs,Satan 50 Lead / Lancaster PLAP Cameron Webb ,-14.16,-14.2,0.04,-5.5,-5.5,1664,1873
+D18 cabs,Satan 50 Lead / Lancaster PLAP Warren Huart ,-15.0,-15.0,0.0,-8.09,-5.3,2006,2220
+D18 cabs,Satan 50 Lead / Lancaster PLAP Ulrich Wild A,-14.01,-14.0,-0.01,-4.49,-4.5,1417,1685
+D18 cabs,Stormblade dual,-16.57,-16.6,0.03,-6.1,-6.1,1234,1529
+D18 cabs,Stormblade single,-17.13,-17.1,-0.03,-9.54,-9.5,1496,1497

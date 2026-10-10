@@ -572,3 +572,61 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   between passes of the same preset (PC 15: −8.4 / −3.8). Lancaster's description of the Albion
   cab wasn't found online, so its identity comes from the file name only. The CC 23 and CC 26
   toggles on Stormblade (Fortin and CHUG into an unknown amp) were not measured.
+
+## D19 — An offline simulator: the real TONE3000 engine, faster than real time
+
+- **Question:** can presets be measured without the live rig, fast enough for a tune loop
+  ("make the cleans fatter" in about 2 s, edit plus verify), and does it agree with the DI bench?
+- **Hypothesis:** the native TONE3000 VST3, hosted offline by Spotify's pedalboard and handed the
+  same state blob `qtractor_rig.py` gives the live instance, renders the same audio as the rig.
+- **Method:** `rigsim.py` builds each preset in memory (`tone3000.build_preset`, so tone.csv
+  applies), loads it into a fresh TONE3000 per process (sandbox HOME; ~/.config/TONE3000 only
+  read), waits until the plugin's log shows every queued model prepared and its load mute lifts,
+  renders the bench DI (`di-ref.wav`) on both inputs at a 256-sample block, applies a -1 dBFS
+  lookahead limiter, and measures BS.1770 loudness and bands. `rigsim_validate.py` rebuilt every
+  bank-3 sound the bench measured (D17 passes 1-4, D18 passes 5-6, the 12 cab candidates and both
+  Stormblade variants) from git at 71e630c / fb43aed and compared (`sim-validation.csv`).
+  Owner's Qtractor rig was running throughout; renders ran at nice 19, no audio device.
+- **Result:**
+
+| Set | n | Δ LUFS sim − live: mean | sd | range |
+|---|---|---|---|---|
+| D18 levels (passes 5-6), same 4.0-14.5 s window | 10 | +0.01 | 0.08 | -0.1 … +0.2 |
+| D18 cab candidates + Stormblade, same window | 14 | +0.02 | 0.05 | -0.0 … +0.2 |
+| D17 levels (passes 1-4), 5.2 s window at an unrecorded loop phase | 20 | -0.16 | 0.60 | -1.1 … +0.8 |
+
+  - D18 rows match to the tenth in loudness. Sample peak matches in 17 of 24; live peaks of the
+    same preset moved by up to 4.6 dB between passes (D18). Band shares match within 0.1 dB and
+    the centroid within 13 Hz for PC 18-24 and Stormblade single.
+  - PC 25-29 (Low Tuned/Albion and the four Lead cabs) match in loudness but read 135-270 Hz
+    darker than the bench. Re-measuring the simulated audio with the window shifted reproduces
+    the bench at +0.7 s (PC 25) and +1.0 to +1.2 s (PC 26-29), loudness within 0.1 dB. So the
+    bench's window drifted about 1 s late over the second half of that 12-preset run. A
+    distorted amp's loudness barely depends on which bar of the riff is measured, its spectrum
+    does. The cab conclusions compare cabs on the same amp, which were measured in the same
+    run, so they stand. The absolute Lead centroids (1828 → 1685 Hz) are about 250 Hz high.
+  - D17's scatter is per preset and constant across passes (Modern -1.0 to -1.1 every pass, Lead
+    -0.5, Low Tuned +0.2): the unknown window, as D18 already noted for Modern. The sim tracks the
+    trims: Modern +1 dB of out_db = +1.0 dB live and simulated. The only within-preset miss is
+    the untrimmed Full Rig (pass 1, limiter holding peaks): +0.8 dB, as the stand-in limiter is
+    gentler than x42's true-peak one.
+  - **Speed** (i7-1365U, rig live, nice 19): whole rig (19 presets) on the full 15 s DI in
+    11.1-11.6 s wall (16-26 s under other load); on the 2.5 s clip, 3.9 s. Five presets on the
+    clip, nothing cached: 1.3-1.5 s end to end with `uv run`; an `@clean` A/B (3 presets,
+    before and after, 6 renders): 1.6 s cold, 0.3 s cached. Per preset: plugin load 0.09 s,
+    state 0.32 s, models land 0.05-0.15 s, render 0.25-0.6 s.
+  - **Clip vs exact:** the 2.5 s clip reads +0.2 ± 0.6 dB LUFS and bands within about ±1 dB of
+    the 10.5 s window across all 19 presets, a per-preset offset. Deltas track: an `@clean`
+    eq_100 +3 / eq_250 +2 what-if moved LUFS +1.2/+1.0/+0.3 (clip) vs +1.0/+1.0/+0.1 (exact) and
+    2-5 kHz -1.4/-1.1/-0.4 vs -1.1/-1.1/-0.2.
+- **Pitfalls found:** (1) the plugin lifts its load mute after 2 s with no model landing, so on a
+  busy machine output can start with blocks still dry; output alone isn't proof that a preset
+  loaded, and the sim reads each process's TONE3000.log. (2) Stereo rigs with spread/align
+  wobble give a different mono-sum spectrum on every run (±0.6 dB, ±40 Hz), so bands are
+  measured on L+R power.
+- **Conclusion:** the offline engine is the rig, to 0.1 dB. Tune with `rigsim.py` and confirm
+  on the bench only what the sim can't do.
+- **Not simulated:** wah, octaver, Solo slap-delay and harmony tracks, the bypassed compressor,
+  true-peak limiting, Program Change gaps, and CC moves after load. The older banks (0-2) were
+  levelled live with a riff and the compressor on, so their sim levels (e.g. Hysteria -6.6 LUFS)
+  are not comparable with those notes yet. That needs a bench pass.
