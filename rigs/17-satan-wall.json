@@ -1,0 +1,92 @@
+{
+  "pc": 17,
+  "name": "Satan Wall",
+  "reference": "Ola Englund's Randall Satan rig: his signature Randall Satan head with a Fortin 33 in front, tight modern-metal rhythm",
+  "rig": "Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)",
+  "sources": [
+    "https://www.tone3000.com/tones/44730",
+    "https://www.tone3000.com/tones/1627",
+    "https://www.tone3000.com/tones/2090",
+    "https://www.tone3000.com/tones/28672",
+    "https://www.tone3000.com/tones/5996",
+    "https://olaenglundshop.com/products/randall-satan-50-nam-model"
+  ],
+  "notes": "Double-tracked wall: left is the @nillmtd full rig (FLAT model), right is Jacovino's Satan 50 'Modern' through the Res New Old Dude IR, hard-panned with Align on and no wobble (as in Djent). The split is after slot 2, so SW8 and SW9 feed both sides; the right side has no Fortin of its own, so SW9's CHUG tightens it. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's \"file\" field swaps one in (rigs/README.md, Local files).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 28672,
+      "model_id": 386848,
+      "enabled": false,
+      "label": "Fortin 33, 1 o'clock (capture by @elihis)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 2090,
+      "model_id": 434124,
+      "enabled": false,
+      "label": "Solar CHUG, 'The Crushinator' (Paul Jacovino capture)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 44730,
+      "model_id": 413603,
+      "enabled": true,
+      "label": "Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, FLAT model (full rig, capture by @nillmtd)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.35,
+      "cutoff_hz": 4000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Lead delay, 400 ms"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 1627,
+      "model_id": 425687,
+      "enabled": true,
+      "label": "Randall Satan 50, 'Modern' setting (Paul Jacovino, DI)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 5996,
+      "model_id": 56565,
+      "enabled": true,
+      "label": "Res 'New Old Dude' blended IR (@resington)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.35,
+      "cutoff_hz": 4000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Lead delay, 400 ms"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0
+  }
+}

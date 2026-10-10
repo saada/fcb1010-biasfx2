@@ -30,7 +30,7 @@ HARMONY_CHANNEL = 2  # PC 3 -> the DAW's harmony TONE3000 on MIDI channel 3
 WAH_SWEEP_CC = 27
 VOLUME_CC = 7
 
-# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-2 are song
+# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-3 are song
 # banks: one preset per switch.
 SONGS = [
     # (bank, switch, PC number, name)
@@ -44,8 +44,13 @@ SONGS = [
     (2, 3, 10, "Nirvana"),
     (2, 4, 11, "Djent"),
     (2, 5, 12, "Purple Rain"),
+    (3, 1, 13, "Satan Full Rig"),
+    (3, 2, 14, "Satan 50 Modern"),
+    (3, 3, 15, "Satan 50 Low Tuned"),
+    (3, 4, 16, "Satan 50 Lead"),
+    (3, 5, 17, "Satan Wall"),
 ]
-BANK_NAMES = {0: "Maiden", 1: "80s", 2: "Variety"}
+BANK_NAMES = {0: "Maiden", 1: "80s", 2: "Variety", 3: "Modern"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())

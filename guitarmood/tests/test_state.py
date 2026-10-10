@@ -43,7 +43,7 @@ def test_parse():
 
 def test_board_matches_rig(board):
     assert board.start_bank == 0
-    assert sorted(board.banks) == [0, 1, 2]
+    assert sorted(board.banks) == [0, 1, 2, 3]
     assert board.banks[0].kind == "scenes" and board.banks[0].subtitle.endswith("The Evil That Men Do")
     assert [board.banks[0].switches[sw].label for sw in range(1, 11)] == \
         ["Rhythm", "Lead", "Clean", "Acoustic", "Crunch", "Wah", "Harmony", "Evil Delay",
@@ -53,6 +53,8 @@ def test_board_matches_rig(board):
     assert [board.banks[1].switches[sw].label for sw in (8, 9)] == ["Boost", "Delay"]
     assert board.banks[2].switches[1].label == "Comfortably Numb"
     assert board.banks[2].switches[8].label == "Lead"
+    assert board.banks[3].title == "Modern" and board.banks[3].kind == "songs"
+    assert [board.banks[3].switches[sw].label for sw in (1, 5, 8, 9)] == ["Satan Full Rig", "Satan Wall", "Lead", "Drive"]
 
 
 def test_maiden_delays_are_the_heavy_presets_echo_blocks(board):
@@ -98,7 +100,7 @@ def test_tuner_action(board):
 # The live log predates the bank redesign: re-address its Program Changes to the new layout
 # (old Maiden era presets -> the Maiden bank, old song presets -> 80s / variety switches).
 OLD_PC = {**{pc: 0 for pc in range(15, 36, 3)}, **{pc: 1 for pc in range(16, 36, 3)},
-          **{pc: 2 for pc in range(17, 36, 3)}, **{pc: 13 for pc in range(36, 43)},
+          **{pc: 2 for pc in range(17, 36, 3)}, **{pc: 18 for pc in range(36, 43)},
           0: 8, 6: 9, 8: 10, 5: 11, 14: 12, 1: 3, 2: 4, 3: 5, 4: 6, 7: 7, 9: 3, 10: 4, 11: 5, 12: 6, 13: 7}
 
 
@@ -112,7 +114,7 @@ def readdress(line):
 def test_live_session_replay(board):
     st, actions = replay(board, [readdress(line) for line in LOG.read_text().splitlines()])
     snap = st.snapshot()
-    # The session ended on a scene bank's RHYTHM burst: now the Maiden bank, PC 0 / 1 / 13.
+    # The session ended on a scene bank's RHYTHM burst: now the Maiden bank, PC 0 / 1 / 18.
     assert (snap["bank"], snap["title"], snap["playing"]) == (0, board.banks[0].title, "Rhythm")
     assert snap["synced"]
     assert {a[0] for a in actions} == {"song", "tuner"}
@@ -123,9 +125,10 @@ def test_live_session_replay(board):
 
 def test_screen_press_equals_pedal_burst(board):
     """A click sends what the pedal sends."""
-    assert board.messages(0, 1) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert board.messages(0, 1) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert board.messages(0, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # LEAD: no PC, never wipes CC 80
     assert board.messages(1, 1) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert board.messages(3, 1) == [("pc", 0, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
 
 
 T3K = ("boost", "drive", "delay", "delay2")

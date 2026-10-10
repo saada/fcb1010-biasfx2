@@ -583,6 +583,31 @@ def harmony_rig(heavy, pc):
             "levels": heavy.get("levels", {})}
 
 
+PACKS = Path.home() / "Music/fcb-rig/packs"  # drop folder for local pack files (never committed)
+LOCAL_TONE_ID = 900100000  # local-only tone ids for local files (never hit the API)
+
+
+def local_path(spec):
+    return Path(os.path.expanduser(spec["file"]))
+
+
+def local_tone(spec):
+    """(tone record, model id, file bytes) for a block's local `file` (.nam or IR .wav)."""
+    path = local_path(spec)
+    if not path.is_file():
+        raise FileNotFoundError(f"{path}: local file missing. Save it there, or remove the block's "
+                                f"\"file\" field to use its catalog tone_id/model_id (rigs/README.md, Local files)")
+    raw = path.read_bytes()
+    mid = 2_000_000_000 + zlib.crc32(raw) % 100_000_000  # stable per file content, inside int32
+    title = spec.get("label") or path.stem
+    tone = synth_tone(mid, title, f"local file {path.name}", gear=spec.get("role", "amp"))
+    tone.update(id=LOCAL_TONE_ID + mid % 100000, format=spec["type"], license=None,
+                user={"username": "local"})
+    if spec["type"] == "nam":  # A2 files are a SlimmableContainer; A1 is a bare WaveNet/LSTM
+        tone["models"][0]["architecture_version"] = 2 if b'"SlimmableContainer"' in raw[:200] else 1
+    return tone, mid, raw
+
+
 def model_of(tone_id, model_id):
     return next(m for m in tone_record(tone_id)["models"] if m["id"] == model_id)
 
@@ -608,10 +633,13 @@ def build_block(spec):
         what = (f"{ms} ms BBD-style echo, feedback {fb}" if ms else "reverb") + (" + reverb" if rev and ms else "")
         return block("ir", on, synth_tone(mid, f"{title} (generated)", f"{what}, wet only"),
                      mid, mix=mix, data=analog_echo(ms, fb, cutoff_hz=cut_hz, reverb=rev and reverb_tail(rev)))
-    tone, mid = tone_record(spec["tone_id"]), spec["model_id"]
-    data = None
+    if spec.get("file"):  # a local model/IR file (a pack outside the catalog) replaces tone_id/model_id
+        tone, mid, raw = local_tone(spec)
+    else:
+        tone, mid = tone_record(spec["tone_id"]), spec["model_id"]
+        raw = model_file(model_of(spec["tone_id"], mid)) if kind == "ir" else None
+    data = raw if spec.get("file") else None  # catalog files: block() reads them from the cache
     if kind == "ir":
-        raw = model_file(model_of(spec["tone_id"], mid))
         if spec.get("trim_seconds") or not wav_loads_in_tone3000(raw):
             seconds = float(spec.get("trim_seconds") or 60.0)
             if spec.get("role") == "ambience":
@@ -636,8 +664,11 @@ def validate(rig):
                 errs.append(f"{side}[{i}] role {spec['role']} must be slot {want}")
             if spec.get("type") not in ("nam", "ir", "echo", "insert"):
                 errs.append(f"{side}[{i}] unknown type {spec.get('type')}")
-            if spec.get("type") in ("nam", "ir") and not (spec.get("tone_id") and spec.get("model_id")):
-                errs.append(f"{side}[{i}] needs tone_id and model_id")
+            if spec.get("type") in ("nam", "ir") and not (spec.get("tone_id") and spec.get("model_id")
+                                                         or spec.get("file")):
+                errs.append(f"{side}[{i}] needs tone_id and model_id (or a local file)")
+            if spec.get("file") and not local_path(spec).is_file():
+                errs.append(f"{side}[{i}] local file missing: {local_path(spec)}")
     if rig.get("right") and not rig.get("split_after"):
         errs.append("right chain needs split_after (1-based left slot)")
     if rig.get("scene") not in (None, *SCENE_KINDS):
@@ -842,6 +873,8 @@ def describe(spec):
         label = f"echo {spec['delay_ms']} ms"
     else:
         label = spec.get("label") or model_of(spec["tone_id"], spec["model_id"])["name"]
+    if spec.get("file"):
+        label += f" [local file {local_path(spec).name}]"
     return label + ("" if spec.get("enabled", True) else " (off)")
 
 
@@ -928,10 +961,14 @@ def cli_docs(args):
                     continue
                 if spec["type"] == "echo":
                     what = f"{spec.get('label') or 'Analog echo'} — generated {spec['delay_ms']} ms BBD-style IR"
+                elif spec.get("file") and not spec.get("tone_id"):
+                    what = f"{spec.get('label') or local_path(spec).stem} — local file `{spec['file']}`"
                 else:
                     tone = tone_record(spec["tone_id"])
                     label = spec.get("label") or model_of(spec["tone_id"], spec["model_id"])["name"]
                     what = f"[{tone['title']}](https://www.tone3000.com/tones/{spec['tone_id']}) — {label}"
+                    if spec.get("file"):
+                        what += f" (replaced by local file `{spec['file']}`)"
                 if spec.get("mix", 1.0) != 1.0:
                     what += f" (mix {spec['mix']:.0%})"
                 state = "on" if spec.get("enabled", True) else "off"
