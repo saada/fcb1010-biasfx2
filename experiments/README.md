@@ -749,3 +749,94 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   preset is levelled to offline (rigsim --exact): -14 LUFS heavies, -15 cleans, matching YouTube's
   -14 LUFS normalization, so a YouTube backing track and the rig play balanced and the monitor
   knob sets both. The +3 dB baseline and the +6 dB toe are gone.
+
+## D23 — "Palm-muted B is wildly louder": rig or room?
+
+*Data:* `palm-boom.csv` (one row per note event: preset, variant, DI, loudness, peak, bands,
+limiter), made by `palm_boom.py`.
+
+- **Symptom (owner):** "the sound seems wildly louder when i play specific palm muted notes vs
+  the rest of the sound … seems like the B note … im on maiden switch 1" (bank 0 RHYTHM =
+  Maiden Heavy: JMP-1 → 1960BV V30 IR left, JCM2000 DSL → 1960A G12T-75 IR right).
+- **Question:** which presets put out a louder palm mute on which pitches, and is it the amp
+  capture, the cab IR or the bus? The owner's guitar turns out to be B-tuned on its low string
+  (the recording runs B1 C#2 D#2 E2 F#2 G#2 A2 B2 C#3 on one string), so "the B" is B1
+  (61.7 Hz) or B2 (123.5 Hz).
+- **Hypothesis:** a cab IR's low resonance (the 4x12 bump at 120-180 Hz) lifts the B2
+  fundamental, and the D16 bypass of the bus compressor left nothing to even it out.
+- **Method:** all offline, in rigsim's engine (D19), rendered pre-limiter, with the −1 dBFS
+  limiter applied per event to read its gain reduction. Two DIs:
+  1. `~/Music/fcb-rig/di-palm-b.wav`, the owner's own recording of the problem (30 s, Scarlett
+     Input 2, peak −3.2 dBFS; not committed). `palm_boom.py detect` finds 76 onsets with a pitch
+     each (harmonic sum, within ±25 cents of a semitone on all real notes) and splits palm vs
+     ringing by decay. Ghost notes under −25 dBFS input are left out of the summary.
+  2. A synthetic sweep (`palm_boom.py di`): every semitone B1-B3 as a damped palm-mute burst
+     (70-100 ms decay, pick click) at −6 dBFS peak, the bench DI's typical attack, then ringing
+     notes and power chords at the same peak. Equal input per note, so it isolates the pitch.
+  Per note: momentary loudness (BS.1770, 400 ms from the onset, L+R and per side), peak,
+  60-200 Hz and fundamental-band energy, limiter GR. Attribution: the same render with both cab
+  IRs disabled (`--variant no-cab`), and each cab IR's magnitude response (`palm_boom.py ir`).
+  Presets: every heavy, crunch, lead and bank 4 Modern one (14).
+- **Result, Maiden Heavy on the owner's DI (dB over the median palm note; n = events):**
+
+  | note | n | input peak | out LUFS (400 ms) | over median | L (Murray) | R (Smith) | limiter GR |
+  |---|---|---|---|---|---|---|---|
+  | B1 61.7 Hz | 15 | −9.6 | −8.3 | −0.3 | −0.2 | +0.3 | 1.5 |
+  | C#2 | 7 | −6.1 | −6.7 | +1.4 | +1.7 | +0.5 | 1.9 |
+  | D#2 | 6 | −8.0 | −7.8 | +0.3 | +0.4 | +0.2 | 1.5 |
+  | E2 | 7 | −11.6 | −9.5 | −1.4 | −1.7 | −0.4 | 0.8 |
+  | F#2 | 6 | −12.4 | −10.2 | −2.1 | −2.3 | −1.0 | 0.0 |
+  | G#2 | 5 | −10.8 | −7.4 | +0.7 | +0.2 | +2.2 | 2.1 |
+  | A2 | 6 | −14.2 | −10.0 | −1.9 | −2.1 | −0.8 | 0.6 |
+  | B2 123.5 Hz | 9 | −13.3 | −7.0 | +1.0 | +1.2 | +0.4 | 0.7 |
+  | C#3 | 6 | −14.1 | −7.0 | +1.1 | +1.5 | −0.2 | 1.2 |
+
+  Every note lands within −2.1 … +1.4 dB of the median; the B notes sit at −0.3 and +1.0, and
+  unweighted RMS agrees (−0.2, +1.2). The limiter never holds more than 2.1 dB, and not on a B.
+  Palm mutes are not louder than ringing notes here either (median palm −8.1 LUFS, ringing B1
+  −8.8). On the synthetic sweep (equal input), Maiden's largest neighbour-relative bump is E3
+  +1.5 dB; B1 and B2 are not outliers. The V30 IR (left) does carry the classic 4x12 bump,
+  +10.3 dB at 123 Hz and +11.6 dB at its 149 Hz peak against 500-1500 Hz, so B2's fundamental
+  comes out 12 dB stronger than E2's (fundamental band 33.2 vs 21.1 dB), but G#2, A2 and C#3
+  get the same lift, so no note stands alone. With both cabs removed the span stays −2.6 … +1.7.
+- **Result, other presets, owner's DI (notes > +2 dB over their median):**
+
+  | preset | worst notes (dB over median) | cause | attribution (no-cab render) |
+  |---|---|---|---|
+  | Van Halen 1984 | B2 +5.4 (R +6.1), B1 +2.8 | ~120 Hz | amp capture: B2 still +4.5 with no cab |
+  | Satan 50 Lead | B2 +4.0, C#2 +2.3 | 104-123 Hz edge of the Albion IR (−2.3 dB at 98 Hz → +11.7 at 123) | cab IR: B2 +0.3 with no cab |
+  | Comfortably Numb | B1 +3.2, B2 +2.4 | ~62/123 Hz | amp (a full-rig capture, no IR) |
+  | Radiohead | G#2 +4.9 (R +7.6), C#2 +3.7, B1 +3.0 | ~104 Hz, right chain | not split |
+  | Stormblade | G#2 +4.7 | ~104 Hz | not split |
+  | Satan 50 Modern / Low Tuned | G#2 +3.6 / C#2 +3.1 | 70-104 Hz | not split |
+
+  Input levels vary per note in a real take (C#2 picked 7 dB harder than B2), so the synthetic
+  sweep is the equal-input check: it agrees on Van Halen 1984 B2 (+3.3 dB over its neighbours)
+  and Comfortably Numb B2 (+2.7). The synthetic sweep also shows Satan Full Rig and Satan 50
+  Lead palm mutes 6.2-6.6 dB louder than ringing chords at the same peak (Maiden: 1.3 dB).
+- **A narrow cut is possible, but needs a new column.** No tone.csv band fits a single
+  semitone: eq_100 is a Q 0.71 shelf that cuts B1 and E2 harder than B2, and the eq_250 bell
+  (Q 1) moves 123 Hz by about a quarter of its gain. A what-if that moved the end block's 250 Hz
+  bell to 123.5 Hz at Q 4, −5 dB (`--variant notch:123.5:4:-5`) showed TONE3000 honours a
+  band's freqHz and q: B2's fundamental band fell 5 dB and B2 went from +5.4 to +2.4 dB
+  (Van Halen 1984) and +4.0 to +1.2 dB (Satan 50 Lead), with E2 within 0.9 dB. Band types are
+  positional, though: the same move on band 0 (the low shelf) made a resonant shelf that cut
+  G#2/A2 by 5-6 dB and lifted C#2 4 dB. So a notch belongs on the bell, as its own
+  `notch_hz`/`notch_q`/`notch_db` columns rather than a reused eq_250.
+- **Conclusion:** the rig does not make palm-muted B louder on Maiden Heavy. On the owner's
+  own take, through the real engine, B1 and B2 sit within 1 dB of the other notes on both
+  chains. So the jump the owner hears is downstream of the rig: the speakers or the room. A
+  room dimension of about 2.8 m (a typical ceiling height) has axial modes at 61.7 and
+  123.4 Hz, which are exactly B1 and B2. Neither the PC nor PipeWire adds any EQ between the
+  rig and the Scarlett's outputs. No preset changed. The owner tests it in
+  `~/Music/fcb-rig/d23/`:
+  `maiden-heavy-render-of-di-palm-b.wav` (their own take through Maiden Heavy, limiter on) on
+  headphones vs the speakers, and `sine-bursts-A1-to-D3.wav` (equal-level sine bursts, one per
+  semitone 55-147 Hz; the 3rd and 15th are B1 and B2). A burst that jumps out on the speakers
+  but not on headphones is the room or the speakers. The remedy then goes on the monitor path
+  (speaker placement, or a notch on the master output), not in the presets. Van Halen 1984 and
+  Satan 50 Lead do have a real B2 bump in the rig, which a notch column would fix (numbers above).
+- **Not measured:** the room and speakers (that needs a mic at the playing position).
+  Not done live: the owner was playing. The synthetic palm mute is a model (additive partials).
+  Its absolute spread across the sweep (low notes quieter at equal peak) is a property of the
+  model, so only neighbour-relative bumps and the owner's DI are read as outliers.
