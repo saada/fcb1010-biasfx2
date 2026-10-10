@@ -93,11 +93,11 @@ fi
 # 6. DAW rig (optional): generated Qtractor session with pedals, dynamics, recording
 if command -v qtractor >/dev/null; then
   if pgrep -x qtractor >/dev/null; then
-    echo "Qtractor is running — skipping (run: python3 qtractor_rig.py down && python3 qtractor_rig.py build)"
+    echo "Qtractor is running — skipping (run: uv run qtractor_rig.py down && uv run qtractor_rig.py build)"
   else
     say "Generating the Qtractor rig session"
     python3 "$HERE/qtractor_rig.py" build
   fi
 fi
 
-say "Done. Launch TONE3000 from the app menu (256-sample buffer), or the DAW rig: python3 qtractor_rig.py up"
+say "Done. Launch TONE3000 from the app menu (256-sample buffer), or the DAW rig: uv run qtractor_rig.py up"
