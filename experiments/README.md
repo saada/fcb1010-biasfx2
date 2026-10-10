@@ -677,3 +677,13 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   (320 µs per byte), so a scene switch's last message reaches the rig about 3 ms sooner
   (computed, not measured on the pedal).
 - **Not measured:** the FCB's own DIN/USB path (it is not changed by the router), and RT priority.
+- **Live smoke (same day, rig up through `qtractor_rig.py up`, router in the helper unit):**
+  the wiring came up as USB Midi → FCB Router → Qtractor:FCB, with no direct link. Addresses
+  injected with `aseqsend` into the router loaded the right presets (TONE3000 log: Van Halen I
+  Brown, Rule the World, Satan Full Rig, then Maiden Clean/Heavy/Harmony), and the helper sent
+  the Maiden song CCs. Bank 1 SW7 (CC 103 = 1) switched the Chorus on. The saved session showed
+  Rate 0.6396 Hz, Depth 4.017 ms and Mix 50.39 % after the song's CC 89/90/91. So Qtractor maps
+  CC 89 linearly (logarithmic=0), and `chorus_ccs` is right. Touching rig.py reloaded the layout
+  within a second. A separate probe process timed 300 round trips through the live router,
+  probe → router → probe (bank 0 SW2, two CCs): first message median 0.28 ms, p99 0.60 ms,
+  max 0.64 ms; whole burst max 0.67 ms. That is two sequencer hops plus the probe, under audio load.
