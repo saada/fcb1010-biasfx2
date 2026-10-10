@@ -603,8 +603,10 @@ def local_tone(spec):
     tone = synth_tone(mid, title, f"local file {path.name}", gear=spec.get("role", "amp"))
     tone.update(id=LOCAL_TONE_ID + mid % 100000, format=spec["type"], license=None,
                 user={"username": "local"})
-    if spec["type"] == "nam":  # A2 files are a SlimmableContainer; A1 is a bare WaveNet/LSTM
-        tone["models"][0]["architecture_version"] = 2 if b'"SlimmableContainer"' in raw[:200] else 1
+    if spec["type"] == "nam":  # A2 files are a SlimmableContainer; A1 is a bare WaveNet/LSTM.
+        # Read the key: newer trainers (0.7.0, e.g. Stormblade A2) write "metadata" before it.
+        arch = json.loads(raw).get("architecture")
+        tone["models"][0]["architecture_version"] = 2 if arch == "SlimmableContainer" else 1
     return tone, mid, raw
 
 

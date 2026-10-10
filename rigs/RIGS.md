@@ -22,7 +22,7 @@ Every capture links to its TONE3000 page (free download).
 | 14 | [Satan 50 Modern](#satan-50-modern) | Satan 50 'Modern' + Fortin 33 at 3 o'clock: the same recipe from separate captures |
 | 15 | [Satan 50 Low Tuned](#satan-50-low-tuned) | Satan 50 'Low Tuned' + Solar CHUG: drop tunings and extended-range guitars |
 | 16 | [Satan 50 Lead](#satan-50-lead) | Satan 50 'Lead' + Solar CHUG lead setting: solos |
-| 17 | [Satan Wall](#satan-wall) | Full rig left, Satan 50 right: a double-tracked rhythm wall |
+| 17 | [Stormblade](#stormblade) | Glenn Fricker's free Stormblade A2 NAM, double-tracked through a UK V30 4x12 on two mics |
 | 18 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
@@ -330,77 +330,78 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 **PC 14** — Satan 50 'Modern' + Fortin 33 at 3 o'clock: the same recipe from separate captures
 
-*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> Warren Huart's Marshall 4x12 with V25s
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'Weedaly Waaahh' (Paul Jacovino capture) | off |
 | L2 | drive | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 3 o'clock (capture by @elihis) | on |
 | L3 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Modern' setting (Paul Jacovino, DI) | on |
-| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Warren Huart's Marshall 4x12, V25s (Lancaster PLAP) (replaced by local file `~/Music/fcb-rig/packs/lancaster/Warren Huart Marsh v25 1.wav`) | on |
 | L5 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
 
-*Notes:* The same recipe from separate parts: Paul Jacovino's Randall Satan 50 (his amp, not Ola's) on its 'Modern' setting, the Fortin 33 at 3 o'clock as in the @nillmtd full rig, and the same Res New Old Dude IR. SW8 adds the CHUG's lead setting as a boost. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+*Notes:* The same recipe from separate parts: Paul Jacovino's Randall Satan 50 (his amp, not Ola's) on its 'Modern' setting, the Fortin 33 at 3 o'clock as in the @nillmtd full rig,. SW8 adds the CHUG's lead setting as a boost. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files). Cab: Lancaster Audio PLAP free IR (Cameron Webb / Warren Huart / Ulrich Wild), Warren Huart's Marshall 4x12 with V25s, a local file in ~/Music/fcb-rig/packs/lancaster/ (no license text, so personal use only and never committed); picked on the DI bench against the Res New Old Dude IR (experiments D18): the brightest and leanest of the four on this amp, 4.9 dB less below 100 Hz, 2.6 dB less at 100-250 Hz and 2.8 dB more 5-10 kHz than New Old Dude, so the Modern setting cuts instead of sitting in the low mids. Without the file, check fails with its path: delete the cab's "file" field to fall back to New Old Dude (tone 5996).
 
-*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model> · <https://lancasteraudio.com>
 
 ## Satan 50 Low Tuned
 
 **PC 15** — Satan 50 'Low Tuned' + Solar CHUG: drop tunings and extended-range guitars
 
-*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> Cameron Webb's Bogner Uberschall 4x12 (V30s) on an SM57
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
 | L2 | drive | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'The Crushinator' (Paul Jacovino capture) | on |
 | L3 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Low Tuned' setting (Paul Jacovino, DI) | on |
-| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Cameron Webb's Bogner Uberschall 4x12 (V30), SM57 (Lancaster PLAP) (replaced by local file `~/Music/fcb-rig/packs/lancaster/Cameron Webb Ubershall [57].wav`) | on |
 | L5 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
 
-*Notes:* For drop tunings and extended-range guitars: Jacovino's 'Low Tuned' Satan 50 setting, tightened by the Solar CHUG (Ola's Solar Guitars pedal; Jacovino's 'Crushinator' rhythm setting) instead of the Fortin. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+*Notes:* For drop tunings and extended-range guitars: Jacovino's 'Low Tuned' Satan 50 setting, tightened by the Solar CHUG (Ola's Solar Guitars pedal; Jacovino's 'Crushinator' rhythm setting) instead of the Fortin. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files). Cab: Lancaster Audio PLAP free IR (Cameron Webb / Warren Huart / Ulrich Wild), Cameron Webb's Bogner Uberschall 4x12 (V30s) on an SM57, a local file in ~/Music/fcb-rig/packs/lancaster/ (no license text, so personal use only and never committed); picked on the DI bench against the Res New Old Dude IR (experiments D18): 4.7 dB less below 100 Hz than New Old Dude with the same top end (5-10 kHz within 0.3 dB) and the most articulate low end on this amp (60-150 Hz envelope spread 19.3 dB against 18.9), so drop-tuned chugs stay tight. Without the file, check fails with its path: delete the cab's "file" field to fall back to New Old Dude (tone 5996).
 
-*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model> · <https://lancasteraudio.com>
 
 ## Satan 50 Lead
 
 **PC 16** — Satan 50 'Lead' + Solar CHUG lead setting: solos
 
-*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> Ulrich Wild's Albion 4x12 on an Audix D4
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
 | L2 | drive | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'Weedaly Waaahh' (Paul Jacovino capture) | on |
 | L3 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Lead' setting (Paul Jacovino, DI) | on |
-| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Ulrich Wild's Albion 4x12, Audix D4 (Lancaster PLAP) (replaced by local file `~/Music/fcb-rig/packs/lancaster/Ulrich Wild Albion [D4].wav`) | on |
 | L5 | echo | Lead delay, 450 ms — generated 450 ms BBD-style IR (mix 25%) | off |
 
-*Notes:* Solo sound: Jacovino's 'Lead' Satan 50 setting with the CHUG on his 'Weedaly Waaahh' lead setting. SW8 adds the mild Fortin and a 450 ms echo. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+*Notes:* Solo sound: Jacovino's 'Lead' Satan 50 setting with the CHUG on his 'Weedaly Waaahh' lead setting. SW8 adds the mild Fortin and a 450 ms echo. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files). Cab: Lancaster Audio PLAP free IR (Cameron Webb / Warren Huart / Ulrich Wild), Ulrich Wild's Albion 4x12 on an Audix D4, a local file in ~/Music/fcb-rig/packs/lancaster/ (no license text, so personal use only and never committed); picked on the DI bench against the Res New Old Dude IR (experiments D18): the smoothest top of the four (5-10 kHz 3.2 dB under New Old Dude), 2 dB more 250-800 Hz midrange and the tightest low end (12.8 dB less below 100 Hz, envelope spread 20.9 dB against 19.7): a singing, mid-forward lead. Without the file, check fails with its path: delete the cab's "file" field to fall back to New Old Dude (tone 5996).
 
-*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model> · <https://lancasteraudio.com>
 
-## Satan Wall
+## Stormblade
 
-**PC 17** · dual-rig stereo — Full rig left, Satan 50 right: a double-tracked rhythm wall
+**PC 17** · dual-rig stereo — Glenn Fricker's free Stormblade A2 NAM, double-tracked through a UK V30 4x12 on two mics
 
-*Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+*Original rig:* Stormblade A2 (Spectre Media Group NAM) -> SMG UK V30 4x12: SM57 left, Sennheiser MD 440 right
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
 | L2 | drive | [Paul Jacovino - Solar Guitars CHUG Pedal](https://www.tone3000.com/tones/2090) — Solar CHUG, 'The Crushinator' (Paul Jacovino capture) | off |
-| L3 | amp | [Ola's Randall Satan Full Rig](https://www.tone3000.com/tones/44730) — Ola Englund's Randall Satan + Fortin 33 @ 3 o'clock + Res New Old Dude IR, FLAT model (full rig, capture by @nillmtd) | on |
+| L3 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Stormblade A2 (Spectre Media Group / Glenn Fricker) (replaced by local file `~/Music/fcb-rig/packs/spectre/Stormblade A2.nam`) | on |
+| L4 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — SMG UK V30 4x12, SM57 (Spectre Media Group) (replaced by local file `~/Music/fcb-rig/packs/spectre/01 SMG_UK_V30 57_dc.wav`) | on |
 | L5 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
-| R1 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Randall Satan 50, 'Modern' setting (Paul Jacovino, DI) | on |
-| R2 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — Res 'New Old Dude' blended IR (@resington) | on |
+| R1 | amp | [Paul Jacovino - Randall Satan 50](https://www.tone3000.com/tones/1627) — Stormblade A2 (Spectre Media Group / Glenn Fricker) (replaced by local file `~/Music/fcb-rig/packs/spectre/Stormblade A2.nam`) | on |
+| R2 | cab | [New Old Dude IR](https://www.tone3000.com/tones/5996) — SMG UK V30 4x12, MD 440 (Spectre Media Group) (replaced by local file `~/Music/fcb-rig/packs/spectre/02 SMG_UK_V30 440_dc.wav`) | on |
 | R3 | echo | Lead delay, 400 ms — generated 400 ms BBD-style IR (mix 25%) | off |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
-*Notes:* Double-tracked wall: left is the @nillmtd full rig (FLAT model), right is Jacovino's Satan 50 'Modern' through the Res New Old Dude IR, hard-panned with Align on and no wobble (as in Djent). The split is after slot 2, so SW8 and SW9 feed both sides; the right side has no Fortin of its own, so SW9's CHUG tightens it. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's "file" field swaps one in (rigs/README.md, Local files).
+*Notes:* Spectre Media Group / Glenn Fricker, free Stormblade A2 (spectremedia.kit.com): the A2 model and its two UK V30 cab IRs, as local files in ~/Music/fcb-rig/packs/spectre/ (no license text, so personal use only and never committed; rigs/README.md, Local files). Dual rig: the same Stormblade capture on both sides, the SM57 IR hard left and the MD 440 IR hard right, Align on with no wobble, so the two mics read as two takes. On the DI bench the dual rig kept the single SM57 chain's low-end articulation (60-150 Hz envelope spread 22.0 dB against 22.2) and added body (40-100 Hz −19.6 dB against −23.2) and width, so it stays dual (experiments D18). The left (SM57) side came out 3.4 dB under the right untrimmed, hence the uneven out_db.The split is after slot 2, so SW8 (Fortin 33) and SW9 (Solar CHUG) feed both sides, as on the Satan Wall this replaced (rigs/archive/17-satan-wall.json). Echo off. Without the pack files, check fails with their paths: delete the "file" fields to fall back to the catalog Satan 50 Modern (tone 1627) and the Res New Old Dude IR (tone 5996).
 
-*Sources:* <https://www.tone3000.com/tones/44730> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672> · <https://www.tone3000.com/tones/5996> · <https://olaenglundshop.com/products/randall-satan-50-nam-model>
+*Sources:* <https://spectremedia.kit.com/55316a8f96> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/5996> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672>
 
 ## Maiden Harmony
 

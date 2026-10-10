@@ -33,8 +33,8 @@ BANK 2  VARIETY: one song preset per switch
           SW1 COMFORTABLY NUMB   SW2 RADIOHEAD   SW3 NIRVANA   SW4 DJENT   SW5 PURPLE RAIN
           SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
-BANK 3  MODERN: Randall Satan sounds (Ola Englund's rig), one preset per switch
-          SW1 SATAN FULL RIG   SW2 SATAN 50 MODERN   SW3 SATAN 50 LOW TUNED   SW4 SATAN 50 LEAD   SW5 SATAN WALL
+BANK 3  MODERN: Randall Satan sounds (Ola Englund's rig) and Glenn Fricker's Stormblade, one preset per switch
+          SW1 SATAN FULL RIG   SW2 SATAN 50 MODERN   SW3 SATAN 50 LOW TUNED   SW4 SATAN 50 LEAD   SW5 STORMBLADE
           SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
 EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7)

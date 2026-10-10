@@ -495,3 +495,80 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
 - **Not measured:** a live riff from the owner (L7: the DI bench can read differently), the CC 23
   and CC 26 toggles on these presets, and xruns over a long run. "Sounds best" among the
   @nillmtd models was not judged by ear: SW1 uses the author's "My EQ" model.
+
+## D18 — Distinct cabs for bank 3, and Glenn Fricker's Stormblade A2 on SW5
+
+- **Question:** (1) do local 96 kHz IRs load through a block's `"file"`? (2) Which of three free
+  Lancaster Audio PLAP cab IRs (Cameron Webb Ubershall SM57, Warren Huart Marshall 4x12 V25,
+  Ulrich Wild Albion 4x12 Audix D4) gives each Satan 50 preset its own voice, measured against the
+  Res New Old Dude IR they all shared? (3) Does TONE3000 0.0.12 play the free Stormblade A2
+  (`SlimmableContainer`, trainer 0.7.0) as a dual rig with its two UK V30 IRs?
+- **Hypothesis:** Ubershall tightens Low Tuned, Marsh V25 smooths Lead's upper mids, and Albion
+  suits Modern. Stormblade loads like any A2 file.
+- **Method:** offline, each IR went through `build_block` and its embedded WAV was read back.
+  Then the D17 bench, with one change: one persistent `pw-record` on `Qtractor:Rig/out_*` and one
+  persistent `pw-play` of the DI repeated every 15 s, with each PC sent (CC 80 = 63, CC 81 = 0
+  first) at a loop boundary and 4.0–14.5 s of each loop measured. Every preset hears the same
+  10.5 s of DI. Measures: BS.1770 loudness and sample peak (ffmpeg ebur128), per side too; the
+  energy share per band relative to 40 Hz–10 kHz; the spectral centroid; and a low-end tightness
+  figure: the p90 − p10 spread of the 20 ms RMS envelope of the 60–150 Hz band (bigger = the low
+  end stops between hits). Twelve temporary presets (PC 18–29: Modern, Low Tuned and Lead amps ×
+  four cabs, otherwise identical) and a temporary single-chain Stormblade (PC 18) were removed
+  after. Speakers and the live guitar input were unlinked during the runs. Compressor bypassed,
+  limiter on.
+- **Result** (`bank3-cabs.csv`, `bank3-levels.csv` passes 5–6):
+  - **Local IR path:** no fix needed. `build_block` sends local files through the same
+    `wav_loads_in_tone3000` gate as catalog files, so the 96 kHz files (odd 72003-byte data
+    chunks) became 48 kHz mono 24-bit with even data chunks (36000 bytes). Band shares matched the
+    96 kHz originals within 0.1 dB, and the sources hold only −42 dB above 24 kHz, so the linear
+    resampler aliases nothing audible. TONE3000 logged `Preparing IR model: …` for each, and the
+    presets measured −14 LUFS with cab-shaped spectra.
+  - **A2 detection bug:** `local_tone` looked for `"SlimmableContainer"` in the file's first
+    200 bytes. Trainer 0.7.0 writes `metadata` first (the key sits at byte 727 in Stormblade), so
+    an A2 file was tagged A1. It now parses the JSON's `architecture`.
+  - **Cabs** (band shares in dB; same amp, same DI; New Old Dude → chosen):
+
+| Preset | Cab | 40–100 | 100–250 | 250–800 | 5–10 k | centroid | low spread |
+|---|---|---|---|---|---|---|---|
+| Modern | New Old Dude → **Marsh V25** | −13.4 → −18.3 | −6.6 → −9.2 | −6.8 → −5.3 | −15.2 → −12.4 | 1473 → 1755 Hz | 19.2 → 18.5 |
+| Low Tuned | New Old Dude → **Ubershall** | −17.3 → −22.0 | −9.0 → −10.2 | −9.8 → −9.2 | −13.0 → −12.7 | 2456 → 2423 Hz | 18.9 → 19.3 |
+| Lead | New Old Dude → **Albion** | −16.5 → −29.3 | −6.5 → −6.2 | −8.1 → −6.1 | −15.6 → −18.8 | 1828 → 1685 Hz | 19.7 → 20.9 |
+
+  - The Marsh V25 was the *brightest* IR on every amp (+2.7 to +3.0 dB at 5–10 kHz against New Old
+    Dude), so the "smoother upper mid" hypothesis for Lead is refuted. The Albion was the
+    smoothest top (−3.1 to −3.2 dB at 5–10 kHz), the most midrange (+2 dB at 250–800 Hz) and the
+    leanest bottom (−11.9 to −12.9 dB under 100 Hz). Its lean bottom suits a lead, not drop-tuned
+    rhythm, where it also lowered the tightness figure (18.7). The Ubershall cut 4.7 dB of boom
+    under 100 Hz while leaving the top within 0.3 dB, the closest to New Old Dude and the tightest
+    on Low Tuned. The Albion was also the darkest on Modern (centroid 1303 Hz), so Modern took the
+    Marsh: it cuts 4.9 dB under 100 Hz and 2.6 dB at 100–250 Hz, for a brighter, more aggressive
+    rhythm, at a 0.7 dB lower tightness figure.
+  - **Stormblade:** TONE3000 logged `Preparing NAM model: Stormblade A2 … (310620 bytes)` and
+    `Loaded preset: Stormblade`. Against the dry DI it was distorted and cab-filtered:
+    peak-to-loudness 10.5 dB against the DI's 18.1, and 2.5–5 kHz at −7.8 dB against −25.3. Dual
+    against single SM57 chain: equal tightness (22.0 vs 22.2), more body (40–100 Hz −19.6 vs
+    −23.2), and stereo width. Untrimmed it played −16.6 LUFS, with the SM57 side 3.4 dB under the
+    MD 440 side (−21.6 / −18.2).
+  - **Levels, final pass:**
+
+| PC | Preset | `out_db` | LUFS | peak dBFS | L / R LUFS |
+|---|---|---|---|---|---|
+| 13 | Satan Full Rig (unchanged) | −12.5 | −14.3 | −1.0 | −17.3 / −17.3 |
+| 14 | Satan 50 Modern (Marsh V25) | +2.4 | −14.2 | −5.2 | −17.2 / −17.2 |
+| 15 | Satan 50 Low Tuned (Ubershall) | −0.9 | −14.0 | −3.8 | −17.0 / −17.0 |
+| 16 | Satan 50 Lead (Albion) | 0 | −13.9 | −5.0 | −17.0 / −16.9 |
+| 17 | Stormblade (57 L / 440 R) | +4.6 / +1.2 | −14.0 | −5.4 | −16.9 / −17.0 |
+
+  - All five logged `Loaded preset:` with their own names. Closing `pw-top`: Qtractor B/Q
+    0.43–0.45, and ERR held at 169 across the idle samples. That count accumulated over three
+    launches' worth of PC loads and bench graph changes, not while playing.
+- **Conclusion:** bank 3 now has five cab voices: the Full Rig's baked-in New Old Dude, Marsh V25
+  (Modern), Ubershall (Low Tuned), Albion (Lead), and the Stormblade's own UK V30 pair. All sit at
+  −14 ± 0.3 LUFS. Local 96 kHz IRs need no special handling. A2 files from newer trainers load
+  once the architecture is read from the JSON.
+- **Not measured / caveats:** nothing was judged by ear. The 10.5 s window read the unchanged
+  New Old Dude Modern 1 dB quieter than D17's 5.2 s window (−15.1 vs −14.1), so these levels are
+  internally consistent but not directly comparable with D17. Sample peaks moved by up to 4.6 dB
+  between passes of the same preset (PC 15: −8.4 / −3.8). Lancaster's description of the Albion
+  cab wasn't found online, so its identity comes from the file name only. The CC 23 and CC 26
+  toggles on Stormblade (Fortin and CHUG into an unknown amp) were not measured.

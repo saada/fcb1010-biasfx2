@@ -48,7 +48,7 @@ SONGS = [
     (3, 2, 14, "Satan 50 Modern"),
     (3, 3, 15, "Satan 50 Low Tuned"),
     (3, 4, 16, "Satan 50 Lead"),
-    (3, 5, 17, "Satan Wall"),
+    (3, 5, 17, "Stormblade"),
 ]
 BANK_NAMES = {0: "Maiden", 1: "80s", 2: "Variety", 3: "Modern"}
 

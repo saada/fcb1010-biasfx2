@@ -54,7 +54,7 @@ def test_board_matches_rig(board):
     assert board.banks[2].switches[1].label == "Comfortably Numb"
     assert board.banks[2].switches[8].label == "Lead"
     assert board.banks[3].title == "Modern" and board.banks[3].kind == "songs"
-    assert [board.banks[3].switches[sw].label for sw in (1, 5, 8, 9)] == ["Satan Full Rig", "Satan Wall", "Lead", "Drive"]
+    assert [board.banks[3].switches[sw].label for sw in (1, 5, 8, 9)] == ["Satan Full Rig", "Stormblade", "Lead", "Drive"]
 
 
 def test_maiden_delays_are_the_heavy_presets_echo_blocks(board):
