@@ -172,7 +172,7 @@ a tight high-gain preset can set e.g. release 15 / hold 10. Pitch (≥ 0.0.11, o
 while on). Unknown ids are an error. The full baseline is `BASE_PARAMS` in tone3000.py.
 Output level (+12 dB) and gate (on at −60 dB) are global (`GLOBAL_PARAMS`) and win over `params`; tone.csv's gate and tone-stack columns win over both.
 `outputLevel` is a fixed per-preset level, not the volume pedal: EXP B drives the DAW's Volume
-stage on top of it (+3 dB until the pedal moves, toe +6 dB; constants in `fcb_router.py`, D22).
+stage on top of it (0 dB at full toe and until the pedal moves, heel silent; `fcb_router.py`, D22).
 
 IRs that aren't 48 kHz, or whose data chunk has an odd byte length, load as *silence*
 in TONE3000; the builder re-encodes them

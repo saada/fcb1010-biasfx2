@@ -138,8 +138,8 @@ COMPRESSOR = ("Compressor", "http://lsp-plug.in/plugins/lv2/compressor_stereo", 
 # VOLUME = EXP B (CC 7): one gain stage for all three rigs, before the limiter, so it guards the
 # toe and no Program Change resets the level (a preset param would: experiments D8, D22). LSP
 # Slap-back Delay, dry only: "Dry amount" (0-10, linear) follows CC 7, which the router sends
-# through an audio taper (fcb_router.volume_cc), and a fixed "Output gain" trim puts CC 127 at
-# +8 dB. Until the pedal moves it sits at fcb_router.VOLUME_NOMINAL_DB.
+# through an audio taper (fcb_router.volume_cc), and a fixed "Output gain" trim makes CC 127
+# exactly 0 dB (full toe = the presets' YouTube-matched level). It starts at 0 dB.
 VOLUME = ("Volume", "http://lsp-plug.in/plugins/lv2/slap_delay_stereo", True,
           {15: ("Dry amount", round(fcb_router.VOLUME_STAGE_MAX * fcb_router.VOLUME_NOMINAL_CC / 127, 6)),
            16: ("Dry mute", 0), 17: ("Wet amount", 0.0), 18: ("Wet mute", 1),
@@ -682,7 +682,7 @@ def show_map():
         print(f"  {'':8} CC {cc:<5} TONE3000 {target}")
     print(f"  EXP A    CC {CC_WAH_SWEEP}     wah sweep (Qtractor)")
     print(f"  EXP B    CC {fcb_router.VOLUME_CC}      volume (Qtractor, Rig bus, before the limiter; "
-          f"{fcb_router.VOLUME_NOMINAL_DB:+.0f} dB until moved, toe {fcb_router.VOLUME_TOE_DB:+.0f} dB)")
+          "0 dB at the toe and until moved, heel silent)")
     print("\nScene banks (03-09), CC 80 drive / CC 81 selector:")
     for name, (drive, select, clean) in t3k.SCENES.items():
         print(f"  {name:<9} CC80={drive:<3} CC81={select:<3} clean instance: {clean} preset")

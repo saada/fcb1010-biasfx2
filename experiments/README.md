@@ -740,3 +740,12 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   metered in Qtractor; the sim's limiter is a sample-peak stand-in for dpl's true peak. The
   LSP stage's response to a fast sweep (zipper) is unmeasured. The FCB's EXP B may not reach
   raw 0 or 127; if heel isn't silent or toe isn't +6 dB, recalibrate it (README).
+
+- **Revised the same day.** The owner asked "how do i quickly reset the pedal to 0db? and why is
+  max at +6db?", then "whatever we should set for youtube play along". Full toe is now exactly
+  0 dB (the stage's CC 127 = unity) and the rig starts there; heel is silent; the curve is
+  dB-linear from -40 dB just off the heel to 0 dB at the toe. Like a real volume pedal it only
+  turns down, so rocking it fully forward resets it. 0 dB is the presets' own level, which every
+  preset is levelled to offline (rigsim --exact): -14 LUFS heavies, -15 cleans, matching YouTube's
+  -14 LUFS normalization, so a YouTube backing track and the rig play balanced and the monitor
+  knob sets both. The +3 dB baseline and the +6 dB toe are gone.

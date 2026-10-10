@@ -41,7 +41,7 @@ BANK 4  MODERN: Randall Satan sounds (Ola Englund's rig) and Glenn Fricker's Sto
           SW1 SATAN FULL RIG   SW2 SATAN 50 MODERN   SW3 SATAN 50 LOW TUNED   SW4 SATAN 50 LEAD   SW5 STORMBLADE
           SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
-EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7): heel silent, ~78 % = +3 dB (the startup level), toe +6 dB
+EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7): heel silent, toe = 0 dB = YouTube level (rock it forward to reset)
 ```
 
 | Switch | Sends | Does |
@@ -321,8 +321,9 @@ FCB1010 ─► PC/CC straight into TONE3000; Qtractor binds SW6 wah, SW7 octaver
 This brings back the FCB layout's original intent: SW6 wah, SW7 octaver, EXP A wah
 sweep. TONE3000 keeps its block toggles (song banks: SW8 LEAD, SW9 drive; Maiden banks: SW8 boost, SW9 delay + reverb) SW10 is the tuner. EXP B is the
 DAW's Volume stage on the Rig bus, just before the limiter: it covers all three rigs, a preset
-change never resets it, and the router gives it an audio taper (heel silent, about 78 % of the
-travel = +3 dB, where the rig starts, toe +6 dB; `uv run fcb_router.py volume` prints the curve,
+change never resets it, and the router gives it an audio taper (heel silent, full toe = 0 dB,
+where the rig starts: the presets' level, matched to YouTube's -14 LUFS for play-along;
+`uv run fcb_router.py volume` prints the curve,
 experiments D22). The
 limiter keeps peaks under −1 dBFS. The compressor is in the chain but bypassed by default:
 it cut the loudness spread across presets from 9.2 to 4.6 dB (`experiments/README.md` D0–D4),

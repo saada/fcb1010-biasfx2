@@ -52,15 +52,15 @@ WATCH = [REPO / "rig.py", REPO / "tone3000.py", REPO / "lib/fcb1010.py", REPO / 
 # no Program Change resets it and the limiter still guards every rig. Levels are DAW gain in dB
 # over the presets' own level (TONE3000 outputLevel, fixed at +12 dB in every preset).
 VOLUME_CC = 7                 # EXP B, MIDI channel 1 (rig.VOLUME_CC)
-VOLUME_NOMINAL_DB = 3.0       # the rig's level until EXP B moves: 3 dB over the old fixed level, which the owner found too quiet
-VOLUME_NOMINAL_TRAVEL = 0.78  # pedal travel (0 = heel, 1 = toe) that gives VOLUME_NOMINAL_DB
-VOLUME_TOE_DB = 6.0           # full toe: a modest 3 dB lift over nominal (was +12 dB, slammed into the limiter)
-VOLUME_FLOOR_DB = -40.0       # the taper's bottom just off the heel (dB-linear up to nominal); full heel is silence
+# Full toe = 0 dB = the presets' own level, which is levelled to YouTube's loudness target
+# (-14 LUFS heavies, -15 cleans; experiments D22), so a backing track and the rig play balanced.
+# Like a real volume pedal it only turns down: rock it fully forward to get back to 0 dB.
+VOLUME_FLOOR_DB = -40.0       # the taper's bottom just off the heel (dB-linear up to the toe); full heel is silence
 # The stage: LSP Slap-back Delay, dry only. Its "Dry amount" (0-10, linear gain) is bound to CC 7,
-# which Qtractor maps linearly (logarithmic=0, D21); "Output gain" is a fixed trim, so CC 127 is
-# +8 dB and CC 1 about -34 dB, with 0.1-0.2 dB steps around nominal.
+# which Qtractor maps linearly (logarithmic=0, D21); the fixed "Output gain" trim makes CC 127
+# exactly unity, so the toe can never go louder than 0 dB.
 VOLUME_STAGE_MAX = 10.0       # the bound port's range top ("Dry amount" spans 0-10)
-VOLUME_STAGE_TRIM = 0.25      # the stage's fixed "Output gain" (-12 dB)
+VOLUME_STAGE_TRIM = 1 / VOLUME_STAGE_MAX  # the stage's fixed "Output gain" (-20 dB): CC 127 = 0 dB
 
 
 def volume_db(cc):
@@ -70,19 +70,17 @@ def volume_db(cc):
 
 
 def volume_cc_for_db(db):
-    """The CC 7 value whose gain is nearest `db` (never past the toe's)."""
+    """The CC 7 value whose gain is nearest `db` (never past the toe's 0 dB)."""
     cc = round(10 ** (db / 20) / (VOLUME_STAGE_TRIM * VOLUME_STAGE_MAX) * 127)
     return max(0, min(127, cc))
 
 
 def volume_taper_db(travel):
-    """Pedal travel 0-1 -> target dB (None at full heel): dB-linear from the floor to nominal,
-    then to the toe, so equal pedal moves sound like equal steps (an audio taper)."""
+    """Pedal travel 0-1 -> target dB (None at full heel): dB-linear from the floor to 0 dB at the
+    toe, so equal pedal moves sound like equal steps (an audio taper)."""
     if travel <= 0:
         return None
-    if travel <= VOLUME_NOMINAL_TRAVEL:
-        return VOLUME_FLOOR_DB + (VOLUME_NOMINAL_DB - VOLUME_FLOOR_DB) * travel / VOLUME_NOMINAL_TRAVEL
-    return VOLUME_NOMINAL_DB + (VOLUME_TOE_DB - VOLUME_NOMINAL_DB) * (travel - VOLUME_NOMINAL_TRAVEL) / (1 - VOLUME_NOMINAL_TRAVEL)
+    return VOLUME_FLOOR_DB * (1 - min(travel, 1.0))
 
 
 def volume_cc(raw):
@@ -92,7 +90,7 @@ def volume_cc(raw):
 
 
 VOLUME_TABLE = [volume_cc(raw) for raw in range(128)]  # the hot path's lookup
-VOLUME_NOMINAL_CC = volume_cc_for_db(VOLUME_NOMINAL_DB)  # the stage's startup value (qtractor_rig)
+VOLUME_NOMINAL_CC = 127  # the stage's startup value (qtractor_rig): 0 dB, as if the pedal is at the toe
 
 
 def volume_travel(cc):
@@ -415,8 +413,8 @@ def bench(n=1000):
 
 def volume():
     """The EXP B taper: pedal % -> CC 7 sent -> dB on the Rig bus."""
-    print(f"EXP B volume: floor {VOLUME_FLOOR_DB:+.0f} dB, nominal {VOLUME_NOMINAL_DB:+.0f} dB at "
-          f"{VOLUME_NOMINAL_TRAVEL:.0%}, toe {VOLUME_TOE_DB:+.0f} dB; startup CC {VOLUME_NOMINAL_CC}")
+    print(f"EXP B volume: heel silent, floor {VOLUME_FLOOR_DB:+.0f} dB just off the heel, "
+          f"toe 0 dB (the presets' YouTube-matched level); startup CC {VOLUME_NOMINAL_CC}")
     for pct in range(0, 101, 5):
         cc = volume_cc(round(pct / 100 * 127))
         db = volume_db(cc)

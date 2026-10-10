@@ -133,17 +133,16 @@ def test_router_on_test_ports_with_aseqsend():
 
 # ---------------------------------------------------------------- EXP B volume (experiments D22)
 def test_volume_taper():
-    """Heel is silent, nominal travel gives the nominal level, toe the toe level, and the curve
-    never steps back down; the session starts at the nominal level."""
+    """Heel is silent, toe is exactly 0 dB (unity: the presets' YouTube-matched level), the curve
+    never steps back down, and the session starts at 0 dB."""
     db = lambda raw: router.volume_db(router.volume_cc(raw))
     assert router.volume_cc(0) == 0 and db(0) is None
-    assert abs(router.volume_db(router.VOLUME_NOMINAL_CC) - router.VOLUME_NOMINAL_DB) < 0.1
-    assert abs(db(round(router.VOLUME_NOMINAL_TRAVEL * 127)) - router.VOLUME_NOMINAL_DB) < 0.3
-    assert abs(db(127) - router.VOLUME_TOE_DB) < 0.1
+    assert router.volume_cc(127) == router.VOLUME_NOMINAL_CC == 127 and abs(db(127)) < 1e-9
+    assert -43 < db(1) < -35  # just off the heel: the floor (CC 1, the stage's smallest step, is -42 dB)
     ccs = [router.volume_cc(raw) for raw in range(128)]
-    assert ccs == sorted(ccs) and max(ccs) < 127  # monotonic, and the toe stays under the stage's +8 dB top
+    assert ccs == sorted(ccs)  # monotonic
     for raw in range(1, 128):  # the board reads the travel back from the CC it got
-        assert abs(router.volume_travel(router.volume_cc(raw)) - raw / 127) < 0.08
+        assert abs(router.volume_travel(router.volume_cc(raw)) - raw / 127) < 0.1
 
 
 def test_volume_is_a_daw_stage_no_preset_touches():
@@ -156,7 +155,7 @@ def test_volume_is_a_daw_stage_no_preset_touches():
     label, uri, active, params, ccs = qr.VOLUME
     assert active and ccs == {7: (15, "hook")}
     gain = params[15][1] * params[21][1]
-    assert abs(20 * math.log10(gain) - router.VOLUME_NOMINAL_DB) < 0.1
+    assert abs(20 * math.log10(gain)) < 0.01  # starts at 0 dB
     bound = [spec for spec in qr.HEAVY_CHAIN + qr.CLEAN_CHAIN + qr.HARMONY_CHAIN + qr.BUS_CHAIN
              if spec[1] != "tone3000" and 7 in spec[4]]
     assert bound == [qr.VOLUME]  # Qtractor allows one observer per CC
@@ -184,9 +183,9 @@ def test_pc_burst_does_not_change_volume():
 def test_board_shows_volume_db():
     st = RigState(Board())
     snap = st.snapshot()["expB"]
-    assert snap["value"] is None and snap["readout"] == f"{router.VOLUME_NOMINAL_DB:+.1f} dB"  # unmoved: nominal
+    assert snap["value"] is None and snap["readout"] == "+0.0 dB"  # unmoved: 0 dB, as at the toe
     st.feed(("cc", 0, 7, 0))
     assert st.snapshot()["expB"]["readout"] == "mute" and st.snapshot()["expB"]["value"] == 0
     st.feed(("cc", 0, 7, router.volume_cc(127)))
-    assert st.snapshot()["expB"]["readout"] == f"{router.VOLUME_TOE_DB:+.1f} dB"
+    assert st.snapshot()["expB"]["readout"] == "+0.0 dB"
     assert st.snapshot()["expB"]["value"] > 0.95
