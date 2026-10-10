@@ -1,0 +1,71 @@
+{
+  "pc": 21,
+  "name": "Hysteria Clean",
+  "reference": "Hysteria (title track): Def Leppard, Hysteria (1987, prod. Mutt Lange), ~107 BPM: the clean jangle of the verses, pre-chorus and bridge",
+  "rig": "Rick Savage played about 80% of the album's jangle guitars, on a Telecaster through the JHS Rock-Box, which had separate reverb and chorus buttons ('only Mutt and Nigel Green knew' the settings). The pre-chorus and bridge chords were recorded one note at a time; Collen counts 'probably eight guitar parts' on the chorus. Clark and Collen played the solo live, 'plugged into a Rockman each'. Equipboard credits Clark with a Boss CE-2 on the album (weak)",
+  "sources": [
+    "https://www.musicradar.com/artists/they-were-far-superior-guitar-players-to-me-i-could-never-play-lead-to-save-my-life-but-one-thing-im-quite-good-at-is-playing-with-a-certain-feel-def-leppard-bassist-rick-savage-reveals-80-percent-of-hysterias-jangle-guitars-were-him-all-along",
+    "https://en.wikipedia.org/wiki/Hysteria_(Def_Leppard_song)",
+    "https://steveclarkguitar.com/articles-interviews/the-hysteria-album-sound/",
+    "https://equipboard.com/albums/def-leppard-hysteria",
+    "https://songbpm.com/@def-leppard/hysteria",
+    "https://www.tone3000.com/tones/30352"
+  ],
+  "chorus": {
+    "rate_hz": 0.8,
+    "depth_ms": 3.0,
+    "mix": 0.4,
+    "note": "Estimate: the Rock-Box had a chorus button but its settings are undocumented (and the CE-2 claim is weak), so a light, slightly quicker shimmer than the JC-120, 40 % wet."
+  },
+  "notes": "Amp = Slammin MXR/Rockman X100, Clean 1 at half input (cab-simulated, so the cab slot is empty), standing in for the Rock-Box. Tele voicing (the humbucker -> single-coil curve -3/-2.5/0/+1.5/+3/+2 dB) for Savage's Telecaster, applied after the capture in tone.csv rather than as eq_pre: Clean 1 barely saturates, so before or after sounds alike, and a post EQ lets `tune @clean ...` reach it. The echo is ON: 421 ms (dotted eighth at 107 BPM), low mix, with a 480L Large Plate in the same block (SW9 DELAY switches both). The chorus is the DAW chorus on SW7 (0.8 Hz / 3 ms / 40 %, an estimate). Spread wobble 0.15 for width and Align wobble 0.25 for the stacked parts. SW8 BOOST = TS9 clean push (not on the record). Research: the 80s-tones.md shortlist, section F (captures and model ids checked with `tone3000.py models`). Levels: tone.csv out_db -11.3 dB puts it at -16.1 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 30352,
+      "model_id": 413451,
+      "enabled": true,
+      "label": "MXR X100 Rockman, Clean 1 half (Rock-Box stand-in)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 421,
+      "feedback": 0.25,
+      "cutoff_hz": 6000.0,
+      "mix": 0.18,
+      "enabled": true,
+      "label": "Dotted-eighth delay 421 ms (107 BPM) + 480L plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 1.0,
+    "spreadWobble": 0.15,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.25
+  }
+}

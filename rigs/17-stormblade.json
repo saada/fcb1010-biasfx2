@@ -1,0 +1,111 @@
+{
+  "pc": 17,
+  "name": "Stormblade",
+  "reference": "Glenn Fricker's free Stormblade A2 NAM, double-tracked through a UK V30 4x12 on two mics",
+  "rig": "Stormblade A2 (Spectre Media Group NAM) -> SMG UK V30 4x12: SM57 left, Sennheiser MD 440 right",
+  "sources": [
+    "https://spectremedia.kit.com/55316a8f96",
+    "https://www.tone3000.com/tones/1627",
+    "https://www.tone3000.com/tones/5996",
+    "https://www.tone3000.com/tones/2090",
+    "https://www.tone3000.com/tones/28672"
+  ],
+  "notes": "Spectre Media Group / Glenn Fricker, free Stormblade A2 (spectremedia.kit.com): the A2 model and its two UK V30 cab IRs, as local files in ~/Music/fcb-rig/packs/spectre/ (no license text, so personal use only and never committed; rigs/README.md, Local files). Dual rig: the same Stormblade capture on both sides, the SM57 IR hard left and the MD 440 IR hard right, Align on with no wobble, so the two mics read as two takes. On the DI bench the dual rig kept the single SM57 chain's low-end articulation (60-150 Hz envelope spread 22.0 dB against 22.2) and added body (40-100 Hz −19.6 dB against −23.2) and width, so it stays dual (experiments D18). The left (SM57) side came out 3.4 dB under the right untrimmed, hence the uneven out_db.The split is after slot 2, so SW8 (Fortin 33) and SW9 (Solar CHUG) feed both sides, as on the Satan Wall this replaced (rigs/archive/17-satan-wall.json). Echo off. Without the pack files, check fails with their paths: delete the \"file\" fields to fall back to the catalog Satan 50 Modern (tone 1627) and the Res New Old Dude IR (tone 5996).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 28672,
+      "model_id": 386848,
+      "enabled": false,
+      "label": "Fortin 33, 1 o'clock (capture by @elihis)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 2090,
+      "model_id": 434124,
+      "enabled": false,
+      "label": "Solar CHUG, 'The Crushinator' (Paul Jacovino capture)"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 1627,
+      "model_id": 425687,
+      "file": "~/Music/fcb-rig/packs/spectre/Stormblade A2.nam",
+      "enabled": true,
+      "label": "Stormblade A2 (Spectre Media Group / Glenn Fricker)",
+      "out_db": 4.6
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 5996,
+      "model_id": 56565,
+      "file": "~/Music/fcb-rig/packs/spectre/01 SMG_UK_V30 57_dc.wav",
+      "enabled": true,
+      "label": "SMG UK V30 4x12, SM57 (Spectre Media Group)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.35,
+      "cutoff_hz": 4000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Lead delay, 400 ms"
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 1627,
+      "model_id": 425687,
+      "file": "~/Music/fcb-rig/packs/spectre/Stormblade A2.nam",
+      "enabled": true,
+      "label": "Stormblade A2 (Spectre Media Group / Glenn Fricker)",
+      "out_db": 1.2
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 5996,
+      "model_id": 56565,
+      "file": "~/Music/fcb-rig/packs/spectre/02 SMG_UK_V30 440_dc.wav",
+      "enabled": true,
+      "label": "SMG UK V30 4x12, MD 440 (Spectre Media Group)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.35,
+      "cutoff_hz": 4000.0,
+      "mix": 0.25,
+      "enabled": false,
+      "label": "Lead delay, 400 ms"
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 0.0,
+    "spreadEnabled": 0.0
+  },
+  "levels": {
+    "target_lufs": -14.0,
+    "measured_lufs": -14.0,
+    "measured_peak_dbfs": -5.4,
+    "measured_side_lufs": [
+      -16.9,
+      -17.0
+    ],
+    "method": "bench: dry DI loop into Qtractor:Guitar/in_*, PCs into the FCB port at DI loop boundaries, 10.5 s of Qtractor:Rig/out per preset on one persistent pw-record node (compressor bypassed, limiter on); experiments D18"
+  }
+}

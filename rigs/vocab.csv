@@ -1,0 +1,16 @@
+word,moves,why
+fatter,eq_100 +1; eq_250 +1.5; eq_3k5 -0.5,body lives in the low mids (250 Hz); a little less presence keeps the extra weight from reading as louder-brighter
+thinner,eq_100 -1; eq_250 -1.5; eq_650 -0.5,the reverse of fatter: less low-mid body and boxiness lets a part sit above a dense mix
+brighter,eq_3k5 +1; eq_8k +1.5,presence plus the top shelf; most of the perceived brightness is the 8 kHz shelf
+darker,eq_3k5 -1; eq_8k -2,the reverse of brighter with a deeper shelf cut because the shelf is gentle
+tighter,eq_100 -1.5; gate_hold -20; gate_release -40,less sub-100 Hz bloom on chugs and a gate that closes palm mutes sooner (50/100 ms -> 30/60 ms)
+looser,eq_100 +1; gate_hold +20; gate_release +50,more low-end bloom and longer note tails before the gate closes
+more attack,eq_3k5 +1.5; eq_1k6 +0.5; in_db -1,the pick click sits at 2-5 kHz; 1 dB less drive lets more of the transient past the capture's own compression
+less attack,eq_3k5 -1.5; eq_1k6 -0.5; in_db +1,the reverse of more attack: a softer pick edge and a little more saturation
+more gain,in_db +3; out_db -1,3 dB harder into each amp capture; a saturated capture puts out roughly 1 dB of that (estimate) so the fader takes 1 dB back
+less gain,in_db -3; out_db +1,the reverse of more gain; the fader makes up part of the level a cleaner capture loses
+less fizz,eq_8k -2.5; eq_3k5 -0.5,fizz is the 5-10 kHz rasp of high-gain amps through a cab IR; the shelf does most of the work
+warmer,eq_250 +1; eq_8k -1.5,a little low-mid body and a softer top
+more air,eq_8k +2,the high shelf alone: openness without harder pick attack (3.5 kHz untouched)
+scooped,eq_650 -2.5; eq_100 +1; eq_8k +1,the classic mid scoop at 650 Hz with lows and highs nudged up
+mid-forward,eq_650 +2; eq_1k6 +1; eq_100 -0.5,650 Hz-1.6 kHz is where a guitar cuts through a band mix; less low end keeps it from honking

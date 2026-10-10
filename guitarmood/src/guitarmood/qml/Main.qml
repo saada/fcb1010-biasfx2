@@ -255,15 +255,20 @@ Window {
                     Layout.fillWidth: true
                     spacing: 16 * win.u
                     Text {
-                        text: win.status.fcb === false ? "● FCB1010 not connected: " + win.status.fcbDetail
-                              : win.status.fcb ? "● FCB1010 connected" : "● waiting for the FCB1010"
-                        color: win.status.fcb === false ? win.c.red : win.status.fcb ? win.c.green : win.c.dark_foreground
+                        // No router = the pedal does not reach the rig: the loudest thing in the footer.
+                        text: win.status.router === false ? "● FCB ROUTER DOWN: the pedal is not reaching the rig · " + (win.status.routerDetail || "")
+                              : win.status.fcb === false ? "● FCB1010 not connected: " + win.status.fcbDetail
+                              : win.status.fcb ? "● FCB1010 connected" + (win.status.router ? " · routed" : "") : "● waiting for the FCB1010"
+                        color: win.status.router === false || win.status.fcb === false ? win.c.red
+                               : win.status.fcb ? win.c.green : win.c.dark_foreground
+                        font.bold: win.status.router === false
                         font { family: rig.font; pixelSize: 14 * win.u }
                     }
                     Text {
                         Layout.fillWidth: true
-                        text: win.status.warning ? "⚠ " + win.status.warning : win.status.detail || ""
-                        color: win.status.warning ? win.c.orange : win.c.dark_foreground
+                        text: win.status.warning ? "⚠ " + win.status.warning
+                              : win.status.routerWarning ? "⚠ " + win.status.routerWarning : win.status.detail || ""
+                        color: win.status.warning || win.status.routerWarning ? win.c.orange : win.c.dark_foreground
                         font { family: rig.font; pixelSize: 14 * win.u }
                         elide: Text.ElideRight
                     }

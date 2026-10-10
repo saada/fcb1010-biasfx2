@@ -456,3 +456,234 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   (dynamics bypassed) the owner said the rig "sounds way better".
 - **Change:** the compressor is bypassed by default; the −1 dBTP limiter stays. Not yet measured:
   a palm-mute level/transient A/B with the compressor on vs off on the rig.
+
+## D17 — Bank 3 (Modern) levels, and does TONE3000 play A1 `.nam` files?
+
+- **Question:** where do the five new Randall Satan presets (PC 13–17) sit against the −14 LUFS
+  target, and can a local A1 `.nam` (the format of Ola Englund's 2023 free models) replace a
+  catalog A2 model?
+- **Hypothesis:** the full-rig capture runs hot like Djent's (−9.8 dB trim). TONE3000 is built on
+  NAM A2, so A1 might not load.
+- **Method:** bench, owner not playing. The DI loop (`pw-play`, persistent node) went into
+  `Qtractor:Guitar/in_*` and each PC went into the FCB port with `aseqsend` (CC 80 = 63,
+  CC 81 = 0 first). After 3 s to load, 5.2 s of `Qtractor:Rig/out_*` was recorded on a persistent
+  `pw-record` node. Speakers and the live guitar input were unlinked during the run and relinked
+  after. Measured with BS.1770 integrated loudness and sample peak (ffmpeg ebur128), per side
+  too. Compressor bypassed (default since D16), limiter on. The A1 test was a temporary PC 18:
+  PC 14 with its amp replaced by `"file"` = Jacovino's A1 Satan 50 Modern (model 81534).
+- **Result** (`bank3-levels.csv`, four passes):
+
+| PC | Preset | untrimmed | `out_db` | final LUFS | peak dBFS |
+|---|---|---|---|---|---|
+| 13 | Satan Full Rig | −6.0 | −12.5 | −14.1 | −3.3 |
+| 14 | Satan 50 Modern | −15.0 | +1.0 | −14.1 | −4.4 |
+| 15 | Satan 50 Low Tuned | −13.8 | −0.2 | −14.0 | −8.1 |
+| 16 | Satan 50 Lead | −14.0 | 0 | −14.1 | −1.0 (limiter) |
+| 17 | Satan Wall (L/R) | −13.4 (−15.3 / −17.9) | −1.7 / +0.9 | −13.5 (−16.3 / −16.7) | −1.0 (limiter) |
+
+  - The full rig's trim isn't linear: −8 dB of `out_db` bought only 3.8 dB, because the limiter
+    was holding its untrimmed −1 dBFS peaks. The second step was linear.
+  - **A1:** TONE3000 0.0.12 loaded the A1 file (log: `Preparing NAM model … (407762 bytes)`,
+    `NAM model reports -1 Hz; the chain runs at 48000 Hz regardless`, `Loaded preset: A1 Test`)
+    and played it: −20.7 LUFS untrimmed, 5.7 dB under its A2 twin. Peak-to-loudness was 8.0 dB
+    against the A2's 9.6 dB, so it was distorting rather than passing the DI through.
+  - All five presets logged `Loaded preset:` with their own names and produced sound. Qtractor
+    ran with B/Q 0.44 and 0 ERR in a closing `pw-top` sample.
+- **Conclusion:** bank 3 sits at −14 ± 0.5 LUFS. A1 `.nam` files play, so a block's local
+  `file` can take Ola's own free models once they're downloaded. Re-level with `out_db` after a
+  swap, because an A1 file may carry no loudness metadata.
+- **Not measured:** a live riff from the owner (L7: the DI bench can read differently), the CC 23
+  and CC 26 toggles on these presets, and xruns over a long run. "Sounds best" among the
+  @nillmtd models was not judged by ear: SW1 uses the author's "My EQ" model.
+
+## D18 — Distinct cabs for bank 3, and Glenn Fricker's Stormblade A2 on SW5
+
+- **Question:** (1) do local 96 kHz IRs load through a block's `"file"`? (2) Which of three free
+  Lancaster Audio PLAP cab IRs (Cameron Webb Ubershall SM57, Warren Huart Marshall 4x12 V25,
+  Ulrich Wild Albion 4x12 Audix D4) gives each Satan 50 preset its own voice, measured against the
+  Res New Old Dude IR they all shared? (3) Does TONE3000 0.0.12 play the free Stormblade A2
+  (`SlimmableContainer`, trainer 0.7.0) as a dual rig with its two UK V30 IRs?
+- **Hypothesis:** Ubershall tightens Low Tuned, Marsh V25 smooths Lead's upper mids, and Albion
+  suits Modern. Stormblade loads like any A2 file.
+- **Method:** offline, each IR went through `build_block` and its embedded WAV was read back.
+  Then the D17 bench, with one change: one persistent `pw-record` on `Qtractor:Rig/out_*` and one
+  persistent `pw-play` of the DI repeated every 15 s, with each PC sent (CC 80 = 63, CC 81 = 0
+  first) at a loop boundary and 4.0–14.5 s of each loop measured. Every preset hears the same
+  10.5 s of DI. Measures: BS.1770 loudness and sample peak (ffmpeg ebur128), per side too; the
+  energy share per band relative to 40 Hz–10 kHz; the spectral centroid; and a low-end tightness
+  figure: the p90 − p10 spread of the 20 ms RMS envelope of the 60–150 Hz band (bigger = the low
+  end stops between hits). Twelve temporary presets (PC 18–29: Modern, Low Tuned and Lead amps ×
+  four cabs, otherwise identical) and a temporary single-chain Stormblade (PC 18) were removed
+  after. Speakers and the live guitar input were unlinked during the runs. Compressor bypassed,
+  limiter on.
+- **Result** (`bank3-cabs.csv`, `bank3-levels.csv` passes 5–6):
+  - **Local IR path:** no fix needed. `build_block` sends local files through the same
+    `wav_loads_in_tone3000` gate as catalog files, so the 96 kHz files (odd 72003-byte data
+    chunks) became 48 kHz mono 24-bit with even data chunks (36000 bytes). Band shares matched the
+    96 kHz originals within 0.1 dB, and the sources hold only −42 dB above 24 kHz, so the linear
+    resampler aliases nothing audible. TONE3000 logged `Preparing IR model: …` for each, and the
+    presets measured −14 LUFS with cab-shaped spectra.
+  - **A2 detection bug:** `local_tone` looked for `"SlimmableContainer"` in the file's first
+    200 bytes. Trainer 0.7.0 writes `metadata` first (the key sits at byte 727 in Stormblade), so
+    an A2 file was tagged A1. It now parses the JSON's `architecture`.
+  - **Cabs** (band shares in dB; same amp, same DI; New Old Dude → chosen):
+
+| Preset | Cab | 40–100 | 100–250 | 250–800 | 5–10 k | centroid | low spread |
+|---|---|---|---|---|---|---|---|
+| Modern | New Old Dude → **Marsh V25** | −13.4 → −18.3 | −6.6 → −9.2 | −6.8 → −5.3 | −15.2 → −12.4 | 1473 → 1755 Hz | 19.2 → 18.5 |
+| Low Tuned | New Old Dude → **Ubershall** | −17.3 → −22.0 | −9.0 → −10.2 | −9.8 → −9.2 | −13.0 → −12.7 | 2456 → 2423 Hz | 18.9 → 19.3 |
+| Lead | New Old Dude → **Albion** | −16.5 → −29.3 | −6.5 → −6.2 | −8.1 → −6.1 | −15.6 → −18.8 | 1828 → 1685 Hz | 19.7 → 20.9 |
+
+  - The Marsh V25 was the *brightest* IR on every amp (+2.7 to +3.0 dB at 5–10 kHz against New Old
+    Dude), so the "smoother upper mid" hypothesis for Lead is refuted. The Albion was the
+    smoothest top (−3.1 to −3.2 dB at 5–10 kHz), the most midrange (+2 dB at 250–800 Hz) and the
+    leanest bottom (−11.9 to −12.9 dB under 100 Hz). Its lean bottom suits a lead, not drop-tuned
+    rhythm, where it also lowered the tightness figure (18.7). The Ubershall cut 4.7 dB of boom
+    under 100 Hz while leaving the top within 0.3 dB, the closest to New Old Dude and the tightest
+    on Low Tuned. The Albion was also the darkest on Modern (centroid 1303 Hz), so Modern took the
+    Marsh: it cuts 4.9 dB under 100 Hz and 2.6 dB at 100–250 Hz, for a brighter, more aggressive
+    rhythm, at a 0.7 dB lower tightness figure.
+  - **Stormblade:** TONE3000 logged `Preparing NAM model: Stormblade A2 … (310620 bytes)` and
+    `Loaded preset: Stormblade`. Against the dry DI it was distorted and cab-filtered:
+    peak-to-loudness 10.5 dB against the DI's 18.1, and 2.5–5 kHz at −7.8 dB against −25.3. Dual
+    against single SM57 chain: equal tightness (22.0 vs 22.2), more body (40–100 Hz −19.6 vs
+    −23.2), and stereo width. Untrimmed it played −16.6 LUFS, with the SM57 side 3.4 dB under the
+    MD 440 side (−21.6 / −18.2).
+  - **Levels, final pass:**
+
+| PC | Preset | `out_db` | LUFS | peak dBFS | L / R LUFS |
+|---|---|---|---|---|---|
+| 13 | Satan Full Rig (unchanged) | −12.5 | −14.3 | −1.0 | −17.3 / −17.3 |
+| 14 | Satan 50 Modern (Marsh V25) | +2.4 | −14.2 | −5.2 | −17.2 / −17.2 |
+| 15 | Satan 50 Low Tuned (Ubershall) | −0.9 | −14.0 | −3.8 | −17.0 / −17.0 |
+| 16 | Satan 50 Lead (Albion) | 0 | −13.9 | −5.0 | −17.0 / −16.9 |
+| 17 | Stormblade (57 L / 440 R) | +4.6 / +1.2 | −14.0 | −5.4 | −16.9 / −17.0 |
+
+  - All five logged `Loaded preset:` with their own names. Closing `pw-top`: Qtractor B/Q
+    0.43–0.45, and ERR held at 169 across the idle samples. That count accumulated over three
+    launches' worth of PC loads and bench graph changes, not while playing.
+- **Conclusion:** bank 3 now has five cab voices: the Full Rig's baked-in New Old Dude, Marsh V25
+  (Modern), Ubershall (Low Tuned), Albion (Lead), and the Stormblade's own UK V30 pair. All sit at
+  −14 ± 0.3 LUFS. Local 96 kHz IRs need no special handling. A2 files from newer trainers load
+  once the architecture is read from the JSON.
+- **Not measured / caveats:** nothing was judged by ear. The 10.5 s window read the unchanged
+  New Old Dude Modern 1 dB quieter than D17's 5.2 s window (−15.1 vs −14.1), so these levels are
+  internally consistent but not directly comparable with D17. Sample peaks moved by up to 4.6 dB
+  between passes of the same preset (PC 15: −8.4 / −3.8). Lancaster's description of the Albion
+  cab wasn't found online, so its identity comes from the file name only. The CC 23 and CC 26
+  toggles on Stormblade (Fortin and CHUG into an unknown amp) were not measured.
+
+## D19 — An offline simulator: the real TONE3000 engine, faster than real time
+
+- **Question:** can presets be measured without the live rig, fast enough for a tune loop
+  ("make the cleans fatter" in about 2 s, edit plus verify), and does it agree with the DI bench?
+- **Hypothesis:** the native TONE3000 VST3, hosted offline by Spotify's pedalboard and handed the
+  same state blob `qtractor_rig.py` gives the live instance, renders the same audio as the rig.
+- **Method:** `rigsim.py` builds each preset in memory (`tone3000.build_preset`, so tone.csv
+  applies), loads it into a fresh TONE3000 per process (sandbox HOME; ~/.config/TONE3000 only
+  read), waits until the plugin's log shows every queued model prepared and its load mute lifts,
+  renders the bench DI (`di-ref.wav`) on both inputs at a 256-sample block, applies a -1 dBFS
+  lookahead limiter, and measures BS.1770 loudness and bands. `rigsim_validate.py` rebuilt every
+  bank-3 sound the bench measured (D17 passes 1-4, D18 passes 5-6, the 12 cab candidates and both
+  Stormblade variants) from git at 71e630c / fb43aed and compared (`sim-validation.csv`).
+  Owner's Qtractor rig was running throughout; renders ran at nice 19, no audio device.
+- **Result:**
+
+| Set | n | Δ LUFS sim − live: mean | sd | range |
+|---|---|---|---|---|
+| D18 levels (passes 5-6), same 4.0-14.5 s window | 10 | +0.01 | 0.08 | -0.1 … +0.2 |
+| D18 cab candidates + Stormblade, same window | 14 | +0.02 | 0.05 | -0.0 … +0.2 |
+| D17 levels (passes 1-4), 5.2 s window at an unrecorded loop phase | 20 | -0.16 | 0.60 | -1.1 … +0.8 |
+
+  - D18 rows match to the tenth in loudness. Sample peak matches in 17 of 24; live peaks of the
+    same preset moved by up to 4.6 dB between passes (D18). Band shares match within 0.1 dB and
+    the centroid within 13 Hz for PC 18-24 and Stormblade single.
+  - PC 25-29 (Low Tuned/Albion and the four Lead cabs) match in loudness but read 135-270 Hz
+    darker than the bench. Re-measuring the simulated audio with the window shifted reproduces
+    the bench at +0.7 s (PC 25) and +1.0 to +1.2 s (PC 26-29), loudness within 0.1 dB. So the
+    bench's window drifted about 1 s late over the second half of that 12-preset run. A
+    distorted amp's loudness barely depends on which bar of the riff is measured, its spectrum
+    does. The cab conclusions compare cabs on the same amp, which were measured in the same
+    run, so they stand. The absolute Lead centroids (1828 → 1685 Hz) are about 250 Hz high.
+  - D17's scatter is per preset and constant across passes (Modern -1.0 to -1.1 every pass, Lead
+    -0.5, Low Tuned +0.2): the unknown window, as D18 already noted for Modern. The sim tracks the
+    trims: Modern +1 dB of out_db = +1.0 dB live and simulated. The only within-preset miss is
+    the untrimmed Full Rig (pass 1, limiter holding peaks): +0.8 dB, as the stand-in limiter is
+    gentler than x42's true-peak one.
+  - **Speed** (i7-1365U, rig live, nice 19): whole rig (19 presets) on the full 15 s DI in
+    11.1-11.6 s wall (16-26 s under other load); on the 2.5 s clip, 3.9 s. Five presets on the
+    clip, nothing cached: 1.3-1.5 s end to end with `uv run`; an `@clean` A/B (3 presets,
+    before and after, 6 renders): 1.6 s cold, 0.3 s cached. Per preset: plugin load 0.09 s,
+    state 0.32 s, models land 0.05-0.15 s, render 0.25-0.6 s.
+  - **Clip vs exact:** the 2.5 s clip reads +0.2 ± 0.6 dB LUFS and bands within about ±1 dB of
+    the 10.5 s window across all 19 presets, a per-preset offset. Deltas track: an `@clean`
+    eq_100 +3 / eq_250 +2 what-if moved LUFS +1.2/+1.0/+0.3 (clip) vs +1.0/+1.0/+0.1 (exact) and
+    2-5 kHz -1.4/-1.1/-0.4 vs -1.1/-1.1/-0.2.
+- **Pitfalls found:** (1) the plugin lifts its load mute after 2 s with no model landing, so on a
+  busy machine output can start with blocks still dry; output alone isn't proof that a preset
+  loaded, and the sim reads each process's TONE3000.log. (2) Stereo rigs with spread/align
+  wobble give a different mono-sum spectrum on every run (±0.6 dB, ±40 Hz), so bands are
+  measured on L+R power.
+- **Conclusion:** the offline engine is the rig, to 0.1 dB. Tune with `rigsim.py` and confirm
+  on the bench only what the sim can't do.
+- **Not simulated:** wah, octaver, Solo slap-delay and harmony tracks, the bypassed compressor,
+  true-peak limiting, Program Change gaps, and CC moves after load. The older banks (0-2) were
+  levelled live with a riff and the compressor on, so their sim levels (e.g. Hysteria -6.6 LUFS)
+  are not comparable with those notes yet. That needs a bench pass.
+
+## D20 — Bank 2 (80s Clean) levels, and a real chorus in the DAW
+
+*Data:* `80s-clean-levels.csv` (rigsim `--exact`, after the trims).
+
+- **Question:** what `out_db` puts the five new cleans (PC 18-22) at the rig's clean level, and
+  can the rig get a real chorus, which TONE3000 can't do?
+- **Hypothesis:** every capture carries loudness metadata (-10.9 to -24.8), so TONE3000
+  normalizes them and the trims should be small. The DI captures into a cab IR would sit lower.
+- **Method:** `uv run rigsim.py @80s-clean --exact --before none` (D19's DI bench, offline),
+  untrimmed, then with tone.csv `out_db` trims, aiming at -16 LUFS: the cleans sit 2 dB under the
+  -14 heavies, so the crest (19 dB) keeps pick peaks near the -1 dBFS limiter.
+- **Result, untrimmed:** a 19 dB spread. Is This Love -23.2, Rule the World -25.8, This Charming
+  Man -27.0 LUFS (all DI + cab IR), Every Breath -14.8 (JC-120 amp+cab capture), Hysteria Clean
+  -7.9 (the Rockman's cab-simulated output, limited at -1 dBFS). Normalization doesn't cover the
+  cab IR's loss.
+- **Trims:** +7.2, +9.8, -1, -11.3, +11 dB. Hysteria needed -11.3, not -8, because the limiter
+  had been hiding 3 dB.
+- **Result, trimmed:** -15.7 to -16.2 LUFS, peaks -1.0 to -1.9 dBFS.
+- **Chorus:** LSP Chorus Stereo (installed; Guitarix's `gx_chorus_stereo` is the alternative),
+  after the heavy TONE3000, bypassed, toggled by CC 31 (SW7 in the 80s banks), with each preset's
+  rate/depth/mix as CC 89-91 (`qtractor_rig.chorus_ccs`).
+- **Not measured:** the chorus. Qtractor was running the owner's session, so there was no live
+  `build` or smoke test, and rigsim has no DAW plugins. The CC-to-port mapping is assumed linear
+  (`logarithmic=0` in the session, as for the Solo time). The rate port is marked logarithmic in
+  its TTL, so check it on the first live run. Until whatever reads the FCB sends `chorus_ccs`,
+  the session default plays: 0.6 Hz, 4 ms, 50 %.
+
+## D21 — A universal flash and a software router: what the extra hop costs
+
+- **Question:** if the FCB1010 only sends fixed addresses (channel 16) and a Python ALSA client
+  (`fcb_router.py`) maps them to the layout, how much latency does the hop add?
+- **Hypothesis:** well under 1 ms; Python dispatch is tens of µs, kernel sequencer hops are cheap.
+- **Method:** `uv run fcb_router.py bench 2000` on test ports (no FCB, no Qtractor). A bench
+  client sends each mapped address (50 switches, round robin) from its own port and stamps it,
+  and receives the router's output on another of its ports (same process, same monotonic clock).
+  Baseline: the same send with a direct link (bench out → bench in), no router. Laptop busy
+  (Steam, desktop); router unprivileged, no RT priority. Raw data: router-latency.csv.
+- **Result (µs):** direct link median 66, p99 254, max 554. Via the router, first message:
+  median 114, p99 385, max 575; whole burst (up to 8 messages): median 153, p99 433, max 661.
+  Added by the router: about 0.05 ms median, under 0.2 ms at p99. Earlier runs on the same
+  machine gave a 0.05–0.09 ms median and a rare max of 0.8–1.3 ms (scheduler wake-up).
+- **Conclusion:** the router is free in practice. It also shortens the wire: the FCB now sends
+  one 2–3 byte message per press instead of a burst of up to 12 bytes over 31.25 kbaud DIN
+  (320 µs per byte), so a scene switch's last message reaches the rig about 3 ms sooner
+  (computed, not measured on the pedal).
+- **Not measured:** the FCB's own DIN/USB path (it is not changed by the router), and RT priority.
+- **Live smoke (same day, rig up through `qtractor_rig.py up`, router in the helper unit):**
+  the wiring came up as USB Midi → FCB Router → Qtractor:FCB, with no direct link. Addresses
+  injected with `aseqsend` into the router loaded the right presets (TONE3000 log: Van Halen I
+  Brown, Rule the World, Satan Full Rig, then Maiden Clean/Heavy/Harmony), and the helper sent
+  the Maiden song CCs. Bank 1 SW7 (CC 103 = 1) switched the Chorus on. The saved session showed
+  Rate 0.6396 Hz, Depth 4.017 ms and Mix 50.39 % after the song's CC 89/90/91. So Qtractor maps
+  CC 89 linearly (logarithmic=0), and `chorus_ccs` is right. Touching rig.py reloaded the layout
+  within a second. A separate probe process timed 300 round trips through the live router,
+  probe → router → probe (bank 0 SW2, two CCs): first message median 0.28 ms, p99 0.60 ms,
+  max 0.64 ms; whole burst max 0.67 ms. That is two sequencer hops plus the probe, under audio load.

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Live FCB1010 status for the Qtractor + TONE3000 rig: one window that starts the rig, shows every pedal, and cleans up when closed"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["PySide6-Essentials>=6.9"]
+dependencies = ["PySide6-Essentials>=6.9", "alsa-midi>=1.0.4"]
 
 [project.scripts]
 guitarmood = "guitarmood.app:main"

@@ -1,5 +1,6 @@
 # /// script
 # requires-python = ">=3.10"
+# dependencies = ["alsa-midi>=1.0.4"]
 # ///
 """Run the FCB1010 + TONE3000 rig inside Qtractor — generated, never clicked.
 
@@ -15,13 +16,14 @@ Usage:
 Signal flow. The rigs sit on MIDI tracks because Qtractor only feeds MIDI to plugins on
 MIDI tracks/buses, and only the CLAP build of TONE3000 gets raw Program Change:
 
-  Scarlett In 2 ─► Heavy: [Guitar] ─► [Selector] ─► Wah ─► TONE3000 ─► Octaver ─► Solo ──────┐
+  Scarlett In 2 ─► Heavy: [Guitar] ─► [Selector] ─► Wah ─► TONE3000 ─► Octaver ─► Chorus ─► Solo ┐
                                           │ send (CC 81 > 63)                                  ├► bus Rig:
                    Clean: [Clean In] ◄────┘ ─► TONE3000 ────────────────────────────────────────┘  Compressor
                                                                               ─► Limiter ─► Scarlett out
   Heavy's [Harmony Tap] sends the clean DI ─► Harmony: [Harmony In] (SW7) ─► 3 x42 autotune
       stages (a diatonic third in the song's key) ─► TONE3000 (partner's amp) ─► bus Rig
-  FCB1010 ─► MIDI bus "FCB" ─► Heavy gets MIDI ch 1, Clean ch 2, Harmony ch 3 (their PCs).
+  FCB1010 ─► fcb_router.py ─► MIDI bus "FCB" ─► Heavy gets MIDI ch 1, Clean ch 2, Harmony ch 3.
+  The pedal only sends addresses (bank, switch); the router turns them into rig.py's layout.
   `helper` (a user service started by `up`) turns a scene bank's PC into its song's solo
   echo time and harmony scale (CC 85-88).
 
@@ -30,7 +32,7 @@ Scene banks (tone3000.SCENES) switch instantly with absolute CCs, never a Progra
     heavy chain. Active, it sends the guitar to the clean TONE3000 and mutes the heavy one.
   - CC 80 is read by the heavy TONE3000 as inputLevel (value/127). Qtractor switches the
     Solo block (+2 dB and a 380 ms lead echo) on above 63.
-Qtractor also binds SW6/SW7/EXP A to the wah and octaver.
+Qtractor also binds SW6/SW7/EXP A to the wah and octaver (SW7 = the chorus in the 80s banks).
 
 Tracks for recording: "Rig Print" (the processed stereo rig, fed back from bus
 "Rig"), "DI" (dry guitar, muted, for re-amping) and "Backing" (drop a song here).
@@ -45,11 +47,14 @@ import signal
 import struct
 import subprocess
 import sys
+import threading
 import time
 import xml.etree.ElementTree as ET
 import zlib
 from pathlib import Path
+from queue import Queue
 
+import fcb_router
 import tone3000 as t3k
 
 SESSION_DIR = Path.home() / "Music/fcb-rig"
@@ -60,6 +65,7 @@ QUANTUM = 256  # same as the standalone (experiments L1–L4)
 GUITAR = (t3k.AUDIO["audioInputDeviceName"], "capture_MONO")
 OUTPUT = t3k.AUDIO["audioOutputDeviceName"]
 FCB = ("USB Midi", t3k.MIDI_PORT)
+ROUTER = (fcb_router.CLIENT, fcb_router.OUT_PORT)  # what the FCB bus listens to (the router feeds it)
 TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 
 # FCB1010 row (rig.py): SW6 wah, SW7 octaver, SW8 boost, SW9 drive, SW10 echo,
@@ -67,6 +73,9 @@ TONE3000_CLAP = Path.home() / ".clap/TONE3000.clap"
 # TONE3000 keeps the block toggles and output level.
 CC_WAH, CC_OCTAVER, CC_WAH_SWEEP = 20, 21, 27
 CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the octaver
+CC_CHORUS = 31   # SW7 in the 80s banks (rig.CHORUS_CC): the stereo chorus instead of the octaver
+# The chorus's per-song rate / depth / mix (chorus_ccs()): absolute CCs, sent after a song's PC.
+CC_CHORUS_RATE, CC_CHORUS_DEPTH, CC_CHORUS_MIX = 89, 90, 91
 CC_TUNER = 28    # SW10 in every bank: the helper shows the tuner (Fretwise) and mutes the rig
 CC_TUNER_MUTE = 29  # helper -> Qtractor: absolute 127/0 (a toggled Insert lost its input links)
 # Per-song settings the FCB has no room for (two CCs per switch): `helper` watches the
@@ -90,6 +99,23 @@ WAH = ("Wah", "http://guitarix.sourceforge.net/plugins/gxautowah#wah", False,
        {3: ("Wah", 0.5)}, {CC_WAH: ("Activate", "toggle"), CC_WAH_SWEEP: (3, "hook")})
 OCTAVER = ("Octaver", "http://guitarix.sourceforge.net/plugins/gx_detune_#_detune_", False,
            {2: ("DETUNE", -12.0), 6: ("WET", 45.0), 7: ("DRY", 80.0)}, {CC_OCTAVER: ("Activate", "toggle")})
+# CHORUS = a real time-varying chorus, which TONE3000 can't do (Spread wobble only widens).
+# LSP Chorus Stereo after the amp, where a JC-120's chorus or a rack chorus sits. Two voices,
+# triangle LFO, the two channels 180 degrees apart (the JC-120's two speakers), 7 ms base
+# delay. The processed path is wet only (Dry amount 0, Wet 1) and "Dry/Wet balance" is the mix
+# knob, so mix 0.5 = half input, half chorus. Bypassed by default; SW7 toggles it in the 80s
+# banks. Rate, depth and mix start at CHORUS_DEFAULT and follow each preset's `chorus` block
+# through CC 89-91 (chorus_ccs). Qtractor maps a CC linearly over the port's range
+# (logarithmic=0, as for the Solo block's time): rate 0.01-20 Hz, depth 0.1-20 ms, mix 0-100 %.
+CHORUS_DEFAULT = {"rate_hz": 0.6, "depth_ms": 4.0, "mix": 0.5}  # slow, moderate, half wet: a CE-2-style 80s chorus
+CHORUS_RANGE = t3k.CHORUS_LIMITS  # the ports' ranges, which a CC 0-127 spans linearly
+CHORUS = ("Chorus", "http://lsp-plug.in/plugins/lv2/chorus_stereo", False,
+          {13: ("Rate", CHORUS_DEFAULT["rate_hz"]), 20: ("Number of voices", 0),
+           21: ("Depth", CHORUS_DEFAULT["depth_ms"]), 25: ("LFO type 1", 0), 28: ("LFO delay 1", 7.0),
+           31: ("Inter-channel phase 1", 180.0), 45: ("Dry amount", 0.0), 46: ("Wet amount", 1.0),
+           47: ("Dry/Wet balance", 100 * CHORUS_DEFAULT["mix"])},
+          {CC_CHORUS: ("Activate", "toggle"), CC_CHORUS_RATE: (13, "hook"),
+           CC_CHORUS_DEPTH: (21, "hook"), CC_CHORUS_MIX: (47, "hook")})
 # SOLO (labelled LEAD on the board) = one switch: amps pushed + 2 dB, no echo. LSP Slap-back Delay
 # passes the dry signal at "Dry amount", so while it is active (CC 80 > 63) it is a +2 dB boost;
 # bypassed it is unity. Its echo is muted (Wet 0): the Maiden bank has its own echo switches
@@ -113,7 +139,7 @@ LIMITER = ("Limiter", "http://gareus.org/oss/lv2/dpl#stereo", True,
 # TONE3000: (label, "tone3000", scene its startup preset comes from, MIDI map)
 HEAVY_T3K = ("TONE3000 Heavy", "tone3000", "heavy", HEAVY_MIDI_MAP)
 CLEAN_T3K = ("TONE3000 Clean", "tone3000", "clean", TONE3000_MIDI_MAP)
-HEAVY_CHAIN = [WAH, HEAVY_T3K, OCTAVER, SOLO]
+HEAVY_CHAIN = [WAH, HEAVY_T3K, OCTAVER, CHORUS, SOLO]
 CLEAN_CHAIN = [CLEAN_T3K]
 BUS_CHAIN = [COMPRESSOR, LIMITER]  # on bus "Rig": both instances share one set of dynamics
 
@@ -163,6 +189,21 @@ def song_settings():
             out[rig["pc"]] = (song.get("solo_delay_ms") or echo.get("delay_ms") or 380,
                               song.get("harmony_scale", "G Major"))
     return out
+
+
+def chorus_settings():
+    """{heavy-instance PC: {rate_hz, depth_ms, mix}}: each preset's `chorus` block over
+    CHORUS_DEFAULT (every song and heavy scene preset, so a new song never keeps the last one's)."""
+    return {r["pc"]: CHORUS_DEFAULT | {k: v for k, v in r.get("chorus", {}).items() if k in CHORUS_DEFAULT}
+            for r in t3k.load_rigs() if r.get("scene") in (None, "heavy")}
+
+
+def chorus_ccs(pc, settings=None):
+    """The absolute CCs (MIDI ch 1) that set the chorus to preset `pc`'s rate, depth and mix.
+    Whatever reads the FCB (helper, GuitarMood, the MIDI router) sends them after that PC."""
+    s = (settings or chorus_settings()).get(pc, CHORUS_DEFAULT)
+    to_cc = lambda k: round((s[k] - CHORUS_RANGE[k][0]) / (CHORUS_RANGE[k][1] - CHORUS_RANGE[k][0]) * 127)
+    return [(CC_CHORUS_RATE, to_cc("rate_hz")), (CC_CHORUS_DEPTH, to_cc("depth_ms")), (CC_CHORUS_MIX, to_cc("mix"))]
 
 
 def el(parent, tag, text=None, **attrs):
@@ -326,7 +367,7 @@ def session_xml():
     fields(el(midi, "midi-control"), mmc_mode="input", mmc_device=127, spp_mode="none", clock_mode="none")
     fcb = el(midi, "midi-bus", name="FCB", mode="input")  # first MIDI input = control bus
     fields(fcb, monitor=0)
-    connects(fcb, "input-connects", [FCB])
+    connects(fcb, "input-connects", [ROUTER])  # the router also connects itself and drops any direct FCB link
     fields(el(midi, "midi-bus", name="MIDI Out", mode="output"), monitor=0)
 
     tracks = el(root, "tracks")
@@ -413,29 +454,62 @@ def send_song(port, pc, settings):
         subprocess.run(["aseqsend", "-p", port, "B0", f"{cc:02X}", f"{value:02X}"], check=True)
 
 
+def start_router(work):
+    """The FCB router (fcb_router.py) in a thread: each translated burst lands in `work`, and
+    None when the router stops. RIG_HELPER_SOURCE replays an aseqdump log instead (tests)."""
+    if replay := os.environ.get("RIG_HELPER_SOURCE", "").split():
+        translator = fcb_router.Translator()
+
+        def feed():
+            for line in subprocess.Popen(replay, stdout=subprocess.PIPE, text=True).stdout:
+                if ev := fcb_router.parse_aseqdump(line):
+                    work.put(translator.translate(ev)[1])
+            work.put(None)
+        threading.Thread(target=feed, daemon=True).start()
+        return None
+    router = fcb_router.Router(on_events=lambda addr, events: work.put(events),
+                               on_status=lambda s: print(f"router: {s}", flush=True))
+
+    def run():
+        try:
+            router.run()
+        except Exception as e:  # noqa: BLE001 - another owner, or no ALSA sequencer
+            print(f"FCB router failed: {e}", flush=True)
+        work.put(None)
+    router.thread = threading.Thread(target=run, daemon=True, name="fcb-router")
+    router.thread.start()
+    return router
+
+
 def helper():
-    """Watch the FCB; on a scene bank's heavy Program Change, send that song's solo echo
-    time and harmony scale to Qtractor (runs as the qtractor-rig-helper user unit)."""
+    """The rig's MIDI side when GuitarMood isn't running (the qtractor-rig-helper user unit):
+    the FCB router (pedal addresses -> rig.py's layout -> Qtractor), and on its translated
+    stream, a scene bank's heavy Program Change sends that song's solo echo time and harmony
+    scale, and SW10 toggles the tuner."""
+    work = Queue()
+    router = start_router(work)
+    if router:
+        signal.signal(signal.SIGTERM, lambda *_: router.stop())  # systemctl stop: the router exits cleanly
     settings = song_settings()
     while not (port := qtractor_port()):
         time.sleep(1)
     first = next((r["pc"] for r in t3k.load_rigs() if r.get("scene") == "heavy"), None)
     if first is not None:
         send_song(port, first, settings)  # the session starts on the first scene bank
-    source = os.environ.get("RIG_HELPER_SOURCE", "").split() or ["aseqdump", "-p", FCB[0]]  # tests replay a dump
-    fcb = subprocess.Popen(source, stdout=subprocess.PIPE, text=True)
     tuner_proc, tuning = None, False
-    for line in fcb.stdout:
-        if re.search(rf"Control change\s+0, controller {CC_TUNER}, value (6[4-9]|[7-9]\d|1[0-2]\d)\b", line):
-            tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + tuner
-            tuner_proc = set_tuning(tuning, qtractor_port() or port, tuner_proc)
-            print(f"tuner {'on' if tuning else 'off'}", flush=True)
-            continue
-        m = re.search(r"Program change\s+0, program (\d+)", line)
-        if m and int(m.group(1)) in settings:
-            send_song(qtractor_port() or port, int(m.group(1)), settings)
-            print(f"PC {m.group(1)}: solo echo {settings[int(m.group(1))][0]} ms, harmony {settings[int(m.group(1))][1]}",
-                  flush=True)
+    while (events := work.get()) is not None:
+        for kind, ch, *rest in events:
+            if kind == "cc" and ch == 0 and rest[0] == CC_TUNER and rest[1] >= 64:
+                tuning = not tuning  # SW10 toggles: mute the rig (absolute CC to Qtractor) + tuner
+                tuner_proc = set_tuning(tuning, qtractor_port() or port, tuner_proc)
+                print(f"tuner {'on' if tuning else 'off'}", flush=True)
+            elif kind == "pc" and ch == 0 and rest[0] in settings:
+                send_song(qtractor_port() or port, rest[0], settings)
+                print(f"PC {rest[0]}: solo echo {settings[rest[0]][0]} ms, harmony {settings[rest[0]][1]}", flush=True)
+    if router:
+        router.thread.join(3)
+        if not router.stopping.is_set():
+            sys.exit(1)  # the router died: let systemd restart the unit
 
 
 def guitar_source():
@@ -530,8 +604,9 @@ def up(helper=True):
         if pid() and "Qtractor" in subprocess.run(["aconnect", "-l"], capture_output=True, text=True).stdout:
             if helper:
                 subprocess.run(["systemd-run", "--user", "--quiet", "--collect", "--unit=qtractor-rig-helper",
-                                "-p", "Restart=always", sys.executable, str(Path(__file__).resolve()), "helper"])
-            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM})" + (" + per-song helper" if helper else ""))
+                                "-p", "Restart=always", "-p", "RestartSec=2",
+                                sys.executable, str(Path(__file__).resolve()), "helper"])
+            print(f"Qtractor up (pid {pid()}, quantum {QUANTUM})" + (" + FCB router and per-song helper" if helper else ""))
             return
         time.sleep(0.5)
     sys.exit("Qtractor did not come up — journalctl --user -u qtractor-rig")
@@ -591,6 +666,7 @@ def show_map():
     print("  SW1-5    PC 0-14   TONE3000 presets (rigs/)")
     print(f"  SW6      CC {CC_WAH}     wah on/off (Qtractor)")
     print(f"  SW7      CC {CC_OCTAVER}     octaver on/off (Qtractor)")
+    print(f"  SW7 80s  CC {CC_CHORUS}     chorus on/off (Qtractor); CC {CC_CHORUS_RATE}-{CC_CHORUS_MIX} its rate/depth/mix")
     for target, cc in TONE3000_MIDI_MAP:
         print(f"  {'':8} CC {cc:<5} TONE3000 {target}")
     print(f"  EXP A    CC {CC_WAH_SWEEP}     wah sweep (Qtractor)")

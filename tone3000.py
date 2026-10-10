@@ -15,8 +15,13 @@ Usage:
   uv run tone3000.py models <tone_id> ...
   uv run tone3000.py check [rigs/NN-x.json ...]   validate + build in memory
   uv run tone3000.py docs       regenerate rigs/RIGS.md (chains + capture links)
+  uv run tone3000.py csv        print every preset's resolved tone.csv settings
+  uv run tone3000.py csv --init [--force]   write rigs/tone.csv from the JSONs
+  uv run tone3000.py tune <@tag|preset|*> <word> [xN]   one rigs/vocab.csv move into tone.csv
+  uv run tone3000.py tune --undo                         revert the last tune
 
-Presets are data: one JSON file per song in rigs/ (format in rigs/README.md).
+Presets are data: one JSON file per song in rigs/ (format in rigs/README.md), and every
+number we tune in rigs/tone.csv (JSON -> `*` row -> `@tag` rows -> the preset's row).
 Slots are fixed because TONE3000 maps CCs to block *positions*:
 
   1 boost (CC22) | 2 drive (SW9/CC23) | 3 amp | 4 cab | 5 echo (CC24) | 6 echo 2 or ambience (CC30) | 7+ ambience
@@ -29,7 +34,9 @@ catalog; model files are public storage objects.
 """
 
 import base64
+import csv
 import html
+import io
 import json
 import math
 import os
@@ -554,10 +561,14 @@ ROLE_SLOTS = {"boost": 1, "drive": 2, "amp": 3, "cab": 4, "echo": 5, "echo2": 6}
 RIGHT_ROLE_SLOTS = {"amp": 1, "cab": 2, "echo": 3, "echo2": 4}                     # dual-rig right chain
 
 
-def load_rigs():
-    """rigs/*.json plus a generated `harmony` preset per scene bank, numbered after them."""
-    rigs = sorted([json.loads(f.read_text()) | {"_file": f.name} for f in sorted(RIGS.glob("*.json"))],
-                  key=lambda r: r["pc"])
+def load_rigs(sheet=None):
+    """rigs/*.json with rigs/tone.csv applied (tone_sheet), plus a generated `harmony` preset
+    per scene bank, numbered after them. A tone.csv error raises ToneError."""
+    sheet = sheet or tone_sheet()
+    if sheet["errors"]:
+        raise ToneError(sheet["errors"])
+    rigs = sorted([apply_tone(json.loads(f.read_text()) | {"_file": f.name}, sheet)
+                   for f in sorted(RIGS.glob("*.json"))], key=lambda r: r["pc"])
     heavy = [r for r in rigs if r.get("scene") == "heavy"]
     nxt = max(r["pc"] for r in rigs) + 1
     return rigs + [harmony_rig(r, nxt + i) for i, r in enumerate(sorted(heavy, key=lambda r: r["bank"]))]
@@ -580,7 +591,573 @@ def harmony_rig(heavy, pc):
             "notes": "Generated: right-hand (partner) chain of the heavy preset, no echo/ambience.",
             "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"}, *core],
             "params": {k: v for k, v in heavy.get("params", {}).items() if not k.startswith(("chain", "align"))},
-            "levels": heavy.get("levels", {})}
+            "tone_params": dict(heavy.get("tone_params", {})), "levels": heavy.get("levels", {})}
+
+
+# --- tone sheet: rigs/tone.csv, every number we tune in one sheet (rigs/README.md) -------------
+# One row per preset (its JSON file stem, with its `tags`), a `*` row for every preset, and
+# `@tag` rows for every preset carrying that tag. Precedence: JSON -> `*` -> `@tag` rows in file
+# order -> the preset's row. An empty cell inherits.
+#   rule "add" (gains, dB): `*` and `@tag` cells are offsets added to each preset's own value.
+#   rule "set" (absolute):  `*` and `@tag` cells are defaults for presets whose own cell is empty.
+
+TONE_CSV = RIGS / "tone.csv"
+VOCAB_CSV = RIGS / "vocab.csv"
+TUNE_HISTORY = RIGS / ".tune-history"  # gitignored: what `tune --undo` restores
+EQ_COLUMNS = ("eq_100", "eq_250", "eq_650", "eq_1k6", "eq_3k5", "eq_8k")  # = EQ_BANDS, in order
+CAPTURE = ("nam", "ir")
+END = "end"  # a chain's end block: its cab, or its amp when the cab slot is empty (full rigs)
+
+# column: (rule, unit, lo, hi, chains, role, block types, field). chains "L" = left/mono chain,
+# "R" = right chain, "LR" = both. A param column has role None and its TONE3000 param id as field.
+TONE_COLUMNS = {
+    "out_db": ("add", "dB", -24, 24, "LR", END, CAPTURE, "out_db"),  # preset fader (see apply_tone)
+    "in_db": ("add", "dB", -24, 24, "LR", "amp", ("nam",), "in_db"),
+    "boost_db": ("add", "dB", -24, 24, "L", "boost", CAPTURE, "out_db"),
+    "drive_db": ("add", "dB", -24, 24, "L", "drive", CAPTURE, "out_db"),
+    "amp_db": ("add", "dB", -24, 24, "L", "amp", CAPTURE, "out_db"),
+    "cab_db": ("add", "dB", -24, 24, "L", "cab", CAPTURE, "out_db"),
+    "r_amp_db": ("add", "dB", -24, 24, "R", "amp", CAPTURE, "out_db"),
+    "r_cab_db": ("add", "dB", -24, 24, "R", "cab", CAPTURE, "out_db"),
+    **{c: ("add", "dB", -24, 24, "LR", END, CAPTURE, i) for i, c in enumerate(EQ_COLUMNS)},
+    "boost_on": ("set", "0/1", 0, 1, "L", "boost", CAPTURE, "enabled"),
+    "drive_on": ("set", "0/1", 0, 1, "L", "drive", CAPTURE, "enabled"),
+    "echo_on": ("set", "0/1", 0, 1, "LR", "echo", ("echo",), "enabled"),
+    "echo_ms": ("set", "ms", 0, 2000, "LR", "echo", ("echo",), "delay_ms"),
+    "echo_fb": ("set", "0-0.8", 0, 0.8, "LR", "echo", ("echo",), "feedback"),
+    "echo_mix": ("set", "0-1", 0, 1, "LR", "echo", ("echo",), "mix"),
+    "echo_cutoff": ("set", "Hz", 200, 20000, "LR", "echo", ("echo",), "cutoff_hz"),
+    "amb_mix": ("set", "0-1", 0, 1, "LR", "ambience", ("ir",), "mix"),
+    "gate_db": ("set", "dB", -100, 0, "", None, (), "gateThreshold"),
+    "gate_hold": ("set", "ms", 0, 200, "", None, (), "gateHold"),
+    "gate_release": ("set", "ms", 5, 500, "", None, (), "gateRelease"),
+    "gate_range": ("set", "dB", 20, 80, "", None, (), "gateRange"),
+    "bass": ("set", "0-10", 0, 10, "", None, (), "toneBass"),
+    "mid": ("set", "0-10", 0, 10, "", None, (), "toneMid"),
+    "treble": ("set", "0-10", 0, 10, "", None, (), "toneTreble"),
+}
+FIELD_DEFAULTS = {"out_db": 0.0, "in_db": 0.0, "enabled": True, "mix": 1.0, "delay_ms": 0,
+                  "feedback": 0.5, "cutoff_hz": 3500.0}  # what build_block assumes when a field is absent
+TAG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
+# `csv --init`'s first guess at the song presets' tags (FCB bank name, gain character); scene
+# presets get theirs from `bank`, `scene` and name, split rigs get "stereo". Tags then live in tone.csv.
+BANK_TAGS = {0: "maiden", 1: "80s", 2: "80s-clean", 3: "variety", 4: "modern"}  # = rig.py BANK_NAMES
+SONG_TAGS = {
+    "03-van-halen-1": "80s crunch", "04-van-halen-1984": "80s crunch",
+    "05-def-leppard-pyromania": "80s crunch", "06-def-leppard-hysteria": "80s crunch",
+    "07-u2-streets": "80s clean", "08-comfortably-numb": "variety lead", "09-radiohead": "variety crunch",
+    "10-nirvana": "variety heavy", "11-djent": "variety heavy", "12-purple-rain": "variety clean",
+    "13-satan-full-rig": "modern heavy", "14-satan-50-modern": "modern heavy",
+    "15-satan-50-low-tuned": "modern heavy", "16-satan-50-lead": "modern heavy", "17-stormblade": "modern heavy",
+}
+
+
+class ToneError(ValueError):
+    def __init__(self, errors):
+        self.errors = list(errors)
+        super().__init__("\n".join(self.errors))
+
+
+def end_block(chain):
+    """A chain's last capture: its cab, or its amp when the cab slot is empty (full rigs)."""
+    for role in ("cab", "amp"):
+        if hit := [b for b in chain if b.get("role") == role and b.get("type") in CAPTURE]:
+            return hit[-1]
+    return None
+
+
+def tone_targets(rig, col):
+    """The blocks a tone.csv column sets in this preset ([] for a param column)."""
+    _, _, _, _, chains, role, types, _ = TONE_COLUMNS[col]
+    out = []
+    for side in ("left", "right"):
+        chain = rig.get(side, [])
+        if side[0].upper() not in chains:
+            continue
+        if role == END:
+            out += [b] if (b := end_block(chain)) else []
+        else:
+            out += [b for b in chain if b.get("role") == role and b.get("type") in types]
+    return out
+
+
+def block_value(b, field):
+    if isinstance(field, int):  # an eq band
+        return (b.get("eq") or [0.0] * len(EQ_BANDS))[field]
+    return b.get(field, FIELD_DEFAULTS[field])
+
+
+def set_block_value(b, field, v):
+    if isinstance(field, int):
+        if b.get("eq_pre"):
+            raise ValueError("its EQ runs before the model (eq_pre); edit that voicing in the JSON")
+        b["eq"] = list(b.get("eq") or [0.0] * len(EQ_BANDS))
+        b["eq"][field] = v
+    elif field == "enabled":
+        b[field] = bool(v)
+    else:
+        b[field] = int(round(v)) if field == "delay_ms" else v
+
+
+def parse_number(text):
+    """A tone.csv cell: None if empty, an int if written as one (so 375 stays 375), else a float."""
+    t = text.strip()
+    if not t:
+        return None
+    v = float(t)
+    if not math.isfinite(v):
+        raise ValueError
+    return int(t) if re.fullmatch(r"[+-]?\d+", t) else v
+
+
+def format_number(v):
+    v = round(float(v), 6)
+    return str(int(v)) if v.is_integer() else repr(v)
+
+
+def empty_sheet():
+    return {"star": {}, "tag_rows": [], "rows": {}, "tags": {}, "line": {}, "errors": []}
+
+
+def tone_sheet(path=None):
+    """Read rigs/tone.csv -> {"star": {col: v}, "tag_rows": [(tag, {col: v}, line)],
+    "rows": {stem: {col: v}}, "tags": {stem: [tag]}, "line": {row key: line}, "errors": [...]}.
+    Every error names the line, the row and the column. No file = an empty sheet."""
+    path = Path(path or TONE_CSV)
+    sheet = empty_sheet()
+    if not path.exists():
+        return sheet
+    errors, stems = sheet["errors"], {f.stem for f in RIGS.glob("*.json")}
+    lines = list(csv.reader(path.read_text().splitlines()))
+    header = [h.strip() for h in (lines[0] if lines else [])]
+    if header[:1] != ["preset"]:
+        return sheet | {"errors": [f"{path.name} line 1: the first column must be 'preset'"]}
+    for c in header[1:]:
+        if c != "tags" and c not in TONE_COLUMNS:
+            errors.append(f"{path.name} line 1, column '{c}': unknown column (known: tags, {', '.join(TONE_COLUMNS)})")
+        elif header.count(c) > 1:
+            errors.append(f"{path.name} line 1, column '{c}': appears twice")
+    for n, cells in enumerate(lines[1:], 2):
+        key = cells[0].strip() if cells else ""
+        if not key or key.startswith("#"):  # blank or comment row (the `#rule` row)
+            continue
+        where = f"{path.name} line {n} ({key})"
+        if key.startswith("@") and not TAG_RE.fullmatch(key[1:]):
+            errors.append(f"{where}: a tag row is @ + lowercase letters, digits and dashes")
+            continue
+        if key != "*" and not key.startswith("@") and key not in stems:
+            errors.append(f"{where}: no rigs/{key}.json")
+            continue
+        if key in sheet["line"]:
+            errors.append(f"{where}: duplicate row (first on line {sheet['line'][key]})")
+            continue
+        if len(cells) > len(header):
+            errors.append(f"{where}: {len(cells)} cells but {len(header)} columns")
+        row, tags = {}, []
+        for col, text in zip(header[1:], cells[1:]):
+            if col == "tags":
+                tags = text.split()
+                if tags and (key == "*" or key.startswith("@")):
+                    errors.append(f"{where}, column tags: only preset rows carry tags")
+                for t in tags:
+                    if not TAG_RE.fullmatch(t):
+                        errors.append(f"{where}, column tags: '{t}' is not lowercase letters, digits and dashes")
+                continue
+            if col not in TONE_COLUMNS:
+                continue
+            try:
+                v = parse_number(text)
+            except ValueError:
+                errors.append(f"{where}, column {col}: '{text.strip()}' is not a number")
+                continue
+            if v is None:
+                continue
+            _, unit, lo, hi = TONE_COLUMNS[col][:4]
+            if unit == "0/1" and v not in (0, 1):
+                errors.append(f"{where}, column {col}: {text.strip()} must be 0 or 1")
+            elif not lo <= v <= hi:
+                errors.append(f"{where}, column {col}: {text.strip()} is outside {lo}..{hi} {unit}")
+            else:
+                row[col] = v
+        sheet["line"][key] = n
+        if key == "*":
+            sheet["star"] = row
+        elif key.startswith("@"):
+            sheet["tag_rows"].append((key[1:], row, n))
+        else:
+            sheet["rows"][key], sheet["tags"][key] = row, tags
+    carried = {t for ts in sheet["tags"].values() for t in ts}
+    for tag, _, n in sheet["tag_rows"]:
+        if tag not in carried:
+            errors.append(f"{path.name} line {n} (@{tag}): no preset carries the tag '{tag}'")
+    return sheet
+
+
+def apply_tone(rig, sheet):
+    """Resolve the tone sheet into a rig (in place, and returned): JSON -> `*` -> `@tag` rows ->
+    the preset's row. "add" columns: the preset cell replaces the JSON value, and the `*` and
+    `@tag` cells add to it; out_db is a fader with no JSON value of its own, so its preset cell
+    adds too. "set" columns: the preset cell, else the last `@tag` cell, else `*`, else the JSON.
+    Param columns land in rig["tone_params"], which build_preset applies last. Raises ToneError
+    naming the row and column."""
+    stem = Path(rig.get("_file", "")).stem
+    row, tags = sheet["rows"].get(stem, {}), set(sheet["tags"].get(stem, ()))
+    layers = [sheet["star"], *(r for tag, r, _ in sheet["tag_rows"] if tag in tags)]
+    where = f"{TONE_CSV.name} line {sheet['line'].get(stem, '?')} ({stem})"
+    errors, params = [], dict(rig.get("tone_params", {}))
+    for col, (rule, unit, lo, hi, _, role, _, field) in TONE_COLUMNS.items():
+        cell = row.get(col)
+        inherited = [layer[col] for layer in layers if layer.get(col) is not None]
+        default = cell if cell is not None else inherited[-1] if inherited else None  # "set" rule
+        offset = round(sum(inherited), 6)  # "add" rule
+        if col == "out_db":
+            rig["_out_db"] = round((cell or 0) + offset, 6)
+        if role is None:
+            if default is not None:
+                params[field] = float(default)
+            continue
+        targets = tone_targets(rig, col)
+        if cell is not None and not targets:
+            errors.append(f"{where}, column {col}: this preset has no {role} block to set")
+            continue
+        for b in targets:
+            if col == "out_db":
+                v = round(block_value(b, field) + rig["_out_db"], 3) if rig["_out_db"] else None
+            elif rule == "add":
+                base = cell if cell is not None else block_value(b, field)
+                v = round(base + offset, 3) if offset else base if cell is not None else None
+            else:
+                v = default
+            if v is None:
+                continue
+            if not lo <= v <= hi:
+                errors.append(f"{where}, column {col}: resolves to {v:g} on {b.get('role')} "
+                              f"'{b.get('label', b.get('type'))}', outside {lo}..{hi} {unit}")
+                continue
+            try:
+                set_block_value(b, field, v)
+            except ValueError as e:
+                errors.append(f"{where}, column {col}: {b.get('role')} '{b.get('label', '')}': {e}")
+    if errors:
+        raise ToneError(errors)
+    rig["tone_params"] = params
+    return rig
+
+
+def tone_settings(rig):
+    """{column: value} a resolved rig plays with. A value is a list (left chain first) where the
+    chains differ, and None where the preset has no such block."""
+    params, out = preset_params(rig), {}
+    for col, (_, _, _, _, _, role, _, field) in TONE_COLUMNS.items():
+        if role is None:
+            out[col] = params[field]
+            continue
+        vals = [block_value(b, field) for b in tone_targets(rig, col)]
+        if col == "out_db":
+            vals = [rig.get("_out_db", 0)] if vals else []
+        vals = [int(v) if isinstance(v, bool) else v for v in vals]
+        out[col] = None if not vals else vals[0] if all(v == vals[0] for v in vals) else vals
+    return out
+
+
+def rig_stem(rig):
+    return Path(rig["_file"]).stem if rig["_file"].endswith(".json") else None  # None: generated
+
+
+def find_rig(rigs, name):
+    """A preset by file stem, name or PC number."""
+    return next((r for r in rigs if str(name) in (rig_stem(r), r["name"], str(r["pc"]))), None)
+
+
+def resolved(rig_name):
+    """One preset's merged settings (JSON -> `*` -> `@tag` rows -> its row): the hook for an
+    offline simulator and for docs. rig_name: file stem ("00-maiden-heavy"), name or PC number.
+    -> {"preset": stem, "name", "pc", "tags", "settings": one value per tone.csv column (see
+    tone_settings), "params": every TONE3000 param the preset sets on load, "rig": the resolved
+    preset, its blocks carrying their final numbers (out_db, in_db, eq, echo fields, enabled)}."""
+    sheet = tone_sheet()
+    rig = find_rig(load_rigs(sheet), rig_name)
+    if not rig:
+        raise KeyError(f"no preset {rig_name!r} (a rigs/*.json stem, a preset name or a PC number)")
+    return {"preset": rig_stem(rig), "name": rig["name"], "pc": rig["pc"],
+            "tags": sheet["tags"].get(rig_stem(rig), []), "settings": tone_settings(rig),
+            "params": preset_params(rig), "rig": rig}
+
+
+def affected(target, sheet=None):
+    """Names of the presets a tune target reaches, in PC order: "*" = all, "@tag" = presets
+    carrying the tag, else one preset (stem, name or PC). A generated harmony preset follows the
+    heavy preset of its bank, because it is built from that preset's resolved blocks."""
+    sheet = sheet or tone_sheet()
+    rigs = load_rigs(sheet)
+    if target == "*":
+        hit = rigs
+    elif target.startswith("@"):
+        hit = [r for r in rigs if target[1:] in sheet["tags"].get(rig_stem(r) or "", ())]
+    else:
+        hit = [r] if (r := find_rig(rigs, target)) else []
+    heavy_banks = {r["bank"] for r in hit if r.get("scene") == "heavy"}
+    hit += [r for r in rigs if r.get("scene") == "harmony" and r["bank"] in heavy_banks and r not in hit]
+    return [r["name"] for r in sorted(hit, key=lambda r: r["pc"])]
+
+
+def build_presets(names, out_dir):
+    """Build just these presets (names, e.g. from affected()) into out_dir as <id>.t3kpreset,
+    the files `build` would write, without touching ~/.config/TONE3000. -> {name: path}."""
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    paths = {}
+    for rig in load_rigs():
+        if rig["name"] in names:
+            paths[rig["name"]] = out / f"{preset_id(rig['name'])}.t3kpreset"
+            atomic_write(paths[rig["name"]], dump_preset(build_preset(rig)))
+    return paths
+
+
+def init_tags(rig):
+    stem, tags = rig_stem(rig), []
+    if rig.get("scene"):
+        tags += [BANK_TAGS.get(rig.get("bank"), f"bank{rig.get('bank')}"), rig["scene"]]
+    tags += SONG_TAGS.get(stem, "").split()
+    tags += [w for w in ("clean", "acoustic", "lead") if w in rig["name"].lower().split()]
+    tags += ["stereo"] if rig.get("split_after") else []
+    return list(dict.fromkeys(tags))
+
+
+def tone_csv_init(force=False):
+    """Write rigs/tone.csv from the JSONs as they are, so JSON + CSV builds what JSON alone did.
+    `*`: 0 for every "add" column, today's global value for each param column. A preset cell is
+    written where it differs from what `*` gives it; where its two chains differ, it stays empty
+    and the JSON keeps the numbers (listed on stdout). Tags: init_tags."""
+    if TONE_CSV.exists() and not force:
+        sys.exit(f"{TONE_CSV} exists; --force overwrites it (and every tuning in it)")
+    rigs = [apply_tone(json.loads(f.read_text()) | {"_file": f.name}, empty_sheet()) for f in RIGS.glob("*.json")]
+    rigs.sort(key=lambda r: r["pc"])
+    plain = preset_params({})
+    star = {c: (0 if rule == "add" else plain[f] if role is None else None)
+            for c, (rule, _, _, _, _, role, _, f) in TONE_COLUMNS.items()}
+    buf = io.StringIO()
+    w = csv.writer(buf, lineterminator="\n")
+    w.writerow(["preset", "tags", *TONE_COLUMNS])
+    w.writerow(["#rule", "words", *(f"{r} {u}" for r, u, *_ in TONE_COLUMNS.values())])
+    w.writerow(["*", "", *("" if v is None else format_number(v) for v in star.values())])
+    for rig in rigs:
+        cells = []
+        for col, v in tone_settings(rig).items():
+            if isinstance(v, list):
+                print(f"{rig_stem(rig)} {col}: chains differ {v}, kept in the JSON")
+                v = None
+            if v is not None and TONE_COLUMNS[col][0] == "add" and v == 0:
+                v = None
+            if v is not None and TONE_COLUMNS[col][0] == "set" and v == star[col]:
+                v = None
+            cells.append("" if v is None else format_number(v))
+        w.writerow([rig_stem(rig), " ".join(init_tags(rig)), *cells])
+    TONE_CSV.write_text(buf.getvalue())
+    print(f"wrote {TONE_CSV} ({len(rigs)} presets, {len(TONE_COLUMNS)} columns)")
+
+
+def show_value(v):
+    return "-" if v is None else "/".join(map(format_number, v)) if isinstance(v, list) else format_number(v)
+
+
+def cli_csv(args):
+    """csv --init [--force]: write rigs/tone.csv from the JSONs. csv: print what every preset
+    resolves to (L/R where its chains differ, - where it has no such block)."""
+    if "--init" in args:
+        return tone_csv_init(force="--force" in args)
+    rows = [["preset", *TONE_COLUMNS]]
+    rows += [[rig_stem(r) or r["name"], *map(show_value, tone_settings(r).values())] for r in load_rigs()]
+    widths = [max(len(r[i]) for r in rows) for i in range(len(rows[0]))]
+    for r in rows:
+        print("  ".join(c.ljust(w) for c, w in zip(r, widths)).rstrip())
+
+
+# --- tune: say it ("make all cleans fatter") -> one tone.csv edit -----------------------------
+
+def read_vocab(path=None):
+    """rigs/vocab.csv -> ({word: ([(column, step)], why)}, errors). moves: "eq_250 +1.5; eq_100 +1"."""
+    path = Path(path or VOCAB_CSV)
+    vocab, errors = {}, []
+    if not path.exists():
+        return vocab, errors
+    for n, row in enumerate(csv.DictReader(path.read_text().splitlines()), 2):
+        word = (row.get("word") or "").strip()
+        if not word or word.startswith("#"):
+            continue
+        moves = []
+        for part in (row.get("moves") or "").split(";"):
+            col, _, step = part.strip().partition(" ")
+            try:
+                step = float(step)
+            except ValueError:
+                errors.append(f"{path.name} line {n} ({word}): '{part.strip()}' is not '<column> <step>'")
+                continue
+            if col not in TONE_COLUMNS:
+                errors.append(f"{path.name} line {n} ({word}): unknown column {col}")
+            else:
+                moves.append((col, step))
+        if word in vocab:
+            errors.append(f"{path.name} line {n} ({word}): duplicate word")
+        vocab[word] = (moves, (row.get("why") or "").strip())
+    return vocab, errors
+
+
+def tune_row_key(target, sheet, rigs):
+    if target == "*":
+        return "*"
+    if target.startswith("@"):
+        if not any(target[1:] in t for t in sheet["tags"].values()):
+            sys.exit(f"no preset carries the tag '{target[1:]}' (tags: "
+                     f"{', '.join(sorted({t for ts in sheet['tags'].values() for t in ts}))})")
+        return target
+    rig = find_rig(rigs, target)
+    if not rig or not rig_stem(rig):
+        sys.exit(f"no preset {target!r}: give @tag, * or a rigs/*.json stem, name or PC")
+    return rig_stem(rig)
+
+
+def tune(target, word, times=1):
+    """Apply a vocab move to one row of tone.csv ("*", "@tag" or a preset); return the old text.
+    "add" columns: a `*`/`@tag` cell moves its offset; an empty preset cell starts from the
+    preset's JSON value. "set" columns start from the row's cell, else from the value every
+    affected preset resolves to today (skipped, with a note, where they differ)."""
+    vocab, errors = read_vocab()
+    if errors:
+        sys.exit("\n".join(errors))
+    word = word.strip().lower().replace("_", " ").replace("-", " ") if word not in vocab else word
+    if word not in vocab:
+        sys.exit(f"unknown word {word!r}; known: {', '.join(vocab)}")
+    old_text = TONE_CSV.read_text()
+    sheet = tone_sheet()
+    if sheet["errors"]:
+        sys.exit("\n".join(sheet["errors"]))
+    rigs = load_rigs(sheet)
+    key = tune_row_key(target, sheet, rigs)
+    names = affected(key, sheet)
+    now = {r["name"]: tone_settings(r) for r in rigs if r["name"] in names}
+    json_rig = None
+    if key not in ("*",) and not key.startswith("@"):
+        json_rig = apply_tone(json.loads((RIGS / f"{key}.json").read_text()) | {"_file": f"{key}.json"},
+                              empty_sheet())
+    lines = list(csv.reader(old_text.splitlines()))
+    header = lines[0]
+    idx = next((i for i, cells in enumerate(lines) if cells and cells[0].strip() == key), None)
+    if idx is None:  # a new @tag row goes after `*` and the other tag rows; a preset row at the end
+        idx = (max(i for i, c in enumerate(lines) if c and (c[0].strip() == "*" or c[0].startswith(("@", "#"))))
+               + 1 if key.startswith("@") else len(lines))
+        lines.insert(idx, [key])
+    cells = lines[idx] + [""] * (len(header) - len(lines[idx]))
+    for col, step in vocab[word][0]:
+        if col not in header:
+            sys.exit(f"tone.csv has no column {col}; add it to the header")
+        i = header.index(col)
+        rule, unit, lo, hi = TONE_COLUMNS[col][:4]
+        cur, delta = parse_number(cells[i]), step * times
+        if rule == "add" and (key == "*" or key.startswith("@") or col == "out_db"):
+            base = cur or 0
+        elif cur is not None:
+            base = cur
+        else:  # empty cell: an "add" preset cell starts from its JSON value, a "set" cell from today's
+            vals = [tone_settings(json_rig)[col]] if rule == "add" else [s[col] for s in now.values()]
+            if any(v is None or isinstance(v, list) or v != vals[0] for v in vals):
+                print(f"  skip {col}: the presets differ (or lack the block) there; tune them one by one")
+                continue
+            base = vals[0]
+        new = round(base + delta, 2)
+        if rule == "set":
+            new = max(lo, min(hi, new))
+        blank = new == 0 and rule == "add" and key.startswith("@")
+        cells[i] = "" if blank else format_number(new)
+    lines[idx] = cells
+    buf = io.StringIO()
+    csv.writer(buf, lineterminator="\n").writerows(lines)
+    TONE_CSV.write_text(buf.getvalue())
+    try:
+        load_rigs()
+    except ToneError as e:
+        TONE_CSV.write_text(old_text)
+        sys.exit("tune left tone.csv unchanged:\n" + str(e))
+    return old_text, names
+
+
+def print_diff(before, after):
+    changed = 0
+    for name in after:
+        diffs = [f"{c} {show_value(before[name][c])} -> {show_value(v)}"
+                 for c, v in after[name].items() if v != before.get(name, {}).get(c)]
+        if diffs:
+            changed += 1
+            print(f"  {name}: " + ", ".join(diffs))
+    print(f"{changed} preset(s) changed")
+
+
+def cli_tune(args):
+    """tune <@tag|preset|*> <word...> [xN] [--apply] [--no-sim] | tune --undo [--apply]
+    Edits tone.csv, then renders the presets it touched before -> after (rigsim.py, ~2 s).
+    --apply rewrites those presets in the live TONE3000 folder: the running rig picks each one
+    up on its next Program Change (TONE3000 rereads the file on every PC, experiments D19)."""
+    flags = {a for a in args if a in ("--apply", "--no-sim")}
+    args = [a for a in args if a not in flags]
+    history = json.loads(TUNE_HISTORY.read_text()) if TUNE_HISTORY.exists() else []
+    before = {r["name"]: tone_settings(r) for r in load_rigs()}
+    if args[:1] == ["--undo"]:
+        if not history:
+            sys.exit("nothing to undo")
+        last = history.pop()
+        TONE_CSV.write_text(last["csv"])
+        atomic_write(TUNE_HISTORY, json.dumps(history, indent=1).encode())
+        print(f"undid: tune {last['target']} {last['word']} x{last['times']}")
+        names = affected(last["target"])
+    else:
+        times = next((int(a[1:]) for a in args[1:] if re.fullmatch(r"x\d+", a)), 1)
+        word = " ".join(a for a in args[1:] if not re.fullmatch(r"x\d+", a))
+        if not args or not word:
+            vocab, _ = read_vocab()
+            sys.exit("usage: tone3000.py tune <@tag|preset|*> <word> [xN] | tune --undo\nwords: "
+                     + ", ".join(vocab))
+        old_text, names = tune(args[0], word, times)
+        history = (history + [{"target": args[0], "word": word, "times": times, "csv": old_text}])[-30:]
+        atomic_write(TUNE_HISTORY, json.dumps(history, indent=1).encode())
+        print(f"tune {args[0]} {word} x{times}: {len(names)} preset(s) in reach")
+    after = {r["name"]: tone_settings(r) for r in load_rigs()}
+    print_diff(before, after)
+    if "--apply" in flags:
+        live = {n: p for n, p in ((n, PRESETS / f"{preset_id(n)}.t3kpreset") for n in names) if p.exists()}
+        if missing := sorted(set(names) - set(live)):
+            print(f"not live yet (run `build`): {', '.join(missing)}")
+        build_presets(list(live), PRESETS)
+        print(f"applied {len(live)} preset(s) live: stomp (or re-select) to hear them")
+    if "--no-sim" not in flags and names:
+        sys.stdout.flush()
+        subprocess.run(["uv", "run", "--quiet", str(Path(__file__).with_name("rigsim.py")), *names, "--before", "last" if args[:1] == ["--undo"] else "undo"])
+
+
+PACKS = Path.home() / "Music/fcb-rig/packs"  # drop folder for local pack files (never committed)
+LOCAL_TONE_ID = 900100000  # local-only tone ids for local files (never hit the API)
+
+
+def local_path(spec):
+    return Path(os.path.expanduser(spec["file"]))
+
+
+def local_tone(spec):
+    """(tone record, model id, file bytes) for a block's local `file` (.nam or IR .wav)."""
+    path = local_path(spec)
+    if not path.is_file():
+        raise FileNotFoundError(f"{path}: local file missing. Save it there, or remove the block's "
+                                f"\"file\" field to use its catalog tone_id/model_id (rigs/README.md, Local files)")
+    raw = path.read_bytes()
+    mid = 2_000_000_000 + zlib.crc32(raw) % 100_000_000  # stable per file content, inside int32
+    title = spec.get("label") or path.stem
+    tone = synth_tone(mid, title, f"local file {path.name}", gear=spec.get("role", "amp"))
+    tone.update(id=LOCAL_TONE_ID + mid % 100000, format=spec["type"], license=None,
+                user={"username": "local"})
+    if spec["type"] == "nam":  # A2 files are a SlimmableContainer; A1 is a bare WaveNet/LSTM.
+        # Read the key: newer trainers (0.7.0, e.g. Stormblade A2) write "metadata" before it.
+        arch = json.loads(raw).get("architecture")
+        tone["models"][0]["architecture_version"] = 2 if arch == "SlimmableContainer" else 1
+    return tone, mid, raw
 
 
 def model_of(tone_id, model_id):
@@ -608,10 +1185,13 @@ def build_block(spec):
         what = (f"{ms} ms BBD-style echo, feedback {fb}" if ms else "reverb") + (" + reverb" if rev and ms else "")
         return block("ir", on, synth_tone(mid, f"{title} (generated)", f"{what}, wet only"),
                      mid, mix=mix, data=analog_echo(ms, fb, cutoff_hz=cut_hz, reverb=rev and reverb_tail(rev)))
-    tone, mid = tone_record(spec["tone_id"]), spec["model_id"]
-    data = None
+    if spec.get("file"):  # a local model/IR file (a pack outside the catalog) replaces tone_id/model_id
+        tone, mid, raw = local_tone(spec)
+    else:
+        tone, mid = tone_record(spec["tone_id"]), spec["model_id"]
+        raw = model_file(model_of(spec["tone_id"], mid)) if kind == "ir" else None
+    data = raw if spec.get("file") else None  # catalog files: block() reads them from the cache
     if kind == "ir":
-        raw = model_file(model_of(spec["tone_id"], mid))
         if spec.get("trim_seconds") or not wav_loads_in_tone3000(raw):
             seconds = float(spec.get("trim_seconds") or 60.0)
             if spec.get("role") == "ambience":
@@ -626,6 +1206,11 @@ def build_block(spec):
     return node
 
 
+# A preset's optional `chorus` block: the DAW's LSP chorus (qtractor_rig.CHORUS, SW7 in the 80s
+# banks) set per song through CC 89-91. Ranges are the plugin's ports; mix is the wet share.
+CHORUS_LIMITS = {"rate_hz": (0.01, 20.0), "depth_ms": (0.1, 20.0), "mix": (0.0, 1.0)}
+
+
 def validate(rig):
     """Structural checks so footswitch slots line up across presets."""
     errs = []
@@ -636,14 +1221,23 @@ def validate(rig):
                 errs.append(f"{side}[{i}] role {spec['role']} must be slot {want}")
             if spec.get("type") not in ("nam", "ir", "echo", "insert"):
                 errs.append(f"{side}[{i}] unknown type {spec.get('type')}")
-            if spec.get("type") in ("nam", "ir") and not (spec.get("tone_id") and spec.get("model_id")):
-                errs.append(f"{side}[{i}] needs tone_id and model_id")
+            if spec.get("type") in ("nam", "ir") and not (spec.get("tone_id") and spec.get("model_id")
+                                                         or spec.get("file")):
+                errs.append(f"{side}[{i}] needs tone_id and model_id (or a local file)")
+            if spec.get("file") and not local_path(spec).is_file():
+                errs.append(f"{side}[{i}] local file missing: {local_path(spec)}")
     if rig.get("right") and not rig.get("split_after"):
         errs.append("right chain needs split_after (1-based left slot)")
     if rig.get("scene") not in (None, *SCENE_KINDS):
         errs.append(f"scene must be one of {SCENE_KINDS}")
     if rig.get("scene") and not isinstance(rig.get("bank"), int):
         errs.append("scene presets need their FCB bank number")
+    for key, value in rig.get("chorus", {}).items():  # the DAW chorus (qtractor_rig.CHORUS), not TONE3000
+        lo, hi = CHORUS_LIMITS.get(key, (None, None))
+        if lo is None and key not in ("note", "sources"):
+            errs.append(f"chorus.{key}: unknown (known: {', '.join(CHORUS_LIMITS)}, note, sources)")
+        elif lo is not None and not (isinstance(value, (int, float)) and lo <= value <= hi):
+            errs.append(f"chorus.{key} = {value!r}: must be a number in {lo}..{hi}")
     for side in ("left", "right"):
         for i, spec in enumerate(rig.get(side, []), 1):
             if spec.get("type") == "echo" and not spec.get("delay_ms") and not spec.get("reverb"):
@@ -695,12 +1289,19 @@ def build_preset(rig):
     snap = Node("ChainSnapshot").set("stereoEnabled", bool(split)).set("branchSide", "left")
     snap.set("branchAfterBlockId", left[split - 1].get("id") if split else "")
     snap.children = [Node("ChainBlocks", children=left), Node("RightChainBlocks", children=right)]
-    values = {**BASE_PARAMS, "gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS}
+    root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"]).set("id", preset_id(rig["name"]))
+    root.children = [snap, params_node(preset_params(rig))]
+    return root
+
+
+def preset_params(rig):
+    """Every TONE3000 param a preset sets on load: the baseline, the JSON's `params`, the global
+    params, then the tone sheet's param columns (gate, tone stack)."""
+    values = {**BASE_PARAMS, "gateEnabled": 0.0, **rig.get("params", {}), **GLOBAL_PARAMS,
+              **rig.get("tone_params", {})}
     if rig.get("scene") == "heavy":  # loads at the RHYTHM scene's input drive
         values["inputLevel"] = SCENES["rhythm"][0] / 127  # = every PC-sending scene's CC 80
-    root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"]).set("id", preset_id(rig["name"]))
-    root.children = [snap, params_node(values)]
-    return root
+    return values
 
 
 def running():
@@ -842,6 +1443,8 @@ def describe(spec):
         label = f"echo {spec['delay_ms']} ms"
     else:
         label = spec.get("label") or model_of(spec["tone_id"], spec["model_id"])["name"]
+    if spec.get("file"):
+        label += f" [local file {local_path(spec).name}]"
     return label + ("" if spec.get("enabled", True) else " (off)")
 
 
@@ -891,10 +1494,21 @@ def cli_models(args):
 def cli_check(files):
     """Validate rigs/*.json, resolve every tone/model and build in memory (no writes
     to TONE3000). Downloads land in the shared cache."""
-    ok = True
+    sheet = tone_sheet()
+    vocab, vocab_errors = read_vocab()
+    for e in sheet["errors"] + vocab_errors:
+        print(e)
+    ok = not (sheet["errors"] or vocab_errors)
+    if ok:
+        print(f"{TONE_CSV.name}: ok ({len(sheet['rows'])} preset rows, {len(sheet['tag_rows'])} tag rows, "
+              f"{len(TONE_COLUMNS)} columns); {VOCAB_CSV.name}: ok ({len(vocab)} words)")
     for f in files or sorted(RIGS.glob("*.json")):
-        rig = json.loads(Path(f).read_text())
+        rig = json.loads(Path(f).read_text()) | {"_file": Path(f).name}
         errs = validate(rig)
+        try:
+            apply_tone(rig, sheet)
+        except ToneError as e:
+            errs += e.errors
         if not errs:
             try:
                 size = len(dump_preset(build_preset(rig)))
@@ -928,23 +1542,30 @@ def cli_docs(args):
                     continue
                 if spec["type"] == "echo":
                     what = f"{spec.get('label') or 'Analog echo'} — generated {spec['delay_ms']} ms BBD-style IR"
+                elif spec.get("file") and not spec.get("tone_id"):
+                    what = f"{spec.get('label') or local_path(spec).stem} — local file `{spec['file']}`"
                 else:
                     tone = tone_record(spec["tone_id"])
                     label = spec.get("label") or model_of(spec["tone_id"], spec["model_id"])["name"]
                     what = f"[{tone['title']}](https://www.tone3000.com/tones/{spec['tone_id']}) — {label}"
+                    if spec.get("file"):
+                        what += f" (replaced by local file `{spec['file']}`)"
                 if spec.get("mix", 1.0) != 1.0:
                     what += f" (mix {spec['mix']:.0%})"
                 state = "on" if spec.get("enabled", True) else "off"
                 out.append(f"| {slot_names[side]}{i} | {spec.get('role', '')} | {what} | {state} |")
         if r.get("split_after"):
             out += ["", f"Slots L1–L{r['split_after']} feed both rigs; left and right are panned apart."]
+        if c := r.get("chorus"):
+            out += ["", f"*Chorus (DAW, SW7 in the 80s banks):* {c.get('rate_hz', 0.6)} Hz, {c.get('depth_ms', 4.0)} ms, "
+                        f"{c.get('mix', 0.5):.0%} wet" + (f" — {c['note']}" if c.get("note") else "")]
         if r.get("notes"):
             out += ["", f"*Notes:* {r['notes']}"]
         if r.get("sources"):
             out += ["", "*Sources:* " + " · ".join(f"<{u}>" for u in r["sources"])]
     out += ["", "## Footswitches", "", "| FCB1010 | CC | TONE3000 |", "|---|---|---|",
-            "| SW1–5 (song banks 01–02) | PC | presets above |",
-            "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone) |",
+            "| SW1–5 (song banks 01–04) | PC | presets above |",
+            "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |",
             "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
             "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",
             "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | output level |", "",
@@ -981,6 +1602,7 @@ if __name__ == "__main__":
     commands = {
         "map": lambda: show_map(), "build": lambda: build(), "configure": lambda: configure(),
         "search": lambda: cli_search(args), "models": lambda: cli_models(args),
-        "check": lambda: cli_check(args), "docs": lambda: cli_docs(args),
+        "check": lambda: cli_check(args), "docs": lambda: cli_docs(args), "csv": lambda: cli_csv(args),
+        "tune": lambda: cli_tune(args),
     }
     commands.get(cmd, lambda: sys.exit(__doc__))()

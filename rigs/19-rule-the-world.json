@@ -1,0 +1,81 @@
+{
+  "pc": 19,
+  "name": "Rule the World",
+  "reference": "Everybody Wants to Rule the World: Tears for Fears, Songs from the Big Chair (1985, prod. Chris Hughes), ~112 BPM shuffle, G: the clean riff, the intro and Orzabal's chordal break",
+  "rig": "Roland Orzabal's walnut Fender 'The Strat' (the 1980-83 deluxe model); Orzabal and Neil Taylor played the electric parts, Taylor the ending solo in two takes. Orzabal wrote it on acoustic with the low E dropped to D, 'square against the shuffled beat'; the 'crazy guitar intro' came last. No song-level amp or effects source exists: a Pete Cornish board credited to Orzabal carried a Boss CE-2 chorus, CS-2 compressor, SD-1, VB-2 and a digital delay, 'possibly' into a JC-120 (Cornish called the amp speculative)",
+  "sources": [
+    "https://www.guitarplayer.com/players/behind-everybody-wants-to-rule-the-world",
+    "https://songexploder.net/wp-content/uploads/2025/05/Song-Exploder-Tears-For-Fears-Transcript.pdf",
+    "https://www.mixonline.com/recording/classic-tracks-tears-fears-everybody-wants-rule-world-365857",
+    "https://equipboard.com/pros/roland-orzabal",
+    "https://songbpm.com/@tears-for-fears/everybody-wants-to-rule-the-world",
+    "https://www.tone3000.com/tones/127",
+    "https://www.tone3000.com/tones/1644"
+  ],
+  "chorus": {
+    "rate_hz": 1.0,
+    "depth_ms": 3.0,
+    "mix": 0.5,
+    "note": "Estimate of a Boss CE-2 at rate ~9-10 o'clock and depth ~noon (the CE-2 mixes 50/50); the CE-2 is on Orzabal's board, not documented on this song."
+  },
+  "notes": "Amp = Tim R's JC-120 channel 1 high input as a DI (a different JC capture from Every Breath You Take) into Tim R's JC-120 cab IR, following the Cornish board's 'possibly a JC-120'; the amp is the least certain part. Strat pre-EQ (humbucker -> single coil): use the in-between positions. The chorus is the DAW chorus on SW7 (1.0 Hz / 3 ms / 50 %, a CE-2 estimate). The echo is ON: 357 ms (a quarter-note triplet at 112 BPM, which sits with the shuffle; 1/4 = 536 ms), feedback 0.2, low mix, with a 480L Large Plate in the same block; all estimates. Can't match: the CS-2 compression (no compressor block; the DAW compressor stays bypassed), drop-D on one string, the synth-led mix. SW8 BOOST = TS9 clean push (not on the record). Levels: tone.csv out_db 9.8 dB puts it at -16.1 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 127,
+      "model_id": 420123,
+      "enabled": true,
+      "label": "Roland JC-120, channel 1 high input (DI)",
+      "eq": [
+        -3.0,
+        -2.5,
+        0.0,
+        1.5,
+        3.0,
+        2.0
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 1644,
+      "model_id": 81294,
+      "enabled": true,
+      "label": "Roland JC-120 2x12, C414 cap edge close"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 357,
+      "feedback": 0.2,
+      "cutoff_hz": 4500.0,
+      "mix": 0.15,
+      "enabled": true,
+      "label": "Quarter-triplet delay 357 ms (112 BPM shuffle) + 480L plate",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745821,
+        "trim_seconds": 1.8,
+        "level_db": -9.0
+      }
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 0.0
+  }
+}

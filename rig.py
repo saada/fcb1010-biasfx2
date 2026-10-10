@@ -2,14 +2,21 @@
 # requires-python = ">=3.10"
 # dependencies = ["python-rtmidi"]
 # ///
-"""FCB1010 rig for BIAS FX 2 — generate, upload and verify the full board config.
+"""FCB1010 rig — the board layout, and the one-time universal flash of the pedal.
+
+The pedal holds a fixed address map (`syx --universal`, flashed once). The layout below is
+software: fcb_router.py maps every (bank, switch) address to `build()`'s messages, live, so
+a layout change here never needs a flash.
 
 Usage:
-  uv run rig.py show               Print the board layout
-  uv run rig.py syx [file]         Write the config as a .syx file (default rig.syx)
-  uv run rig.py send [--port S]    Upload config to the FCB1010 over MIDI
-  uv run rig.py monitor [--port S] Print incoming MIDI to verify each pedal press
-  uv run rig.py pull [--port S]    Receive the device's current dump and diff vs this rig
+  uv run rig.py show                Print the board layout
+  uv run rig.py layout              The layout as JSON: every (bank, switch) -> its messages (the router reads it)
+  uv run rig.py syx --universal [file]  Write the universal address map (default ~/Music/fcb-rig/fcb1010-universal.syx)
+  uv run rig.py syx [file]          Write the old per-layout config (default rig.syx; history, not for flashing)
+  uv run rig.py send [--port S]     Upload the universal address map to the FCB1010 (the one-time flash)
+  uv run rig.py send --legacy       Upload the old per-layout config instead (pre-router fallback)
+  uv run rig.py monitor [--port S]  Print incoming MIDI to verify each pedal press
+  uv run rig.py pull [--port S]     Receive the device's current dump and check it
 """
 
 import json
@@ -22,6 +29,7 @@ from fcb1010 import fcb1010
 
 sys.path.insert(0, str(Path(__file__).parent))
 from tone3000 import SCENE_DRIVE_CC, SCENE_SELECT_CC, SCENES, load_rigs
+from fcb_router import ADDRESS_CC, ADDRESS_CHANNEL, address, decode
 
 CHANNEL = 0  # MIDI channel 1 (0-based)
 CLEAN_CHANNEL = 1  # PC 2 -> the DAW's clean TONE3000 (qtractor_rig.py) on MIDI channel 2
@@ -30,22 +38,33 @@ HARMONY_CHANNEL = 2  # PC 3 -> the DAW's harmony TONE3000 on MIDI channel 3
 WAH_SWEEP_CC = 27
 VOLUME_CC = 7
 
-# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-2 are song
+# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-4 are song
 # banks: one preset per switch.
 SONGS = [
-    # (bank, switch, PC number, name)
+    # (bank, switch, PC number, name). PCs follow the rigs/ files, not the banks: bank 2 (80s
+    # CLEAN) was inserted after the 80s bank, so it is one UP away, with PCs 18-22.
     (1, 1, 3, "Van Halen I"),
     (1, 2, 4, "Van Halen 1984"),
     (1, 3, 5, "Def Leppard Pyromania"),
     (1, 4, 6, "Def Leppard Hysteria"),
     (1, 5, 7, "U2 Streets"),
-    (2, 1, 8, "Comfortably Numb"),
-    (2, 2, 9, "Radiohead"),
-    (2, 3, 10, "Nirvana"),
-    (2, 4, 11, "Djent"),
-    (2, 5, 12, "Purple Rain"),
+    (2, 1, 18, "Is This Love"),
+    (2, 2, 19, "Rule the World"),
+    (2, 3, 20, "Every Breath You Take"),
+    (2, 4, 21, "Hysteria Clean"),
+    (2, 5, 22, "This Charming Man"),
+    (3, 1, 8, "Comfortably Numb"),
+    (3, 2, 9, "Radiohead"),
+    (3, 3, 10, "Nirvana"),
+    (3, 4, 11, "Djent"),
+    (3, 5, 12, "Purple Rain"),
+    (4, 1, 13, "Satan Full Rig"),
+    (4, 2, 14, "Satan 50 Modern"),
+    (4, 3, 15, "Satan 50 Low Tuned"),
+    (4, 4, 16, "Satan 50 Lead"),
+    (4, 5, 17, "Stormblade"),
 ]
-BANK_NAMES = {0: "Maiden", 1: "80s", 2: "Variety"}
+BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
@@ -79,6 +98,7 @@ SONG_RESET = ((SCENE_DRIVE_CC, SCENES["rhythm"][0]), (SCENE_SELECT_CC, 0))
 
 BANKS_IN_USE = sorted({bank for bank, *_ in SONGS} | set(SCENE_BANKS))
 HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) instead of the octaver
+CHORUS_CC = 31   # 80s banks: SW7 = the DAW's stereo chorus (qtractor_rig.py CHORUS) instead of the octaver
 
 
 SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the two signature echoes
@@ -90,14 +110,14 @@ SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the tw
 ]
 
 
-EIGHTIES_TOGGLES = [  # bank 1: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
+EIGHTIES_TOGGLES = [  # banks 1-2: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
     (6, 20, "Wah on/off"),
-    (7, 21, "Octaver"),
+    (7, CHORUS_CC, "Chorus (stereo, the song's rate/depth/mix)"),
     (8, 22, "Boost"),
     (9, 24, "Delay (the song's echo)"),
     (10, 28, "Tuner (mutes the rig)"),
 ]
-BANK_TOGGLES = {1: EIGHTIES_TOGGLES}
+BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES}
 
 
 def toggles(bank):
@@ -157,8 +177,93 @@ def set_ccs(preset, ccs):
     preset.cc1_enabled = preset.cc2_enabled = True
 
 
-def verify(fcb):
-    """Round-trip the generated sysex through the library's parser."""
+def messages(fcb, bank, switch):
+    """What a preset sends when pressed, in the pedal's own order: PC 1-5, then CC 1-2.
+    ("pc", ch, program) / ("cc", ch, cc, value), channels 0-based. Empty for a silent switch."""
+    p = fcb.preset[preset_index(bank, switch)]
+    out = [("pc", getattr(fcb, f"pc{n}_midi_channel"), getattr(p, f"pc{n}_program"))
+           for n in range(1, 6) if getattr(p, f"pc{n}_enabled")]
+    return out + [("cc", getattr(fcb, f"cc{n}_midi_channel"), getattr(p, f"cc{n}_controller"), getattr(p, f"cc{n}_value"))
+                  for n in (1, 2) if getattr(p, f"cc{n}_enabled")]
+
+
+def extras(pc, chorus):
+    """Per-song messages the FCB never had room for, sent after a channel-1 PC: the DAW chorus's
+    rate, depth and mix (qtractor_rig.chorus_ccs), so each song gets its own chorus."""
+    import qtractor_rig
+    return [("cc", CHANNEL, cc, value) for cc, value in qtractor_rig.chorus_ccs(pc, chorus)]
+
+
+def layout():
+    """[(bank, switch, messages)] for every switch that sends something: what the router
+    turns each universal address into. That is exactly what `build()` puts on the switch,
+    then extras() after a channel-1 PC."""
+    import qtractor_rig
+    chorus = qtractor_rig.chorus_settings()
+    fcb, out = build(), []
+    for b in range(10):
+        for s in range(1, 11):
+            if m := messages(fcb, b, s):
+                pc = next((e[2] for e in m if e[0] == "pc" and e[1] == CHANNEL), None)
+                out.append((b, s, m + (extras(pc, chorus) if pc is not None else [])))
+    return out
+
+
+def universal():
+    """The one-time flash: every bank the same shape, every switch only its own address on
+    channel 16 (fcb_router.py). SW1-5 send one PC, SW6-10 one CC with value = bank, encoded
+    exactly like today's toggle presets (CC 1 only, no PC), so the LEDs behave as before.
+    EXP A/B keep their CCs on the rig channel and pass through the router."""
+    fcb = fcb1010()
+    for name in ("pc1", "pc2", "pc3", "pc4", "pc5", "cc1", "cc2", "note"):
+        setattr(fcb, f"{name}_midi_channel", ADDRESS_CHANNEL)
+    fcb.expA_midi_channel = fcb.expB_midi_channel = CHANNEL
+    fcb.direct_select = False
+    for bank in range(10):
+        for switch in range(1, 11):
+            p = fcb.preset[preset_index(bank, switch)]
+            p.pc1_enabled = p.pc2_enabled = p.pc3_enabled = p.pc4_enabled = p.pc5_enabled = False
+            p.cc1_enabled = p.cc2_enabled = p.note_enabled = False
+            p.expA_enabled, p.expA_controller, p.expA_min, p.expA_max = True, WAH_SWEEP_CC, 0, 127
+            p.expB_enabled, p.expB_controller, p.expB_min, p.expB_max = True, VOLUME_CC, 0, 127
+            kind, _, *value = address(bank, switch)
+            if kind == "pc":
+                p.pc1_enabled, p.pc1_program = True, value[0]
+            else:
+                p.cc1_enabled, (p.cc1_controller, p.cc1_value) = True, value
+    return fcb
+
+
+def verify_universal(fcb):
+    """Round-trip the universal map through the parser: every switch sends exactly its address."""
+    data = fcb.get_raw_sysex()
+    assert len(data) == 2352, f"dump is {len(data)} bytes, expected 2352"
+    parsed = fcb1010()
+    assert parsed.parse_sysex(data), "generated sysex failed to parse"
+    assert not parsed.direct_select, "direct select would make UP/DOWN-free bank changes"
+    assert (parsed.pc1_midi_channel, parsed.cc1_midi_channel) == (ADDRESS_CHANNEL, ADDRESS_CHANNEL), "address channel"
+    assert (parsed.expA_midi_channel, parsed.expB_midi_channel) == (CHANNEL, CHANNEL), "EXP pedals on the rig channel"
+    seen = set()
+    for bank in range(10):
+        for switch in range(1, 11):
+            p = parsed.preset[preset_index(bank, switch)]
+            sent = messages(parsed, bank, switch)
+            assert sent == [address(bank, switch)], f"bank {bank} SW{switch}: sends {sent}"
+            assert decode(sent[0]) == (bank, switch), f"bank {bank} SW{switch}: does not decode"
+            assert not p.note_enabled, f"bank {bank} SW{switch}: stray note"
+            assert (p.expA_enabled, p.expA_controller, p.expB_enabled, p.expB_controller) == \
+                (True, WAH_SWEEP_CC, True, VOLUME_CC), f"bank {bank} SW{switch}: EXP A/B"
+            seen.add(sent[0])
+    assert len(seen) == 100, "addresses must be unique"
+    assert set(ADDRESS_CC.values()).isdisjoint({WAH_SWEEP_CC, VOLUME_CC}), "address CCs clash with the EXP CCs"
+    return data
+
+
+def verify(fcb, universal=False):
+    """Round-trip the generated sysex through the library's parser. universal=True checks the
+    one-time address map (universal()) instead of the per-layout config."""
+    if universal:
+        return verify_universal(fcb)
     data = fcb.get_raw_sysex()
     assert len(data) == 2352, f"dump is {len(data)} bytes, expected 2352"
     parsed = fcb1010()
@@ -239,13 +344,14 @@ def arg_port(args):
 
 def send(args):
     import rtmidi
-    data = verify(build())
+    legacy = "--legacy" in args
+    data = verify(build()) if legacy else verify(universal(), universal=True)
     out = rtmidi.MidiOut()
     ports = out.get_ports()
     if not ports:
         sys.exit("No MIDI output ports. Is the USB MIDI interface plugged in?")
     index = pick_port(ports, arg_port(args))
-    print(f"Sending {len(data)} bytes to: {ports[index]}")
+    print(f"Sending {len(data)} bytes ({'the old per-layout config' if legacy else 'the universal address map'}) to: {ports[index]}")
     print("Put the FCB1010 in receive mode first:")
     print("  1. Hold DOWN ~2.5s while powering on (global config)")
     print("  2. TAP UP repeatedly (short presses - holding does nothing) until the")
@@ -263,7 +369,8 @@ def send(args):
     print("config mode. Skip it and the upload is lost.")
     print("")
     print("If the LED never flashed, the data didn't arrive (port or cable).")
-    print("Verify in normal mode with: uv run rig.py monitor (expect PC 0/1/2...)")
+    print("Verify in normal mode with: uv run rig.py monitor" +
+          (" (expect PC 0/1/2...)" if legacy else " (expect ch16 PC 0-4, CC 102-106 = bank)"))
     print("\nNext: calibrate the expression pedals (power off, hold switches 1+5")
     print("while powering on, follow the heel/toe prompts) — do this AFTER every upload.")
 
@@ -282,9 +389,11 @@ def monitor(args):
         status, *rest = msg
         kind, channel = status & 0xF0, (status & 0x0F) + 1
         if kind == 0xC0:
-            return f"ch{channel}  Program Change {rest[0]}"
+            addr = decode(("pc", channel - 1, rest[0]))
+            return f"ch{channel}  Program Change {rest[0]}" + (f"   = bank {addr[0]} SW{addr[1]}" if addr else "")
         if kind == 0xB0:
-            return f"ch{channel}  CC {rest[0]} = {rest[1]}"
+            addr = decode(("cc", channel - 1, rest[0], rest[1]))
+            return f"ch{channel}  CC {rest[0]} = {rest[1]}" + (f"   = bank {addr[0]} SW{addr[1]}" if addr else "")
         return f"raw {[hex(b) for b in msg]}"
 
     inp.set_callback(lambda event, _: print(describe(event[0])))
@@ -326,6 +435,12 @@ def pull(args):
         sys.exit("Not a valid FCB1010 dump — transfer truncated? Try a different interface.")
     Path(__file__).parent.joinpath("device-backup.syx").write_bytes(bytes(dump))
     print("Saved to device-backup.syx\n")
+    wrong = [(b, s, messages(device, b, s)) for b in range(10) for s in range(1, 11)
+             if messages(device, b, s) != [address(b, s)]]
+    if not wrong:
+        return print("Device holds the universal address map: every layout change is software now.")
+    print(f"Not the universal map ({len(wrong)} of 100 switches differ, e.g. bank {wrong[0][0]} "
+          f"SW{wrong[0][1]} sends {wrong[0][2]}). Comparing with the old per-layout config:\n")
     expected = {(b, s): ("PC", pc, n) for b, s, pc, n in SONGS} | \
                {(b, s): ("CC", cc, n) for b in BANKS_IN_USE for s, cc, n in toggles(b)}
     mismatches = 0
@@ -355,6 +470,14 @@ def main():
     command = args[0] if args else "show"
     if command == "show":
         show()
+    elif command == "layout":
+        print(json.dumps({"layout": layout()}))
+    elif command == "syx" and "--universal" in args:
+        rest = [a for a in args[1:] if a != "--universal"]
+        out = Path(rest[0]) if rest else Path.home() / "Music/fcb-rig/fcb1010-universal.syx"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_bytes(bytes(verify(universal(), universal=True)))
+        print(f"Wrote {out} (2352 bytes, universal address map, verified)")
     elif command == "syx":
         out = Path(args[1]) if len(args) > 1 else Path(__file__).parent / "rig.syx"
         out.write_bytes(bytes(verify(build())))

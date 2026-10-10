@@ -1,8 +1,10 @@
-"""The rig's lifetime: start Qtractor (or join the one already running), do the helper's
-job (per-song echo + harmony key, the SW10 tuner), and shut everything down cleanly.
+"""The rig's lifetime: start Qtractor (or join the one already running), run the FCB router
+and do the helper's job (per-song echo + harmony key, the SW10 tuner), and shut everything
+down cleanly.
 
-GuitarMood replaces the `qtractor-rig-helper` user unit while it runs: one process reads the
-FCB, so the tuner state on screen is the tuner state for real.
+GuitarMood replaces the `qtractor-rig-helper` user unit while it runs: one process owns the
+FCB router (fcb_router.py: the pedal's addresses -> rig.py's layout -> Qtractor), and the board
+reads the router's translated stream, so what's on screen is what the rig got.
 """
 
 import os
@@ -17,8 +19,10 @@ import xml.etree.ElementTree as ET
 from .board import qr
 from .state import parse
 
+router_mod = qr.fcb_router
+
 HELPER_UNIT = "qtractor-rig-helper"
-DAW_LABELS = {"Wah": "wah", "Octaver": "octaver", "Harmony In": "harmony", "Tuner Mute": "tuner"}
+DAW_LABELS = {"Wah": "wah", "Octaver": "octaver", "Harmony In": "harmony", "Chorus": "chorus", "Tuner Mute": "tuner"}
 
 
 def read_daw_toggles():
@@ -57,7 +61,10 @@ class Engine:
         self.no_rig = no_rig
         self.source = shlex.split(source) if source else ["aseqdump", "-p", qr.FCB[0]]
         self.port = None
-        self.fcb = None  # the aseqdump process
+        self.fcb = None  # the aseqdump process (display-only and replay modes)
+        self.router = None  # the in-process FCB router (when GuitarMood owns the rig)
+        self.translator = None
+        self._watching = False
         self.stopping = threading.Event()
         self.actions = queue.Queue()
         self.tuner_proc = None
@@ -82,6 +89,8 @@ class Engine:
                 return self.status("error", str(e) or "the rig did not start")
             except Exception as e:  # noqa: BLE001 - surface anything on screen, never die silently
                 return self.status("error", f"{type(e).__name__}: {e}")
+            if self.source[0] == "aseqdump":  # GuitarMood owns the rig: it runs the router
+                return self._router_loop()
         self._midi_loop()
 
     def _bring_up(self):
@@ -106,10 +115,47 @@ class Engine:
         self.status("live", f"Qtractor up · quantum {qr.QUANTUM}")
 
     # ---------------------------------------------------------------- FCB
+    def _routed(self, addr, events):
+        """One press, translated: its address first (the bank, exactly), then what the rig got."""
+        if addr is not None:
+            self.on_event(("addr", *addr))
+        for ev in events:
+            self.on_event(ev)
+
+    def _router_loop(self):
+        """Own the FCB router in-process (the helper unit is stopped). If it can't start, say
+        so loudly and keep retrying: without it the pedal does not reach the rig."""
+        while not self.stopping.is_set():
+            self.router = router_mod.Router(on_events=self._routed, on_status=self.on_status)
+            try:
+                self.router.run()
+            except Exception as e:  # noqa: BLE001 - surface it, never die silently
+                self.on_status({"router": False, "routerDetail": f"{type(e).__name__}: {e}"})
+            if self.stopping.wait(2):
+                return
+
+    def _watch_router(self):
+        while not self.stopping.is_set():
+            running = router_mod.router_running()
+            self.on_status({"router": running, "routerDetail": "" if running else
+                            "no FCB router is running: start the rig (qtractor_rig.py up)"})
+            self.stopping.wait(3)
+
     def _midi_loop(self):
+        """Display-only or replay: read the FCB (or a log) and decode its addresses the way the
+        router does. Live, also watch that some router owns the pedal, and say so if none does."""
         warned = False
         while not self.stopping.is_set():
             live = self.source[0] == "aseqdump"
+            if self.translator is None:
+                try:
+                    self.translator = router_mod.Translator()
+                except Exception as e:  # noqa: BLE001 - a broken layout: show the raw stream
+                    self.on_status({"warning": f"layout: {e}"})
+                    self.translator = router_mod.Translator(table={})
+            if live and not self._watching:
+                self._watching = True
+                threading.Thread(target=self._watch_router, daemon=True, name="router-watch").start()
             if live and not fcb_present():  # aseqdump buffers its banner, so ask the port list
                 if not warned:
                     self.on_status({"fcb": False, "fcbDetail": "plug in the FCB1010's USB MIDI cable"})
@@ -125,7 +171,7 @@ class Engine:
             warned = False
             for line in self.fcb.stdout:
                 if ev := parse(line):
-                    self.on_event(ev)
+                    self._routed(*self.translator.translate(ev))
             self.fcb.wait()
             if self.stopping.is_set():
                 return
@@ -170,6 +216,9 @@ class Engine:
         self.stopping.set()
         if self.fcb and self.fcb.poll() is None:
             self.fcb.terminate()
+        if self.router:
+            self.router.stop()  # closes its ALSA client within 0.25 s
+            self.router.closed.wait(2)
         if self.no_rig:
             return
         self.status("stopping", "Saving the session and closing Qtractor…")

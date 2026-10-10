@@ -1,0 +1,108 @@
+{
+  "pc": 20,
+  "name": "Every Breath You Take",
+  "reference": "Every Breath You Take: The Police, Synchronicity (1983, AIR Montserrat, prod. Hugh Padgham and the Police), ~117 BPM, C#/Db major",
+  "rig": "Andy Summers' modded Telecaster (his '61/'63 Tele with a Gibson PAF humbucker in the neck, stock bridge pickup, phase switch and an onboard preamp), which his site lists for this song, into a Roland JC-120 with its stereo chorus. Padgham close-miked each 12-inch speaker with an SM57, one speaker straight and one detuned by the chorus, and panned the two mics hard left and right; sometimes the part was doubled with the sides swapped. A Fender Twin Reverb supplied straighter, sharper parts. The arpeggio was one take; no guitar delay is documented (Padgham's 300 ms delay was on the hi-hat)",
+  "sources": [
+    "https://www.mixonline.com/recording/polices-every-breath-you-take-365310",
+    "https://andysummers.com/news/fender-guitar/",
+    "https://guitarworld.com/features/andy-summers-modded-fender-telecaster",
+    "https://www.eonmusic.co.uk/news/andy-summers-says-every-breath-you-take-was-crap-until-i-played-on-it",
+    "https://songbpm.com/@the-police/every-breath-you-take",
+    "https://www.tone3000.com/tones/10912"
+  ],
+  "chorus": {
+    "rate_hz": 0.5,
+    "depth_ms": 3.0,
+    "mix": 0.5,
+    "note": "Estimate of the JC-120's fixed chorus (no knob settings are documented): slow and shallow, half wet, the two sides 180 degrees apart like the amp's straight and detuned speakers."
+  },
+  "notes": "The documented two-mic JC-120 as a dual rig: the same capture (Roland JC-120B normal channel, Bright On, SM57; the session used SM57s) hard left and right. The JC's chorus is the DAW chorus on SW7 (LSP, 0.5 Hz / 3 ms / 50 %, an estimate): ours modulates both sides in antiphase, the amp left one speaker dry. Spread off, so the width comes from the two sides and the chorus. SW8 BOOST = TS9 clean push (not on the record); SW9 DELAY = 385 ms (dotted eighth at 117 BPM), off: no guitar delay on the record. A short 480L plate (an estimate; the room is undocumented). No pre-EQ: the capture's guitar is unknown and Summers' neck humbucker is not a single coil. Levels: tone.csv out_db -1 dB puts it at -15.7 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 10912,
+      "model_id": 379740,
+      "enabled": true,
+      "label": "Roland JC-120B, normal channel, Bright On, SM57 (speaker 1)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 385,
+      "feedback": 0.25,
+      "cutoff_hz": 5000.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Dotted-eighth delay 385 ms (117 BPM, not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate (room estimate)",
+      "mix": 0.12,
+      "trim_seconds": 2.0
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 10912,
+      "model_id": 379740,
+      "enabled": true,
+      "label": "Roland JC-120B, normal channel, Bright On, SM57 (speaker 2)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 385,
+      "feedback": 0.25,
+      "cutoff_hz": 5000.0,
+      "mix": 0.18,
+      "enabled": false,
+      "label": "Dotted-eighth delay 385 ms (117 BPM, not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate (room estimate)",
+      "mix": 0.12,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "spreadEnabled": 0.0
+  }
+}

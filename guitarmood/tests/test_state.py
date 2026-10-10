@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from guitarmood.board import Board
+from guitarmood.board import Board, qr
 from guitarmood.state import RigState, parse
 
 LOG = Path(__file__).parent / "fixtures/fcb-live.log"  # the first live session on the old era-bank layout
@@ -43,16 +43,40 @@ def test_parse():
 
 def test_board_matches_rig(board):
     assert board.start_bank == 0
-    assert sorted(board.banks) == [0, 1, 2]
+    assert sorted(board.banks) == [0, 1, 2, 3, 4]
     assert board.banks[0].kind == "scenes" and board.banks[0].subtitle.endswith("The Evil That Men Do")
     assert [board.banks[0].switches[sw].label for sw in range(1, 11)] == \
         ["Rhythm", "Lead", "Clean", "Acoustic", "Crunch", "Wah", "Harmony", "Evil Delay",
          "Madness Delay", "Tuner"]
-    assert (board.banks[1].title, board.banks[2].title) == ("80s", "Variety")
+    assert [board.banks[n].title for n in (1, 2, 3)] == ["80s", "80s Clean", "Variety"]
     assert board.banks[1].switches[1].label == "Van Halen I"
-    assert [board.banks[1].switches[sw].label for sw in (8, 9)] == ["Boost", "Delay"]
-    assert board.banks[2].switches[1].label == "Comfortably Numb"
-    assert board.banks[2].switches[8].label == "Lead"
+    # Both 80s banks: SW7 is the DAW chorus (not the octaver), SW8/SW9 the preset's boost and delay.
+    for bank in (1, 2):
+        assert [board.banks[bank].switches[sw].label for sw in (6, 7, 8, 9, 10)] == \
+            ["Wah", "Chorus", "Boost", "Delay", "Tuner"], bank
+    assert [board.banks[2].switches[sw].label for sw in range(1, 6)] == \
+        ["Is This Love", "Rule the World", "Every Breath You Take", "Hysteria Clean", "This Charming Man"]
+    assert board.banks[3].switches[1].label == "Comfortably Numb"
+    assert [board.banks[3].switches[sw].label for sw in (7, 8)] == ["Octaver", "Lead"]
+    assert board.banks[4].title == "Modern" and board.banks[4].kind == "songs"
+    assert [board.banks[4].switches[sw].label for sw in (1, 5, 7, 8, 9)] == \
+        ["Satan Full Rig", "Stormblade", "Octaver", "Lead", "Drive"]
+
+
+def test_chorus_is_a_daw_toggle_that_survives_song_changes(board):
+    st = RigState(board)
+    for ev in board.messages(2, 1):  # Is This Love
+        st.feed(ev)
+    for ev in board.messages(2, 7):  # SW7 chorus on
+        st.feed(ev)
+    assert board.messages(2, 7) == [("cc", 0, qr.CC_CHORUS, 127)]
+    for ev in board.messages(2, 3):  # Every Breath You Take: a PC, the chorus stays on
+        st.feed(ev)
+    snap = st.snapshot()
+    assert (snap["playing"], by_sw(snap)[7]["label"], by_sw(snap)[7]["on"]) == ("Every Breath You Take", "Chorus", True)
+    # Per-song chorus CCs: Every Breath's 0.5 Hz / 3 ms / 50 % as CC 89-91.
+    assert qr.chorus_ccs(20) == [(89, 3), (90, 19), (91, 64)]
+    assert qr.chorus_ccs(13) == qr.chorus_ccs(-1)  # no `chorus` block: the default
 
 
 def test_maiden_delays_are_the_heavy_presets_echo_blocks(board):
@@ -98,7 +122,7 @@ def test_tuner_action(board):
 # The live log predates the bank redesign: re-address its Program Changes to the new layout
 # (old Maiden era presets -> the Maiden bank, old song presets -> 80s / variety switches).
 OLD_PC = {**{pc: 0 for pc in range(15, 36, 3)}, **{pc: 1 for pc in range(16, 36, 3)},
-          **{pc: 2 for pc in range(17, 36, 3)}, **{pc: 13 for pc in range(36, 43)},
+          **{pc: 2 for pc in range(17, 36, 3)}, **{pc: 23 for pc in range(36, 43)},  # the generated Maiden Harmony (PC 23)
           0: 8, 6: 9, 8: 10, 5: 11, 14: 12, 1: 3, 2: 4, 3: 5, 4: 6, 7: 7, 9: 3, 10: 4, 11: 5, 12: 6, 13: 7}
 
 
@@ -112,7 +136,7 @@ def readdress(line):
 def test_live_session_replay(board):
     st, actions = replay(board, [readdress(line) for line in LOG.read_text().splitlines()])
     snap = st.snapshot()
-    # The session ended on a scene bank's RHYTHM burst: now the Maiden bank, PC 0 / 1 / 13.
+    # The session ended on a scene bank's RHYTHM burst: now the Maiden bank, PC 0 / 1 / 23.
     assert (snap["bank"], snap["title"], snap["playing"]) == (0, board.banks[0].title, "Rhythm")
     assert snap["synced"]
     assert {a[0] for a in actions} == {"song", "tuner"}
@@ -123,9 +147,11 @@ def test_live_session_replay(board):
 
 def test_screen_press_equals_pedal_burst(board):
     """A click sends what the pedal sends."""
-    assert board.messages(0, 1) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert board.messages(0, 1) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 23), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert board.messages(0, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # LEAD: no PC, never wipes CC 80
     assert board.messages(1, 1) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert board.messages(2, 1) == [("pc", 0, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Clean: Is This Love
+    assert board.messages(4, 1) == [("pc", 0, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
 
 
 T3K = ("boost", "drive", "delay", "delay2")
