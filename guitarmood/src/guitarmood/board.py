@@ -23,6 +23,7 @@ TOGGLES = {
     qr.CC_WAH: ("wah", "daw"),
     qr.CC_OCTAVER: ("octaver", "daw"),
     qr.CC_HARMONY: ("harmony", "daw"),
+    qr.CC_CHORUS: ("chorus", "daw"),
     22: ("boost", "t3k"),
     23: ("drive", "t3k"),
     24: ("delay", "t3k"),
@@ -86,11 +87,11 @@ class Board:
         out = {}
         for sw, cc, name in fcb.toggles(bank):
             tid, _ = TOGGLES[cc]
-            label = {"wah": "Wah", "octaver": "Octaver", "harmony": "Harmony", "boost": "Boost",
+            label = {"wah": "Wah", "octaver": "Octaver", "harmony": "Harmony", "chorus": "Chorus", "boost": "Boost",
                      "drive": "Drive", "delay": "Delay", "delay2": "Delay 2", "lead": "Lead", "tuner": "Tuner"}[tid]
             if tid in ("delay", "delay2") and bank in fcb.SCENE_BANKS:  # "Evil That Men Do delay (375 ms)"
                 label = short(name, 40).replace(" delay", "") + " Delay"
-            detail = {"wah": "EXP A sweeps it", "octaver": "an octave down", "lead": "boost + echo",
+            detail = {"wah": "EXP A sweeps it", "octaver": "an octave down", "chorus": "stereo · the song's rate", "lead": "boost + echo",
                       "tuner": "mutes the rig"}.get(tid, "")
             if tid == "harmony" and song:
                 detail = f"a 3rd above · {key_name(song)}"

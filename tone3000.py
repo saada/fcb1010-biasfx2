@@ -641,7 +641,7 @@ FIELD_DEFAULTS = {"out_db": 0.0, "in_db": 0.0, "enabled": True, "mix": 1.0, "del
 TAG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
 # `csv --init`'s first guess at the song presets' tags (FCB bank name, gain character); scene
 # presets get theirs from `bank`, `scene` and name, split rigs get "stereo". Tags then live in tone.csv.
-BANK_TAGS = {0: "maiden", 1: "80s", 2: "variety", 3: "modern"}  # = rig.py BANK_NAMES
+BANK_TAGS = {0: "maiden", 1: "80s", 2: "80s-clean", 3: "variety", 4: "modern"}  # = rig.py BANK_NAMES
 SONG_TAGS = {
     "03-van-halen-1": "80s crunch", "04-van-halen-1984": "80s crunch",
     "05-def-leppard-pyromania": "80s crunch", "06-def-leppard-hysteria": "80s crunch",
@@ -1093,7 +1093,12 @@ def print_diff(before, after):
 
 
 def cli_tune(args):
-    """tune <@tag|preset|*> <word...> [xN] | tune --undo"""
+    """tune <@tag|preset|*> <word...> [xN] [--apply] [--no-sim] | tune --undo [--apply]
+    Edits tone.csv, then renders the presets it touched before -> after (rigsim.py, ~2 s).
+    --apply rewrites those presets in the live TONE3000 folder: the running rig picks each one
+    up on its next Program Change (TONE3000 rereads the file on every PC, experiments D19)."""
+    flags = {a for a in args if a in ("--apply", "--no-sim")}
+    args = [a for a in args if a not in flags]
     history = json.loads(TUNE_HISTORY.read_text()) if TUNE_HISTORY.exists() else []
     before = {r["name"]: tone_settings(r) for r in load_rigs()}
     if args[:1] == ["--undo"]:
@@ -1103,6 +1108,7 @@ def cli_tune(args):
         TONE_CSV.write_text(last["csv"])
         atomic_write(TUNE_HISTORY, json.dumps(history, indent=1).encode())
         print(f"undid: tune {last['target']} {last['word']} x{last['times']}")
+        names = affected(last["target"])
     else:
         times = next((int(a[1:]) for a in args[1:] if re.fullmatch(r"x\d+", a)), 1)
         word = " ".join(a for a in args[1:] if not re.fullmatch(r"x\d+", a))
@@ -1116,6 +1122,15 @@ def cli_tune(args):
         print(f"tune {args[0]} {word} x{times}: {len(names)} preset(s) in reach")
     after = {r["name"]: tone_settings(r) for r in load_rigs()}
     print_diff(before, after)
+    if "--apply" in flags:
+        live = {n: p for n, p in ((n, PRESETS / f"{preset_id(n)}.t3kpreset") for n in names) if p.exists()}
+        if missing := sorted(set(names) - set(live)):
+            print(f"not live yet (run `build`): {', '.join(missing)}")
+        build_presets(list(live), PRESETS)
+        print(f"applied {len(live)} preset(s) live: stomp (or re-select) to hear them")
+    if "--no-sim" not in flags and names:
+        sys.stdout.flush()
+        subprocess.run(["uv", "run", "--quiet", str(Path(__file__).with_name("rigsim.py")), *names, "--before", "last" if args[:1] == ["--undo"] else "undo"])
 
 
 PACKS = Path.home() / "Music/fcb-rig/packs"  # drop folder for local pack files (never committed)
@@ -1191,6 +1206,11 @@ def build_block(spec):
     return node
 
 
+# A preset's optional `chorus` block: the DAW's LSP chorus (qtractor_rig.CHORUS, SW7 in the 80s
+# banks) set per song through CC 89-91. Ranges are the plugin's ports; mix is the wet share.
+CHORUS_LIMITS = {"rate_hz": (0.01, 20.0), "depth_ms": (0.1, 20.0), "mix": (0.0, 1.0)}
+
+
 def validate(rig):
     """Structural checks so footswitch slots line up across presets."""
     errs = []
@@ -1212,6 +1232,12 @@ def validate(rig):
         errs.append(f"scene must be one of {SCENE_KINDS}")
     if rig.get("scene") and not isinstance(rig.get("bank"), int):
         errs.append("scene presets need their FCB bank number")
+    for key, value in rig.get("chorus", {}).items():  # the DAW chorus (qtractor_rig.CHORUS), not TONE3000
+        lo, hi = CHORUS_LIMITS.get(key, (None, None))
+        if lo is None and key not in ("note", "sources"):
+            errs.append(f"chorus.{key}: unknown (known: {', '.join(CHORUS_LIMITS)}, note, sources)")
+        elif lo is not None and not (isinstance(value, (int, float)) and lo <= value <= hi):
+            errs.append(f"chorus.{key} = {value!r}: must be a number in {lo}..{hi}")
     for side in ("left", "right"):
         for i, spec in enumerate(rig.get(side, []), 1):
             if spec.get("type") == "echo" and not spec.get("delay_ms") and not spec.get("reverb"):
@@ -1530,13 +1556,16 @@ def cli_docs(args):
                 out.append(f"| {slot_names[side]}{i} | {spec.get('role', '')} | {what} | {state} |")
         if r.get("split_after"):
             out += ["", f"Slots L1–L{r['split_after']} feed both rigs; left and right are panned apart."]
+        if c := r.get("chorus"):
+            out += ["", f"*Chorus (DAW, SW7 in the 80s banks):* {c.get('rate_hz', 0.6)} Hz, {c.get('depth_ms', 4.0)} ms, "
+                        f"{c.get('mix', 0.5):.0%} wet" + (f" — {c['note']}" if c.get("note") else "")]
         if r.get("notes"):
             out += ["", f"*Notes:* {r['notes']}"]
         if r.get("sources"):
             out += ["", "*Sources:* " + " · ".join(f"<{u}>" for u in r["sources"])]
     out += ["", "## Footswitches", "", "| FCB1010 | CC | TONE3000 |", "|---|---|---|",
-            "| SW1–5 (song banks 01–02) | PC | presets above |",
-            "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone) |",
+            "| SW1–5 (song banks 01–04) | PC | presets above |",
+            "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |",
             "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
             "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",
             "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | output level |", "",

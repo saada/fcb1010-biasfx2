@@ -30,27 +30,33 @@ HARMONY_CHANNEL = 2  # PC 3 -> the DAW's harmony TONE3000 on MIDI channel 3
 WAH_SWEEP_CC = 27
 VOLUME_CC = 7
 
-# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-3 are song
+# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-4 are song
 # banks: one preset per switch.
 SONGS = [
-    # (bank, switch, PC number, name)
+    # (bank, switch, PC number, name). PCs follow the rigs/ files, not the banks: bank 2 (80s
+    # CLEAN) was inserted after the 80s bank, so it is one UP away, with PCs 18-22.
     (1, 1, 3, "Van Halen I"),
     (1, 2, 4, "Van Halen 1984"),
     (1, 3, 5, "Def Leppard Pyromania"),
     (1, 4, 6, "Def Leppard Hysteria"),
     (1, 5, 7, "U2 Streets"),
-    (2, 1, 8, "Comfortably Numb"),
-    (2, 2, 9, "Radiohead"),
-    (2, 3, 10, "Nirvana"),
-    (2, 4, 11, "Djent"),
-    (2, 5, 12, "Purple Rain"),
-    (3, 1, 13, "Satan Full Rig"),
-    (3, 2, 14, "Satan 50 Modern"),
-    (3, 3, 15, "Satan 50 Low Tuned"),
-    (3, 4, 16, "Satan 50 Lead"),
-    (3, 5, 17, "Stormblade"),
+    (2, 1, 18, "Is This Love"),
+    (2, 2, 19, "Rule the World"),
+    (2, 3, 20, "Every Breath You Take"),
+    (2, 4, 21, "Hysteria Clean"),
+    (2, 5, 22, "This Charming Man"),
+    (3, 1, 8, "Comfortably Numb"),
+    (3, 2, 9, "Radiohead"),
+    (3, 3, 10, "Nirvana"),
+    (3, 4, 11, "Djent"),
+    (3, 5, 12, "Purple Rain"),
+    (4, 1, 13, "Satan Full Rig"),
+    (4, 2, 14, "Satan 50 Modern"),
+    (4, 3, 15, "Satan 50 Low Tuned"),
+    (4, 4, 16, "Satan 50 Lead"),
+    (4, 5, 17, "Stormblade"),
 ]
-BANK_NAMES = {0: "Maiden", 1: "80s", 2: "Variety", 3: "Modern"}
+BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
@@ -84,6 +90,7 @@ SONG_RESET = ((SCENE_DRIVE_CC, SCENES["rhythm"][0]), (SCENE_SELECT_CC, 0))
 
 BANKS_IN_USE = sorted({bank for bank, *_ in SONGS} | set(SCENE_BANKS))
 HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) instead of the octaver
+CHORUS_CC = 31   # 80s banks: SW7 = the DAW's stereo chorus (qtractor_rig.py CHORUS) instead of the octaver
 
 
 SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the two signature echoes
@@ -95,14 +102,14 @@ SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the tw
 ]
 
 
-EIGHTIES_TOGGLES = [  # bank 1: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
+EIGHTIES_TOGGLES = [  # banks 1-2: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
     (6, 20, "Wah on/off"),
-    (7, 21, "Octaver"),
+    (7, CHORUS_CC, "Chorus (stereo, the song's rate/depth/mix)"),
     (8, 22, "Boost"),
     (9, 24, "Delay (the song's echo)"),
     (10, 28, "Tuner (mutes the rig)"),
 ]
-BANK_TOGGLES = {1: EIGHTIES_TOGGLES}
+BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES}
 
 
 def toggles(bank):

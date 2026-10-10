@@ -23,7 +23,12 @@ Every capture links to its TONE3000 page (free download).
 | 15 | [Satan 50 Low Tuned](#satan-50-low-tuned) | Satan 50 'Low Tuned' + Solar CHUG: drop tunings and extended-range guitars |
 | 16 | [Satan 50 Lead](#satan-50-lead) | Satan 50 'Lead' + Solar CHUG lead setting: solos |
 | 17 | [Stormblade](#stormblade) | Glenn Fricker's free Stormblade A2 NAM, double-tracked through a UK V30 4x12 on two mics |
-| 18 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
+| 18 | [Is This Love](#is-this-love) | Is This Love: Whitesnake, Whitesnake (1987; Sykes' guitars finished with Mike Stone in London 1986, mixed by Keith Olsen in LA), ~92 BPM, A: the chorused clean arpeggios |
+| 19 | [Rule the World](#rule-the-world) | Everybody Wants to Rule the World: Tears for Fears, Songs from the Big Chair (1985, prod. Chris Hughes), ~112 BPM shuffle, G: the clean riff, the intro and Orzabal's chordal break |
+| 20 | [Every Breath You Take](#every-breath-you-take) | Every Breath You Take: The Police, Synchronicity (1983, AIR Montserrat, prod. Hugh Padgham and the Police), ~117 BPM, C#/Db major |
+| 21 | [Hysteria Clean](#hysteria-clean) | Hysteria (title track): Def Leppard, Hysteria (1987, prod. Mutt Lange), ~107 BPM: the clean jangle of the verses, pre-chorus and bridge |
+| 22 | [This Charming Man](#this-charming-man) | This Charming Man: The Smiths (single, Oct 1983, Strawberry Studios, Stockport, prod. John Porter), ~104 BPM: Johnny Marr's bright, ringing single-note and thirds riff |
+| 23 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
 
@@ -403,9 +408,114 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://spectremedia.kit.com/55316a8f96> · <https://www.tone3000.com/tones/1627> · <https://www.tone3000.com/tones/5996> · <https://www.tone3000.com/tones/2090> · <https://www.tone3000.com/tones/28672>
 
+## Is This Love
+
+**PC 18** · dual-rig stereo — Is This Love: Whitesnake, Whitesnake (1987; Sykes' guitars finished with Mike Stone in London 1986, mixed by Keith Olsen in LA), ~92 BPM, A: the chorused clean arpeggios
+
+*Original rig:* John Sykes on a 1961 Fender Stratocaster, which he used in the studio for clean tones and which is named for this song. Forum accounts (not first-hand) describe two Mesa/Boogie Mark III (Coliseum) heads, the signal split: one side dry to one stack, the other through a Lexicon PCM41 with a very short delay into the second, for 'a slight bit of chorusing'; Sykes' wide finger vibrato adds the rest. The same thread says he also used a Roland JC-120 for some cleans, and a Rig-Talk post says Olsen recorded him on a JCM800 combo (hearsay)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Mesa Boogie Mark III Red Stripe 1987 (My gig tones A2)](https://www.tone3000.com/tones/74009) — Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 1) | on |
+| L4 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 1 in off cap | on |
+| L5 | echo | Dotted-eighth delay 489 ms (92 BPM) + 480L hall — generated 489 ms BBD-style IR (mix 18%) | on |
+| R1 | amp | [Mesa Boogie Mark III Red Stripe 1987 (My gig tones A2)](https://www.tone3000.com/tones/74009) — Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 2, after the PCM41) | on |
+| R2 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 1 in off cap | on |
+| R3 | echo | Dotted-eighth delay 489 ms (92 BPM) + 480L hall — generated 489 ms BBD-style IR (mix 18%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Chorus (DAW, SW7 in the 80s banks):* 0.6 Hz, 5.0 ms, 50% wet — Estimate: no settings are documented. Slow and medium-deep, half wet, for the 'chorus-drenched' arpeggios; the PCM41 split-stack is the documented mechanism.
+
+*Notes:* The split stack as a dual rig: the same Mesa Mark III clean channel (a 1987 Red Stripe through its DI out; the record's Coliseum heads are not in the catalog) and a Mesa 4x12 V30 SM57 IR, hard left and right, with Align wobble 0.35 for the PCM41's short modulated delay on one side. The chorus itself is the DAW chorus on SW7 (0.6 Hz / 5 ms / 50 %, an estimate). Strat pre-EQ (humbucker -> single coil) into the capture; play the neck or neck+middle pickup. The echo is ON: 489 ms (dotted eighth at 92 BPM; 1/4 would be 652 ms), feedback 0.25, low mix, with a 480L Large Hall in the same block (SW9 switches both); all estimates. SW8 BOOST = TS9 clean push (not on the record). Amp conflict: Mesa clean vs JC-120 vs JCM800 is unresolved; this follows the only account of the mechanism. Levels: tone.csv out_db 7.2 dB puts it at -16.0 LUFS, peak -1.9 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+
+*Sources:* <https://mixdownmag.com.au/features/gear-rundown-john-sykes/> · <https://en.wikipedia.org/wiki/Whitesnake_(album)> · <https://en.wikipedia.org/wiki/Is_This_Love_(Whitesnake_song)> · <https://forum.seymourduncan.com/threads/john-sykes-tone-mesa-or-marshall.326201> · <https://www.rig-talk.com/forum/threads/john-sykes-isolated-guitar-only-still-of-the-night-whitesnake.313986/> · <https://songbpm.com/@whitesnake/is-this-love> · <https://www.tone3000.com/tones/74009> · <https://www.tone3000.com/tones/45023>
+
+## Rule the World
+
+**PC 19** — Everybody Wants to Rule the World: Tears for Fears, Songs from the Big Chair (1985, prod. Chris Hughes), ~112 BPM shuffle, G: the clean riff, the intro and Orzabal's chordal break
+
+*Original rig:* Roland Orzabal's walnut Fender 'The Strat' (the 1980-83 deluxe model); Orzabal and Neil Taylor played the electric parts, Taylor the ending solo in two takes. Orzabal wrote it on acoustic with the low E dropped to D, 'square against the shuffled beat'; the 'crazy guitar intro' came last. No song-level amp or effects source exists: a Pete Cornish board credited to Orzabal carried a Boss CE-2 chorus, CS-2 compressor, SD-1, VB-2 and a digital delay, 'possibly' into a JC-120 (Cornish called the amp speculative)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Roland Jazz Chorus](https://www.tone3000.com/tones/127) — Roland JC-120, channel 1 high input (DI) | on |
+| L4 | cab | [JC120 Cab Impulses](https://www.tone3000.com/tones/1644) — Roland JC-120 2x12, C414 cap edge close | on |
+| L5 | echo | Quarter-triplet delay 357 ms (112 BPM shuffle) + 480L plate — generated 357 ms BBD-style IR (mix 15%) | on |
+
+*Chorus (DAW, SW7 in the 80s banks):* 1.0 Hz, 3.0 ms, 50% wet — Estimate of a Boss CE-2 at rate ~9-10 o'clock and depth ~noon (the CE-2 mixes 50/50); the CE-2 is on Orzabal's board, not documented on this song.
+
+*Notes:* Amp = Tim R's JC-120 channel 1 high input as a DI (a different JC capture from Every Breath You Take) into Tim R's JC-120 cab IR, following the Cornish board's 'possibly a JC-120'; the amp is the least certain part. Strat pre-EQ (humbucker -> single coil): use the in-between positions. The chorus is the DAW chorus on SW7 (1.0 Hz / 3 ms / 50 %, a CE-2 estimate). The echo is ON: 357 ms (a quarter-note triplet at 112 BPM, which sits with the shuffle; 1/4 = 536 ms), feedback 0.2, low mix, with a 480L Large Plate in the same block; all estimates. Can't match: the CS-2 compression (no compressor block; the DAW compressor stays bypassed), drop-D on one string, the synth-led mix. SW8 BOOST = TS9 clean push (not on the record). Levels: tone.csv out_db 9.8 dB puts it at -16.1 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+
+*Sources:* <https://www.guitarplayer.com/players/behind-everybody-wants-to-rule-the-world> · <https://songexploder.net/wp-content/uploads/2025/05/Song-Exploder-Tears-For-Fears-Transcript.pdf> · <https://www.mixonline.com/recording/classic-tracks-tears-fears-everybody-wants-rule-world-365857> · <https://equipboard.com/pros/roland-orzabal> · <https://songbpm.com/@tears-for-fears/everybody-wants-to-rule-the-world> · <https://www.tone3000.com/tones/127> · <https://www.tone3000.com/tones/1644>
+
+## Every Breath You Take
+
+**PC 20** · dual-rig stereo — Every Breath You Take: The Police, Synchronicity (1983, AIR Montserrat, prod. Hugh Padgham and the Police), ~117 BPM, C#/Db major
+
+*Original rig:* Andy Summers' modded Telecaster (his '61/'63 Tele with a Gibson PAF humbucker in the neck, stock bridge pickup, phase switch and an onboard preamp), which his site lists for this song, into a Roland JC-120 with its stereo chorus. Padgham close-miked each 12-inch speaker with an SM57, one speaker straight and one detuned by the chorus, and panned the two mics hard left and right; sometimes the part was doubled with the sides swapped. A Fender Twin Reverb supplied straighter, sharper parts. The arpeggio was one take; no guitar delay is documented (Padgham's 300 ms delay was on the hi-hat)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Roland JC 120B Jazz Chorus](https://www.tone3000.com/tones/10912) — Roland JC-120B, normal channel, Bright On, SM57 (speaker 1) | on |
+| L5 | echo | Dotted-eighth delay 385 ms (117 BPM, not on the record) — generated 385 ms BBD-style IR (mix 18%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (room estimate) (mix 12%) | on |
+| R1 | amp | [Roland JC 120B Jazz Chorus](https://www.tone3000.com/tones/10912) — Roland JC-120B, normal channel, Bright On, SM57 (speaker 2) | on |
+| R3 | echo | Dotted-eighth delay 385 ms (117 BPM, not on the record) — generated 385 ms BBD-style IR (mix 18%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (room estimate) (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Chorus (DAW, SW7 in the 80s banks):* 0.5 Hz, 3.0 ms, 50% wet — Estimate of the JC-120's fixed chorus (no knob settings are documented): slow and shallow, half wet, the two sides 180 degrees apart like the amp's straight and detuned speakers.
+
+*Notes:* The documented two-mic JC-120 as a dual rig: the same capture (Roland JC-120B normal channel, Bright On, SM57; the session used SM57s) hard left and right. The JC's chorus is the DAW chorus on SW7 (LSP, 0.5 Hz / 3 ms / 50 %, an estimate): ours modulates both sides in antiphase, the amp left one speaker dry. Spread off, so the width comes from the two sides and the chorus. SW8 BOOST = TS9 clean push (not on the record); SW9 DELAY = 385 ms (dotted eighth at 117 BPM), off: no guitar delay on the record. A short 480L plate (an estimate; the room is undocumented). No pre-EQ: the capture's guitar is unknown and Summers' neck humbucker is not a single coil. Levels: tone.csv out_db -1 dB puts it at -15.7 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+
+*Sources:* <https://www.mixonline.com/recording/polices-every-breath-you-take-365310> · <https://andysummers.com/news/fender-guitar/> · <https://guitarworld.com/features/andy-summers-modded-fender-telecaster> · <https://www.eonmusic.co.uk/news/andy-summers-says-every-breath-you-take-was-crap-until-i-played-on-it> · <https://songbpm.com/@the-police/every-breath-you-take> · <https://www.tone3000.com/tones/10912>
+
+## Hysteria Clean
+
+**PC 21** — Hysteria (title track): Def Leppard, Hysteria (1987, prod. Mutt Lange), ~107 BPM: the clean jangle of the verses, pre-chorus and bridge
+
+*Original rig:* Rick Savage played about 80% of the album's jangle guitars, on a Telecaster through the JHS Rock-Box, which had separate reverb and chorus buttons ('only Mutt and Nigel Green knew' the settings). The pre-chorus and bridge chords were recorded one note at a time; Collen counts 'probably eight guitar parts' on the chorus. Clark and Collen played the solo live, 'plugged into a Rockman each'. Equipboard credits Clark with a Boss CE-2 on the album (weak)
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [MXR X100 Rockman [Hyper Accuracy+]](https://www.tone3000.com/tones/30352) — MXR X100 Rockman, Clean 1 half (Rock-Box stand-in) | on |
+| L5 | echo | Dotted-eighth delay 421 ms (107 BPM) + 480L plate — generated 421 ms BBD-style IR (mix 18%) | on |
+
+*Chorus (DAW, SW7 in the 80s banks):* 0.8 Hz, 3.0 ms, 40% wet — Estimate: the Rock-Box had a chorus button but its settings are undocumented (and the CE-2 claim is weak), so a light, slightly quicker shimmer than the JC-120, 40 % wet.
+
+*Notes:* Amp = Slammin MXR/Rockman X100, Clean 1 at half input (cab-simulated, so the cab slot is empty), standing in for the Rock-Box. Tele voicing (the humbucker -> single-coil curve -3/-2.5/0/+1.5/+3/+2 dB) for Savage's Telecaster, applied after the capture in tone.csv rather than as eq_pre: Clean 1 barely saturates, so before or after sounds alike, and a post EQ lets `tune @clean ...` reach it. The echo is ON: 421 ms (dotted eighth at 107 BPM), low mix, with a 480L Large Plate in the same block (SW9 DELAY switches both). The chorus is the DAW chorus on SW7 (0.8 Hz / 3 ms / 40 %, an estimate). Spread wobble 0.15 for width and Align wobble 0.25 for the stacked parts. SW8 BOOST = TS9 clean push (not on the record). Research: the 80s-tones.md shortlist, section F (captures and model ids checked with `tone3000.py models`). Levels: tone.csv out_db -11.3 dB puts it at -16.1 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+
+*Sources:* <https://www.musicradar.com/artists/they-were-far-superior-guitar-players-to-me-i-could-never-play-lead-to-save-my-life-but-one-thing-im-quite-good-at-is-playing-with-a-certain-feel-def-leppard-bassist-rick-savage-reveals-80-percent-of-hysterias-jangle-guitars-were-him-all-along> · <https://en.wikipedia.org/wiki/Hysteria_(Def_Leppard_song)> · <https://steveclarkguitar.com/articles-interviews/the-hysteria-album-sound/> · <https://equipboard.com/albums/def-leppard-hysteria> · <https://songbpm.com/@def-leppard/hysteria> · <https://www.tone3000.com/tones/30352>
+
+## This Charming Man
+
+**PC 22** — This Charming Man: The Smiths (single, Oct 1983, Strawberry Studios, Stockport, prod. John Porter), ~104 BPM: Johnny Marr's bright, ringing single-note and thirds riff
+
+*Original rig:* Marr played producer John Porter's '54 Telecaster ('it's really a '54 Tele'), tracked with a Rickenbacker (a black 330 per Ground Guitar; Mixdown says a 12-string only 'for moments'), tuned up to F# and fingered in G so it sounds in A. About 15 guitar tracks, including three acoustics and a backwards guitar with a long reverb; the knife-on-strings part went through a Fender Twin Reverb 'with the vibrato on'. The Twin Reverb was his main amp on 'probably all' Smiths records ('the Fender has also got the best reverb', 1985); a Boss CE-1 on early recordings is likely but unconfirmed
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [1973 Fender Twin Reverb](https://www.tone3000.com/tones/88227) — '73 Fender Twin Reverb, vibrato channel V2 T5 M5 B5 (DI) | on |
+| L4 | cab | [1971 Fender Twin Reverb Oxford 12T6-10](https://www.tone3000.com/tones/6046) — '71 Fender Twin Reverb 2x12 Oxford 12T6, SM57 cap edge | on |
+| L5 | echo | Dotted-eighth delay 433 ms (104 BPM, not on the record) — generated 433 ms BBD-style IR (mix 12%) | off |
+| L6 | ambience | [Fender Twin Stereo Spring Reverb](https://www.tone3000.com/tones/1732) — Fender Twin spring reverb (mix 15%) | on |
+
+*Chorus (DAW, SW7 in the 80s banks):* 0.7 Hz, 2.0 ms, 30% wet — The record is essentially dry; no chorus is documented on this song. SW7 adds a faint CE-1-like shimmer (estimate) for the layered Tele + Rickenbacker feel.
+
+*Notes:* Picked as bank 2's fifth song for contrast: a bright, dry Fender Twin Reverb clean (vibrato channel, the one Marr names) with spring reverb, where the other four are chorus or Rockman cleans. Amp = a '73 Twin Reverb vibrato channel at V2 T5 M5 B5 through a load box (DI) into a '71 Twin 2x12 Oxford 12T6 SM57 IR; the Twin's own stereo spring reverb is always on. Tele pre-EQ (humbucker -> single coil): play the bridge pickup. Align wobble 0.1 for the Tele + Ric layering. No echo on the record: SW9 DELAY = 433 ms (dotted eighth at 104 BPM), off. SW8 BOOST = TS9 clean push (not on the record). Can't match: the Twin's tremolo (knife part only), the Rickenbacker chime, the backwards guitar, the tune-up to F# (pitchSemitones +1 would add 11-31 ms latency). Levels: tone.csv out_db 11 dB puts it at -16.2 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+
+*Sources:* <https://en.wikipedia.org/wiki/This_Charming_Man> · <https://www.groundguitar.com/johnny-marr/> · <https://mixdownmag.com.au/features/rig-rundown-the-smiths-morrisey-johnny-marr/> · <https://songbpm.com/@the-smiths/this-charming-man> · <https://www.tone3000.com/tones/88227> · <https://www.tone3000.com/tones/6046> · <https://www.tone3000.com/tones/1732>
+
 ## Maiden Harmony
 
-**PC 18** — Twin-lead harmony voice for Maiden Heavy
+**PC 23** — Twin-lead harmony voice for Maiden Heavy
 
 *Original rig:* the partner guitarist's amp + cab from Maiden Heavy
 
@@ -420,9 +530,9 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 | FCB1010 | CC | TONE3000 |
 |---|---|---|
-| SW1–5 (song banks 01–02) | PC | presets above |
+| SW1–5 (song banks 01–04) | PC | presets above |
 | SW6 | 20 | wah (DAW) / noise gate (standalone) |
-| SW7 | 21 | octaver (DAW) / stereo spread (standalone) |
+| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |
 | SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |
 | SW9 | 23 | slot 2: drive |
 | SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |
@@ -448,4 +558,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 18 | The Evil That Men Do | E natural minor | 375 ms |
+| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 23 | The Evil That Men Do | E natural minor | 375 ms |

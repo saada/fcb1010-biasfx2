@@ -1,0 +1,131 @@
+{
+  "pc": 18,
+  "name": "Is This Love",
+  "reference": "Is This Love: Whitesnake, Whitesnake (1987; Sykes' guitars finished with Mike Stone in London 1986, mixed by Keith Olsen in LA), ~92 BPM, A: the chorused clean arpeggios",
+  "rig": "John Sykes on a 1961 Fender Stratocaster, which he used in the studio for clean tones and which is named for this song. Forum accounts (not first-hand) describe two Mesa/Boogie Mark III (Coliseum) heads, the signal split: one side dry to one stack, the other through a Lexicon PCM41 with a very short delay into the second, for 'a slight bit of chorusing'; Sykes' wide finger vibrato adds the rest. The same thread says he also used a Roland JC-120 for some cleans, and a Rig-Talk post says Olsen recorded him on a JCM800 combo (hearsay)",
+  "sources": [
+    "https://mixdownmag.com.au/features/gear-rundown-john-sykes/",
+    "https://en.wikipedia.org/wiki/Whitesnake_(album)",
+    "https://en.wikipedia.org/wiki/Is_This_Love_(Whitesnake_song)",
+    "https://forum.seymourduncan.com/threads/john-sykes-tone-mesa-or-marshall.326201",
+    "https://www.rig-talk.com/forum/threads/john-sykes-isolated-guitar-only-still-of-the-night-whitesnake.313986/",
+    "https://songbpm.com/@whitesnake/is-this-love",
+    "https://www.tone3000.com/tones/74009",
+    "https://www.tone3000.com/tones/45023"
+  ],
+  "chorus": {
+    "rate_hz": 0.6,
+    "depth_ms": 5.0,
+    "mix": 0.5,
+    "note": "Estimate: no settings are documented. Slow and medium-deep, half wet, for the 'chorus-drenched' arpeggios; the PCM41 split-stack is the documented mechanism."
+  },
+  "notes": "The split stack as a dual rig: the same Mesa Mark III clean channel (a 1987 Red Stripe through its DI out; the record's Coliseum heads are not in the catalog) and a Mesa 4x12 V30 SM57 IR, hard left and right, with Align wobble 0.35 for the PCM41's short modulated delay on one side. The chorus itself is the DAW chorus on SW7 (0.6 Hz / 5 ms / 50 %, an estimate). Strat pre-EQ (humbucker -> single coil) into the capture; play the neck or neck+middle pickup. The echo is ON: 489 ms (dotted eighth at 92 BPM; 1/4 would be 652 ms), feedback 0.25, low mix, with a 480L Large Hall in the same block (SW9 switches both); all estimates. SW8 BOOST = TS9 clean push (not on the record). Amp conflict: Mesa clean vs JC-120 vs JCM800 is unresolved; this follows the only account of the mechanism. Levels: tone.csv out_db 7.2 dB puts it at -16.0 LUFS, peak -1.9 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 74009,
+      "model_id": 643512,
+      "enabled": true,
+      "label": "Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 1)",
+      "eq": [
+        -3.0,
+        -2.5,
+        0.0,
+        1.5,
+        3.0,
+        2.0
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 45023,
+      "model_id": 239354,
+      "enabled": true,
+      "label": "Mesa 4x12 Celestion V30, SM57 1 in off cap"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 489,
+      "feedback": 0.25,
+      "cutoff_hz": 5000.0,
+      "mix": 0.18,
+      "enabled": true,
+      "label": "Dotted-eighth delay 489 ms (92 BPM) + 480L hall",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 74009,
+      "model_id": 643512,
+      "enabled": true,
+      "label": "Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 2, after the PCM41)",
+      "eq": [
+        -3.0,
+        -2.5,
+        0.0,
+        1.5,
+        3.0,
+        2.0
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 45023,
+      "model_id": 239354,
+      "enabled": true,
+      "label": "Mesa 4x12 Celestion V30, SM57 1 in off cap"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 489,
+      "feedback": 0.25,
+      "cutoff_hz": 5000.0,
+      "mix": 0.18,
+      "enabled": true,
+      "label": "Dotted-eighth delay 489 ms (92 BPM) + 480L hall",
+      "reverb": {
+        "tone_id": 88464,
+        "model_id": 745818,
+        "trim_seconds": 2.0,
+        "level_db": -8.0
+      }
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.35,
+    "spreadEnabled": 0.0
+  }
+}

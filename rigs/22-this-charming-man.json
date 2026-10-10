@@ -1,0 +1,88 @@
+{
+  "pc": 22,
+  "name": "This Charming Man",
+  "reference": "This Charming Man: The Smiths (single, Oct 1983, Strawberry Studios, Stockport, prod. John Porter), ~104 BPM: Johnny Marr's bright, ringing single-note and thirds riff",
+  "rig": "Marr played producer John Porter's '54 Telecaster ('it's really a '54 Tele'), tracked with a Rickenbacker (a black 330 per Ground Guitar; Mixdown says a 12-string only 'for moments'), tuned up to F# and fingered in G so it sounds in A. About 15 guitar tracks, including three acoustics and a backwards guitar with a long reverb; the knife-on-strings part went through a Fender Twin Reverb 'with the vibrato on'. The Twin Reverb was his main amp on 'probably all' Smiths records ('the Fender has also got the best reverb', 1985); a Boss CE-1 on early recordings is likely but unconfirmed",
+  "sources": [
+    "https://en.wikipedia.org/wiki/This_Charming_Man",
+    "https://www.groundguitar.com/johnny-marr/",
+    "https://mixdownmag.com.au/features/rig-rundown-the-smiths-morrisey-johnny-marr/",
+    "https://songbpm.com/@the-smiths/this-charming-man",
+    "https://www.tone3000.com/tones/88227",
+    "https://www.tone3000.com/tones/6046",
+    "https://www.tone3000.com/tones/1732"
+  ],
+  "chorus": {
+    "rate_hz": 0.7,
+    "depth_ms": 2.0,
+    "mix": 0.3,
+    "note": "The record is essentially dry; no chorus is documented on this song. SW7 adds a faint CE-1-like shimmer (estimate) for the layered Tele + Rickenbacker feel."
+  },
+  "notes": "Picked as bank 2's fifth song for contrast: a bright, dry Fender Twin Reverb clean (vibrato channel, the one Marr names) with spring reverb, where the other four are chorus or Rockman cleans. Amp = a '73 Twin Reverb vibrato channel at V2 T5 M5 B5 through a load box (DI) into a '71 Twin 2x12 Oxford 12T6 SM57 IR; the Twin's own stereo spring reverb is always on. Tele pre-EQ (humbucker -> single coil): play the bridge pickup. Align wobble 0.1 for the Tele + Ric layering. No echo on the record: SW9 DELAY = 433 ms (dotted eighth at 104 BPM), off. SW8 BOOST = TS9 clean push (not on the record). Can't match: the Twin's tremolo (knife part only), the Rickenbacker chime, the backwards guitar, the tune-up to F# (pitchSemitones +1 would add 11-31 ms latency). Levels: tone.csv out_db 11 dB puts it at -16.2 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 88227,
+      "model_id": 744308,
+      "enabled": true,
+      "label": "'73 Fender Twin Reverb, vibrato channel V2 T5 M5 B5 (DI)",
+      "eq": [
+        -3.0,
+        -2.5,
+        0.0,
+        1.5,
+        3.0,
+        2.0
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 6046,
+      "model_id": 55642,
+      "enabled": true,
+      "label": "'71 Fender Twin Reverb 2x12 Oxford 12T6, SM57 cap edge"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 433,
+      "feedback": 0.15,
+      "cutoff_hz": 5000.0,
+      "mix": 0.12,
+      "enabled": false,
+      "label": "Dotted-eighth delay 433 ms (104 BPM, not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 1732,
+      "model_id": 80864,
+      "enabled": true,
+      "label": "Fender Twin spring reverb",
+      "mix": 0.15,
+      "trim_seconds": 1.5
+    }
+  ],
+  "params": {
+    "spreadEnabled": 1.0,
+    "spreadWobbleEnabled": 0.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.1
+  }
+}

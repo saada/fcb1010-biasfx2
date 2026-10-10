@@ -12,8 +12,9 @@ Workflow, from words to sound:
 3. `sim`: render the affected presets offline (`affected()` + `build_presets()`) before `build` puts them on the rig.
 
 `tone3000.py build` turns every `NN-slug.json` here into a TONE3000 preset and
-loads them into PC order (`pc` 0–17; bank 0 = Maiden scene presets, banks 1–3 = song
-switches). `rigs/archive/` keeps retired presets (the seven Maiden era banks and the song
+loads them into PC order (`pc` 0–22; bank 0 = Maiden scene presets, banks 1–4 = song
+switches: 80s PC 3–7, 80s Clean PC 18–22, Variety PC 8–12, Modern PC 13–17; `rig.py` SONGS
+maps PCs to switches, so a new bank takes the next free PCs). `rigs/archive/` keeps retired presets (the seven Maiden era banks and the song
 presets no longer on the board) for their research; the builder only reads `rigs/*.json`. Captures and
 IRs come from the public [TONE3000](https://www.tone3000.com) catalog by id.
 
@@ -42,7 +43,8 @@ models (`a2` in `models` output). IR blocks use `a-` models.
   "left":  [ /* blocks, slot 1..n */ ],
   "split_after": 2,                  // optional: dual-rig stereo, split after left slot N
   "right": [ /* blocks, slot R1..n */ ],
-  "params": { "spreadEnabled": 1.0 } // optional global-param overrides
+  "params": { "spreadEnabled": 1.0 }, // optional global-param overrides
+  "chorus": {"rate_hz": 0.6, "depth_ms": 4.0, "mix": 0.5, "note": "..."} // optional: the DAW chorus
 }
 ```
 
@@ -61,7 +63,19 @@ models (`a2` in `models` output). IR blocks use `a-` models.
 Right chain (only with `split_after`): R1 `amp`, R2 `cab`, R3 `echo` (same CC as
 slot 5), R4 `echo2` (same CC as slot 6) or `ambience`, then `ambience`. Everything before the split (slots 1..N) feeds both.
 Other globals: SW6 (CC 20) noise gate, SW7 (CC 21) `spreadEnabled`, EXP A
-(CC 27) treble, EXP B (CC 7) output level.
+(CC 27) treble, EXP B (CC 7) output level. (In the DAW rig Qtractor takes CC 20/21/27 for the
+wah and octaver, and the 80s banks' SW7 sends CC 31 to the DAW chorus.)
+
+### The DAW chorus (`chorus`)
+
+TONE3000 has no time-varying effects, so the DAW rig (`qtractor_rig.py` `CHORUS`) puts LSP
+Chorus Stereo after the heavy TONE3000: two voices, triangle LFO, the sides 180° apart, 7 ms
+base delay, bypassed by default and toggled by SW7 (CC 31) in the 80s and 80s Clean banks. A
+preset's optional `chorus` block sets its `rate_hz` (0.01–20), `depth_ms` (0.1–20) and `mix`
+(0–1, the wet share); missing keys take `CHORUS_DEFAULT` (0.6 Hz, 4 ms, 0.5, a slow CE-2-style
+80s chorus). `qtractor_rig.chorus_ccs(pc)` turns them into CC 89/90/91, which Qtractor maps
+linearly onto the ports (`check` validates the ranges). The chorus is not in tone.csv or the
+simulator.
 
 ### Block types
 
@@ -101,7 +115,7 @@ works. A1 files may lack loudness metadata, so re-level with `out_db` after a sw
 differ, `-` where it has no such block); `column -t -s, rigs/tone.csv` shows the raw sheet.
 Rows: the header, a `#rule` row (each column's rule and unit), `*`, any `@tag` rows, then one row
 per preset keyed by its JSON stem. A preset's `tags` cell (space separated: bank `maiden` `80s`
-`variety` `modern`, character `clean` `crunch` `heavy` `lead` `acoustic`, `stereo`) is what
+`80s-clean` `variety` `modern`; the 80s Clean presets carry `80s` too, character `clean` `crunch` `heavy` `lead` `acoustic`, `stereo`) is what
 `@tag` rows match; edit the tags freely. `check` rejects unknown stems, columns and tags,
 non-numbers and out-of-range cells, and names the line, row and column.
 
@@ -162,7 +176,8 @@ in TONE3000; the builder re-encodes them
 automatically (mono, first channel), so any catalog IR is usable.
 
 TONE3000 has no modulation, wah or delay blocks (chorus/flanger/phaser/wah): use Spread/Align
-for chorus-like movement and note the gap in `notes`. Since v0.0.11 it can pitch-shift the whole
+for chorus-like movement and note the gap in `notes`; for a real chorus, give the preset a
+`chorus` block (the DAW chorus above). Since v0.0.11 it can pitch-shift the whole
 input (see Useful `params`), but with no dry blend and no scale awareness.
 
 ## Scene bank (Iron Maiden, FCB bank 0)

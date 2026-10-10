@@ -630,3 +630,30 @@ same preset settled read 0 with delay on and off. Generated echo IR lengths on t
   true-peak limiting, Program Change gaps, and CC moves after load. The older banks (0-2) were
   levelled live with a riff and the compressor on, so their sim levels (e.g. Hysteria -6.6 LUFS)
   are not comparable with those notes yet. That needs a bench pass.
+
+## D20 — Bank 2 (80s Clean) levels, and a real chorus in the DAW
+
+*Data:* `80s-clean-levels.csv` (rigsim `--exact`, after the trims).
+
+- **Question:** what `out_db` puts the five new cleans (PC 18-22) at the rig's clean level, and
+  can the rig get a real chorus, which TONE3000 can't do?
+- **Hypothesis:** every capture carries loudness metadata (-10.9 to -24.8), so TONE3000
+  normalizes them and the trims should be small. The DI captures into a cab IR would sit lower.
+- **Method:** `uv run rigsim.py @80s-clean --exact --before none` (D19's DI bench, offline),
+  untrimmed, then with tone.csv `out_db` trims, aiming at -16 LUFS: the cleans sit 2 dB under the
+  -14 heavies, so the crest (19 dB) keeps pick peaks near the -1 dBFS limiter.
+- **Result, untrimmed:** a 19 dB spread. Is This Love -23.2, Rule the World -25.8, This Charming
+  Man -27.0 LUFS (all DI + cab IR), Every Breath -14.8 (JC-120 amp+cab capture), Hysteria Clean
+  -7.9 (the Rockman's cab-simulated output, limited at -1 dBFS). Normalization doesn't cover the
+  cab IR's loss.
+- **Trims:** +7.2, +9.8, -1, -11.3, +11 dB. Hysteria needed -11.3, not -8, because the limiter
+  had been hiding 3 dB.
+- **Result, trimmed:** -15.7 to -16.2 LUFS, peaks -1.0 to -1.9 dBFS.
+- **Chorus:** LSP Chorus Stereo (installed; Guitarix's `gx_chorus_stereo` is the alternative),
+  after the heavy TONE3000, bypassed, toggled by CC 31 (SW7 in the 80s banks), with each preset's
+  rate/depth/mix as CC 89-91 (`qtractor_rig.chorus_ccs`).
+- **Not measured:** the chorus. Qtractor was running the owner's session, so there was no live
+  `build` or smoke test, and rigsim has no DAW plugins. The CC-to-port mapping is assumed linear
+  (`logarithmic=0` in the session, as for the Solo time). The rate port is marked logarithmic in
+  its TTL, so check it on the first live run. Until whatever reads the FCB sends `chorus_ccs`,
+  the session default plays: 0.6 Hz, 4 ms, 50 %.

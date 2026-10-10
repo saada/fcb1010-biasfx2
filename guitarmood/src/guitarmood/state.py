@@ -2,7 +2,7 @@
 
 The FCB only ever sends fixed messages (a toggle switch sends CC 127 on every press), so the
 state follows the rig's own rules:
-  - DAW toggles (wah, octaver, harmony) flip on every press and survive preset loads.
+  - DAW toggles (wah, octaver, harmony, chorus) flip on every press and survive preset loads.
   - TONE3000 block toggles (boost, drive, delay, lead) flip too, but every Program Change on
     channel 1 reloads the preset and puts the block back to the preset's saved state.
   - The scene is decided by the CC 81 that ends every scene switch's burst
@@ -44,7 +44,7 @@ class RigState:
         self.drive, self.select = t3k.SCENES["rhythm"][0], 0
         self.scene = "rhythm" if start.kind == "scenes" else None
         self.song_sw = None
-        self.daw = {"wah": False, "octaver": False, "harmony": False}
+        self.daw = {"wah": False, "octaver": False, "harmony": False, "chorus": False}
         self.flips = {}  # t3k toggle -> presses since the last preset load
         self.t3k_known = True
         self.tuning = False
