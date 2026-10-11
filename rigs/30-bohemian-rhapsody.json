@@ -1,10 +1,19 @@
 {
   "pc": 30,
   "name": "Bohemian Rhapsody",
-  "reference": "Bohemian Rhapsody, guitar solo: Queen, A Night at the Opera (1975)",
-  "rig": "TODO",
-  "sources": [],
-  "notes": "TODO",
+  "reference": "Bohemian Rhapsody, guitar solo (ballad ~72 BPM, Eb major): Queen, A Night at the Opera (1975; Rockfield, Roundhouse, Sarm, Scorpio, Wessex; prod. Roy Thomas Baker, eng. Mike Stone)",
+  "rig": "Red Special (Burns Tri-Sonics, neck and middle 'set against each other', i.e. out of phase; a sixpence pick) -> treble booster (by 1975 a silicon BC149 unit, not the original germanium Rangemaster, lost in 1973) -> Vox AC30. May: 'the fundamental tone that you hear is the guitar and the treble booster and the AC30'. Recorded on one track, few takes. The Deacy amp is on the outro's twin melody, not the solo. Studio delay undocumented.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bohemian_Rhapsody",
+    "https://en.wikipedia.org/wiki/A_Night_at_the_Opera_(Queen_album)",
+    "https://www.guitarplayer.com/players/i-said-i-would-like-to-effectively-sing-a-verse-on-the-guitar-brian-may-reveals-the-studio-secrets-of-his-legendary-bohemian-rhapsody-solo",
+    "https://fryerguitars.com/history-of-brian-mays-treble-boosters-and-pedalboard-used-with-queen-from-1970-to-around-1986/",
+    "https://musicteacher.com/brian-may-guitar-rig-1975/",
+    "https://songbpm.com/@queen/bohemian-rhapsody",
+    "https://www.tone3000.com/tones/31267",
+    "https://www.tone3000.com/tones/31234"
+  ],
+  "notes": "Booster and amp from one capturer (Slammin): his Dallas booster (a germanium Greuter Boost V2; no BC149 silicon capture exists) at V10 T10 in slot 1, on at load, into the AC30 normal channel dimed (V10, cut 0). SW8 takes the booster off: the dimed AC30 alone, darker (-400 Hz centroid). Slammin's integrated 'N_V10_TC0_DALLASTREBLE' captures are the alternative. Cab: '64 AC30 2x12 Blue Alnico. Pre-model EQ [-6, -3, 1, 2, 1, -1] approximates the out-of-phase neck+middle Tri-Sonics from a humbucker (bass cancelled, nasal mids): an estimate, not measured on a Red Special. The number of AC30s and their settings on the studio solo are undocumented (three AC30s wet/dry/wet is the 1975 stage rig). SW9 = an eighth-note echo at 72 BPM (not documented on the solo; his live Echoplexes ran ~750/1500 ms, too long for an in-TONE3000 toggled echo, D25); EMT 140 plate at 15 % for air (the plate is a guess). Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
   "left": [
     {
       "role": "boost",
@@ -24,7 +33,16 @@
       "tone_id": 31267,
       "model_id": 494011,
       "enabled": true,
-      "label": "Vox AC30, normal channel dimed (V10, cut 0) (DI)"
+      "label": "Vox AC30, normal channel dimed (V10, cut 0) (DI), out-of-phase Tri-Sonic voicing in front",
+      "eq": [
+        -6,
+        -3,
+        1,
+        2,
+        1,
+        -1
+      ],
+      "eq_pre": true
     },
     {
       "role": "cab",

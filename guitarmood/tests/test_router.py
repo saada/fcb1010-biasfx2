@@ -218,7 +218,9 @@ def test_pc_burst_does_not_change_volume():
     t = router.Translator(LAYOUT)
     for (bank, sw) in LAYOUT:
         _, events = t.translate(router.address(bank, sw))
-        assert not any(e[0] == "cc" and e[2] == 7 for e in events), (bank, sw, events)
+        # CC 7 on the rig channel only: DAW tail switches are CC 0..n on ch 9-11, and with 8+
+        # convolvers on one instance one of them is CC 7 there (not the volume).
+        assert not any(e[0] == "cc" and e[1] == 0 and e[2] == 7 for e in events), (bank, sw, events)
     board = Board()
     for bank in board.banks:
         for sw in range(1, 11):

@@ -1,10 +1,20 @@
 {
   "pc": 32,
   "name": "Back in Black",
-  "reference": "Back in Black: AC/DC, Back in Black (1980)",
-  "rig": "TODO",
-  "sources": [],
-  "notes": "TODO",
+  "reference": "Back in Black (94 BPM, E): AC/DC, Back in Black (1980; tracked April 1980 at Compass Point, Nassau, overdubs and mix at Electric Lady NYC; prod. Mutt Lange, eng. Tony Platt)",
+  "rig": "Malcolm (screened left): 1963 Gretsch Jet Firebird 'The Beast' (one bridge Filter'Tron) -> a 1971 Marshall Super Bass. Angus (right): 1971 Gibson SG Standard -> a 1970s 1959 Super Lead and a 1966-67 JTM50; Celestion G12-65 speakers; Schaffer-Vega wireless for the solos only (Platt). Several 50 W and 100 W heads, turned up only until the cabs sounded right; U67s (or U67 + U87) on different speakers, per song. 'AC/DC didn't want to hear effects': a little delay to spread the guitars, Compass Point's fairly dead room.",
+  "sources": [
+    "https://www.soundonsound.com/techniques/classic-tracks-acdc-back-black",
+    "https://guitar.com/features/artist-rigs/the-gear-used-by-angus-young-malcolm-young-on-ac-dc-back-in-black",
+    "https://www.groundguitar.com/malcolm-young-gear/malcolm-youngs-1963-gretsch-jet-firebird-the-beast/",
+    "https://reverb.com/news/tony-platt-shares-secret-angus-young-back-in-black-tone",
+    "https://en.wikipedia.org/wiki/Back_in_Black_(song)",
+    "https://songbpm.com/@ac-dc/back-in-black",
+    "https://www.tone3000.com/tones/80590",
+    "https://www.tone3000.com/tones/6222",
+    "https://www.tone3000.com/tones/91844"
+  ],
+  "notes": "Dual rig, hard panned as Platt screened them: left Malcolm on amalgam's 1967 Marshall Super Bass 'REX' (Crunch, Vol I 7, full rig); right Angus on Slammin's 1959HW 'ANGUS_LO' setting into a Marshall 1960A G12-65 SM57 IR (G12-65s per guitar.com). SW8 BOOST = SoloDallas Schaffer Replica (Gain 9, Boost 12 o'clock, limiter off) for the solos, off at load as Platt says; it sits before the split, so it pushes Malcolm too. Humbucker voicing throughout (the owner's guitar; the Filter'Tron is close enough). Angus's SG year is contested (1971 Standard per guitar.com vs 1970 Custom per groundguitar). SW9 = an eighth-note echo at 94 BPM (Platt's 'very slight delay' is undocumented in time). 480L Small Wood Room at 10 % for Compass Point. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
   "left": [
     {
       "role": "boost",
@@ -21,10 +31,10 @@
     {
       "role": "amp",
       "type": "nam",
-      "tone_id": 72145,
-      "model_id": 597702,
+      "tone_id": 80590,
+      "model_id": 694247,
       "enabled": true,
-      "label": "Malcolm: 1968 Marshall Super Lead 100 W, Vol I 6 bright (full rig, G12H30 4x12)"
+      "label": "Malcolm: 1967 Marshall Super Bass, Vol I 7 crunch (full rig, G12H30 4x12)"
     },
     {
       "role": "cab",
@@ -64,10 +74,10 @@
     {
       "role": "cab",
       "type": "ir",
-      "tone_id": 45022,
-      "model_id": 239175,
+      "tone_id": 69659,
+      "model_id": 563625,
       "enabled": true,
-      "label": "Marshall 1960TV 4x12 G12M-25 Greenback, SM57"
+      "label": "Marshall 1960A 4x12 Celestion G12-65, SM57"
     },
     {
       "role": "echo",

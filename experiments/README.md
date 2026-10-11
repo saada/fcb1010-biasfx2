@@ -1110,3 +1110,41 @@ limiter), made by `palm_boom.py`.
 - **Not measured:** live, on the rig (the owner may be playing; the coordinator builds after
   merge), and by ear. The DAW chorus (SW7) isn't simulated. The dual presets (Puppets, Eruption)
   read about 3 dB louder on the right, as every dual preset in the rig does on this bench.
+
+## D28 — Bank 6 (Legends) levels, its stereo balance, and a phaser as the Uni-Vibe
+
+*Data:* `legends-levels.csv` (rigsim `--exact`, after the trims).
+
+- **Question:** what `out_db` (and right-chain trims) puts the five Legends presets (PC 28-32) at
+  the heavies' -14 LUFS with both sides of the two dual rigs level? Does SW8 jump the level? And
+  with no Uni-Vibe LV2 installed, what can SW7 VIBE be?
+- **Hypothesis:** captures from different capturers differ by up to ~10 dB, so the dual rigs need
+  a right-chain trim before the fader; boosts move the level about 1 dB (D27).
+- **Method:** `uv run rigsim.py @legends --exact --before none` (D19's DI bench, offline),
+  untrimmed, then with tone.csv `out_db`, `r_amp_db` / `r_cab_db` trims, in three passes. The same
+  with a `--sheet` that flips every preset's `boost_on`. The plugin scan: the LV2 manifests in
+  ~/.lv2, /usr/lib/lv2 and /usr/lib64/lv2 (lv2ls isn't installed).
+- **Result, untrimmed:** -14.0 (Bohemian Rhapsody) to -4.3 LUFS (Whole Lotta Love). The dual
+  rigs were lopsided: Pride and Joy's Dumble (right) played 8.9 dB over the Vibroverb (left), and
+  Back in Black's Angus DI chain (right) 13.3 dB under Malcolm's full-rig capture (left).
+- **Trims:** Pride and Joy `r_amp_db` -11.5, `out_db` +1.5; Voodoo Child `out_db` -1.2 with
+  `eq_3k5` -2 / `eq_8k` -3 (the JTM45/100 + germanium fuzz read 1874 Hz centroid, the brightest of
+  the bank); Bohemian Rhapsody +0.1; Whole Lotta Love -14.5; Back in Black `r_cab_db` +10.5,
+  `out_db` -9.3. **Trimmed:** -13.9 to -14.0 LUFS, peaks -3.5 to -5.9 dBFS, L/R within 0.9 LU
+  (Pride and Joy, panned 20/80) and 0.1 LU (Back in Black, hard panned).
+- **SW8:** flipping `boost_on` moves the level -0.1 (Pride and Joy: the TS9 on at load, so
+  pressing it takes it off) to +0.7 dB (Voodoo Child). Bohemian Rhapsody's treble booster (on at
+  load) is the biggest tone move: off, the centroid falls from 1077 to 675 Hz and 2-5 kHz by 3.8 dB.
+- **VIBE:** no gx_univibe or gx_vibe is installed. The candidates were LSP Phaser Stereo, GxPhaser
+  (one speed knob, no depth or stage count) and GxTubeVibrato (pitch vibrato only). LSP Phaser was
+  picked: four all-pass stages like the Uni-Vibe's four photocells, sine LFO, all stages in phase
+  with staggered sweeps (150 Hz-2 kHz, overlap 60 %), no feedback, and its `Depth` port blends
+  dry and all-pass inside the plugin (1 = deepest notches, the Uni-Vibe's Chorus mode). It sits
+  before the heavy TONE3000 (Uni-Vibe -> Marshall), bypassed, on CC 92, with per-song rate / depth
+  / mix on CC 93-95 after the PC (`qtractor_rig.vibe_ccs`).
+- **Not measured:** live, on the rig (the coordinator builds after merge), by ear, and the vibe
+  at all: pedalboard can't host LV2, so rigsim doesn't render it (as for the chorus). The vibe
+  port mapping (CC -> port, linear over each port's range) is the chorus's, tested in
+  `test_router.py`, not heard. The out-of-phase Tri-Sonic pre-EQ (Bohemian Rhapsody) is an
+  estimate. Whole Lotta Love's Super Beatle and Pride and Joy's Dumbleland have no captures:
+  stand-ins, noted in the presets.
