@@ -1,0 +1,58 @@
+{
+  "pc": 31,
+  "name": "Whole Lotta Love",
+  "reference": "Whole Lotta Love: Led Zeppelin, Led Zeppelin II (1969)",
+  "rig": "TODO",
+  "sources": [],
+  "notes": "TODO",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 87031,
+      "model_id": 737449,
+      "enabled": true,
+      "label": "1969 Marshall JMP Super Lead 100 W (full rig)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 333,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Eighth-note echo 333 ms at 90 BPM (the middle section's echo, approximated)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "label": "Lexicon 480L Large Wood Room (Olympic Studio One's live room)",
+      "mix": 0.15,
+      "trim_seconds": 2.0
+    }
+  ],
+  "vibe": {
+    "rate_hz": 1.5,
+    "note": "Not on the record: the default slow throb"
+  }
+}

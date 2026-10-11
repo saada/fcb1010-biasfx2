@@ -43,7 +43,7 @@ def test_parse():
 
 def test_board_matches_rig(board):
     assert board.start_bank == 0
-    assert sorted(board.banks) == [0, 1, 2, 3, 4, 5]
+    assert sorted(board.banks) == [0, 1, 2, 3, 4, 5, 6]
     assert board.banks[0].kind == "scenes" and board.banks[0].subtitle.endswith("The Evil That Men Do")
     assert [board.banks[0].switches[sw].label for sw in range(1, 11)] == \
         ["Rhythm", "Lead", "Clean", "Acoustic", "Crunch", "Wah", "Harmony", "Evil Delay",
@@ -65,6 +65,23 @@ def test_board_matches_rig(board):
     assert board.banks[5].title == "80s Leads" and board.banks[5].kind == "songs"
     assert [board.banks[5].switches[sw].label for sw in range(1, 6)] ==         ["Who's Crying Now", "Sweet Child O' Mine", "Crazy Train", "Master of Puppets", "Eruption"]
     assert [board.messages(5, sw)[0] for sw in range(1, 6)] == [("pc", 0, pc) for pc in range(23, 28)]
+    # Legends: the last bank (one UP from 80s Leads), PCs 28-32; SW7 is the vibe, the rest the 80s row.
+    assert board.banks[6].title == "Legends" and board.banks[6].kind == "songs"
+    assert [board.banks[6].switches[sw].label for sw in range(1, 11)] == \
+        ["Pride and Joy", "Voodoo Child", "Bohemian Rhapsody", "Whole Lotta Love", "Back in Black",
+         "Wah", "Vibe", "Boost", "Delay", "Tuner"]
+    assert [board.messages(6, sw)[0] for sw in range(1, 6)] == [("pc", 0, pc) for pc in range(28, 33)]
+
+
+def test_vibe_is_a_daw_toggle_that_survives_song_changes(board):
+    st = RigState(board)
+    for ev in board.messages(6, 2) + board.messages(6, 7):  # Voodoo Child, then SW7 vibe on
+        st.feed(ev)
+    for ev in board.messages(6, 1):  # Pride and Joy: a PC, the vibe stays on (a Qtractor plugin)
+        st.feed(ev)
+    snap = st.snapshot()
+    assert (snap["playing"], by_sw(snap)[7]["label"], by_sw(snap)[7]["on"]) == ("Pride and Joy", "Vibe", True)
+    assert not st.daw["chorus"]
 
 
 def test_chorus_is_a_daw_toggle_that_survives_song_changes(board):
@@ -152,13 +169,15 @@ def test_live_session_replay(board):
 
 def test_screen_press_equals_pedal_burst(board):
     """A click sends what the pedal sends."""
-    assert board.messages(0, 1) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 28), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert board.messages(0, 1) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 33), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert board.messages(0, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # LEAD: no PC, never wipes CC 80
     assert board.messages(1, 1) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert board.messages(2, 1) == [("pc", 0, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Clean: Is This Love
     assert board.messages(4, 1) == [("pc", 0, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert board.messages(5, 1) == [("pc", 0, 23), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Leads: Who's Crying Now
     assert board.messages(5, 7) == [("cc", 0, qr.CC_CHORUS, 127)]
+    assert board.messages(6, 1) == [("pc", 0, 28), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # Legends: Pride and Joy
+    assert board.messages(6, 7) == [("cc", 0, qr.CC_VIBE, 127)]
 
 
 T3K = ("boost", "drive", "delay", "delay2")

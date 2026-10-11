@@ -1,0 +1,102 @@
+{
+  "pc": 32,
+  "name": "Back in Black",
+  "reference": "Back in Black: AC/DC, Back in Black (1980)",
+  "rig": "TODO",
+  "sources": [],
+  "notes": "TODO",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 91844,
+      "model_id": 770875,
+      "enabled": false,
+      "label": "SoloDallas Schaffer Replica, Gain 9 Boost 12 o'clock, limiter off (Angus's wireless as a boost)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 72145,
+      "model_id": 597702,
+      "enabled": true,
+      "label": "Malcolm: 1968 Marshall Super Lead 100 W, Vol I 6 bright (full rig, G12H30 4x12)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 319,
+      "feedback": 0.15,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": false,
+      "label": "Eighth-note echo 319 ms at 94 BPM (not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "label": "Lexicon 480L Small Wood Room (Compass Point's room)",
+      "mix": 0.1,
+      "trim_seconds": 2.0
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6222,
+      "model_id": 424099,
+      "enabled": true,
+      "label": "Angus: Marshall 1959HW Super Lead, Slammin's Angus setting, low (DI)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 45022,
+      "model_id": 239175,
+      "enabled": true,
+      "label": "Marshall 1960TV 4x12 G12M-25 Greenback, SM57"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 319,
+      "feedback": 0.15,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": false,
+      "label": "Eighth-note echo 319 ms at 94 BPM (not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "label": "Lexicon 480L Small Wood Room (Compass Point's room)",
+      "mix": 0.1,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0
+  },
+  "vibe": {
+    "rate_hz": 1.5,
+    "note": "Not on the record: the default slow throb"
+  }
+}

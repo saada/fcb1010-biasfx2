@@ -1,0 +1,62 @@
+{
+  "pc": 30,
+  "name": "Bohemian Rhapsody",
+  "reference": "Bohemian Rhapsody, guitar solo: Queen, A Night at the Opera (1975)",
+  "rig": "TODO",
+  "sources": [],
+  "notes": "TODO",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 31234,
+      "model_id": 494101,
+      "enabled": true,
+      "label": "Dallas Rangemaster-style treble booster, V10 T10 (on at load, SW8 takes it off)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 31267,
+      "model_id": 494011,
+      "enabled": true,
+      "label": "Vox AC30, normal channel dimed (V10, cut 0) (DI)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 79866,
+      "model_id": 690292,
+      "enabled": true,
+      "label": "'64 Vox AC30 2x12 Celestion Blue Alnico, SM57 + R121"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 417,
+      "feedback": 0.25,
+      "cutoff_hz": 4000.0,
+      "mix": 0.15,
+      "enabled": false,
+      "label": "Eighth-note echo 417 ms at 72 BPM (not on the solo)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "label": "EMT 140 plate",
+      "mix": 0.15,
+      "trim_seconds": 2.0
+    }
+  ],
+  "vibe": {
+    "rate_hz": 1.5,
+    "note": "Not on the record: the default slow throb"
+  }
+}

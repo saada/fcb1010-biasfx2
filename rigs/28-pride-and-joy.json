@@ -1,0 +1,108 @@
+{
+  "pc": 28,
+  "name": "Pride and Joy",
+  "reference": "Pride and Joy: Stevie Ray Vaughan and Double Trouble, Texas Flood (1983)",
+  "rig": "TODO",
+  "sources": [],
+  "notes": "TODO",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 30104,
+      "model_id": 493755,
+      "enabled": true,
+      "label": "Ibanez TS808, Level 6 Drive 2 Tone 3 (SRV's Tube Screamer: on at load, SW8 takes it off)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 52655,
+      "model_id": 421653,
+      "enabled": true,
+      "label": "Fender Vibroverb blackface, vibrato channel V5, Slammin's SRV setting (DI)",
+      "eq": [-3, -2.5, 0, 1.5, 3, 2],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 35106,
+      "model_id": 166290,
+      "enabled": true,
+      "label": "Fender Vibroverb 1x15 JBL E130, SM57 (bright)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 508,
+      "feedback": 0.2,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": false,
+      "label": "Quarter-note echo 508 ms (not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 1730,
+      "model_id": 80866,
+      "enabled": true,
+      "label": "Fender spring reverb (the amps' own tanks)",
+      "mix": 0.12,
+      "trim_seconds": 2.0
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 66220,
+      "model_id": 446214,
+      "enabled": true,
+      "label": "Dumble Steel String Singer #002 (full rig)",
+      "eq": [-3, -2.5, 0, 1.5, 3, 2],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 508,
+      "feedback": 0.2,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": false,
+      "label": "Quarter-note echo 508 ms (not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 1730,
+      "model_id": 80866,
+      "enabled": true,
+      "label": "Fender spring reverb (the amps' own tanks)",
+      "mix": 0.12,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.2,
+    "chainPanRight": 0.8,
+    "chainPanLinked": 1.0
+  },
+  "vibe": {
+    "rate_hz": 5.5,
+    "depth": 1.0,
+    "mix": 0.6,
+    "note": "Not on Pride and Joy: a fast, half-mixed throb for SRV's Leslie moments (the Fender Vibratone on Cold Shot), approximated by the phaser"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "pc": 29,
+  "name": "Voodoo Child",
+  "reference": "Voodoo Child (Slight Return): The Jimi Hendrix Experience, Electric Ladyland (1968)",
+  "rig": "TODO",
+  "sources": [],
+  "notes": "TODO",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "nam",
+      "tone_id": 96791,
+      "model_id": 827752,
+      "enabled": true,
+      "label": "Germanium Fuzz Face, AC128 transistors, Vol 6 Fuzz 10 Bias 5 (Strat voicing in front)",
+      "eq": [-3, -2.5, 0, 1.5, 3, 2],
+      "eq_pre": true
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 72145,
+      "model_id": 597702,
+      "enabled": true,
+      "label": "1968 Marshall Super Lead 100 W, Vol I 6 bright (full rig, G12H30 4x12)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 341,
+      "feedback": 0.2,
+      "cutoff_hz": 3500.0,
+      "mix": 0.15,
+      "enabled": false,
+      "label": "Eighth-note echo 341 ms at 88 BPM (not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "label": "EMT 140 plate",
+      "mix": 0.12,
+      "trim_seconds": 2.0
+    }
+  ],
+  "vibe": {
+    "rate_hz": 1.2,
+    "depth": 1.0,
+    "mix": 1.0,
+    "note": "Not on the 1968 studio take: Hendrix's live Uni-Vibe (1969-70, Woodstock, Band of Gypsys), slow and fully mixed"
+  }
+}

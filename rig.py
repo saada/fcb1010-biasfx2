@@ -43,7 +43,8 @@ VOLUME_CC = 7
 SONGS = [
     # (bank, switch, PC number, name). PCs follow the rigs/ files, not the banks: bank 2 (80s
     # CLEAN) was inserted after the 80s bank, so it is one UP away, with PCs 18-22. Bank 5 (80s
-    # LEADS) came last, with the next free PCs, 23-27 (the generated Maiden Harmony moved to 28).
+    # LEADS) came next, with PCs 23-27, and bank 6 (LEGENDS) last, with 28-32 (the generated Maiden
+    # Harmony moved to 33).
     (1, 1, 3, "Van Halen I"),
     (1, 2, 4, "Van Halen 1984"),
     (1, 3, 5, "Def Leppard Pyromania"),
@@ -69,8 +70,13 @@ SONGS = [
     (5, 3, 25, "Crazy Train"),
     (5, 4, 26, "Master of Puppets"),
     (5, 5, 27, "Eruption"),
+    (6, 1, 28, "Pride and Joy"),
+    (6, 2, 29, "Voodoo Child"),
+    (6, 3, 30, "Bohemian Rhapsody"),
+    (6, 4, 31, "Whole Lotta Love"),
+    (6, 5, 32, "Back in Black"),
 ]
-BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern", 5: "80s Leads"}
+BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern", 5: "80s Leads", 6: "Legends"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
@@ -105,6 +111,7 @@ SONG_RESET = ((SCENE_DRIVE_CC, SCENES["rhythm"][0]), (SCENE_SELECT_CC, 0))
 BANKS_IN_USE = sorted({bank for bank, *_ in SONGS} | set(SCENE_BANKS))
 HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) instead of the octaver
 CHORUS_CC = 31   # 80s banks: SW7 = the DAW's stereo chorus (qtractor_rig.py CHORUS) instead of the octaver
+VIBE_CC = 92     # LEGENDS bank: SW7 = the DAW's Uni-Vibe-style phaser (qtractor_rig.py VIBE)
 
 
 SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the two signature echoes
@@ -123,7 +130,14 @@ EIGHTIES_TOGGLES = [  # banks 1, 2 and 5: every 80s preset has a boost (slot 1) 
     (9, 24, "Delay (the song's echo)"),
     (10, 28, "Tuner (mutes the rig)"),
 ]
-BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES, 5: EIGHTIES_TOGGLES}
+LEGENDS_TOGGLES = [  # bank 6: the 80s row, but SW7 is the Uni-Vibe-style vibe (qtractor_rig.VIBE)
+    (6, 20, "Wah on/off"),
+    (7, VIBE_CC, "Vibe (Uni-Vibe-style phaser, the song's rate/depth/mix)"),
+    (8, 22, "Boost"),
+    (9, 24, "Delay (the song's echo)"),
+    (10, 28, "Tuner (mutes the rig)"),
+]
+BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES, 5: EIGHTIES_TOGGLES, 6: LEGENDS_TOGGLES}
 
 
 def toggles(bank):
@@ -193,11 +207,13 @@ def messages(fcb, bank, switch):
                   for n in (1, 2) if getattr(p, f"cc{n}_enabled")]
 
 
-def extras(pc, chorus):
+def extras(pc, chorus, vibe=None):
     """Per-song messages the FCB never had room for, sent after a channel-1 PC: the DAW chorus's
-    rate, depth and mix (qtractor_rig.chorus_ccs), so each song gets its own chorus."""
+    rate, depth and mix (qtractor_rig.chorus_ccs), so each song gets its own chorus, then the
+    vibe's (qtractor_rig.vibe_ccs) for presets with a `vibe` block."""
     import qtractor_rig
-    return [("cc", CHANNEL, cc, value) for cc, value in qtractor_rig.chorus_ccs(pc, chorus)]
+    return [("cc", CHANNEL, cc, value) for cc, value in
+            qtractor_rig.chorus_ccs(pc, chorus) + qtractor_rig.vibe_ccs(pc, vibe)]
 
 
 def layout():
@@ -205,7 +221,7 @@ def layout():
     turns each universal address into. That is exactly what `build()` puts on the switch,
     then extras() after a channel-1 PC, then the DAW tail switches after every PC."""
     import qtractor_rig
-    chorus = qtractor_rig.chorus_settings()
+    chorus, vibe = qtractor_rig.chorus_settings(), qtractor_rig.vibe_settings()
     tail_map = qtractor_rig.load_tail_map()
     fcb, out = build(), []
     for b in range(10):
@@ -214,7 +230,7 @@ def layout():
                 pc = next((e[2] for e in m if e[0] == "pc" and e[1] == CHANNEL), None)
                 # each instance's DAW tails follow its PC (qtractor_rig.tail_ccs, experiments D25)
                 tails = [cc for e in m if e[0] == "pc" for cc in qtractor_rig.tail_ccs(e[1], e[2], tail_map)]
-                out.append((b, s, m + (extras(pc, chorus) if pc is not None else []) + tails))
+                out.append((b, s, m + (extras(pc, chorus, vibe) if pc is not None else []) + tails))
     return out
 
 
