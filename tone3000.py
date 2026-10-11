@@ -498,7 +498,16 @@ def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=
         for i, v in enumerate(rev):
             h[i] += v * g
     peak = max(abs(v) for v in h)
-    return wav_write([v / peak * 0.9 for v in h], rate)
+    h = [v / peak * 0.9 for v in h]
+    if not reverb:  # h starts with one delay time of zeros, which TONE3000 would trim (D26)
+        h[0] = ECHO_TRIM_GUARD
+    return wav_write(h, rate)
+
+
+# TONE3000 loads every IR with JUCE's Trim::yes (ProcessorModelLoader.cpp:1040), which drops
+# leading samples under an absolute -80 dBFS (juce_Convolution.cpp trimImpulseResponse). One
+# sample just over it keeps a delay-only echo's lead-in, 78 dB under its first repeat (D26).
+ECHO_TRIM_GUARD = 10 ** (-79 / 20)
 
 
 # Reverb tails are cut at this length. Long convolutions cost CPU on every cycle and stall

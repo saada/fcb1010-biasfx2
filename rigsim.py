@@ -157,7 +157,7 @@ def cached_build_block(spec):
     """tone3000.build_block, memoised on disk: generated echo IRs and resampled IRs are pure
     Python and take seconds. Each use gets a fresh block id, as a real build does."""
     files = [_stat(t3k.local_path(spec))] if spec.get("file") else []
-    env = [t3k.IR_TAIL_MAX_S, os.environ.get("T3K_NO_LONG_IR")]
+    env = [t3k.IR_TAIL_MAX_S, os.environ.get("T3K_NO_LONG_IR"), getattr(t3k, "ECHO_TRIM_GUARD", None)]  # generator inputs
     path = CACHE / "blocks" / f"{_digest(spec, files, env)}.bin"
     if path.exists():
         node, _ = t3k.read_tree(path.read_bytes(), 0)
@@ -187,7 +187,7 @@ def rig_key(rig, mode, di_hash, base):
     norm = lambda chain: [{k: (float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else v)
                            for k, v in b.items() if k != "label"} for b in chain]
     files = [_stat(t3k.local_path(b)) for b in blocks if b.get("file")]
-    return _digest(SIM_VERSION, getattr(t3k, "DAW_TAILS", False), norm(rig.get("left", [])), norm(rig.get("right", [])),
+    return _digest(SIM_VERSION, getattr(t3k, "DAW_TAILS", False), getattr(t3k, "ECHO_TRIM_GUARD", None), norm(rig.get("left", [])), norm(rig.get("right", [])),
                    rig.get("split_after"), {k: float(v) for k, v in effective_params(rig).items()}, files, mode,
                    di_hash, hashlib.sha1(base).hexdigest(), _stat(VST3 / "Contents/x86_64-linux/TONE3000.so"))
 

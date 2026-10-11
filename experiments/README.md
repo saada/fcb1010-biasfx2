@@ -966,3 +966,84 @@ limiter), made by `palm_boom.py`.
 
   - **The after-3 outlier.** It overran (B/Q > 1) on five consecutive presets that read 0 in every other after-run. It did not come back in after-4 or after-5 (load average about 2, 22 graph nodes), so I treat it as an outside event rather than a fault in the fix.
   - **Live xruns are bursty at this run length.** Maiden Acoustic went from 0 to 37 between the two before-runs. The offline callback timing above remains the deterministic evidence.
+
+## D26 — TONE3000 trims leading silence: delay-only echoes played their first repeat on the dry note
+
+*Data:* `echo-trim.csv` (every echo block, before/after), `echo-trim-rest.csv` (presets as loaded).
+*Tool:* `experiments/echo_onset.py`.
+
+- **Question:** D25's side finding. Does TONE3000 really drop a generated echo's delay, which
+  echoes, and can the IR itself survive the loader without changing the sound?
+- **The trim rule (sources):**
+  - TONE3000 v0.0.12 loads every IR with `Convolution::Trim::yes, Normalise::no`
+    (`plugin/src/ProcessorModelLoader.cpp:1039-1051`).
+  - JUCE 9.0.3 `juce_dsp/frequency/juce_Convolution.cpp`, `trimImpulseResponse` (l. 571-619):
+    the threshold is **absolute**, `Decibels::decibelsToGain (-80.0f)` = 1e-4 (l. 573), not
+    relative to the peak. A sample counts when `std::abs (sample) >= thresholdTrim` (l. 587);
+    leading and trailing runs are cut at the earliest crossing over all channels.
+  - It runs in `ConvolutionEngineFactory::setImpulseResponse` (l. 771) on the file's samples,
+    before resampling and before any normalisation.
+  - TONE3000's unit-energy gain (`computeIrNormalizationGain`, l. 324) reads the whole,
+    untrimmed file. The short/long verdict (−18 dB wet pad at ≤ 1.0 s) uses the trimmed length.
+- **Hypothesis:** `analog_echo` without a `reverb` writes its first repeat at sample
+  `delay_ms`, after exact zeros, so the trim removes the whole delay. One sample at index 0 just
+  over −80 dBFS keeps the lead-in and can't be heard.
+- **Which echoes:** 24 of the 38 echo blocks have no reverb. They span 16 presets: Van Halen I and
+  1984, Pyromania, Hysteria, Comfortably Numb, Radiohead (3), Nirvana, Djent, Purple Rain, the four
+  Satan presets, Stormblade, Every Breath and This Charming Man.
+  - All are footswitched (the variety LEAD and 80s SW9 DELAY), so they stay in TONE3000 under
+    D25, except Radiohead's always-on R3 wash. D25 didn't move that one either.
+  - The other 14 sum a reverb from sample 0, and the trim takes only 2 samples (0.04 ms). That
+    includes **Maiden Heavy's "Evil" (375 ms) and "Madness" (415 ms)** on SW8/SW9, so they were
+    never affected.
+- **Method (offline, rigsim, real TONE3000 VST3):**
+  - The DI is one synthetic muted pluck (A, 110 Hz, −3 dBFS) at 1.0 s.
+  - Each echo block is rendered in its lane alone, at mix 1, with the other echoes off and the
+    DAW tails off, so the IR goes through TONE3000's own loader. The same lane is also rendered
+    with the echo off.
+  - The **first repeat** is the peak of the kernel that maps the echo-off render onto the wet
+    one (regularised deconvolution). That peak is the first repeat because it has unit gain,
+    feedback is under 1, and any reverb sits at least 6 dB under it.
+  - Loudness: each preset with that echo's footswitch on (real mix, DAW tails as built), and
+    each preset as loaded, both on the bench DI (`di-ref.wav`, exact window).
+- **Result, first repeat (ms after the dry note):**
+
+| Echo | delay_ms | before | after |
+|---|---|---|---|
+| 24 delay-only blocks (16 presets) | 300-550 | **0.02-0.29** | delay_ms **+0.02 … +0.50** |
+| Maiden Heavy "Evil" L/R | 375 | 375.00 | 375.00 |
+| Maiden Heavy "Madness" L/R | 415 | 415.00 | 415.00 |
+| U2 Streets / Is This Love / Rule the World / Hysteria Clean | 531, 357 / 489 / 357 / 421 | on time | on time, IR byte-identical |
+
+  The small positive offset is the BBD low-pass's group delay. Every block is inside ±2 ms (the
+  largest is Purple Rain's 300.31, 300.50 on a repeat run, with its 2.8 kHz cutoff). A second
+  full after-run matched the first within 0.3 ms and 0.03 LUFS. Maiden Clean's and the
+  Acoustic's hall is louder than its repeat, so their kernel peak is the reverb (142.6 /
+  131-144 ms). Their IRs are byte-identical too.
+- **Fix:** `analog_echo` sets sample 0 of a delay-only IR to `ECHO_TRIM_GUARD` = −79 dBFS.
+  - In 24-bit that's code 941, which reads back as 1.1218e-4 (≥ 1e-4).
+  - It's **78.1 dB under the first repeat's peak** (−0.9 dBFS) and adds 1.3e-8 to the file's
+    energy, so TONE3000's normalisation gain is unchanged.
+  - Echoes with a reverb are untouched: their sha1s match.
+  - Trimmed lengths were already 1.28-3.85 s, so no echo crosses TONE3000's 1.0 s cab/reverb
+    line: no pad change.
+  - `tone3000_ir`, the DAW-tail kernel, applies the same trim, so a delay-only echo moved to
+    the DAW later keeps its delay too (`daw_first_ms` in the CSV).
+  - rigsim's block and result caches now key on the guard.
+- **Result, loudness:**
+  - **As loaded**, 22 of 23 presets with an echo are within 0.03 dB (IRs identical or the
+    echo off at rest). Radiohead lost 1.62 dB (R −2.1, L −0.3). Its always-on 440 ms wash had
+    summed its first repeat onto every note.
+    - Re-levelled in tone.csv: `r_amp_db` −10.3 → −8.2. Now −14.03 LUFS against −13.97, with L
+      and R within 0.08 dB of before.
+  - **With a delay footswitched on**, the 16 presets now read 1.6-2.5 dB quieter (for example,
+    Van Halen I −12.81 → −14.84, This Charming Man −14.02 → −15.74).
+    - The old number included the first repeat landing coherently on the dry note, which the
+      BBD pulse's low-frequency gain made loud.
+    - The delay-on states now sit 0.5-0.9 dB under the −14 LUFS rest level. That's the intended
+      balance, so they're not re-levelled.
+- **Not measured:** the live rig (the owner's instrument; offline only). Rendering CC moves after
+  a preset loads isn't simulated, so the footswitched states were built by enabling the blocks.
+- **Conclusion:** the trim is absolute at −80 dBFS on raw file samples. One −79 dBFS sample at
+  the start of a delay-only echo IR restores every delay to within 0.5 ms of `delay_ms`, with
+  nothing audible added.

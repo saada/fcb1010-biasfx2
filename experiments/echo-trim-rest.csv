@@ -1,0 +1,25 @@
+pc,preset,lufs_old_ir,lufs_new_ir,delta_db,peak_old_ir,peak_new_ir,note
+0,Maiden Heavy,-14.0,-14.0,+0.00,-2.9,-2.9,
+1,Maiden Clean,-14.91,-14.88,+0.03,-1.0,-1.0,IRs byte-identical: render noise
+2,Maiden Acoustic,-15.0,-15.02,-0.02,-1.55,-1.66,IRs byte-identical: render noise
+3,Van Halen I Brown,-13.99,-13.99,+0.00,-2.97,-2.97,
+4,Van Halen 1984,-14.02,-14.02,+0.00,-3.49,-3.49,
+5,Def Leppard Pyromania,-13.96,-13.96,+0.00,-4.2,-4.0,
+6,Def Leppard Hysteria,-14.03,-14.02,+0.01,-3.02,-3.01,
+7,U2 Streets,-14.89,-14.89,+0.00,-3.47,-3.47,
+8,Comfortably Numb,-14.04,-14.03,+0.01,-2.06,-2.05,
+9,Radiohead,-13.97,-15.59,-1.62,-1.0,-2.91,always-on ambient wash (R3); tone.csv at HEAD
+9,Radiohead,-13.97,-14.03,-0.06,-1.0,-1.0,after r_amp_db -10.3 -> -8.2 (L -20.62 -> -20.67; R -14.89 -> -14.97 LUFS)
+10,Nirvana,-13.96,-13.96,+0.00,-5.71,-5.71,
+11,Djent,-14.05,-14.05,+0.00,-5.77,-5.77,
+12,Purple Rain,-14.95,-14.97,-0.02,-1.74,-1.25,
+13,Satan Full Rig,-14.0,-14.0,+0.00,-1.0,-1.0,
+14,Satan 50 Modern,-14.0,-14.0,+0.00,-6.41,-6.41,
+15,Satan 50 Low Tuned,-14.01,-14.01,+0.00,-8.38,-8.38,
+16,Satan 50 Lead,-14.01,-14.01,+0.00,-4.49,-4.49,
+17,Stormblade,-13.99,-13.99,+0.00,-4.9,-4.9,
+18,Is This Love,-15.0,-15.0,+0.00,-1.0,-1.0,
+19,Rule the World,-15.08,-15.08,+0.00,-1.0,-1.0,
+20,Every Breath You Take,-15.05,-15.05,+0.00,-1.0,-1.0,
+21,Hysteria Clean,-14.99,-14.99,+0.00,-1.0,-1.0,
+22,This Charming Man,-15.02,-15.02,+0.00,-1.0,-1.0,
