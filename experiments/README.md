@@ -863,9 +863,10 @@ limiter), made by `palm_boom.py`.
   speakers (2-5 kHz -11 to -17 dB of band energy, vs -4 to -8 for the Marshall presets): the
   cap-edge SM57 (`55642`) is the brightest of three SM57 positions and the C414 cone is darkest.
   A JBL D120 Twin IR (`33532`) changed the 2-5 kHz band by under 3 dB, so the darkness is the
-  cranked amp's (V10, Treble 7), not the IR. Cranked Norm (`419003`) + TS9 was kept over
-  "Driven" (V8) and "V1 pulled" for being the documented amp's loudest setting with the most even
-  sustain; the source says only "a Fender Twin".
+  cranked amp's (V10, Treble 7), not the IR. Cranked Norm (`419003`, V10) + TS9 was kept: the
+  plain amp turned all the way up, with a pedal in front. "Driven" (V8, crest 12.5 dB) and
+  "V1 pulled" (crest 12.2 dB) saturate about as much, but V1-pulled is a mod nobody ties to
+  Schon, and the source says only "a Fender Twin". Not compared by ear.
 - **Not measured:** live, on the rig (the owner may be playing; the coordinator builds after
   merge), and by ear. The DAW chorus (SW7) isn't simulated. The dual presets (Puppets, Eruption)
   read about 3 dB louder on the right, as every dual preset in the rig does on this bench.
