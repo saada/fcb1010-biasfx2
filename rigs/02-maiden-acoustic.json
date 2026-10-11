@@ -3,16 +3,19 @@
   "name": "Maiden Acoustic",
   "scene": "acoustic",
   "bank": 0,
-  "reference": "Journeyman (Dance of Death, 2003, Sarm West, prod. Kevin Shirley / Steve Harris): Maiden's first and only fully acoustic song, strummed steel-string acoustics under orchestra; also the acoustic-guitar intro of Dance of Death",
-  "rig": "Journeyman was written and recorded 'totally based on acoustic guitars' (Harris); the chorus/opening is by Dickinson and Smith, the rest by Harris; the album version adds orchestration. Which guitarist played which acoustic, and the make/model of the studio acoustics, are not documented. Emulated here as: electric -> Diamond optical compressor -> Boss AC-3 acoustic simulator (Standard) -> two acoustic body IRs (Martin dreadnought left, Gibson J-45 right) for a double-tracked acoustic pair -> hall + room",
+  "reference": "The acoustic intros of Dance of Death (Dance of Death, 2003, Sarm West London) and Dream of Mirrors (Brave New World, 2000, Guillaume Tell Paris), both prod. Kevin Shirley with Steve Harris: bright, picked steel-string acoustic under the clean/harmony guitars, dry, with only the room around it. Also Journeyman (Dance of Death), Maiden's one fully acoustic song",
+  "rig": "Which guitarist played the studio acoustics, and on which instrument, isn't documented for either record. Live, Janick Gers plays a Gibson Chet Atkins semi-acoustic (a steel-string acoustic-electric with a piezo pickup) for Dance of Death (Wikipedia, from Premier Guitar's 2010 rig gallery) and, per fan sites, Dream of Mirrors, so the parts are piezo-amplified steel-string acoustic in the band's own hands. Kevin Shirley's documented method on Dance of Death: the band live in the studio, Murray and Gers in a separate room with their amps, guitars through Neve 8069 pres, a Drawmer 1961 EQ and a UREI 1176; 'I didn't add any reverb, other than perhaps some on the orchestra on two songs', room mics instead, and the parts fitted together 'mainly with panning rather than EQ'. He suggested recording Brave New World the same live way. Emulated here as: electric -> Diamond optical compressor (the 1176 leveller) -> electric pre-voiced to a piezo, into a NAM capture of a piezo pickup re-recorded on a Rode condenser -> Taylor 816 steel-string acoustic IRs (M251 tube condenser), a different IR per side for a double-tracked pair -> a small wood room and a studio live room, both under 1.1 s",
   "sources": [
-    "https://en.wikipedia.org/wiki/Dance_of_Death_(album)",
-    "https://forum.maidenfans.com/threads/interview-with-steve-harris-in-metalworld-no-38.2289/",
-    "https://forum.maidenfans.com/threads/journeyman.3963/",
+    "https://en.wikipedia.org/wiki/Janick_Gers",
+    "https://equipboard.com/pros/janick-gers",
+    "https://www.premierguitar.com/gear/gallery-iron-maidens-2010-touring-gear",
     "https://www.soundonsound.com/people/kevin-caveman-shirley",
-    "https://www.sweetwater.com/insync/sweeten-your-electric-guitars-acoustic-tone-with-ir-magic/"
+    "https://en.wikipedia.org/wiki/Dance_of_Death_(album)",
+    "https://en.wikipedia.org/wiki/Brave_New_World_(Iron_Maiden_album)",
+    "https://blabbermouth.net/news/iron-maiden-track-by-track-preview-of-dance-of-death",
+    "https://forum.maidenfans.com/threads/interview-with-steve-harris-in-metalworld-no-38.2289/"
   ],
-  "notes": "Built on the rigs/13 chain (compressor -> AC-3 -> body IR), made stereo: slots 1-2 (compressor + AC-3) feed both sides, then a Martin dreadnought body IR on the left and a Gibson J-45 body IR on the right, panned apart with a little Align wobble, so strummed chords sound like two acoustics tracked separately (Journeyman is layered acoustics). The compressor sits in the 'boost' slot and the AC-3 in the 'drive' slot (both on) and the amp slots are empty inserts: this keeps the instance at 2 NAM blocks, and SW8/SW9 don't reach the clean/acoustic instance anyway. No 12-string or specific-model acoustic IR exists on TONE3000, and the studio acoustics aren't documented, so steel-string dreadnought/J-45 bodies are the closest honest match. Pre-EQ thins the humbucker toward a piezo/single-coil voicing as in rigs/13; body IRs get a slight low cut. Reverb is ON: echo block = reverb only (Lexicon 480L Large Hall, the lush tail the user wants; on the record Shirley added reverb only to the orchestra and used room mics), plus a 480L Small Wood Room at 20% for the room-mic sound. Level: rigs/13 measured ~24 dB under target with the AC-3 at +24 dB out, so the body IRs carry +18 dB here; treat all gains as starting points for the maintainer's measurement. Best on the neck pickup, picked lightly.",
+  "notes": "REBUILT for the Dance of Death / Dream of Mirrors intros. The old chain (compressor -> Boss AC-3 -> Martin / J-45 body IRs, 480L Large Hall + Small Wood Room) measured darker than the dry DI itself: 2-5 kHz at -27.2 dB of the band energy, centroid 686 Hz, i.e. a boomy, muffled electric rather than a steel string, with ~3.5 s of reverb; offline renders show the AC-3 capture and these body IRs both take top end away (AC-3 alone: 2-5 kHz -34 dB). The new chain keeps 2 NAM blocks on the instance: slot 1 (boost, on) = Diamond Compressor, comp 5 (levels the picking the way Shirley's 1176 did; it also keeps the crest at ~15 dB so the bus limiter isn't hitting pick attacks); slot 2 (drive, on) = 'Acoustic piezo to microphone' NAM (a piezo pickup re-recorded on a Rode condenser) fed by the electric with a piezo pre-EQ (-6 dB 100 Hz shelf, -4 dB 250, +3 dB 1.6 kHz, +6 dB 3.5 kHz, +6 dB 8 kHz shelf) so the magnetic pickup's low-mid hump reads as a piezo; then L = Taylor 816 'M251 Pz1' IR, R = Taylor 816 'M251 SB1' IR, each with a body EQ (-8 dB 100 Hz shelf, -4 dB 250, -1 dB 650, +1 dB 1.6 kHz, +8 dB 3.5 kHz, +7 dB 8 kHz shelf) to cut the boom and open the strings. Measured offline: 2-5 kHz -8.9 dB, centroid ~1180 Hz, low<250 -5.9 dB. The guitars on the record and the Chet Atkins live are steel strings, so a Taylor steel-string IR is the nearest honest match; no Gibson Chet Atkins capture or IR exists in the catalog, and nothing makes an electric fully acoustic (best on the neck pickup, picked lightly). Stereo double: the two IRs panned hard left/right with Align wobble 0.15, like two acoustic takes panned apart (Shirley fitted parts by panning). Ambience, kept short for the crackles the owner hears on long tails (and dry like the records): echo block (always on; SW8/SW9 don't reach this instance) = reverb only, Lexicon 480L Small Wood Room, 1.0 s IR at 12%, standing in for the Sarm West room mics; slot 6 / R4 = Sunset Sound Studio 3 live room, mono, trimmed to 0.8 s (RT60 ~0.5 s) at 15%. Longest tail 1.0 s, both IRs together 1.8 s of convolution (was 2.0 s + 1.5 s, the Large Hall capped from 3.5 s). Levels: rendered offline with rigsim --exact to -15 LUFS (clean/acoustic target, D22); not yet measured on the live rig.",
   "left": [
     {
       "role": "boost",
@@ -20,25 +23,24 @@
       "tone_id": 88975,
       "model_id": 749582,
       "enabled": true,
-      "label": "Diamond Compressor, Comp 5 / EQ 6.5 / Vol 5 (acoustic strum leveller)"
+      "label": "Diamond Compressor, Comp 5 / EQ 6.5 / Vol 5 (the 1176 leveller)"
     },
     {
       "role": "drive",
       "type": "nam",
-      "tone_id": 71126,
-      "model_id": 588442,
+      "tone_id": 29116,
+      "model_id": 493489,
       "enabled": true,
-      "label": "Boss AC-3 Acoustic Simulator, Standard, Level/Body/Top noon",
+      "label": "Piezo pickup -> Rode condenser NAM, electric pre-voiced as a piezo",
       "eq": [
+        -6.0,
         -4.0,
-        -3.0,
         -1.0,
-        1.0,
-        2.5,
-        2.0
+        3.0,
+        6.0,
+        6.0
       ],
-      "eq_pre": true,
-      "out_db": 24.0
+      "eq_pre": true
     },
     {
       "role": "amp",
@@ -47,43 +49,43 @@
     {
       "role": "cab",
       "type": "ir",
-      "tone_id": 36381,
-      "model_id": 174633,
+      "tone_id": 43190,
+      "model_id": 218645,
       "enabled": true,
-      "label": "Acoustic body IR: Martin dreadnought (left acoustic)",
+      "label": "Taylor 816 steel-string, M251 'Pz1' IR (left acoustic)",
       "eq": [
-        -1.5,
+        -8.0,
+        -4.0,
         -1.0,
-        0.0,
-        0.0,
-        0.5,
-        1.0
+        1.0,
+        8.0,
+        7.0
       ],
-      "out_db": -3.5
+      "out_db": 16.1
     },
     {
       "role": "echo",
       "type": "echo",
       "delay_ms": 0,
-      "mix": 0.25,
+      "mix": 0.12,
       "enabled": true,
-      "label": "Lexicon 480L Large Hall (reverb only)",
+      "label": "Lexicon 480L Small Wood Room 1.0 s (room mics; reverb only)",
       "reverb": {
         "tone_id": 88464,
-        "model_id": 745818,
-        "trim_seconds": 3.5,
+        "model_id": 745823,
+        "trim_seconds": 1.0,
         "level_db": 0.0
       }
     },
     {
       "role": "ambience",
       "type": "ir",
-      "tone_id": 88464,
-      "model_id": 745823,
+      "tone_id": 99227,
+      "model_id": 827078,
       "enabled": true,
-      "mix": 0.2,
-      "trim_seconds": 1.5,
-      "label": "Lexicon 480L Small Wood Room (room mics)"
+      "mix": 0.15,
+      "trim_seconds": 0.8,
+      "label": "Sunset Sound Studio 3 live room, mono, 0.8 s (studio room)"
     }
   ],
   "split_after": 2,
@@ -95,43 +97,43 @@
     {
       "role": "cab",
       "type": "ir",
-      "tone_id": 36381,
-      "model_id": 174632,
+      "tone_id": 43190,
+      "model_id": 218646,
       "enabled": true,
-      "label": "Acoustic body IR: Gibson J-45 (right acoustic)",
+      "label": "Taylor 816 steel-string, M251 'SB1' IR (right acoustic)",
       "eq": [
-        -2.0,
+        -8.0,
+        -4.0,
         -1.0,
-        0.0,
-        0.0,
-        0.5,
-        1.5
+        1.0,
+        8.0,
+        7.0
       ],
-      "out_db": -1.2
+      "out_db": 16.1
     },
     {
       "role": "echo",
       "type": "echo",
       "delay_ms": 0,
-      "mix": 0.25,
+      "mix": 0.12,
       "enabled": true,
-      "label": "Lexicon 480L Large Hall (reverb only)",
+      "label": "Lexicon 480L Small Wood Room 1.0 s (room mics; reverb only)",
       "reverb": {
         "tone_id": 88464,
-        "model_id": 745818,
-        "trim_seconds": 3.5,
+        "model_id": 745823,
+        "trim_seconds": 1.0,
         "level_db": 0.0
       }
     },
     {
       "role": "ambience",
       "type": "ir",
-      "tone_id": 88464,
-      "model_id": 745823,
+      "tone_id": 99227,
+      "model_id": 827078,
       "enabled": true,
-      "mix": 0.2,
-      "trim_seconds": 1.5,
-      "label": "Lexicon 480L Small Wood Room (room mics)"
+      "mix": 0.15,
+      "trim_seconds": 0.8,
+      "label": "Sunset Sound Studio 3 live room, mono, 0.8 s (studio room)"
     }
   ],
   "params": {
@@ -144,8 +146,8 @@
     "spreadEnabled": 0.0
   },
   "levels": {
-    "target_lufs": -13.0,
-    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "target_lufs": -15.0,
+    "method": "offline: uv run rigsim.py \"Maiden Acoustic\" --exact (DI bench of D18, rig bus limiter); earlier history entries are the old AC-3 preset on the live DI loop",
     "history": [
       {
         "measured_lufs": -7.1,

@@ -1,0 +1,19 @@
+preset,variant,lufs,low_lt250_db,lowmid_250_800_db,mid_800_2k_db,presence_2_5k_db,air_5_10k_db,centroid_hz,crest_db,peak_dbfs,note
+DI,raw di-ref.wav 4.0-14.5 s,-19.42,-9.76,-2.46,-4.99,-19.98,-44.25,720,21.16,-1.35,no processing
+Maiden Clean,HEAD (JMP-1 Mellow / JCM2000 clean + V30/T75 + 480L/PCM91 halls),-14.9,-2.4,-6.9,,-12.7,,531,16.7,-1.0,rigsim --exact
+Maiden Clean,JMP1987 vol2 / JMP2203 g1 + G12-65 SM57/M160,-20.9,-7.3,-3.3,-7.1,-8.1,-29.3,950,15.5,-9.0,unlevelled
+Maiden Clean,JMP1987 vol2 / JMP Master combo clean (full rig),-14.9,-8.5,-2.4,-7.0,-10.8,-34.4,790,17.0,-1.0,unlevelled
+Maiden Clean,JMP1987 vol5 -6 dB / JMP2203 g1,-20.8,-7.0,-3.3,-7.4,-8.4,-29.7,910,15.3,-9.0,unlevelled
+Maiden Clean,JMP1987 vol2 +4 / JMP2203 g1 +4,-19.8,-7.3,-3.3,-7.7,-7.7,-28.7,956,15.0,-8.4,unlevelled
+Maiden Clean,JMP1987 vol2 / JMP combo breakup -6,-14.6,-8.3,-2.9,-5.0,-16.7,-36.5,666,16.5,-1.0,unlevelled
+Maiden Clean,CHOSEN: JMP1987 vol2 +3 / JMP2203 g1 +3 + cab EQ + 440 ms repeat + EMT 1.6 s + wood room 1.4 s,-15.1,-7.1,-3.2,,-8.5,,895,14.2,-4.3,rigsim --exact after
+Maiden Acoustic,HEAD (comp > AC-3 > Martin/J-45 body + 480L Large Hall + Small Wood Room),-15.0,-5.7,-4.6,,-27.2,,686,16.0,-1.6,rigsim --exact
+Maiden Acoustic,comp > AC-3 alone,,-3.3,-4.2,-8.1,-33.9,-36.3,457,,,AC-3 capture darkens the DI
+Maiden Acoustic,comp > AC-3 > Taylor 314 / Collings body,-13.5,-1.3,-10.7,-7.5,-31.9,-36.9,392,14.9,-1.0,
+Maiden Acoustic,comp > DI ACOUSTIC BIG BODY > T314 / Martin,-17.3,-0.1,-19.3,-20.2,-38.8,-58.8,187,18.1,-1.0,
+Maiden Acoustic,comp > Acoustic Sim V1 (1964) > T314 / Martin,-32.5,-0.0,-21.4,-30.3,-41.0,-44.5,179,19.5,-14.9,
+Maiden Acoustic,comp > dreadnought v5 sm57 (no IR),-8.5,-3.7,-5.0,-6.0,-24.6,-48.0,496,10.0,-1.0,
+Maiden Acoustic,comp > AC-3 piezo-pre > Taylor 816 Pz1/Pz2 +10 dB top EQ,-16.1,-3.5,-11.2,-3.6,-17.1,-17.1,874,18.4,-1.0,
+Maiden Acoustic,AC-3 piezo-pre > piezo-to-mic > T816 Pz1/SB1,-15.2,-4.4,-13.3,-3.4,-10.7,-13.4,1299,18.1,-1.0,limiter on pick attacks when levelled
+Maiden Acoustic,comp > piezo-to-mic (piezo pre-EQ) > T816 Pz1/SB1,-25.1,-5.9,-12.9,-2.5,-8.9,-24.9,1177,14.7,-14.1,unlevelled
+Maiden Acoustic,CHOSEN: same + IR out 16.1 dB + Small Wood Room 1.0 s + Studio 3 room 0.8 s,-15.0,-5.9,-12.9,-2.5,-8.9,-24.9,1177,14.7,-4.0,rigsim --exact after
