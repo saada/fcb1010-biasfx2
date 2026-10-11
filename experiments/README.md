@@ -957,3 +957,12 @@ limiter), made by `palm_boom.py`.
   (375 ms → 18000 samples). So in TONE3000 its first repeat lands on the dry note, not 375 ms
   later. Echoes with a summed reverb start at 0 and are unaffected. Handed to whoever owns
   the presets.
+
+- **Interleaved A/B (2026-10-11, coordinator).** Data: `experiments/xrun-bench-ab.csv`. Each case ran 15 s on the owner's palm-mute DI (after-5 used the bench DI), with the rig otherwise idle. Run order: after-1, after-2, before-1, after-3, before-2, after-4, after-5. Xruns summed over all 14 cases of each run:
+
+  | before-1 | before-2 | after-1 | after-2 | after-3 | after-4 | after-5 |
+  |---|---|---|---|---|---|---|
+  | 0 | 41 (37 of them on Maiden Acoustic, delay on) | 0 | 0 | 1407 | 0 | 2 |
+
+  - **The after-3 outlier.** It overran (B/Q > 1) on five consecutive presets that read 0 in every other after-run. It did not come back in after-4 or after-5 (load average about 2, 22 graph nodes), so I treat it as an outside event rather than a fault in the fix.
+  - **Live xruns are bursty at this run length.** Maiden Acoustic went from 0 to 37 between the two before-runs. The offline callback timing above remains the deterministic evidence.
