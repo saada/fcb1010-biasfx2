@@ -22,7 +22,7 @@ from .state import parse
 router_mod = qr.fcb_router
 
 HELPER_UNIT = "qtractor-rig-helper"
-DAW_LABELS = {"Wah": "wah", "Octaver": "octaver", "Harmony In": "harmony", "Chorus": "chorus", "Tuner Mute": "tuner"}
+DAW_LABELS = {"Wah": "wah", "Octaver": "octaver", "Harmony In": "harmony", "Chorus": "chorus", "Vibe": "vibe", "Tuner Mute": "tuner"}
 
 
 def read_daw_toggles():

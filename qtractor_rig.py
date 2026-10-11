@@ -16,7 +16,7 @@ Usage:
 Signal flow. The rigs sit on MIDI tracks because Qtractor only feeds MIDI to plugins on
 MIDI tracks/buses, and only the CLAP build of TONE3000 gets raw Program Change:
 
-  Scarlett In 2 ─► Heavy: [Guitar] ─► [Selector] ─► Wah ─► TONE3000 ─► Octaver ─► Chorus ─► Solo ┐
+  Scarlett In 2 ─► Heavy: [Guitar] ─► [Selector] ─► Wah ─► Vibe ─► TONE3000 ─► Octaver ─► Chorus ─► Solo ┐
                                           │ send (CC 81 > 63)                                  ├► bus Rig:
                    Clean: [Clean In] ◄────┘ ─► TONE3000 ────────────────────────────────────────┘  Compressor
                                                                  ─► Volume (EXP B) ─► Limiter ─► Scarlett out
@@ -32,7 +32,8 @@ Scene banks (tone3000.SCENES) switch instantly with absolute CCs, never a Progra
     heavy chain. Active, it sends the guitar to the clean TONE3000 and mutes the heavy one.
   - CC 80 is read by the heavy TONE3000 as inputLevel (value/127). Qtractor switches the
     Solo block (+2 dB and a 380 ms lead echo) on above 63.
-Qtractor also binds SW6/SW7/EXP A to the wah and octaver (SW7 = the chorus in the 80s banks),
+Qtractor also binds SW6/SW7/EXP A to the wah and octaver (SW7 = the chorus in the 80s banks,
+the vibe in the LEGENDS bank),
 and EXP B (CC 7, tapered by the router) to the Rig bus's Volume stage.
 
 Tracks for recording: "Rig Print" (the processed stereo rig, fed back from bus
@@ -78,6 +79,8 @@ CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the oc
 CC_CHORUS = 31   # SW7 in the 80s banks (rig.CHORUS_CC): the stereo chorus instead of the octaver
 # The chorus's per-song rate / depth / mix (chorus_ccs()): absolute CCs, sent after a song's PC.
 CC_CHORUS_RATE, CC_CHORUS_DEPTH, CC_CHORUS_MIX = 89, 90, 91
+CC_VIBE = 92     # SW7 in the LEGENDS bank (rig.VIBE_CC): the Uni-Vibe-style phaser (VIBE)
+CC_VIBE_RATE, CC_VIBE_DEPTH, CC_VIBE_MIX = 93, 94, 95  # its per-song settings (vibe_ccs), like the chorus's
 CC_TUNER = 28    # SW10 in every bank: the helper shows the tuner (Fretwise) and mutes the rig
 CC_TUNER_MUTE = 29  # helper -> Qtractor: absolute 127/0 (a toggled Insert lost its input links)
 # Per-song settings the FCB has no room for (two CCs per switch): `helper` watches the
@@ -118,6 +121,29 @@ CHORUS = ("Chorus", "http://lsp-plug.in/plugins/lv2/chorus_stereo", False,
            47: ("Dry/Wet balance", 100 * CHORUS_DEFAULT["mix"])},
           {CC_CHORUS: ("Activate", "toggle"), CC_CHORUS_RATE: (13, "hook"),
            CC_CHORUS_DEPTH: (21, "hook"), CC_CHORUS_MIX: (47, "hook")})
+# VIBE = a Uni-Vibe stand-in: no Uni-Vibe LV2 is installed (no gx_univibe / gx_vibe), so LSP
+# Phaser Stereo with four all-pass stages, like the Uni-Vibe's four photocell stages. One sine
+# LFO drives all four together (inter-filter phase 0, like its one lamp). The sweeps are
+# staggered across 150 Hz-2 kHz (overlap 60 %), standing in for its unequal stage capacitors.
+# No feedback, and both channels in phase (the Uni-Vibe is mono). LSP's "Depth" is how much
+# all-pass signal the phaser adds to the dry inside: 1 = the deepest notches (the Uni-Vibe's
+# Chorus mode); higher = mostly phase-shifted, towards its Vibrato mode. The processed path is
+# wet only, so "Dry/Wet balance" is the mix. It sits BEFORE the heavy TONE3000, where the
+# Uni-Vibe sat in front of Hendrix's Marshall, so the amp capture distorts the throb. A Fuzz
+# Face capture inside TONE3000 then comes after it (Hendrix ran fuzz -> vibe), and SRV's
+# Vibratone rotor came after his amp: both noted approximations. Bypassed by default; SW7
+# toggles it in the LEGENDS bank, and a preset's `vibe` block sets rate/depth/mix through CC
+# 93-95 (vibe_ccs). Not in the simulator.
+VIBE_DEFAULT = {"rate_hz": 1.5, "depth": 1.0, "mix": 1.0}  # a slow Uni-Vibe throb in Chorus mode
+VIBE_RANGE = t3k.VIBE_LIMITS  # the ports' ranges, which a CC 0-127 spans linearly
+VIBE = ("Vibe", "http://lsp-plug.in/plugins/lv2/phaser_stereo", False,
+        {12: ("Rate", VIBE_DEFAULT["rate_hz"]), 13: ("Depth", VIBE_DEFAULT["depth"]),
+         20: ("Number of filters", 3), 23: ("LFO type", 1), 27: ("LFO overlap", 60.0),
+         28: ("LFO frequency start", 150.0), 29: ("LFO frequency end", 2000.0),
+         32: ("Inter-filter phase range", 0.0), 33: ("Inter-channel phase", 0.0), 34: ("Feedback on", 0),
+         39: ("Dry amount", 0.0), 40: ("Wet amount", 1.0), 41: ("Dry/Wet balance", 100 * VIBE_DEFAULT["mix"])},
+        {CC_VIBE: ("Activate", "toggle"), CC_VIBE_RATE: (12, "hook"),
+         CC_VIBE_DEPTH: (13, "hook"), CC_VIBE_MIX: (41, "hook")})
 # SOLO (labelled LEAD on the board) = one switch: amps pushed + 2 dB, no echo. LSP Slap-back Delay
 # passes the dry signal at "Dry amount", so while it is active (CC 80 > 63) it is a +2 dB boost;
 # bypassed it is unity. Its echo is muted (Wet 0): the Maiden bank has its own echo switches
@@ -151,7 +177,7 @@ LIMITER = ("Limiter", "http://gareus.org/oss/lv2/dpl#stereo", True,
 # TONE3000: (label, "tone3000", scene its startup preset comes from, MIDI map)
 HEAVY_T3K = ("TONE3000 Heavy", "tone3000", "heavy", HEAVY_MIDI_MAP)
 CLEAN_T3K = ("TONE3000 Clean", "tone3000", "clean", TONE3000_MIDI_MAP)
-HEAVY_CHAIN = [WAH, HEAVY_T3K, OCTAVER, CHORUS, SOLO]
+HEAVY_CHAIN = [WAH, VIBE, HEAVY_T3K, OCTAVER, CHORUS, SOLO]
 CLEAN_CHAIN = [CLEAN_T3K]
 BUS_CHAIN = [COMPRESSOR, VOLUME, LIMITER]  # on bus "Rig": every rig shares the volume and the dynamics
 
@@ -216,6 +242,23 @@ def chorus_ccs(pc, settings=None):
     s = (settings or chorus_settings()).get(pc, CHORUS_DEFAULT)
     to_cc = lambda k: round((s[k] - CHORUS_RANGE[k][0]) / (CHORUS_RANGE[k][1] - CHORUS_RANGE[k][0]) * 127)
     return [(CC_CHORUS_RATE, to_cc("rate_hz")), (CC_CHORUS_DEPTH, to_cc("depth_ms")), (CC_CHORUS_MIX, to_cc("mix"))]
+
+
+def vibe_settings():
+    """{heavy-instance PC: {rate_hz, depth, mix}} for the presets with a `vibe` block, over
+    VIBE_DEFAULT. Only those send vibe CCs, so every preset in a VIBE bank carries one."""
+    return {r["pc"]: VIBE_DEFAULT | {k: v for k, v in r["vibe"].items() if k in VIBE_DEFAULT}
+            for r in t3k.load_rigs() if r.get("scene") in (None, "heavy") and "vibe" in r}
+
+
+def vibe_ccs(pc, settings=None):
+    """The absolute CCs (MIDI ch 1) that set the vibe to preset `pc`'s rate, depth and mix:
+    empty for a preset without a `vibe` block. Sent after that PC, after the chorus CCs."""
+    s = (vibe_settings() if settings is None else settings).get(pc)
+    if s is None:
+        return []
+    to_cc = lambda k: round((s[k] - VIBE_RANGE[k][0]) / (VIBE_RANGE[k][1] - VIBE_RANGE[k][0]) * 127)
+    return [(CC_VIBE_RATE, to_cc("rate_hz")), (CC_VIBE_DEPTH, to_cc("depth")), (CC_VIBE_MIX, to_cc("mix"))]
 
 
 def el(parent, tag, text=None, **attrs):
@@ -813,6 +856,7 @@ def show_map():
     print(f"  SW6      CC {CC_WAH}     wah on/off (Qtractor)")
     print(f"  SW7      CC {CC_OCTAVER}     octaver on/off (Qtractor)")
     print(f"  SW7 80s  CC {CC_CHORUS}     chorus on/off (Qtractor); CC {CC_CHORUS_RATE}-{CC_CHORUS_MIX} its rate/depth/mix")
+    print(f"  SW7 LEG  CC {CC_VIBE}     vibe on/off (Qtractor); CC {CC_VIBE_RATE}-{CC_VIBE_MIX} its rate/depth/mix")
     for target, cc in TONE3000_MIDI_MAP:
         print(f"  {'':8} CC {cc:<5} TONE3000 {target}")
     print(f"  EXP A    CC {CC_WAH_SWEEP}     wah sweep (Qtractor)")

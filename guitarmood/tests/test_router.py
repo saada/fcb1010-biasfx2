@@ -79,8 +79,36 @@ def test_bank_5_80s_leads_translates():
     toggles = {sw: t.translate(router.address(5, sw))[1] for sw in range(6, 11)}
     assert toggles == {6: [("cc", 0, 20, 127)], 7: [("cc", 0, qr.CC_CHORUS, 127)], 8: [("cc", 0, 22, 127)],
                        9: [("cc", 0, 24, 127)], 10: [("cc", 0, 28, 127)]}
-    # bank 6 is still empty: the router says so instead of sending anything
-    assert t.translate(router.address(6, 1)) == ((6, 1), [])
+    # bank 7 is still empty: the router says so instead of sending anything
+    assert t.translate(router.address(7, 1)) == ((7, 1), [])
+
+
+def test_bank_6_legends_translates_with_its_vibe():
+    """Bank 6 (LEGENDS) is software only too: the pedal's ch16 PC 60-64 become the five songs
+    (PC 28-32), each followed by the scene reset, its chorus CCs, its own vibe CCs (93-95), then
+    its DAW tail switches; SW7 is the vibe (CC 92), not the chorus."""
+    t = router.Translator(LAYOUT)
+    reset = [("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    vibes = qr.vibe_settings()
+    for sw, pc in zip(range(1, 6), range(28, 33)):  # Pride and Joy .. Back in Black
+        addr = router.address(6, sw)
+        assert addr == ("pc", 15, 60 + sw - 1)
+        bank_sw, events = t.translate(addr)
+        assert bank_sw == (6, sw)
+        vibe = qr.vibe_ccs(pc)
+        assert pc in vibes and [cc for cc, _ in vibe] == [qr.CC_VIBE_RATE, qr.CC_VIBE_DEPTH, qr.CC_VIBE_MIX]
+        assert events == [("pc", 0, pc), *reset, *[("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)],
+                          *[("cc", 0, cc, v) for cc, v in vibe], *qr.tail_ccs(0, pc)]
+    assert [router.address(6, sw)[2:] for sw in range(6, 11)] == [(cc, 6) for cc in range(102, 107)]
+    toggles = {sw: t.translate(router.address(6, sw))[1] for sw in range(6, 11)}
+    assert toggles == {6: [("cc", 0, 20, 127)], 7: [("cc", 0, qr.CC_VIBE, 127)], 8: [("cc", 0, 22, 127)],
+                       9: [("cc", 0, 24, 127)], 10: [("cc", 0, 28, 127)]}
+    # The vibe CCs land on the ports: Voodoo Child's rate in Hz back from its CC (linear, 0.01-20 Hz).
+    rate_cc = dict(qr.vibe_ccs(29))[qr.CC_VIBE_RATE]
+    lo, hi = qr.VIBE_RANGE["rate_hz"]
+    assert abs(lo + rate_cc / 127 * (hi - lo) - vibes[29]["rate_hz"]) <= (hi - lo) / 254
+    # Presets without a `vibe` block send no vibe CCs, so the other banks' bursts are unchanged.
+    assert qr.vibe_ccs(23) == [] and all(r_pc in range(28, 33) for r_pc in vibes)
 
 
 def test_non_addresses_pass_through_and_stray_ch16_drops():
@@ -190,7 +218,9 @@ def test_pc_burst_does_not_change_volume():
     t = router.Translator(LAYOUT)
     for (bank, sw) in LAYOUT:
         _, events = t.translate(router.address(bank, sw))
-        assert not any(e[0] == "cc" and e[2] == 7 for e in events), (bank, sw, events)
+        # CC 7 on the rig channel only: DAW tail switches are CC 0..n on ch 9-11, and with 8+
+        # convolvers on one instance one of them is CC 7 there (not the volume).
+        assert not any(e[0] == "cc" and e[1] == 0 and e[2] == 7 for e in events), (bank, sw, events)
     board = Board()
     for bank in board.banks:
         for sw in range(1, 11):

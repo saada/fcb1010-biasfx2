@@ -33,7 +33,12 @@ Every capture links to its TONE3000 page (free download).
 | 25 | [Crazy Train](#crazy-train) | Crazy Train (138 BPM): Ozzy Osbourne, Blizzard of Ozz (1980, Ridge Farm; Randy Rhoads, eng. Max Norman) |
 | 26 | [Master of Puppets](#master-of-puppets) | Master of Puppets (~212 BPM): Metallica, Master of Puppets (1986, Sweet Silence, Copenhagen; prod. Flemming Rasmussen) |
 | 27 | [Eruption](#eruption) | Eruption: Van Halen (1978, Sunset Sound, recorded Sep 8 1977 in two or three takes; prod. Ted Templeman, eng. Donn Landee) |
-| 28 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
+| 28 | [Pride and Joy](#pride-and-joy) | Pride and Joy (126 BPM shuffle, Eb): Stevie Ray Vaughan and Double Trouble, Texas Flood (1983; cut Nov 24 1982 at Jackson Browne's Down Town Studio, LA, eng. Richard Mullen, mixed by Lincoln Clapp) |
+| 29 | [Voodoo Child](#voodoo-child) | Voodoo Child (Slight Return) (88 BPM, Eb): The Jimi Hendrix Experience, Electric Ladyland (1968; May 3 1968, Record Plant NYC, eng. Eddie Kramer, prod. Chas Chandler) |
+| 30 | [Bohemian Rhapsody](#bohemian-rhapsody) | Bohemian Rhapsody, guitar solo (ballad ~72 BPM, Eb major): Queen, A Night at the Opera (1975; Rockfield, Roundhouse, Sarm, Scorpio, Wessex; prod. Roy Thomas Baker, eng. Mike Stone) |
+| 31 | [Whole Lotta Love](#whole-lotta-love) | Whole Lotta Love (92 BPM, E): Led Zeppelin, Led Zeppelin II (1969; Olympic London and A&M, April 1969, prod. Jimmy Page, mixed by Eddie Kramer) |
+| 32 | [Back in Black](#back-in-black) | Back in Black (94 BPM, E): AC/DC, Back in Black (1980; tracked April 1980 at Compass Point, Nassau, overdubs and mix at Electric Lady NYC; prod. Mutt Lange, eng. Tony Platt) |
+| 33 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
 
@@ -621,9 +626,118 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://en.wikipedia.org/wiki/Eruption_(instrumental)> · <https://www.guitarworld.com/features/eddie-van-halen-10-tracks> · <https://www.loudersound.com/features/eddie-van-halen-the-long-lost-interview> · <https://www.vhnd.com/2014/09/29/eddie-van-halen-signature-sound-mxrs-phase-90-flanger-pedals/> · <https://legendarytones.com/edward-van-halen-brown-sound/> · <https://www.vhnd.com/2013/12/13/former-van-halen-engineer-donn-landee-discusses-recording-van-halen/> · <https://www.tone3000.com/tones/6220>
 
+## Pride and Joy
+
+**PC 28** · dual-rig stereo — Pride and Joy (126 BPM shuffle, Eb): Stevie Ray Vaughan and Double Trouble, Texas Flood (1983; cut Nov 24 1982 at Jackson Browne's Down Town Studio, LA, eng. Richard Mullen, mixed by Lincoln Clapp)
+
+*Original rig:* 'Number One' Strat (1962 body, 1963 neck, '59 pickup; .013-.058 strings, tuned down a half step) -> Ibanez Tube Screamer (the only effect: Drive off or low, Level full, Tone 12-3 o'clock) -> two Fender Vibroverbs (15-inch) plus Jackson Browne's 150 W Dumble ('Dumbleland') into a 4x12; one SM57 on a Vibroverb and one on the Dumble cab, 3-4 in off at ~45 degrees. Mullen: 'his sound came from a combination of the Fender and Dumble amps'. Ambience at the mix: an EMT plate.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9, Drive 0 Tone 6 Level 10 (SRV's Tube Screamer as a boost: on at load, SW8 takes it off) | on |
+| L3 | amp | [Vibroverb Teaser [Hyper Accuracy+]](https://www.tone3000.com/tones/52655) — Fender Vibroverb blackface, vibrato channel V5, Slammin's SRV setting (DI) | on |
+| L4 | cab | [Fender Vibroverb - JBL E130 - Mix Ready](https://www.tone3000.com/tones/35106) — Fender Vibroverb 1x15 JBL E130, SM57 (bright) | on |
+| L5 | echo | Quarter-note echo 476 ms at 126 BPM (not on the record) — generated 476 ms BBD-style IR (mix 12%) | off |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate (Lincoln Clapp's mix) (mix 12%) | on |
+| R1 | amp | [Dumble Steel](https://www.tone3000.com/tones/66220) — Dumble Steel String Singer #002 (full rig) | on |
+| R3 | echo | Quarter-note echo 476 ms at 126 BPM (not on the record) — generated 476 ms BBD-style IR (mix 12%) | off |
+| R4 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate (Lincoln Clapp's mix) (mix 12%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Vibe (DAW, SW7 in the LEGENDS bank):* 0.8 Hz, depth 1.0, 50% wet — Not on Pride and Joy: SRV's Fender Vibratone (Leslie) on Cold Shot / Couldn't Stand the Weather, slow rotor, low in the mix; a phaser approximates the rotor (no Doppler or horn)
+
+*Notes:* The documented blend as a dual rig: left a Vibroverb (Slammin's blackface Vibroverb, vibrato channel at his 'SRV' setting, into a JBL E130 Vibroverb IR: no Altec 15 IR is in the catalog), right a Dumble (the catalog's Steel String Singer #002 stands in for Browne's Dumbleland, which nobody captured), panned 20/80. Which amp carries this song is undocumented. Tube Screamer: TS9 (Craig Hopkins: the TS9 replaced the 808 in 1982 and the 808 never went to the studio; Vintage Guitar says 808: contested), at Hopkins' Drive 0 / Tone 6 / Level 10, on at load; SW8 takes it off. Strat voicing (the humbucker -> single-coil curve) in front of both amps; the right chain's amp is its end block, so tone.csv EQ cells can't reach it (tune it in the JSON). SW9 = a quarter-note echo at 126 BPM, not on the record. SW7 VIBE = the Vibratone (Leslie) of Cold Shot, slow rotor, half mixed: not on this song. Tune down a half step for Eb. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+
+*Sources:* <https://en.wikipedia.org/wiki/Texas_Flood> · <https://www.mixonline.com/recording/classic-tracks/classic-track-stevie-ray-vaughan-pride-and-joy-367582> · <https://blog.line6.com/?p=6428> · <https://www.groundguitar.com/stevie-ray-vaughan-gear/stevie-ray-vaughan-1962-63-fender-stratocaster-number-one/> · <https://craighopkins.com/stevie-ray-vaughan/srv-collection/srv-tube-screamers/> · <https://www.vintageguitar.com/17590/ibanez-tube-screamer/> · <https://www.groundguitar.com/stevie-ray-vaughan-gear/stevie-ray-vaughan-fender-vibratone-leslie-speaker/> · <https://www.musicnotes.com/sheetmusic/stevie-ray-vaughan/pride-and-joy/MN0107793> · <https://www.tone3000.com/tones/52655> · <https://www.tone3000.com/tones/66220> · <https://www.tone3000.com/tones/86314>
+
+## Voodoo Child
+
+**PC 29** — Voodoo Child (Slight Return) (88 BPM, Eb): The Jimi Hendrix Experience, Electric Ladyland (1968; May 3 1968, Record Plant NYC, eng. Eddie Kramer, prod. Chas Chandler)
+
+*Original rig:* Fender Stratocaster (tuned down a half step) -> wah (intro; model undocumented, the Vox V846 is his only named one) -> Dallas Arbiter Fuzz Face (germanium; his main fuzz, inferred for this take) -> 100 W Marshall stacks (groundguitar documents the JTM45/100 Super 100 with 4x12s; no exact record for this session). Kramer screened the amp and miked it with a U67 and/or a Beyer M160, with compression, EQ and desk reverb; the room 'just resonates'. Eighth take is the master. No delay or modulation on the studio take.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L2 | drive | [Germanium Fuzz Face AC128](https://www.tone3000.com/tones/96791) — Germanium Fuzz Face, AC128 transistors, Vol 6 Fuzz 10 Bias 5 (Strat voicing in front) | on |
+| L3 | amp | [Marshall JTM 45/100 Super 100 Amplifier 1966](https://www.tone3000.com/tones/56237) — Marshall JTM45/100 Super 100 (1966), Vol I 6, edge of breakup (full rig, G12H 4x12) | on |
+| L5 | echo | Eighth-note echo 341 ms at 88 BPM (not on the record) — generated 341 ms BBD-style IR (mix 15%) | off |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate (mix 12%) | on |
+
+*Vibe (DAW, SW7 in the LEGENDS bank):* 1.2 Hz, depth 1.0, 100% wet — Not on the 1968 studio take: Hendrix's live Uni-Vibe (1969-70, Woodstock, Band of Gypsys), slow and fully mixed
+
+*Notes:* Amp: amalgam's 1966 JTM45/100 Super 100 (the model groundguitar documents) as a full rig, edge of breakup, so the fuzz does the gain. Fuzz (always on): a germanium Fuzz Face with AC128 transistors, Fuzz 10 / Vol 6, with the Strat voicing in front of it (the fuzz hears a single coil). Its fizz is trimmed at the end (eq_3k5 -2, eq_8k -3: 'less fizz'), standing in for Kramer's ribbon/U67 mics. The wah is SW6 + EXP A (the DAW wah). SW8 BOOST = TS9 clean push (not on the record); SW9 = an eighth-note echo at 88 BPM (not on the record); EMT 140 plate for the desk reverb. SW7 VIBE = the Uni-Vibe Hendrix played this song with live from 1969 (Woodstock): not on the 1968 take. Can't match: the stereo panning of the overdubs. Tune down a half step. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+
+*Sources:* <https://en.wikipedia.org/wiki/Voodoo_Child_(Slight_Return)> · <https://www.loudersound.com/music/tracks-singles/jimi-hendrix-voodoo-chile-slight-return> · <https://www.groundguitar.com/jimi-hendrix-gear/> · <https://www.soundonsound.com/techniques/classic-tracks-jimi-hendrix-experience-all-along-watchtower> · <https://www.guitarplayer.com/gear/the-univox-uni-vibe-was-the-final-stompbox-to-land-in-jimi-hendrixs-effects-chain> · <https://www.groundguitar.com/jimi-hendrix-gear/jimi-hendrixs-shin-ei-univox-uni-vibe/> · <https://getsongbpm.com/song/voodoo-child-slight-return/Dqv2xY> · <https://www.tone3000.com/tones/56237> · <https://www.tone3000.com/tones/96791>
+
+## Bohemian Rhapsody
+
+**PC 30** — Bohemian Rhapsody, guitar solo (ballad ~72 BPM, Eb major): Queen, A Night at the Opera (1975; Rockfield, Roundhouse, Sarm, Scorpio, Wessex; prod. Roy Thomas Baker, eng. Mike Stone)
+
+*Original rig:* Red Special (Burns Tri-Sonics, neck and middle 'set against each other', i.e. out of phase; a sixpence pick) -> treble booster (by 1975 a silicon BC149 unit, not the original germanium Rangemaster, lost in 1973) -> Vox AC30. May: 'the fundamental tone that you hear is the guitar and the treble booster and the AC30'. Recorded on one track, few takes. The Deacy amp is on the outro's twin melody, not the solo. Studio delay undocumented.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Dallas Rangemaster Treble Booster](https://www.tone3000.com/tones/31234) — Dallas Rangemaster-style treble booster, V10 T10 (on at load, SW8 takes it off) | on |
+| L3 | amp | [VOX AC30 CH [Hyper Accuracy+]](https://www.tone3000.com/tones/31267) — Vox AC30, normal channel dimed (V10, cut 0) (DI), out-of-phase Tri-Sonic voicing in front | on |
+| L4 | cab | [ '64 Vox AC30 Blue Alnicos 2x12  - XR IR PACK](https://www.tone3000.com/tones/79866) — '64 Vox AC30 2x12 Celestion Blue Alnico, SM57 + R121 | on |
+| L5 | echo | Eighth-note echo 417 ms at 72 BPM (not on the solo) — generated 417 ms BBD-style IR (mix 15%) | off |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate (mix 15%) | on |
+
+*Vibe (DAW, SW7 in the LEGENDS bank):* 1.5 Hz, depth 1.0, 100% wet — Not on the record: the default slow throb
+
+*Notes:* Booster and amp from one capturer (Slammin): his Dallas booster (a germanium Greuter Boost V2; no BC149 silicon capture exists) at V10 T10 in slot 1, on at load, into the AC30 normal channel dimed (V10, cut 0). SW8 takes the booster off: the dimed AC30 alone, darker (-400 Hz centroid). Slammin's integrated 'N_V10_TC0_DALLASTREBLE' captures are the alternative. Cab: '64 AC30 2x12 Blue Alnico. Pre-model EQ [-6, -3, 1, 2, 1, -1] approximates the out-of-phase neck+middle Tri-Sonics from a humbucker (bass cancelled, nasal mids): an estimate, not measured on a Red Special. The number of AC30s and their settings on the studio solo are undocumented (three AC30s wet/dry/wet is the 1975 stage rig). SW9 = an eighth-note echo at 72 BPM (not documented on the solo; his live Echoplexes ran ~750/1500 ms, too long for an in-TONE3000 toggled echo, D25); EMT 140 plate at 15 % for air (the plate is a guess). Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+
+*Sources:* <https://en.wikipedia.org/wiki/Bohemian_Rhapsody> · <https://en.wikipedia.org/wiki/A_Night_at_the_Opera_(Queen_album)> · <https://www.guitarplayer.com/players/i-said-i-would-like-to-effectively-sing-a-verse-on-the-guitar-brian-may-reveals-the-studio-secrets-of-his-legendary-bohemian-rhapsody-solo> · <https://fryerguitars.com/history-of-brian-mays-treble-boosters-and-pedalboard-used-with-queen-from-1970-to-around-1986/> · <https://musicteacher.com/brian-may-guitar-rig-1975/> · <https://songbpm.com/@queen/bohemian-rhapsody> · <https://www.tone3000.com/tones/31267> · <https://www.tone3000.com/tones/31234>
+
+## Whole Lotta Love
+
+**PC 31** — Whole Lotta Love (92 BPM, E): Led Zeppelin, Led Zeppelin II (1969; Olympic London and A&M, April 1969, prod. Jimmy Page, mixed by Eddie Kramer)
+
+*Original rig:* 1959 Les Paul Standard (bought from Joe Walsh in early 1969, 'used to record Zeppelin II') -> on the solo a wah held in one position ('a depressed wah-wah pedal, as on Communication Breakdown') -> Page (Total Guitar, 2020): 'I was using the Super Beatle amps with the [Rickenbacker] Transonic cabinets... That's exactly what's on Whole Lotta Love' (a solid-state Vox; J.J. Blair's multitrack analysis agrees; John Paul Jones: 'a really small amplifier', close-miked). Middle section: theremin, the Les Paul, backwards echo and console 'knob twiddling'.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [1969 Marshall JMP Super Lead](https://www.tone3000.com/tones/87031) — 1969 Marshall JMP Super Lead 100 W (full rig; stands in for the Vox Super Beatle Page named) | on |
+| L5 | echo | Eighth-note echo 326 ms at 92 BPM (the middle section's echo, approximated) — generated 326 ms BBD-style IR (mix 20%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Olympic Studio One's live room) (mix 15%) | on |
+
+*Vibe (DAW, SW7 in the LEGENDS bank):* 1.5 Hz, depth 1.0, 100% wet — Not on the record: the default slow throb
+
+*Notes:* APPROXIMATION: the amp Page names, a Vox Super Beatle into Rickenbacker Transonic cabs, has no capture in the catalog. A 1969 Marshall JMP Super Lead full rig stands in (Songfacts says a 100 W Plexi; Marshalls reached Page around March 1969, groundguitar). Les Paul humbuckers, so no pre-EQ. For the solo: SW6 WAH, then park EXP A toe-forward (the fixed wah). SW8 BOOST = TS9 clean push (not on the record); SW9 = an eighth-note echo at 92 BPM for the middle section (the record's backwards echo can't be played live); 480L Large Wood Room for Olympic's room. Not compared by ear with a Super Beatle. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+
+*Sources:* <https://en.wikipedia.org/wiki/Whole_Lotta_Love> · <https://www.guitarplayer.com/news/jimmy-page-reveals-his-whole-lotta-love-amp> · <https://www.guitarplayer.com/news/jimmy-page-talks-about-his-number-1-1959-gibson-les-paul> · <https://www.groundguitar.com/jimmy-page-gear/jimmy-pages-1969-marshall-super-bass-amplifier/> · <https://www.bonedo.de/artikel/die-besten-gitarren-soli-led-zeppelin-whole-lotta-love-workshop> · <https://dev-www.songfacts.com/facts/led-zeppelin/whole-lotta-love> · <https://songbpm.com/@led-zeppelin/whole-lotta-love> · <https://www.tone3000.com/tones/87031>
+
+## Back in Black
+
+**PC 32** · dual-rig stereo — Back in Black (94 BPM, E): AC/DC, Back in Black (1980; tracked April 1980 at Compass Point, Nassau, overdubs and mix at Electric Lady NYC; prod. Mutt Lange, eng. Tony Platt)
+
+*Original rig:* Malcolm (screened left): 1963 Gretsch Jet Firebird 'The Beast' (one bridge Filter'Tron) -> a 1971 Marshall Super Bass. Angus (right): 1971 Gibson SG Standard -> a 1970s 1959 Super Lead and a 1966-67 JTM50; Celestion G12-65 speakers; Schaffer-Vega wireless for the solos only (Platt). Several 50 W and 100 W heads, turned up only until the cabs sounded right; U67s (or U67 + U87) on different speakers, per song. 'AC/DC didn't want to hear effects': a little delay to spread the guitars, Compass Point's fairly dead room.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [HB Nam A2 Schaffer Replica Pack v2](https://www.tone3000.com/tones/91844) — SoloDallas Schaffer Replica, Gain 9 Boost 12 o'clock, limiter off (Angus's wireless as a boost) | off |
+| L3 | amp | [1967 Marshall Super Bass "REX" - CRUNCH - A2](https://www.tone3000.com/tones/80590) — Malcolm: 1967 Marshall Super Bass, Vol I 7 crunch (full rig, G12H30 4x12) | on |
+| L5 | echo | Eighth-note echo 319 ms at 94 BPM (not on the record) — generated 319 ms BBD-style IR (mix 12%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (Compass Point's room) (mix 10%) | on |
+| R1 | amp | [Marshall 1959HW Plexi Addendum 2 [Hyper Accuracy]](https://www.tone3000.com/tones/6222) — Angus: Marshall 1959HW Super Lead, Slammin's Angus setting, low (DI) | on |
+| R2 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12 Celestion G12-65, SM57 | on |
+| R3 | echo | Eighth-note echo 319 ms at 94 BPM (not on the record) — generated 319 ms BBD-style IR (mix 12%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (Compass Point's room) (mix 10%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Vibe (DAW, SW7 in the LEGENDS bank):* 1.5 Hz, depth 1.0, 100% wet — Not on the record: the default slow throb
+
+*Notes:* Dual rig, hard panned as Platt screened them: left Malcolm on amalgam's 1967 Marshall Super Bass 'REX' (Crunch, Vol I 7, full rig); right Angus on Slammin's 1959HW 'ANGUS_LO' setting into a Marshall 1960A G12-65 SM57 IR (G12-65s per guitar.com). SW8 BOOST = SoloDallas Schaffer Replica (Gain 9, Boost 12 o'clock, limiter off) for the solos, off at load as Platt says; it sits before the split, so it pushes Malcolm too. Humbucker voicing throughout (the owner's guitar; the Filter'Tron is close enough). Angus's SG year is contested (1971 Standard per guitar.com vs 1970 Custom per groundguitar). SW9 = an eighth-note echo at 94 BPM (Platt's 'very slight delay' is undocumented in time). 480L Small Wood Room at 10 % for Compass Point. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+
+*Sources:* <https://www.soundonsound.com/techniques/classic-tracks-acdc-back-black> · <https://guitar.com/features/artist-rigs/the-gear-used-by-angus-young-malcolm-young-on-ac-dc-back-in-black> · <https://www.groundguitar.com/malcolm-young-gear/malcolm-youngs-1963-gretsch-jet-firebird-the-beast/> · <https://reverb.com/news/tony-platt-shares-secret-angus-young-back-in-black-tone> · <https://en.wikipedia.org/wiki/Back_in_Black_(song)> · <https://songbpm.com/@ac-dc/back-in-black> · <https://www.tone3000.com/tones/80590> · <https://www.tone3000.com/tones/6222> · <https://www.tone3000.com/tones/91844>
+
 ## Maiden Harmony
 
-**PC 28** — Twin-lead harmony voice for Maiden Heavy
+**PC 33** — Twin-lead harmony voice for Maiden Heavy
 
 *Original rig:* the partner guitarist's amp + cab from Maiden Heavy
 
@@ -638,9 +752,9 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 | FCB1010 | CC | TONE3000 |
 |---|---|---|
-| SW1–5 (song banks 01–05) | PC | presets above |
+| SW1–5 (song banks 01–06) | PC | presets above |
 | SW6 | 20 | wah (DAW) / noise gate (standalone) |
-| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |
+| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW); LEGENDS: CC 92 = vibe (DAW) |
 | SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |
 | SW9 | 23 | slot 2: drive |
 | SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |
@@ -666,4 +780,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 28 | The Evil That Men Do | E natural minor | 375 ms |
+| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 33 | The Evil That Men Do | E natural minor | 375 ms |

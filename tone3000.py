@@ -653,7 +653,7 @@ FIELD_DEFAULTS = {"out_db": 0.0, "in_db": 0.0, "enabled": True, "mix": 1.0, "del
 TAG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
 # `csv --init`'s first guess at the song presets' tags (FCB bank name, gain character); scene
 # presets get theirs from `bank`, `scene` and name, split rigs get "stereo". Tags then live in tone.csv.
-BANK_TAGS = {0: "maiden", 1: "80s", 2: "80s-clean", 3: "variety", 4: "modern", 5: "80s-leads"}  # = rig.py BANK_NAMES
+BANK_TAGS = {0: "maiden", 1: "80s", 2: "80s-clean", 3: "variety", 4: "modern", 5: "80s-leads", 6: "legends"}  # = rig.py BANK_NAMES
 SONG_TAGS = {
     "03-van-halen-1": "80s crunch", "04-van-halen-1984": "80s crunch",
     "05-def-leppard-pyromania": "80s crunch", "06-def-leppard-hysteria": "80s crunch",
@@ -1223,6 +1223,9 @@ def build_block(spec):
 # A preset's optional `chorus` block: the DAW's LSP chorus (qtractor_rig.CHORUS, SW7 in the 80s
 # banks) set per song through CC 89-91. Ranges are the plugin's ports; mix is the wet share.
 CHORUS_LIMITS = {"rate_hz": (0.01, 20.0), "depth_ms": (0.1, 20.0), "mix": (0.0, 1.0)}
+# A preset's optional `vibe` block: the DAW's Uni-Vibe-style LSP phaser (qtractor_rig.VIBE, SW7 in
+# the LEGENDS bank) set per song through CC 93-95. Ranges are the ports' (depth = LSP's Depth gain).
+VIBE_LIMITS = {"rate_hz": (0.01, 20.0), "depth": (0.0, 10.0), "mix": (0.0, 1.0)}
 
 
 def validate(rig):
@@ -1252,6 +1255,12 @@ def validate(rig):
             errs.append(f"chorus.{key}: unknown (known: {', '.join(CHORUS_LIMITS)}, note, sources)")
         elif lo is not None and not (isinstance(value, (int, float)) and lo <= value <= hi):
             errs.append(f"chorus.{key} = {value!r}: must be a number in {lo}..{hi}")
+    for key, value in rig.get("vibe", {}).items():  # the DAW vibe (qtractor_rig.VIBE), not TONE3000
+        lo, hi = VIBE_LIMITS.get(key, (None, None))
+        if lo is None and key not in ("note", "sources"):
+            errs.append(f"vibe.{key}: unknown (known: {', '.join(VIBE_LIMITS)}, note, sources)")
+        elif lo is not None and not (isinstance(value, (int, float)) and lo <= value <= hi):
+            errs.append(f"vibe.{key} = {value!r}: must be a number in {lo}..{hi}")
     for side in ("left", "right"):
         for i, spec in enumerate(rig.get(side, []), 1):
             if spec.get("type") == "echo" and not spec.get("delay_ms") and not spec.get("reverb"):
@@ -1685,13 +1694,16 @@ def cli_docs(args):
         if c := r.get("chorus"):
             out += ["", f"*Chorus (DAW, SW7 in the 80s banks):* {c.get('rate_hz', 0.6)} Hz, {c.get('depth_ms', 4.0)} ms, "
                         f"{c.get('mix', 0.5):.0%} wet" + (f" — {c['note']}" if c.get("note") else "")]
+        if v := r.get("vibe"):
+            out += ["", f"*Vibe (DAW, SW7 in the LEGENDS bank):* {v.get('rate_hz', 1.5)} Hz, depth {v.get('depth', 1.0)}, "
+                        f"{v.get('mix', 1.0):.0%} wet" + (f" — {v['note']}" if v.get("note") else "")]
         if r.get("notes"):
             out += ["", f"*Notes:* {r['notes']}"]
         if r.get("sources"):
             out += ["", "*Sources:* " + " · ".join(f"<{u}>" for u in r["sources"])]
     out += ["", "## Footswitches", "", "| FCB1010 | CC | TONE3000 |", "|---|---|---|",
-            "| SW1–5 (song banks 01–05) | PC | presets above |",
-            "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |",
+            "| SW1–5 (song banks 01–06) | PC | presets above |",
+            "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW); LEGENDS: CC 92 = vibe (DAW) |",
             "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
             "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",
             "| EXP A | 27 | wah sweep (DAW) / treble (standalone) |", "| EXP B | 7 | volume (DAW stage before the limiter, not a preset param) |", "",

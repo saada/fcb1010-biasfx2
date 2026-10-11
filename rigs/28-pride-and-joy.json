@@ -1,0 +1,134 @@
+{
+  "pc": 28,
+  "name": "Pride and Joy",
+  "reference": "Pride and Joy (126 BPM shuffle, Eb): Stevie Ray Vaughan and Double Trouble, Texas Flood (1983; cut Nov 24 1982 at Jackson Browne's Down Town Studio, LA, eng. Richard Mullen, mixed by Lincoln Clapp)",
+  "rig": "'Number One' Strat (1962 body, 1963 neck, '59 pickup; .013-.058 strings, tuned down a half step) -> Ibanez Tube Screamer (the only effect: Drive off or low, Level full, Tone 12-3 o'clock) -> two Fender Vibroverbs (15-inch) plus Jackson Browne's 150 W Dumble ('Dumbleland') into a 4x12; one SM57 on a Vibroverb and one on the Dumble cab, 3-4 in off at ~45 degrees. Mullen: 'his sound came from a combination of the Fender and Dumble amps'. Ambience at the mix: an EMT plate.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Texas_Flood",
+    "https://www.mixonline.com/recording/classic-tracks/classic-track-stevie-ray-vaughan-pride-and-joy-367582",
+    "https://blog.line6.com/?p=6428",
+    "https://www.groundguitar.com/stevie-ray-vaughan-gear/stevie-ray-vaughan-1962-63-fender-stratocaster-number-one/",
+    "https://craighopkins.com/stevie-ray-vaughan/srv-collection/srv-tube-screamers/",
+    "https://www.vintageguitar.com/17590/ibanez-tube-screamer/",
+    "https://www.groundguitar.com/stevie-ray-vaughan-gear/stevie-ray-vaughan-fender-vibratone-leslie-speaker/",
+    "https://www.musicnotes.com/sheetmusic/stevie-ray-vaughan/pride-and-joy/MN0107793",
+    "https://www.tone3000.com/tones/52655",
+    "https://www.tone3000.com/tones/66220",
+    "https://www.tone3000.com/tones/86314"
+  ],
+  "notes": "The documented blend as a dual rig: left a Vibroverb (Slammin's blackface Vibroverb, vibrato channel at his 'SRV' setting, into a JBL E130 Vibroverb IR: no Altec 15 IR is in the catalog), right a Dumble (the catalog's Steel String Singer #002 stands in for Browne's Dumbleland, which nobody captured), panned 20/80. Which amp carries this song is undocumented. Tube Screamer: TS9 (Craig Hopkins: the TS9 replaced the 808 in 1982 and the 808 never went to the studio; Vintage Guitar says 808: contested), at Hopkins' Drive 0 / Tone 6 / Level 10, on at load; SW8 takes it off. Strat voicing (the humbucker -> single-coil curve) in front of both amps; the right chain's amp is its end block, so tone.csv EQ cells can't reach it (tune it in the JSON). SW9 = a quarter-note echo at 126 BPM, not on the record. SW7 VIBE = the Vibratone (Leslie) of Cold Shot, slow rotor, half mixed: not on this song. Tune down a half step for Eb. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": true,
+      "label": "Ibanez TS9, Drive 0 Tone 6 Level 10 (SRV's Tube Screamer as a boost: on at load, SW8 takes it off)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 52655,
+      "model_id": 421653,
+      "enabled": true,
+      "label": "Fender Vibroverb blackface, vibrato channel V5, Slammin's SRV setting (DI)",
+      "eq": [
+        -3,
+        -2.5,
+        0,
+        1.5,
+        3,
+        2
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 35106,
+      "model_id": 166290,
+      "enabled": true,
+      "label": "Fender Vibroverb 1x15 JBL E130, SM57 (bright)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 476,
+      "feedback": 0.2,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": false,
+      "label": "Quarter-note echo 476 ms at 126 BPM (not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "label": "EMT 140 plate (Lincoln Clapp's mix)",
+      "mix": 0.12,
+      "trim_seconds": 2.0
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 66220,
+      "model_id": 446214,
+      "enabled": true,
+      "label": "Dumble Steel String Singer #002 (full rig)",
+      "eq": [
+        -3,
+        -2.5,
+        0,
+        1.5,
+        3,
+        2
+      ],
+      "eq_pre": true
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 476,
+      "feedback": 0.2,
+      "cutoff_hz": 3500.0,
+      "mix": 0.12,
+      "enabled": false,
+      "label": "Quarter-note echo 476 ms at 126 BPM (not on the record)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 84558,
+      "model_id": 719211,
+      "enabled": true,
+      "label": "EMT 140 plate (Lincoln Clapp's mix)",
+      "mix": 0.12,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.2,
+    "chainPanRight": 0.8,
+    "chainPanLinked": 1.0
+  },
+  "vibe": {
+    "rate_hz": 0.8,
+    "depth": 1.0,
+    "mix": 0.5,
+    "note": "Not on Pride and Joy: SRV's Fender Vibratone (Leslie) on Cold Shot / Couldn't Stand the Weather, slow rotor, low in the mix; a phaser approximates the rotor (no Doppler or horn)"
+  }
+}

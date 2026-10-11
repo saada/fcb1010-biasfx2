@@ -1,0 +1,67 @@
+{
+  "pc": 31,
+  "name": "Whole Lotta Love",
+  "reference": "Whole Lotta Love (92 BPM, E): Led Zeppelin, Led Zeppelin II (1969; Olympic London and A&M, April 1969, prod. Jimmy Page, mixed by Eddie Kramer)",
+  "rig": "1959 Les Paul Standard (bought from Joe Walsh in early 1969, 'used to record Zeppelin II') -> on the solo a wah held in one position ('a depressed wah-wah pedal, as on Communication Breakdown') -> Page (Total Guitar, 2020): 'I was using the Super Beatle amps with the [Rickenbacker] Transonic cabinets... That's exactly what's on Whole Lotta Love' (a solid-state Vox; J.J. Blair's multitrack analysis agrees; John Paul Jones: 'a really small amplifier', close-miked). Middle section: theremin, the Les Paul, backwards echo and console 'knob twiddling'.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Whole_Lotta_Love",
+    "https://www.guitarplayer.com/news/jimmy-page-reveals-his-whole-lotta-love-amp",
+    "https://www.guitarplayer.com/news/jimmy-page-talks-about-his-number-1-1959-gibson-les-paul",
+    "https://www.groundguitar.com/jimmy-page-gear/jimmy-pages-1969-marshall-super-bass-amplifier/",
+    "https://www.bonedo.de/artikel/die-besten-gitarren-soli-led-zeppelin-whole-lotta-love-workshop",
+    "https://dev-www.songfacts.com/facts/led-zeppelin/whole-lotta-love",
+    "https://songbpm.com/@led-zeppelin/whole-lotta-love",
+    "https://www.tone3000.com/tones/87031"
+  ],
+  "notes": "APPROXIMATION: the amp Page names, a Vox Super Beatle into Rickenbacker Transonic cabs, has no capture in the catalog. A 1969 Marshall JMP Super Lead full rig stands in (Songfacts says a 100 W Plexi; Marshalls reached Page around March 1969, groundguitar). Les Paul humbuckers, so no pre-EQ. For the solo: SW6 WAH, then park EXP A toe-forward (the fixed wah). SW8 BOOST = TS9 clean push (not on the record); SW9 = an eighth-note echo at 92 BPM for the middle section (the record's backwards echo can't be played live); 480L Large Wood Room for Olympic's room. Not compared by ear with a Super Beatle. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 87031,
+      "model_id": 737449,
+      "enabled": true,
+      "label": "1969 Marshall JMP Super Lead 100 W (full rig; stands in for the Vox Super Beatle Page named)"
+    },
+    {
+      "role": "cab",
+      "type": "insert"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 326,
+      "feedback": 0.3,
+      "cutoff_hz": 3000.0,
+      "mix": 0.2,
+      "enabled": false,
+      "label": "Eighth-note echo 326 ms at 92 BPM (the middle section's echo, approximated)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745824,
+      "enabled": true,
+      "label": "Lexicon 480L Large Wood Room (Olympic Studio One's live room)",
+      "mix": 0.15,
+      "trim_seconds": 2.0
+    }
+  ],
+  "vibe": {
+    "rate_hz": 1.5,
+    "note": "Not on the record: the default slow throb"
+  }
+}
