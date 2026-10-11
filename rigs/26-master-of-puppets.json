@@ -1,0 +1,114 @@
+{
+  "pc": 26,
+  "name": "Master of Puppets",
+  "reference": "Master of Puppets (~212 BPM): Metallica, Master of Puppets (1986, Sweet Silence, Copenhagen; prod. Flemming Rasmussen)",
+  "rig": "Jackson King V -> Mesa/Boogie Mark IIC+ 'modified to work as a preamp' -> power amp disputed (a Marshall 2203, or a modified 100 W JCM800) -> speakers undocumented (Rasmussen left 'no notes indicating the successful candidate'); SM57 at the cone centre, B&K 4006, an AKG tube mic at 45 degrees ~4 ft back; no compression, a short Quantec QRS room; 'the rhythm at no point was less than four guitars'.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Master_of_Puppets",
+    "https://www.pressreader.com/australia/total-guitar/20220701/282222309435417",
+    "https://www.groundguitar.com/james-hetfield-guitars-and-gear/james-hetfields-mesa-boogie-mark-iic/",
+    "https://mixdownmag.com.au/features/how-to-get-the-metallica-master-of-puppets-tone/",
+    "https://tapeop.com/interviews/172/flemming-rasmussen-riding-the-sweet-silence",
+    "https://www.mixonline.com/recording/classic-track-master-of-puppets-metallica",
+    "https://www.tone3000.com/tones/2769",
+    "https://www.tone3000.com/tones/84108"
+  ],
+  "notes": "Dual rig, the same Mark IIC+ Hetfield Rhythm capture and Puppet_IR on both sides, panned hard L/R with Align wobble 0.15 for the four-plus stacked rhythms. Cab: Puppet_IR is voiced from the album mix, which suits a record whose speakers are undocumented (neutral alt: Mesa OS 4x12 V30 1612/81565). Tight gate (release 15 ms, hold 10 ms) for the palm-muted riff. Power amp sources disagree (Marshall 2203 vs modified JCM800); the capture is the preamp voice either way. SW8 BOOST = TS9 clean push for Kirk's solo (no Tube Screamer is confirmed on this album). SW9 DELAY = a 400 ms solo delay; the rhythm is dry. 480L Small Wood Room at 8% for the short Quantec room. Standard E tuning. Can't match: Kirk's wah (SW6 + EXP A, the DAW wah) and the clean middle section. Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 2769,
+      "model_id": 419189,
+      "enabled": true,
+      "label": "Mesa/Boogie Mark IIC+ Hetfield Rhythm V2"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 84108,
+      "model_id": 716847,
+      "enabled": true,
+      "label": "Puppet_IR (Metallica Classic IRs, voiced from the album)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.25,
+      "cutoff_hz": 5000.0,
+      "mix": 0.15,
+      "enabled": false,
+      "label": "Solo delay 400 ms (Kirk's solo; the rhythm is dry)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "label": "Lexicon 480L Small Wood Room (the short Quantec room)",
+      "mix": 0.08,
+      "trim_seconds": 2.0
+    }
+  ],
+  "split_after": 2,
+  "right": [
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 2769,
+      "model_id": 419189,
+      "enabled": true,
+      "label": "Mesa/Boogie Mark IIC+ Hetfield Rhythm V2"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 84108,
+      "model_id": 716847,
+      "enabled": true,
+      "label": "Puppet_IR (Metallica Classic IRs, voiced from the album)"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 400,
+      "feedback": 0.25,
+      "cutoff_hz": 5000.0,
+      "mix": 0.15,
+      "enabled": false,
+      "label": "Solo delay 400 ms (Kirk's solo; the rhythm is dry)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745823,
+      "enabled": true,
+      "label": "Lexicon 480L Small Wood Room (the short Quantec room)",
+      "mix": 0.08,
+      "trim_seconds": 2.0
+    }
+  ],
+  "params": {
+    "chainPanLeft": 0.0,
+    "chainPanRight": 1.0,
+    "chainPanLinked": 1.0,
+    "alignEnabled": 1.0,
+    "alignWobbleEnabled": 1.0,
+    "alignWobble": 0.15
+  }
+}
