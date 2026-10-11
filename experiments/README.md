@@ -840,3 +840,36 @@ limiter), made by `palm_boom.py`.
   Not done live: the owner was playing. The synthetic palm mute is a model (additive partials).
   Its absolute spread across the sweep (low notes quieter at equal peak) is a property of the
   model, so only neighbour-relative bumps and the owner's DI are read as outliers.
+
+## D24 — Maiden Clean → Hallowed Be Thy Name, Maiden Acoustic → Dance of Death / Dream of Mirrors
+
+*Data:* `maiden-clean-acoustic.csv` (every candidate chain, rigsim engine, bench DI, 4.0-14.5 s).
+
+- **Symptom (owner):** "The Iron Maiden clean doesn't sound quite like Hallowed Be Thy Name
+  intro"; "the acoustic doesn't sound quite like Dance of Death or Dream of Mirrors". Crackles
+  heard on the acoustic, suspected long reverb IRs.
+- **Question:** what do the two bank-0 presets measure like against the records' documented
+  rigs, and which catalog chains get closer?
+- **Hypothesis:** the clean is the wrong era (2000s JMP-1/JCM2000 on V30s, 3.5 s halls) and
+  too bassy for a 1982 Marshall turned down; the acoustic is a muffled electric, not a steel string.
+- **Method:** offline only (the owner was playing). Candidate presets rendered in rigsim's
+  engine (`simulate()` on in-memory JSONs with the `*` row), bands as energy shares of
+  40 Hz-10 kHz. The raw DI was measured as a reference (centroid 720 Hz, 2-5 kHz −20 dB).
+  Reverb IRs measured by energy-decay curve (−60 dB): EMT140-style plate 3.75 s, 480L Large
+  Wood Room 1.38 s, 480L Small Wood Room 0.77 s, Sunset Sound Studio 3 room 0.54 s.
+- **Result:** the old acoustic was *darker than the dry DI* (2-5 kHz −27.2 dB, centroid 686 Hz):
+  the AC-3 capture alone takes 2-5 kHz to −34 dB and the 36381 body IRs add boom (low<250 up
+  to −0.1 dB). A piezo→condenser NAM fed with a piezo pre-EQ, into Taylor 816 M251 IRs with a
+  low cut and top lift, measures 2-5 kHz −8.9 dB, centroid 1177 Hz, crest 14.7 dB with the
+  Diamond compressor in front (18.1 dB and limiter hits without it). The old clean had
+  low<250 at −2.4 dB (boom); two 1982-style Marshalls (JMP 1987 vol 2, JMP 2203 gain 1) on
+  G12-65s measure −7.1 dB, centroid 895 Hz. `rigsim.py "Maiden Clean" "Maiden Acoustic"
+  --exact` vs HEAD: Clean −14.9→−15.1 LUFS, peak −1.0→−4.3, low −2.4→−7.1, 2-5k −12.7→−8.5,
+  centroid 531→895; Acoustic −15.0→−15.0 LUFS, peak −1.6→−4.0, 250-800 −4.6→−12.9,
+  2-5k −27.2→−8.9, centroid 686→1177. Longest IR tail: clean 2.9 s→1.6 s, acoustic 2.0 s→1.0 s.
+- **Conclusion:** both presets rebuilt (rigs/01, rigs/02 notes carry the research). Band
+  targets were read from the documented gear and the other clean presets (centroid ~1.1 kHz,
+  2-5k −10 to −12), not from the records' audio, which the bench doesn't have.
+- **Not measured:** on the live rig (levels are offline, rigsim matches the bench within
+  ~0.1 dB per D19); whether the crackles came from tails or from the limiter catching the
+  old acoustic's peaks (it now peaks at −4 dBFS); by ear against the records.

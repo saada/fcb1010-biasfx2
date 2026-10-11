@@ -3,17 +3,21 @@
   "name": "Maiden Clean",
   "scene": "clean",
   "bank": 0,
-  "reference": "Brave New World (2000) / Dance of Death (2003) clean passages: Blood Brothers and Ghost of the Navigator clean intros, Brave New World's quiet opening, the clean arpeggios under Dance of Death's build-up",
-  "rig": "Same live-in-the-studio rigs as the heavy preset, on their clean channels. Dave Murray (left): Fender Custom Shop Strat (Hot Rails) -> Marshall JMP-1 clean program -> Marshall JFX-1 / TC Electronic G-Force delays and reverbs -> Marshall 9200 -> 1960BV Vintage 30. Adrian Smith (right): Strat -> Marshall JCM2000 Dual Super Lead, Classic Gain clean -> 1960A G12T-75; per Blackstar's era breakdown his reunion tone ran no delay or chorus, just a touch of reverb for space. Kevin Shirley: Beyer M201 + SM57 on the cabs, room mics instead of added reverb on Dance of Death",
+  "reference": "Hallowed Be Thy Name intro (The Number of the Beast, 1982, Battery Studios London, prod./eng. Martin Birch): the clean, fingerpicked 10th-interval arpeggio intro, slightly chorused/doubled, before the band comes in. Also fits Children of the Damned's clean electric parts and the quiet intros of The Prisoner / The Number of the Beast",
+  "rig": "The intro is a clean electric figure in standard tuning: 10th dyads on the A and B strings, fingerpicked (thumb and ring finger, the little finger covering the high notes); the session credits Dave Murray and Adrian Smith on guitars for the whole track without splitting the intro (the solos are Murray first, Smith second). 1982 rigs, from the era research in rigs/archive/15-16: Murray's black '57 Stratocaster (ex-Paul Kossoff, DiMarzio PAF-style neck, 'smoother, creamier') through a Pete Cornish board (analog delay, flanger, Phase 90) into 50 W Marshall JMP heads and 4x12s with Celestions; Smith's Les Paul Goldtop (DiMarzio Super Distortion bridge), used 'especially for the clean parts' per MaidenFans, or his Ibanez Destroyer, with a Boss chorus on his board, into 50 W Marshall JMPs. The band recorded 'pretty much the same set-up in the studio as on stage' (Guitar World 1983), so the clean intro is a non-master Marshall turned down, not a clean channel. Birch recorded at Battery (ex-Morgan Studios), whose control rooms each had EMT plates, and Smith describes putting the amps 'in a big wooden room'",
   "sources": [
-    "https://guitar.com/rig-diagrams/rig-diagram-dave-murray-iron-maiden-2003/",
-    "https://www.uberproaudio.com/who-plays-what/199-iron-maiden-dave-murrays-guitar-gear-rig-and-equipment",
-    "https://equipboard.com/pros/adrian-smith",
-    "https://blackstaramps.com/lessons/how-to-dial-in-adrian-smith-iron-maiden-tones/",
-    "https://www.soundonsound.com/people/kevin-caveman-shirley",
-    "https://forum.seymourduncan.com/threads/iron-maiden-brave-new-world-tone.296075/"
+    "https://en.wikipedia.org/wiki/Hallowed_Be_Thy_Name_(song)",
+    "https://en.wikipedia.org/wiki/The_Number_of_the_Beast_(album)",
+    "https://guitarlessons365.com/hallowed-be-thy-name-guitar-lesson-iron-maiden/",
+    "https://pt.ultimate-guitar.com/tab/iron-maiden/hallowed-be-thy-name-tabs-11272",
+    "https://www.licklibrary.com/learn/lessons/iron-maiden/hallowed-be-thy-name",
+    "https://www.guitarworld.com/artists/interview-iron-maidens-adrian-smith-and-dave-murray-their-first-guitar-world-feature-1983",
+    "https://forum.maidenfans.com/threads/adrian-janick-and-daves-guitars-and-steves-basses.32653/page-7",
+    "https://www.guitarplayer.com/guitarists/adrian-smith-on-his-number-of-the-beast-ibanez-destroyer",
+    "https://en.wikipedia.org/wiki/Battery_Studios",
+    "https://en.wikipedia.org/wiki/Morgan_Studios"
   ],
-  "notes": "Dual-rig clean, Murray left / Smith right as in the heavy preset, so switching CLEAN keeps the guitars where they were. Left = Marshall JMP-1 factory preset 25 'Mellow' (clean & pretty), right = Marshall JCM2000 DSL clean channel (Tim R), same cabs as the heavy preset. Delay and reverb are ON (SW9 does not reach the clean instance): 410 ms digital repeats with a Lexicon 480L Large Hall tail in the echo block (Murray's G-Force / JFX-1 are digital, so the repeats stay bright), plus a PCM91 Large Hall bed at 22%. This is lusher than the records (Shirley kept the Dance of Death mix dry and used room mics; the BNW mix is similarly direct) because the user wants a beautiful, reverby clean; lower the ambience mix for a record-accurate dry clean. The chorus-like shimmer is Align wobble between the two rigs (TONE3000 has no modulation; neither Smith's reunion tone nor the record uses obvious chorus). No boost/drive on the clean instance. Levels are estimates for the maintainer to trim (JMP-1 clean and JCM2000 clean captures unmeasured).",
+  "notes": "REBUILT for the Hallowed Be Thy Name intro (was the 2000s JMP-1 'Mellow' / JCM2000 clean on V30s with 3.5 s Lexicon halls: modern, boomy and washy). Two 1982-style Marshalls, Murray hard left / Smith hard right as in the heavy preset. Left = 1973 Marshall JMP 1987 50 W (non-master, inputs jumpered), P5 B5 M5 T5 and both volumes on 2: a real 50 W JMP turned down, driven +3 dB so the fingerpicked dyads just touch the edge; into a 1960A 4x12 with Celestion G12-65s, SM57. Right = 1978 Marshall JMP 2203 at gain 1 / master 10 (clean, power amp open), into the same G12-65 1960A on a Beyer M160 ribbon, so the two sides differ like two mic'd Marshalls. No dedicated clean amp is documented for 1982, so both are inferred from the 'same as on stage' quote; the 2203 is a 100 W head standing in for the second 50 W JMP (it has the cleanest low-gain JMP capture in the catalog). Cab EQ: -1.5 dB at 3.5 kHz and -2 dB at 8 kHz for the round, slightly dark early-80s clean; the 100 Hz shelf is flat, because the old preset's boom (low<250 at -2.4 dB) was a big part of 'doesn't sound like it'. Modulation: TONE3000 has none and the DAW chorus doesn't run in bank 0, so the 'slightly chorused/doubled' shimmer is Align wobble 0.35 between the two Marshalls: the left and right rigs drift against each other like two takes or a slow chorus (Smith's Boss chorus or a double-track; which one the record uses isn't documented). Ambience (always on; SW8/SW9 don't reach the clean instance): echo block = one soft analog-style repeat (440 ms, feedback 0.12, mix 12%, darkened at 3 kHz; Murray's Cornish board had an analog delay, the intro's delay time isn't documented so it sits low) plus an EMT 140-style plate trimmed to 1.6 s for Birch's desk plate (a DAW EMT140 emulation IR, no capture of Battery's plates exists); slot 6 / R4 = Lexicon 480L Large Wood Room trimmed to 1.4 s at 15% for the wooden live room (the 480L is later than 1982, a room stand-in only). Longest tail 1.6 s (the echo IR: repeats fall below -60 dB after the third, ~1.4 s, under the plate), down from ~2.9 s. Levels: rendered offline with rigsim --exact to -15 LUFS (clean target, D22); not yet measured on the live rig.",
   "left": [
     {
       "role": "boost",
@@ -26,45 +30,54 @@
     {
       "role": "amp",
       "type": "nam",
-      "tone_id": 52855,
-      "model_id": 383571,
+      "tone_id": 48523,
+      "model_id": 387672,
       "enabled": true,
-      "label": "Marshall JMP-1 preset 25 'Mellow' clean (Murray)"
+      "in_db": 3.0,
+      "label": "Marshall JMP 1987 50W (1973), P5 B5 M5 T5, volumes 2/2, input +3 dB (Murray, clean edge)"
     },
     {
       "role": "cab",
       "type": "ir",
-      "tone_id": 51086,
-      "model_id": 284291,
+      "tone_id": 69659,
+      "model_id": 563625,
       "enabled": true,
-      "label": "Marshall 1960BV 4x12 Vintage 30, SM57 (Murray)",
-      "out_db": 5.2
+      "label": "Marshall 1960A 4x12, Celestion G12-65, SM57 (Murray)",
+      "eq": [
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        -1.5,
+        -2.0
+      ],
+      "out_db": 5.8
     },
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 410,
-      "feedback": 0.35,
-      "cutoff_hz": 4500.0,
-      "mix": 0.22,
+      "delay_ms": 440,
+      "feedback": 0.12,
+      "cutoff_hz": 3000.0,
+      "mix": 0.12,
       "enabled": true,
-      "label": "G-Force-style delay 410 ms + 480L Large Hall",
+      "label": "Soft analog repeat 440 ms + EMT 140-style plate 1.6 s (Birch)",
       "reverb": {
-        "tone_id": 88464,
-        "model_id": 745818,
-        "trim_seconds": 3.5,
-        "level_db": -3.0
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 1.6,
+        "level_db": -2.0
       }
     },
     {
       "role": "ambience",
       "type": "ir",
-      "tone_id": 88473,
-      "model_id": 745904,
+      "tone_id": 88464,
+      "model_id": 745824,
       "enabled": true,
-      "mix": 0.22,
-      "trim_seconds": 3.5,
-      "label": "Lexicon PCM91 Large Hall"
+      "mix": 0.15,
+      "trim_seconds": 1.4,
+      "label": "Lexicon 480L Large Wood Room 1.4 s (the 'big wooden room')"
     }
   ],
   "split_after": 2,
@@ -72,45 +85,54 @@
     {
       "role": "amp",
       "type": "nam",
-      "tone_id": 700,
-      "model_id": 427906,
+      "tone_id": 1061,
+      "model_id": 436416,
       "enabled": true,
-      "label": "Marshall JCM2000 DSL clean channel (Smith)"
+      "in_db": 3.0,
+      "label": "Marshall JMP 2203 (1978), gain 1 / master 10, P5 B5 M5 T5 (Smith, clean)"
     },
     {
       "role": "cab",
       "type": "ir",
-      "tone_id": 67526,
-      "model_id": 463990,
+      "tone_id": 69659,
+      "model_id": 563624,
       "enabled": true,
-      "label": "1987 Marshall 1960A G12T-75, SM57 edge of cone (Smith)",
-      "out_db": 12.1
+      "label": "Marshall 1960A 4x12, Celestion G12-65, Beyer M160 (Smith)",
+      "eq": [
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        -1.5,
+        -2.0
+      ],
+      "out_db": 4.2
     },
     {
       "role": "echo",
       "type": "echo",
-      "delay_ms": 410,
-      "feedback": 0.35,
-      "cutoff_hz": 4500.0,
-      "mix": 0.22,
+      "delay_ms": 440,
+      "feedback": 0.12,
+      "cutoff_hz": 3000.0,
+      "mix": 0.12,
       "enabled": true,
-      "label": "Digital delay 410 ms + 480L Large Hall",
+      "label": "Soft analog repeat 440 ms + EMT 140-style plate 1.6 s (Birch)",
       "reverb": {
-        "tone_id": 88464,
-        "model_id": 745818,
-        "trim_seconds": 3.5,
-        "level_db": -3.0
+        "tone_id": 84558,
+        "model_id": 719211,
+        "trim_seconds": 1.6,
+        "level_db": -2.0
       }
     },
     {
       "role": "ambience",
       "type": "ir",
-      "tone_id": 88473,
-      "model_id": 745904,
+      "tone_id": 88464,
+      "model_id": 745824,
       "enabled": true,
-      "mix": 0.22,
-      "trim_seconds": 3.5,
-      "label": "Lexicon PCM91 Large Hall"
+      "mix": 0.15,
+      "trim_seconds": 1.4,
+      "label": "Lexicon 480L Large Wood Room 1.4 s (the 'big wooden room')"
     }
   ],
   "params": {
@@ -119,12 +141,12 @@
     "chainPanLinked": 1.0,
     "alignEnabled": 1.0,
     "alignWobbleEnabled": 1.0,
-    "alignWobble": 0.4,
+    "alignWobble": 0.35,
     "spreadEnabled": 0.0
   },
   "levels": {
-    "target_lufs": -13.0,
-    "method": "DI loop through the DAW rig (bus Rig, after compressor + limiter), scene CCs as the FCB sends them",
+    "target_lufs": -15.0,
+    "method": "offline: uv run rigsim.py \"Maiden Clean\" --exact (DI bench of D18, rig bus limiter); earlier history entries are the old 2000s preset on the live DI loop",
     "history": [
       {
         "measured_lufs": -19.9,

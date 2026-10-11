@@ -185,8 +185,9 @@ input (see Useful `params`), but with no dry blend and no scale awareness.
 
 ## Scene bank (Iron Maiden, FCB bank 0)
 
-The Maiden bank has three presets on the Brave New World / Dance of Death chain (heavy,
-clean, acoustic). In it SW8 toggles the heavy preset's slot 5 / R3 echo (The Evil That Men
+The Maiden bank has three presets: heavy on the Brave New World / Dance of Death chain,
+clean on 1982 Marshalls for the Hallowed Be Thy Name intro, and acoustic for the Dance of
+Death / Dream of Mirrors intros (short rooms only, experiments D24). In it SW8 toggles the heavy preset's slot 5 / R3 echo (The Evil That Men
 Do, 375 ms) and SW9 its slot 6 / R4 `echo2` (Can I Play with Madness, 415 ms); SW2 is
 labelled LEAD (the `solo` scene) and adds no echo of its own. The DAW rig (`qtractor_rig.py`) runs
 two TONE3000s:
