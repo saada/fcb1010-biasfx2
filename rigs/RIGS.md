@@ -46,6 +46,8 @@ Every capture links to its TONE3000 page (free download).
 
 *Original rig:* Reunion three-guitar line-up, recorded live in the studio with the amps in the room. Dave Murray (left): Fender Custom Shop Strat with Seymour Duncan Hot Rails -> Pete Cornish routing -> Marshall JMP-1 valve MIDI preamp -> Marshall JFX-1 / TC Electronic G-Force -> Marshall 9200 power amp (JCM2000 heads as power amps on tour) -> Marshall 1960BV 4x12 Vintage 30. Adrian Smith (right): Fender Strat (DiMarzio Super Distortion bridge) or Les Paul/Jackson on BNW -> Ibanez TS9 (tech-switched) -> Marshall JCM2000 Dual Super Lead, Ultra Gain channel ('used since the return to the band'; 30th Anniversary 6100LM heads by 2006) -> Marshall 1960A 4x12 G12T-75. Janick Gers (not modelled as a side): Strat -> Ibanez TS9 + Boss GE-7 -> Marshall rack -> 1960B. Shirley miked each 4x12 with a Beyer M201 + Shure SM57 at 90 degrees ~6 in from the cone, Neve 8069 pres -> Drawmer 1961 -> UREI 1176; on Dance of Death he added no reverb, only the studio room mics, and fitted the guitars together with panning
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Boss GE-7 (Creative Uses of an EQ Pedal)](https://www.tone3000.com/tones/5007) — Boss GE-7 mid boost (Gers' GE-7) as lead boost | off |
@@ -73,6 +75,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* The intro is a clean electric figure in standard tuning: 10th dyads on the A and B strings, fingerpicked (thumb and ring finger, the little finger covering the high notes); the session credits Dave Murray and Adrian Smith on guitars for the whole track without splitting the intro (the solos are Murray first, Smith second). 1982 rigs, from the era research in rigs/archive/15-16: Murray's black '57 Stratocaster (ex-Paul Kossoff, DiMarzio PAF-style neck, 'smoother, creamier') through a Pete Cornish board (analog delay, flanger, Phase 90) into 50 W Marshall JMP heads and 4x12s with Celestions; Smith's Les Paul Goldtop (DiMarzio Super Distortion bridge), used 'especially for the clean parts' per MaidenFans, or his Ibanez Destroyer, with a Boss chorus on his board, into 50 W Marshall JMPs. The band recorded 'pretty much the same set-up in the studio as on stage' (Guitar World 1983), so the clean intro is a non-master Marshall turned down, not a clean channel. Birch recorded at Battery (ex-Morgan Studios), whose control rooms each had EMT plates, and Smith describes putting the amps 'in a big wooden room'
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L3 | amp | [1973 Marshall JMP 1987](https://www.tone3000.com/tones/48523) — Marshall JMP 1987 50W (1973), P5 B5 M5 T5, volumes 2/2, input +3 dB (Murray, clean edge) | on |
@@ -95,6 +99,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 2** · dual-rig stereo — The acoustic intros of Dance of Death (Dance of Death, 2003, Sarm West London) and Dream of Mirrors (Brave New World, 2000, Guillaume Tell Paris), both prod. Kevin Shirley with Steve Harris: bright, picked steel-string acoustic under the clean/harmony guitars, dry, with only the room around it. Also Journeyman (Dance of Death), Maiden's one fully acoustic song
 
 *Original rig:* Which guitarist played the studio acoustics, and on which instrument, isn't documented for either record. Live, Janick Gers plays a Gibson Chet Atkins semi-acoustic (a steel-string acoustic-electric with a piezo pickup) for Dance of Death (Wikipedia, from Premier Guitar's 2010 rig gallery) and, per fan sites, Dream of Mirrors, so the parts are piezo-amplified steel-string acoustic in the band's own hands. Kevin Shirley's documented method on Dance of Death: the band live in the studio, Murray and Gers in a separate room with their amps, guitars through Neve 8069 pres, a Drawmer 1961 EQ and a UREI 1176; 'I didn't add any reverb, other than perhaps some on the orchestra on two songs', room mics instead, and the parts fitted together 'mainly with panning rather than EQ'. He suggested recording Brave New World the same live way. Emulated here as: electric -> Diamond optical compressor (the 1176 leveller) -> electric pre-voiced to a piezo, into a NAM capture of a piezo pickup re-recorded on a Rode condenser -> Taylor 816 steel-string acoustic IRs (M251 tube condenser), a different IR per side for a double-tracked pair -> a small wood room and a studio live room, both under 1.1 s
+
+*Voicing for the JP70 (rigs/README.md):* piezo, on the drive capture
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -119,6 +125,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Frankenstrat (one wax-potted PAF bridge humbucker, one volume knob) or Ibanez Destroyer (Runnin') -> stock 1968 Marshall 1959 Super Lead 100 W, everything on 10, mains lowered to ~89-90 V with a Variac, dummy load -> two basket-weave Marshall 4x12s (one G12M-25 Greenback, one JBL D120F), SM57s; Sunset Sound Studio 1 live echo chamber panned opposite the guitar
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -133,7 +141,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
-*Notes:* Dual rig, same Variac'd plexi on both sides (the Slammin 1959HW at 180 V is 75% of its 240 V mains, i.e. EVH's documented 89-90 of 120 V). Left = G12M-25 Greenback 4x12 SM57, right = JBL E120 standing in for the documented JBL D120F cab. Landee panned the guitar to one side and the live chamber to the other: the 480L Large Chamber sits at 15% left and 40% right. SW8 BOOST = TS9 clean push (not on the record). SW9 DELAY = a generic 320 ms solo slap (the record has no tempo-synced delay). Phase 90 (Ain't Talkin', slow speed) and the electric-sitar double can't be modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.
+*Notes:* Dual rig, same Variac'd plexi on both sides (the Slammin 1959HW at 180 V is 75% of its 240 V mains, i.e. EVH's documented 89-90 of 120 V). Left = G12M-25 Greenback 4x12 SM57, right = JBL E120 standing in for the documented JBL D120F cab. Landee panned the guitar to one side and the live chamber to the other: the 480L Large Chamber sits at 15% left and 40% right. SW8 BOOST = TS9 clean push (not on the record). SW9 DELAY = a generic 320 ms solo slap (the record has no tempo-synced delay). Phase 90 (Ain't Talkin', slow speed) and the electric-sitar double can't be modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured. The record is a half step down (tag eb). Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down.
 
 *Sources:* <https://en.wikipedia.org/wiki/Van_Halen_(album)> · <https://www.loudersound.com/features/eddie-van-halen-the-long-lost-interview> · <https://www.guitarplayer.com/players/eddie-van-halen-shares-the-guitars-behind-his-quest-for-tone> · <https://guitar.com/features/artist-rigs/the-gear-used-by-eddie-van-halen-on-van-halen-i> · <https://ultimateclassicrock.com/eddie-van-halen-reveals-his-biggest-lie/> · <https://legendarytones.com/edward-van-halen-brown-sound/> · <https://us-store.two-notes.com/blogs/news/george-lynch-artist-series-of-dynir-virtual-cabinets> · <https://www.vhnd.com/2013/12/13/former-van-halen-engineer-donn-landee-discusses-recording-van-halen/> · <https://tapeop.com/interviews/159/donn-landee-1> · <https://www.vhnd.com/2014/09/29/eddie-van-halen-signature-sound-mxrs-phase-90-flanger-pedals/> · <https://www.tone3000.com/tones/6220>
 
@@ -143,6 +151,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Kramer 5150 (Panama) / 1958 Gibson Flying V (Hot for Teacher, weaker source) -> 'the magic Marshall Plexi was still his only amp', behind isolation panels; single-tracked guitars; a subtle Eventide harmonizer on every song, used 'to split my guitar signal so it came out of both sides'
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -151,7 +161,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L5 | echo | Dotted-eighth delay 319 ms (Panama, 141 BPM) — generated 319 ms BBD-style IR (mix 15%) | off |
 | L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (5150 Studios) (mix 10%) | on |
 
-*Notes:* Same plexi family as Van Halen I, a little hotter and tighter: Variac 190 V, dimed 7, with the capture's 8 dB clean boost in front (the boost is an inference; no source documents the 1984 voltage). Cab = the same Greenback SM57 (no 1984 cab is documented). Drier room (480L Small Wood Room 10%) for the isolation-paneled home studio. Spread on, no wobble, for the Eventide split 'out of both sides'. SW8 BOOST = TS9 push; SW9 DELAY = 319 ms (dotted eighth at Panama's 141 BPM). Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.
+*Notes:* Same plexi family as Van Halen I, a little hotter and tighter: Variac 190 V, dimed 7, with the capture's 8 dB clean boost in front (the boost is an inference; no source documents the 1984 voltage). Cab = the same Greenback SM57 (no 1984 cab is documented). Drier room (480L Small Wood Room 10%) for the isolation-paneled home studio. Spread on, no wobble, for the Eventide split 'out of both sides'. SW8 BOOST = TS9 push; SW9 DELAY = 319 ms (dotted eighth at Panama's 141 BPM). Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured. Panama is a half step down (tag eb), Hot for Teacher is in standard. Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down.
 
 *Sources:* <https://en.wikipedia.org/wiki/1984_(Van_Halen_album)> · <https://www.musicradar.com/artists/what-makes-this-album-so-interesting-is-the-fact-that-there-are-guitars-that-are-not-totally-in-tune-but-good-luck-trying-to-get-a-take-as-good-as-that-the-creative-genius-and-insane-methodology-in-van-halens-biggest-selling-album> · <https://www.guitarplayer.com/players/eddie-van-halen-shares-the-guitars-behind-his-quest-for-tone> · <https://www.vhnd.com/?p=18797> · <https://www.guitarworld.com/features/eddie-van-halen-10-tracks> · <https://songbpm.com/@van-halen/panama> · <https://www.tone3000.com/tones/6220>
 
@@ -160,6 +170,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 5** · dual-rig stereo — Photograph (~124 BPM) / Rock of Ages (~106 BPM): Def Leppard, Pyromania (1982 sessions at Park Gate and Battery Studios, prod. Robert John 'Mutt' Lange, eng. Mike Shipley)
 
 *Original rig:* Pete Willis and Steve Clark rhythm beds (Les Paul low end, SG mids, Telecaster top, up to six tracks), Phil Collen solos (Photograph: Ibanez Destroyer into a 50 W Marshall); Shipley: 'we ended up with just a little Marshall combo amp', miked with Neumann U87 / U67s; guitars recorded dry, to a Linn LM-1 click
+
+*Voicing for the JP70 (rigs/README.md):* left humbucker / right single-coil
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -185,6 +197,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Lange moved Collen and Clark from Marshalls to custom-modified Tom Scholz Rockman headphone amps (Scholz changed the distortion and turned the chorus and reverb off), because 15-16 guitar tracks of Marshalls wouldn't fit; Nigel Green also used a JHS Rock Box and sometimes a Roland studio flanger on power chords. Collen: 'Felix', a '78 Japanese Strat with a DiMarzio Super Distortion; Clark: a three-pickup Les Paul
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -202,6 +216,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Lanois: 'just a guitar he liked through a Korg SDD-3000 digital delay into a Vox. Three components, mono'; the SDD-3000's level switch hits the amp with ~10 dB more. Live (Rattle and Hum): a Strat, 352 ms (3/16) at ~70% to amp 1 panned right and 523 ms (9/32) at ~50% to amp 2 panned left; the studio take shows 350 and 531 ms taps
 
+*Voicing for the JP70 (rigs/README.md):* single-coil
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [SDD Preamp](https://www.tone3000.com/tones/70036) — Korg SDD-3000 preamp (+10 dB into the AC30) | off |
@@ -214,7 +230,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
-*Notes:* The documented two-amp setup: the same AC30 Top Boost (edge of breakup) and '64 Blue Alnico 2x12 on both sides, panned apart. The delay IS the part, so both echoes are ON by default: right 357 ms (dotted eighth at 126 BPM), feedback 0.25, mix 45%; left 531 ms (9/32), feedback 0.1, mix 35%; bright (7 kHz) digital repeats with a short 480L Large Hall tail. Together they make Darling's measured 350 + 531 ms taps. SW9 DELAY switches both off. SW8 BOOST = a Korg SDD preamp capture standing in for the SDD-3000's +10 dB front end (95 downloads, no description: untested, off by default). Spread wobble 0.1 for the slight modulation. AC30 normal vs Top Boost channel is low confidence. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.
+*Notes:* The documented two-amp setup: the same AC30 Top Boost (edge of breakup) and '64 Blue Alnico 2x12 on both sides, panned apart. The delay IS the part, so both echoes are ON by default: right 357 ms (dotted eighth at 126 BPM), feedback 0.25, mix 45%; left 531 ms (9/32), feedback 0.1, mix 35%; bright (7 kHz) digital repeats with a short 480L Large Hall tail. Together they make Darling's measured 350 + 531 ms taps. SW9 DELAY switches both off. SW8 BOOST = a Korg SDD preamp capture standing in for the SDD-3000's +10 dB front end (95 downloads, no description: untested, off by default). Spread wobble 0.1 for the slight modulation. AC30 normal vs Top Boost channel is low confidence. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured. Voicing single-coil: the Edge's 1973 Strat (DiMarzio FS-1 bridge) per gear rundowns (experiments D29).
 
 *Sources:* <https://www.amnesta.net/edge_delay/lanois.html> · <https://www.amnesta.net/edge_delay/musician_magazine_1986.html> · <https://www.amnesta.net/edge_delay/streets.html> · <https://en.wikipedia.org/wiki/Where_the_Streets_Have_No_Name> · <https://www.tone3000.com/tones/31267> · <https://www.tone3000.com/tones/79866>
 
@@ -224,6 +240,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Black Strat (DiMarzio FS-1 bridge) -> MXR Dyna Comp -> Big Muff (Ram's Head c.1974 on The Wall, Sovtek 'Civil War' on PULSE) + Chandler/BK Butler Tube Driver -> Hiwatt DR103 (linked inputs, Normal 7 / Brill 4.5, B6 M4 T5 P6, master 5) into WEM Starfinder 4x12 w/ Fane Crescendos, split to Yamaha RA-200 rotary (Doppola live) -> MXR DDL / TC 2290 delay (~440-500 ms, 3-4 repeats) -> studio plate / Lexicon reverb
 
+*Voicing for the JP70 (rigs/README.md):* single-coil, on the drive capture
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Tube Driver Butler Boost & Drive 400EP](https://www.tone3000.com/tones/6311) — BK Butler Tube Driver, clean boost setting (stand-in for Tube Driver #1 / Colorsound Powerboost) | off |
@@ -232,7 +250,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L5 | echo | MXR DDL / TC 2290 solo delay, 460 ms, 3-4 repeats — generated 460 ms BBD-style IR (mix 28%) | off |
 | L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate (Sunset Sound), wet 25% (mix 25%) | on |
 
-*Notes:* Single rig: real 1972 Hiwatt DR103 + its Fane-loaded 4x12 full rig (linked inputs, clean, like Gilmour's) stands in for the DR103 into WEM Starfinder/Fane Crescendo stacks. The Yamaha RA-200 (studio) / Doppola (live) rotary split can't be captured: both Leslie captures in the catalog (37391, 38834) fail to resolve (null model URLs) and NAM can't rotate anyway, so Spread + wobble 0.4 fakes the rotor movement. Muff is the Vick '73 Ram's Head clone at sustain ~7 / tone 5 (Gilmour ran ~6/6, not maxed; the amp does part of the work); Ram's Head chosen over Sovtek because the only Sovtek capture is maxed and not reamped. No Colorsound Powerboost capture exists: the boost slot is the BK Butler Tube Driver clean-boost setting (Tube Driver #1 on the PULSE board). Electric Mistress/CE2 chorus, MXR Dyna Comp and James Guthrie's heavy studio compression are not modeled. Echo (SW8 (LEAD), off by default): 460 ms, ~4 audible repeats, brighter cutoff for a digital MXR DDL / TC 2290; switch it on for the solos.
+*Notes:* Single rig: real 1972 Hiwatt DR103 + its Fane-loaded 4x12 full rig (linked inputs, clean, like Gilmour's) stands in for the DR103 into WEM Starfinder/Fane Crescendo stacks. The Yamaha RA-200 (studio) / Doppola (live) rotary split can't be captured: both Leslie captures in the catalog (37391, 38834) fail to resolve (null model URLs) and NAM can't rotate anyway, so Spread + wobble 0.4 fakes the rotor movement. Muff is the Vick '73 Ram's Head clone at sustain ~7 / tone 5 (Gilmour ran ~6/6, not maxed; the amp does part of the work); Ram's Head chosen over Sovtek because the only Sovtek capture is maxed and not reamped. No Colorsound Powerboost capture exists: the boost slot is the BK Butler Tube Driver clean-boost setting (Tube Driver #1 on the PULSE board). Electric Mistress/CE2 chorus, MXR Dyna Comp and James Guthrie's heavy studio compression are not modeled. Echo (SW8 (LEAD), off by default): 460 ms, ~4 audible repeats, brighter cutoff for a digital MXR DDL / TC 2290; switch it on for the solos. Voicing single-coil (the Black Strat) in front of the Big Muff (voicing_block drive), so the fuzz hears the single coil; on the Hiwatt after the fuzz it brightened the solo by 790 Hz of centroid and 2 dB (experiments D29). With SW9 off the clean Hiwatt hears the plain JP70.
 
 *Sources:* <https://www.gilmourish.com/?page_id=50> · <https://www.gilmourish.com/?page_id=2119> · <https://www.gilmourish.com/?page_id=79> · <https://www.guitarworld.com/features/the-secrets-behind-david-gilmours-tone-on-pink-floyds-comfortably-numb> · <https://reverb.com/news/how-to-nail-gilmours-comfortably-numb-solo> · <https://liveplayrock.com/blogs/news/david-gilmour-pulse-gear-guitars-amps-and-effects-info-liveplayrock>
 
@@ -241,6 +259,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 9** · dual-rig stereo — The Bends (1995) / OK Computer (1997), prod. John Leckie / Nigel Godrich: Just, My Iron Lung, Airbag, Paranoid Android, Let Down
 
 *Original rig:* Jonny Greenwood: Fender Telecaster Plus (Lace Sensors) -> Marshall ShredMaster (gain 3 o'clock, contour min) -> Roland RE-201 Space Echo -> 1987 Fender Eighty-Five (clean ch., T4 M4 B4), Vox AC30 for cleans on OKC (left). Ed O'Brien: Rickenbacker/Strat -> MXR phaser, Korg A2, Boss DD-5 delay -> Vox AC30 Top Boost clean (right). OKC tracked at St Catherine's Court (ballroom/hall natural ambience)
+
+*Voicing for the JP70 (rigs/README.md):* left humbucker / right single-coil
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -256,7 +276,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 Slots L1–L1 feed both rigs; left and right are panned apart.
 
-*Notes:* Dual-rig stereo split after slot 1 so the ShredMaster (SW9, on) hits only Jonny's Eighty-Five on the left; Ed's AC30 on the right stays clean and ambient, as on Airbag/Paranoid Android/Just. SW9 off = Jonny's side goes to the clean Eighty-Five (on OKC his cleans were really an AC30 TB, so it is brighter/stiffer than the record). ShredMaster capture 'Drive' (G10 B7 C0 T7) is close to Jonny's documented G 3 o'clock / contour min / B,T 2 o'clock. Eighty-Five capture uses his OKC settings T4M4B4. Boost = TC Spark clean boost as a stand-in for Jonny's Demeter Tremulator +6 dB (no capture). Ed's AC30 is a 1994 AC30 TB6 reissue (period-correct Korg-era) on Alnico Silvers, clean. SW8 (LEAD) echo: left = Jonny's RE-201 slap/tape (dark), right = Ed's DD-5 lead delay (~dotted 8th at 82 bpm); Ed also has an always-on subtle DD-5 wash in R4. Ambience = MIT measured hotel ballroom IR (stand-in for St Catherine's Court ballroom), wetter on Ed's side. Not possible: Whammy WH-1 octave (My Iron Lung), Mutronics Mutator, MXR phaser, Korg A2, tremolo; Align wobble gives only a light inter-rig shimmer.
+*Notes:* Dual-rig stereo split after slot 1 so the ShredMaster (SW9, on) hits only Jonny's Eighty-Five on the left; Ed's AC30 on the right stays clean and ambient, as on Airbag/Paranoid Android/Just. SW9 off = Jonny's side goes to the clean Eighty-Five (on OKC his cleans were really an AC30 TB, so it is brighter/stiffer than the record). ShredMaster capture 'Drive' (G10 B7 C0 T7) is close to Jonny's documented G 3 o'clock / contour min / B,T 2 o'clock. Eighty-Five capture uses his OKC settings T4M4B4. Boost = TC Spark clean boost as a stand-in for Jonny's Demeter Tremulator +6 dB (no capture). Ed's AC30 is a 1994 AC30 TB6 reissue (period-correct Korg-era) on Alnico Silvers, clean. SW8 (LEAD) echo: left = Jonny's RE-201 slap/tape (dark), right = Ed's DD-5 lead delay (~dotted 8th at 82 bpm); Ed also has an always-on subtle DD-5 wash in R4. Ambience = MIT measured hotel ballroom IR (stand-in for St Catherine's Court ballroom), wetter on Ed's side. Not possible: Whammy WH-1 octave (My Iron Lung), Mutronics Mutator, MXR phaser, Korg A2, tremolo; Align wobble gives only a light inter-rig shimmer. Voicing: left humbucker (Jonny's Telecaster Plus bridge is a Lace Dually, two Red Sensors in series), right single-coil (Ed's Rickenbacker 360 toasters on OK Computer) (experiments D29).
 
 *Sources:* <https://thekingofgear.com/jonny/amplifiers> · <https://thekingofgear.com/jonny/effects> · <https://thekingofgear.com/ed/effects> · <https://mixdownmag.com.au/features/rig-rundown-radioheads-ok-computer/> · <https://www.guitarworld.com/news/radiohead-ed-o-brien-boss-delays> · <https://reverb.com/news/the-gear-of-radioheads-ok-computer> · <https://www.tone3000.com/tones/75367>
 
@@ -265,6 +285,8 @@ Slots L1–L1 feed both rigs; left and right are panned apart.
 **PC 10** · dual-rig stereo — Smells Like Teen Spirit / Breed / In Bloom — Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City
 
 *Original rig:* Kurt Cobain: '69 Fender Competition Mustang / '65 Jaguar (DiMarzio Super Distortion) -> Boss DS-1 (tone ~10 o'clock, level max) [+ ProCo RAT, EHX Small Clone] -> Mesa/Boogie Studio Preamp -> Crown Power Base 2 -> 4x12, double-tracked with a Fender Bassman on the heavy parts (AC30 for cleans); SM57/U87/414 close, very little room
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -289,6 +311,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Ernie Ball JP7 / Blackmachine B6 (DiMarzio humbuckers) -> Maxon OD808 at zero drive (Fortin 33 on Meshuggah side) -> Axe-FX Ultra 'FAS Modern' (P1) / Axe-FX II preamp into a Peavey 5150 power section (P2) -> mic'd Mesa 4x12 V30; tight gate, dry rhythms, quad-tracked with contrasting amp voicings
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Fortin 33](https://www.tone3000.com/tones/93664) — Fortin 33 (Thordendal sig) boost, 50% | off |
@@ -311,6 +335,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Hohner MadCat (single coils) -> Boss SD-1 (low-gain boost) / DS-1 (solo) / DM-2, CE-2 chorus -> Mesa/Boogie Mark IIB set crystal-clean (1981 heads; converted to IIC+ spec only for the 1984 tour) -> Bag End sealed cabs with JBL D120F 12s; Sunset Sound EMT plate at mix
 
+*Voicing for the JP70 (rigs/README.md):* single-coil
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Boss SD-1 Super Overdrive](https://www.tone3000.com/tones/87914) — Boss SD-1, level 6 / drive 0 (low-gain boost) | off |
@@ -320,7 +346,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L5 | echo | Boss DM-2 style, 300 ms — generated 300 ms BBD-style IR (mix 35%) | off |
 | L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate, Sunset Sound (mix 30%) | on |
 
-*Notes:* Aug 1983 First Avenue take used Prince's Mark IIB heads run clean (IIC+ conversion came at the 1984 tour rehearsals). No Mark IIB capture exists: a real 1984 IIC+ (Silver Zephyr) clean model stands in -- the Mark II clean/rhythm channel is near-identical across A/B/C+; the only true pre-C+ capture (24644, 1979 Mark IIA) is a crunch-only DI, too dirty for the clean intro. Amp switched from 'Airy Edge' to 'Airy Clean' to match the documented crystal-clean setting; dirt comes from the DS-1 (SW9) for the solo, as Prince did. Cab: Bag End sealed 4x12 with JBL D120F; no raw D120F IR in the catalog (the Twin D120 IRs are pre-EQ'd), so a JBL E120 (same-family cone, open-back 1x12) SM57 cap-edge IR is used -- expect slightly less low-end thump than a sealed 4x12. CE-2 is time-varying, so Spread wobble approximates it. DM-2 echo is generated (no DM-2 IR exists). Plate IR is a DAW emulation of the Sunset Sound EMT 140, not a sample of the real plate. DS-1 settings for the solo are undocumented; T4/D8 gives a warm, sustaining lead into a clean amp. Humbucker->single-coil pre-EQ on the amp assumes a humbucker guitar (JP70).
+*Notes:* Aug 1983 First Avenue take used Prince's Mark IIB heads run clean (IIC+ conversion came at the 1984 tour rehearsals). No Mark IIB capture exists: a real 1984 IIC+ (Silver Zephyr) clean model stands in -- the Mark II clean/rhythm channel is near-identical across A/B/C+; the only true pre-C+ capture (24644, 1979 Mark IIA) is a crunch-only DI, too dirty for the clean intro. Amp switched from 'Airy Edge' to 'Airy Clean' to match the documented crystal-clean setting; dirt comes from the DS-1 (SW9) for the solo, as Prince did. Cab: Bag End sealed 4x12 with JBL D120F; no raw D120F IR in the catalog (the Twin D120 IRs are pre-EQ'd), so a JBL E120 (same-family cone, open-back 1x12) SM57 cap-edge IR is used -- expect slightly less low-end thump than a sealed 4x12. CE-2 is time-varying, so Spread wobble approximates it. DM-2 echo is generated (no DM-2 IR exists). Plate IR is a DAW emulation of the Sunset Sound EMT 140, not a sample of the real plate. DS-1 settings for the solo are undocumented; T4/D8 gives a warm, sustaining lead into a clean amp. Voicing single-coil (the MadCat's single coils) in front of the amp, for the owner's JP70 humbuckers (experiments D29).
 
 *Sources:* <https://guitar.com/features/artist-rigs/the-guitars-used-by-prince-on-purple-rain/> · <https://www.guitarcloud.org/era/purple-rain/> · <https://mixdownmag.com.au/features/rig-rundown-princes-purple-rain/> · <https://tonesmatch.com/tones/purple-rain-prince-the-revolution-solo-distorted-4287> · <https://www.tonemirror.so/tones/prince-purple-rain> · <https://www.guitarplayer.com/gear/how-princes-purple-rain-mesaboogie-mark-iic-turned-up-in-a-minneapolis-music-store> · <https://www.guitarcloud.org/equipment/mesaboogie-mark-ii/>
 
@@ -329,6 +355,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 13** — Ola Englund's own Randall Satan + Fortin 33, as one full-rig capture: tight modern-metal rhythm
 
 *Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> cab (the capture uses the Res New Old Dude IR)
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -346,6 +374,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 14** — Satan 50 'Modern' + Fortin 33 at 3 o'clock: the same recipe from separate captures
 
 *Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> Warren Huart's Marshall 4x12 with V25s
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -365,6 +395,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> Cameron Webb's Bogner Uberschall 4x12 (V30s) on an SM57
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
@@ -383,6 +415,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Ola Englund -> Fortin 33 boost (3 o'clock, per the @nillmtd capture) -> Randall Satan head -> Ulrich Wild's Albion 4x12 on an Audix D4
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Fortin 33](https://www.tone3000.com/tones/28672) — Fortin 33, 1 o'clock (capture by @elihis) | off |
@@ -400,6 +434,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 17** · dual-rig stereo — Glenn Fricker's free Stormblade A2 NAM, double-tracked through a UK V30 4x12 on two mics
 
 *Original rig:* Stormblade A2 (Spectre Media Group NAM) -> SMG UK V30 4x12: SM57 left, Sennheiser MD 440 right
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -423,6 +459,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 18** · dual-rig stereo — Is This Love: Whitesnake, Whitesnake (1987; Sykes' guitars finished with Mike Stone in London 1986, mixed by Keith Olsen in LA), ~92 BPM, A: the chorused clean arpeggios
 
 *Original rig:* John Sykes on a 1961 Fender Stratocaster, which he used in the studio for clean tones and which is named for this song. Forum accounts (not first-hand) describe two Mesa/Boogie Mark III (Coliseum) heads, the signal split: one side dry to one stack, the other through a Lexicon PCM41 with a very short delay into the second, for 'a slight bit of chorusing'; Sykes' wide finger vibrato adds the rest. The same thread says he also used a Roland JC-120 for some cleans, and a Rig-Talk post says Olsen recorded him on a JCM800 combo (hearsay)
+
+*Voicing for the JP70 (rigs/README.md):* single-coil
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -448,6 +486,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Roland Orzabal's walnut Fender 'The Strat' (the 1980-83 deluxe model); Orzabal and Neil Taylor played the electric parts, Taylor the ending solo in two takes. Orzabal wrote it on acoustic with the low E dropped to D, 'square against the shuffled beat'; the 'crazy guitar intro' came last. No song-level amp or effects source exists: a Pete Cornish board credited to Orzabal carried a Boss CE-2 chorus, CS-2 compressor, SD-1, VB-2 and a digital delay, 'possibly' into a JC-120 (Cornish called the amp speculative)
 
+*Voicing for the JP70 (rigs/README.md):* single-coil
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -467,6 +507,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Andy Summers' modded Telecaster (his '61/'63 Tele with a Gibson PAF humbucker in the neck, stock bridge pickup, phase switch and an onboard preamp), which his site lists for this song, into a Roland JC-120 with its stereo chorus. Padgham close-miked each 12-inch speaker with an SM57, one speaker straight and one detuned by the chorus, and panned the two mics hard left and right; sometimes the part was doubled with the sides swapped. A Fender Twin Reverb supplied straighter, sharper parts. The arpeggio was one take; no guitar delay is documented (Padgham's 300 ms delay was on the hi-hat)
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -481,7 +523,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Chorus (DAW, SW7 in the 80s banks):* 0.5 Hz, 3.0 ms, 50% wet — Estimate of the JC-120's fixed chorus (no knob settings are documented): slow and shallow, half wet, the two sides 180 degrees apart like the amp's straight and detuned speakers.
 
-*Notes:* The documented two-mic JC-120 as a dual rig: the same capture (Roland JC-120B normal channel, Bright On, SM57; the session used SM57s) hard left and right. The JC's chorus is the DAW chorus on SW7 (LSP, 0.5 Hz / 3 ms / 50 %, an estimate): ours modulates both sides in antiphase, the amp left one speaker dry. Spread off, so the width comes from the two sides and the chorus. SW8 BOOST = TS9 clean push (not on the record); SW9 DELAY = 385 ms (dotted eighth at 117 BPM), off: no guitar delay on the record. A short 480L plate (an estimate; the room is undocumented). No pre-EQ: the capture's guitar is unknown and Summers' neck humbucker is not a single coil. Levels: tone.csv out_db -1 dB puts it at -15.7 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+*Notes:* The documented two-mic JC-120 as a dual rig: the same capture (Roland JC-120B normal channel, Bright On, SM57; the session used SM57s) hard left and right. The JC's chorus is the DAW chorus on SW7 (LSP, 0.5 Hz / 3 ms / 50 %, an estimate): ours modulates both sides in antiphase, the amp left one speaker dry. Spread off, so the width comes from the two sides and the chorus. SW8 BOOST = TS9 clean push (not on the record); SW9 DELAY = 385 ms (dotted eighth at 117 BPM), off: no guitar delay on the record. A short 480L plate (an estimate; the room is undocumented). No pre-EQ: the capture's guitar is unknown and Summers' neck humbucker is not a single coil. Levels: tone.csv out_db -1 dB puts it at -15.7 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed. Voicing humbucker: which of Summers' two pickups is on the record is undocumented. The record sounds in Ab major, a half step under A shapes in standard, but its tuning method is disputed, so it carries no eb tag (experiments D29).
 
 *Sources:* <https://www.mixonline.com/recording/polices-every-breath-you-take-365310> · <https://andysummers.com/news/fender-guitar/> · <https://guitarworld.com/features/andy-summers-modded-fender-telecaster> · <https://www.eonmusic.co.uk/news/andy-summers-says-every-breath-you-take-was-crap-until-i-played-on-it> · <https://songbpm.com/@the-police/every-breath-you-take> · <https://www.tone3000.com/tones/10912>
 
@@ -491,6 +533,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Rick Savage played about 80% of the album's jangle guitars, on a Telecaster through the JHS Rock-Box, which had separate reverb and chorus buttons ('only Mutt and Nigel Green knew' the settings). The pre-chorus and bridge chords were recorded one note at a time; Collen counts 'probably eight guitar parts' on the chorus. Clark and Collen played the solo live, 'plugged into a Rockman each'. Equipboard credits Clark with a Boss CE-2 on the album (weak)
 
+*Voicing for the JP70 (rigs/README.md):* single-coil
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -499,7 +543,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Chorus (DAW, SW7 in the 80s banks):* 0.8 Hz, 3.0 ms, 40% wet — Estimate: the Rock-Box had a chorus button but its settings are undocumented (and the CE-2 claim is weak), so a light, slightly quicker shimmer than the JC-120, 40 % wet.
 
-*Notes:* Amp = Slammin MXR/Rockman X100, Clean 1 at half input (cab-simulated, so the cab slot is empty), standing in for the Rock-Box. Tele voicing (the humbucker -> single-coil curve -3/-2.5/0/+1.5/+3/+2 dB) for Savage's Telecaster, applied after the capture in tone.csv rather than as eq_pre: Clean 1 barely saturates, so before or after sounds alike, and a post EQ lets `tune @clean ...` reach it. The echo is ON: 421 ms (dotted eighth at 107 BPM), low mix, with a 480L Large Plate in the same block (SW9 DELAY switches both). The chorus is the DAW chorus on SW7 (0.8 Hz / 3 ms / 40 %, an estimate). Spread wobble 0.15 for width and Align wobble 0.25 for the stacked parts. SW8 BOOST = TS9 clean push (not on the record). Research: the 80s-tones.md shortlist, section F (captures and model ids checked with `tone3000.py models`). Levels: tone.csv out_db -11.3 dB puts it at -16.1 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+*Notes:* Amp = Slammin MXR/Rockman X100, Clean 1 at half input (cab-simulated, so the cab slot is empty), standing in for the Rock-Box. Voicing single-coil (Savage's Telecaster) as pre-model EQ since experiments D29; it replaced the post-capture tone.csv curve. The echo is ON: 421 ms (dotted eighth at 107 BPM), low mix, with a 480L Large Plate in the same block (SW9 DELAY switches both). The chorus is the DAW chorus on SW7 (0.8 Hz / 3 ms / 40 %, an estimate). Spread wobble 0.15 for width and Align wobble 0.25 for the stacked parts. SW8 BOOST = TS9 clean push (not on the record). Research: the 80s-tones.md shortlist, section F (captures and model ids checked with `tone3000.py models`). Levels: tone.csv out_db -11.3 dB puts it at -16.1 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
 
 *Sources:* <https://www.musicradar.com/artists/they-were-far-superior-guitar-players-to-me-i-could-never-play-lead-to-save-my-life-but-one-thing-im-quite-good-at-is-playing-with-a-certain-feel-def-leppard-bassist-rick-savage-reveals-80-percent-of-hysterias-jangle-guitars-were-him-all-along> · <https://en.wikipedia.org/wiki/Hysteria_(Def_Leppard_song)> · <https://steveclarkguitar.com/articles-interviews/the-hysteria-album-sound/> · <https://equipboard.com/albums/def-leppard-hysteria> · <https://songbpm.com/@def-leppard/hysteria> · <https://www.tone3000.com/tones/30352>
 
@@ -508,6 +552,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 22** — This Charming Man: The Smiths (single, Oct 1983, Strawberry Studios, Stockport, prod. John Porter), ~104 BPM: Johnny Marr's bright, ringing single-note and thirds riff
 
 *Original rig:* Marr played producer John Porter's '54 Telecaster ('it's really a '54 Tele'), tracked with a Rickenbacker (a black 330 per Ground Guitar; Mixdown says a 12-string only 'for moments'), tuned up to F# and fingered in G so it sounds in A. About 15 guitar tracks, including three acoustics and a backwards guitar with a long reverb; the knife-on-strings part went through a Fender Twin Reverb 'with the vibrato on'. The Twin Reverb was his main amp on 'probably all' Smiths records ('the Fender has also got the best reverb', 1985); a Boss CE-1 on early recordings is likely but unconfirmed
+
+*Voicing for the JP70 (rigs/README.md):* single-coil
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -519,7 +565,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Chorus (DAW, SW7 in the 80s banks):* 0.7 Hz, 2.0 ms, 30% wet — The record is essentially dry; no chorus is documented on this song. SW7 adds a faint CE-1-like shimmer (estimate) for the layered Tele + Rickenbacker feel.
 
-*Notes:* Picked as bank 2's fifth song for contrast: a bright, dry Fender Twin Reverb clean (vibrato channel, the one Marr names) with spring reverb, where the other four are chorus or Rockman cleans. Amp = a '73 Twin Reverb vibrato channel at V2 T5 M5 B5 through a load box (DI) into a '71 Twin 2x12 Oxford 12T6 SM57 IR; the Twin's own stereo spring reverb is always on. Tele pre-EQ (humbucker -> single coil): play the bridge pickup. Align wobble 0.1 for the Tele + Ric layering. No echo on the record: SW9 DELAY = 433 ms (dotted eighth at 104 BPM), off. SW8 BOOST = TS9 clean push (not on the record). Can't match: the Twin's tremolo (knife part only), the Rickenbacker chime, the backwards guitar, the tune-up to F# (pitchSemitones +1 would add 11-31 ms latency). Levels: tone.csv out_db 11 dB puts it at -16.2 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
+*Notes:* Picked as bank 2's fifth song for contrast: a bright, dry Fender Twin Reverb clean (vibrato channel, the one Marr names) with spring reverb, where the other four are chorus or Rockman cleans. Amp = a '73 Twin Reverb vibrato channel at V2 T5 M5 B5 through a load box (DI) into a '71 Twin 2x12 Oxford 12T6 SM57 IR; the Twin's own stereo spring reverb is always on. Tele pre-EQ (humbucker -> single coil): play the bridge pickup. Align wobble 0.1 for the Tele + Ric layering. No echo on the record: SW9 DELAY = 433 ms (dotted eighth at 104 BPM), off. SW8 BOOST = TS9 clean push (not on the record). Can't match: the Twin's tremolo (knife part only), the Rickenbacker chime, the backwards guitar, the tune-up to F# (a whole step: opt-in tone.csv pitch_st 2, adds 11-31 ms latency). Levels: tone.csv out_db 11 dB puts it at -16.2 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.
 
 *Sources:* <https://en.wikipedia.org/wiki/This_Charming_Man> · <https://www.groundguitar.com/johnny-marr/> · <https://mixdownmag.com.au/features/rig-rundown-the-smiths-morrisey-johnny-marr/> · <https://songbpm.com/@the-smiths/this-charming-man> · <https://www.tone3000.com/tones/88227> · <https://www.tone3000.com/tones/6046> · <https://www.tone3000.com/tones/1732>
 
@@ -529,6 +575,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Documented: Schon's black 1977 Gibson Les Paul Pro/Deluxe (originally P-90s, maple neck, ebony board; Schon: 'That's the guitar on a lot of Frontiers, Escape ... and on solos like Who's Crying Now', 'It has a nice, natural compression to it'). Undocumented: the amp, cab and pedals for Escape. The only named amp is Steve Perry's recollection of telling Schon, about this solo, 'I saw you play the Starwood with a Fender Twin ... just plug it in and sketch a little bit'; forum hearsay says Fender Twin with a wah slightly open, or 'a little Roland amp'. Elson: 'Neal always used his own effects', guitars miked with Sony C37, AKG 414 and SM57 (his memory of Open Arms), Neve 8108 / Studer A800, EMT plates and tape delay in the room. Perry: the solo was the simplest take, built from about four drop-in sections, and he refused the label's request to fade it.
 
+*Voicing for the JP70 (rigs/README.md):* p90
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (on: sustain for the held bends, not documented) | on |
@@ -537,7 +585,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L5 | echo | Tape delay 500 ms (quarter note at 120 BPM, on) — generated 500 ms BBD-style IR (mix 20%) | on |
 | L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Fantasy Studios EMT plate stand-in) (mix 25%) | on |
 
-*Notes:* APPROXIMATION: the Escape amp is undocumented (no interview, Mix piece or rig rundown names it; only the guitar is on the record). Built on the one amp anybody named for this solo, Perry's Fender Twin: a 1971 Silverface Twin Reverb (period-correct) captured cranked, normal channel V10 T7 M7 B4, into the same Twin's own 2x12 Oxford 12T6-10 speakers on an SM57 at the cap edge (the SM57 is on Elson's list). The cranked Twin plus a humbucker gives the smooth, compressed sustain Schon credits to the guitar; there is no documented compressor, and a NAM capture can't model a compressor's timing, so none is added. SW8 BOOST is ON at load: a TS9 clean push (D0 L10) into the cranked Twin for the singing sustain of the held bends (not documented; on the offline bench it lowers the crest factor from 15.0 to 13.0 dB, i.e. more compression); stomp it off for a cleaner, rawer Twin. SW9 DELAY is ON at load: 500 ms (a quarter note at the published 120 BPM), feedback 0.3, cutoff 4500 Hz (Fantasy's tape delay, darker repeats), mix 0.2; 375 ms is the dotted-eighth alternative. 480L Large Plate at 25% stands in for Fantasy's EMT plates. Disputed or missing: a wah 'slightly open' (forum hearsay; SW6 + EXP A parks the DAW wah), the 'little Roland amp' reading, the P-90 vs humbucker question, the double-tracked lead (mono preset). Levelled offline with rigsim --exact to -14 LUFS.
+*Notes:* APPROXIMATION: the Escape amp is undocumented (no interview, Mix piece or rig rundown names it; only the guitar is on the record). Built on the one amp anybody named for this solo, Perry's Fender Twin: a 1971 Silverface Twin Reverb (period-correct) captured cranked, normal channel V10 T7 M7 B4, into the same Twin's own 2x12 Oxford 12T6-10 speakers on an SM57 at the cap edge (the SM57 is on Elson's list). Voicing p90: the Les Paul Pro Deluxe shipped with P-90s, and a bridge humbucker by Escape rests on one forum post (experiments D29). The cranked Twin plus that pickup gives the smooth, compressed sustain Schon credits to the guitar; there is no documented compressor, and a NAM capture can't model a compressor's timing, so none is added. SW8 BOOST is ON at load: a TS9 clean push (D0 L10) into the cranked Twin for the singing sustain of the held bends (not documented; on the offline bench it lowers the crest factor from 15.0 to 13.0 dB, i.e. more compression); stomp it off for a cleaner, rawer Twin. SW9 DELAY is ON at load: 500 ms (a quarter note at the published 120 BPM), feedback 0.3, cutoff 4500 Hz (Fantasy's tape delay, darker repeats), mix 0.2; 375 ms is the dotted-eighth alternative. 480L Large Plate at 25% stands in for Fantasy's EMT plates. Disputed or missing: a wah 'slightly open' (forum hearsay; SW6 + EXP A parks the DAW wah), the 'little Roland amp' reading, whether the bridge P-90 had been swapped for a humbucker by 1981, the double-tracked lead (mono preset). Levelled offline with rigsim --exact to -14 LUFS.
 
 *Sources:* <https://www.guitarplayer.com/players/neal-schon-on-finding-his-voice-as-an-guitar-instrumentalist-learning-groove-with-santana-and-recording-without-an-amplifier> · <https://loudersound.com/news/neal-schons-dont-stop-believin-guitar-goes-up-for-auction> · <https://intelligentcollector.com/the-neal-schon-collection/> · <https://guitar.com/news/gear-news/guitar-used-record-dont-stop-believin-is-going-up-for-auction/> · <https://ultimateclassicrock.com/steve-perry-neal-schon-guitar-solo/> · <https://www.mixonline.com/?p=17343> · <https://en.wikipedia.org/wiki/Who%27s_Crying_Now> · <https://www.rig-talk.com/forum/threads/tone-in-journeys-whos-crying-now-solo.163458/> · <https://www.bonedo.de/artikel/einzelansicht/die-besten-gitarren-soli-journey-dont-stop-believin-workshop.html> · <https://www.musicnotes.com/sheetmusic/journey/whos-crying-now/MN0100435> · <https://www.tone3000.com/tones/6106> · <https://www.tone3000.com/tones/6046>
 
@@ -547,6 +595,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Kris Derrig '59 Les Paul replica (Seymour Duncan Alnico II Pro humbuckers), Eb standard -> S.I.R. rental Stock #36, a 1959 Super Lead modded by Frank Levi in 1986 into a #39 copy (always-on extra gain stage + master volume) -> Marshall 1960 4x12 (Vintage 30s per Guitar World's estimate); Welcome to the Jungle intro: Mike Clink's Roland SRV-2000 in its hidden delay mode, 318 ms, feedback 30, output 50 (the rest of the track dry). Clink: 'it was that Les Paul into a Marshall.'
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -555,7 +605,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L5 | echo | SRV-2000 delay 318 ms (Welcome to the Jungle intro) — generated 318 ms BBD-style IR (mix 33%) | off |
 | L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (mix 10%) | on |
 
-*Notes:* The exact documented amp: Slammin's capture of a real 1959 Super Lead modded to the SIR #36 'Appetite' spec, MV3 mid-gain Slash setting (418836, the HG version, is the hotter alternative for the solos). Cab: 1960BV Vintage 30 SM57, following Guitar World's V30 estimate (no mics are documented; Greenback 75087/656904 if V30 sounds too modern). Guitar World's knob settings (Presence 8, Bass 5, Middle 8.5, Treble 7, Vol 1 at 10) are by-ear estimates, not session notes. SW8 BOOST = TS9 clean push for the solos (not on the record). SW9 DELAY = the documented WTTJ intro SRV-2000 setting (318 ms, fb 0.3, mix 0.33, digital-bright repeats); no Sweet Child delay is documented. 480L Large Plate at 10% for air. The record is in Eb: tune down, or set params pitchEnabled 1 / pitchSemitones -1 (adds 11-31 ms latency). The Sweet Child solo's wah is SW6 + EXP A (the DAW wah); Izzy's doubled rhythm isn't modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
+*Notes:* The exact documented amp: Slammin's capture of a real 1959 Super Lead modded to the SIR #36 'Appetite' spec, MV3 mid-gain Slash setting (418836, the HG version, is the hotter alternative for the solos). Cab: 1960BV Vintage 30 SM57, following Guitar World's V30 estimate (no mics are documented; Greenback 75087/656904 if V30 sounds too modern). Guitar World's knob settings (Presence 8, Bass 5, Middle 8.5, Treble 7, Vol 1 at 10) are by-ear estimates, not session notes. SW8 BOOST = TS9 clean push for the solos (not on the record). SW9 DELAY = the documented WTTJ intro SRV-2000 setting (318 ms, fb 0.3, mix 0.33, digital-bright repeats); no Sweet Child delay is documented. 480L Large Plate at 10% for air. The record is in Eb (tag eb). Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down. The Sweet Child solo's wah is SW6 + EXP A (the DAW wah); Izzy's doubled rhythm isn't modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
 
 *Sources:* <https://guitar.com/features/opinion-analysis/slash-guitar-gear-myths/> · <https://www.guitarplayer.com/news/mike-clink-slash-les-paul-cool-again> · <https://tonymckenzie.com/afd100_history.htm> · <https://www.promusic.news/guitars/the-secrets-behind-slashs-guitar-sound-on-gnrs-welcome-to-the-jungle> · <https://www.slashparadise.com/discography/albums-guns-n-roses-1987-appetite-for-destruction.php> · <https://www.rollingstone.com/feature/guns-n-roses-appetite-for-destruction-filthy-sexy-cool-58921/3> · <https://songbpm.com/@guns-n-roses/sweet-child-o-mine> · <https://songbpm.com/@guns-n-roses/welcome-to-the-jungle> · <https://www.tone3000.com/tones/6379>
 
@@ -564,6 +614,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 25** — Crazy Train (138 BPM): Ozzy Osbourne, Blizzard of Ozz (1980, Ridge Farm; Randy Rhoads, eng. Max Norman)
 
 *Original rig:* 1974 Les Paul Custom (stock, bridge pickup) -> MXR Distortion+ (Output 10, Distortion 4, almost always on) -> MXR 10-band EQ (125 Hz +3, 250 +7, 500 +10, 1k +6, 2k +3, 4k -2, 16k +3) -> Marshall 100 W 1959 Super Lead on a Variac at ~90-92 V -> two 4x12s (1960A/B with Altec 417-8H per Guitar World); amps in Ridge Farm's stone room, SM58 close, AKG 451 a few feet back, SM87 room mics. Rhythm double-tracked L/R; solos triple-tracked; Max Norman's AMS DMX 15-80S detune at mixdown.
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -583,6 +635,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 26** · dual-rig stereo — Master of Puppets (~212 BPM): Metallica, Master of Puppets (1986, Sweet Silence, Copenhagen; prod. Flemming Rasmussen)
 
 *Original rig:* Jackson King V -> Mesa/Boogie Mark IIC+ 'modified to work as a preamp' -> power amp disputed (a Marshall 2203, or a modified 100 W JCM800) -> speakers undocumented (Rasmussen left 'no notes indicating the successful candidate'); SM57 at the cone centre, B&K 4006, an AKG tube mic at 45 degrees ~4 ft back; no compression, a short Quantec QRS room; 'the rhythm at no point was less than four guitars'.
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -608,6 +662,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Frankenstrat (one wax-potted PAF bridge humbucker, stock Strat vibrato), tuned down a half step -> MXR Phase 90 (speed 9-10 o'clock) -> stock 1968 Marshall 1959 Super Lead 100 W, everything on 10, Variac at ~89-90 V -> two basket-weave Marshall 4x12s (G12M-25 Greenback and JBL D120F), SM57s; two Univox EC-80 echo boxes on the tail and the closing 12th-fret harmonic ('That's not an Echoplex'), repeat rate set by the motor speed; Sunset Sound live echo chamber.
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -622,7 +678,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
-*Notes:* Van Halen I's chain (PC 3) with the tape echo on: same Variac'd Slammin 1959HW at 180 V on both sides, left G12M-25 Greenback SM57, right JBL E120 for the JBL D120F cab, 480L Large Chamber at 15% left / 40% right (Landee's guitar-one-side, chamber-opposite panning). SW9 DELAY is ON at load: 300 ms, feedback 0.35, cutoff 3000 Hz (dark tape repeats), mix 0.2. No delay time is documented: 300 ms is an ear estimate for a motor-speed EC-80, and the record has the echo only on the ending, so stomp SW9 off for the body of the piece to be strictly faithful. The research suggested summing the chamber into the echo block too; it is already always on in slot 6 / R4 (the same IR), so it is not doubled. Spread wobble 0.3 is a vague stand-in for the slow Phase 90 (TONE3000 has no phaser). The record is a half step down: tune down, or params pitchEnabled 1 / pitchSemitones -1. SW8 BOOST = TS9 clean push (not on the record). Can't match: the Phase 90 sweep, true EC-80 flutter, the dive bombs (the player). Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
+*Notes:* Van Halen I's chain (PC 3) with the tape echo on: same Variac'd Slammin 1959HW at 180 V on both sides, left G12M-25 Greenback SM57, right JBL E120 for the JBL D120F cab, 480L Large Chamber at 15% left / 40% right (Landee's guitar-one-side, chamber-opposite panning). SW9 DELAY is ON at load: 300 ms, feedback 0.35, cutoff 3000 Hz (dark tape repeats), mix 0.2. No delay time is documented: 300 ms is an ear estimate for a motor-speed EC-80, and the record has the echo only on the ending, so stomp SW9 off for the body of the piece to be strictly faithful. The research suggested summing the chamber into the echo block too; it is already always on in slot 6 / R4 (the same IR), so it is not doubled. Spread wobble 0.3 is a vague stand-in for the slow Phase 90 (TONE3000 has no phaser). The record is a half step down (tag eb). Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down. SW8 BOOST = TS9 clean push (not on the record). Can't match: the Phase 90 sweep, true EC-80 flutter, the dive bombs (the player). Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
 
 *Sources:* <https://en.wikipedia.org/wiki/Eruption_(instrumental)> · <https://www.guitarworld.com/features/eddie-van-halen-10-tracks> · <https://www.loudersound.com/features/eddie-van-halen-the-long-lost-interview> · <https://www.vhnd.com/2014/09/29/eddie-van-halen-signature-sound-mxrs-phase-90-flanger-pedals/> · <https://legendarytones.com/edward-van-halen-brown-sound/> · <https://www.vhnd.com/2013/12/13/former-van-halen-engineer-donn-landee-discusses-recording-van-halen/> · <https://www.tone3000.com/tones/6220>
 
@@ -631,6 +687,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 28** · dual-rig stereo — Pride and Joy (126 BPM shuffle, Eb): Stevie Ray Vaughan and Double Trouble, Texas Flood (1983; cut Nov 24 1982 at Jackson Browne's Down Town Studio, LA, eng. Richard Mullen, mixed by Lincoln Clapp)
 
 *Original rig:* 'Number One' Strat (1962 body, 1963 neck, '59 pickup; .013-.058 strings, tuned down a half step) -> Ibanez Tube Screamer (the only effect: Drive off or low, Level full, Tone 12-3 o'clock) -> two Fender Vibroverbs (15-inch) plus Jackson Browne's 150 W Dumble ('Dumbleland') into a 4x12; one SM57 on a Vibroverb and one on the Dumble cab, 3-4 in off at ~45 degrees. Mullen: 'his sound came from a combination of the Fender and Dumble amps'. Ambience at the mix: an EMT plate.
+
+*Voicing for the JP70 (rigs/README.md):* single-coil
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -647,7 +705,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Vibe (DAW, SW7 in the LEGENDS bank):* 0.8 Hz, depth 1.0, 50% wet — Not on Pride and Joy: SRV's Fender Vibratone (Leslie) on Cold Shot / Couldn't Stand the Weather, slow rotor, low in the mix; a phaser approximates the rotor (no Doppler or horn)
 
-*Notes:* The documented blend as a dual rig: left a Vibroverb (Slammin's blackface Vibroverb, vibrato channel at his 'SRV' setting, into a JBL E130 Vibroverb IR: no Altec 15 IR is in the catalog), right a Dumble (the catalog's Steel String Singer #002 stands in for Browne's Dumbleland, which nobody captured), panned 20/80. Which amp carries this song is undocumented. Tube Screamer: TS9 (Craig Hopkins: the TS9 replaced the 808 in 1982 and the 808 never went to the studio; Vintage Guitar says 808: contested), at Hopkins' Drive 0 / Tone 6 / Level 10, on at load; SW8 takes it off. Strat voicing (the humbucker -> single-coil curve) in front of both amps; the right chain's amp is its end block, so tone.csv EQ cells can't reach it (tune it in the JSON). SW9 = a quarter-note echo at 126 BPM, not on the record. SW7 VIBE = the Vibratone (Leslie) of Cold Shot, slow rotor, half mixed: not on this song. Tune down a half step for Eb. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+*Notes:* The documented blend as a dual rig: left a Vibroverb (Slammin's blackface Vibroverb, vibrato channel at his 'SRV' setting, into a JBL E130 Vibroverb IR: no Altec 15 IR is in the catalog), right a Dumble (the catalog's Steel String Singer #002 stands in for Browne's Dumbleland, which nobody captured), panned 20/80. Which amp carries this song is undocumented. Tube Screamer: TS9 (Craig Hopkins: the TS9 replaced the 808 in 1982 and the 808 never went to the studio; Vintage Guitar says 808: contested), at Hopkins' Drive 0 / Tone 6 / Level 10, on at load; SW8 takes it off. Strat voicing (the humbucker -> single-coil curve) in front of both amps; the right chain's amp is its end block, so tone.csv EQ cells can't reach it (tune it in the JSON). SW9 = a quarter-note echo at 126 BPM, not on the record. SW7 VIBE = the Vibratone (Leslie) of Cold Shot, slow rotor, half mixed: not on this song. The record is a half step down (tag eb). Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
 
 *Sources:* <https://en.wikipedia.org/wiki/Texas_Flood> · <https://www.mixonline.com/recording/classic-tracks/classic-track-stevie-ray-vaughan-pride-and-joy-367582> · <https://blog.line6.com/?p=6428> · <https://www.groundguitar.com/stevie-ray-vaughan-gear/stevie-ray-vaughan-1962-63-fender-stratocaster-number-one/> · <https://craighopkins.com/stevie-ray-vaughan/srv-collection/srv-tube-screamers/> · <https://www.vintageguitar.com/17590/ibanez-tube-screamer/> · <https://www.groundguitar.com/stevie-ray-vaughan-gear/stevie-ray-vaughan-fender-vibratone-leslie-speaker/> · <https://www.musicnotes.com/sheetmusic/stevie-ray-vaughan/pride-and-joy/MN0107793> · <https://www.tone3000.com/tones/52655> · <https://www.tone3000.com/tones/66220> · <https://www.tone3000.com/tones/86314>
 
@@ -656,6 +714,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 29** — Voodoo Child (Slight Return) (88 BPM, Eb): The Jimi Hendrix Experience, Electric Ladyland (1968; May 3 1968, Record Plant NYC, eng. Eddie Kramer, prod. Chas Chandler)
 
 *Original rig:* Fender Stratocaster (tuned down a half step) -> wah (intro; model undocumented, the Vox V846 is his only named one) -> Dallas Arbiter Fuzz Face (germanium; his main fuzz, inferred for this take) -> 100 W Marshall stacks (groundguitar documents the JTM45/100 Super 100 with 4x12s; no exact record for this session). Kramer screened the amp and miked it with a U67 and/or a Beyer M160, with compression, EQ and desk reverb; the room 'just resonates'. Eighth take is the master. No delay or modulation on the studio take.
+
+*Voicing for the JP70 (rigs/README.md):* single-coil, on the drive capture
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -667,7 +727,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Vibe (DAW, SW7 in the LEGENDS bank):* 1.2 Hz, depth 1.0, 100% wet — Not on the 1968 studio take: Hendrix's live Uni-Vibe (1969-70, Woodstock, Band of Gypsys), slow and fully mixed
 
-*Notes:* Amp: amalgam's 1966 JTM45/100 Super 100 (the model groundguitar documents) as a full rig, edge of breakup, so the fuzz does the gain. Fuzz (always on): a germanium Fuzz Face with AC128 transistors, Fuzz 10 / Vol 6, with the Strat voicing in front of it (the fuzz hears a single coil). Its fizz is trimmed at the end (eq_3k5 -2, eq_8k -3: 'less fizz'), standing in for Kramer's ribbon/U67 mics. The wah is SW6 + EXP A (the DAW wah). SW8 BOOST = TS9 clean push (not on the record); SW9 = an eighth-note echo at 88 BPM (not on the record); EMT 140 plate for the desk reverb. SW7 VIBE = the Uni-Vibe Hendrix played this song with live from 1969 (Woodstock): not on the 1968 take. Can't match: the stereo panning of the overdubs. Tune down a half step. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+*Notes:* Amp: amalgam's 1966 JTM45/100 Super 100 (the model groundguitar documents) as a full rig, edge of breakup, so the fuzz does the gain. Fuzz (always on): a germanium Fuzz Face with AC128 transistors, Fuzz 10 / Vol 6, with the Strat voicing in front of it (the fuzz hears a single coil). Its fizz is trimmed at the end (eq_3k5 -2, eq_8k -3: 'less fizz'), standing in for Kramer's ribbon/U67 mics. The wah is SW6 + EXP A (the DAW wah). SW8 BOOST = TS9 clean push (not on the record); SW9 = an eighth-note echo at 88 BPM (not on the record); EMT 140 plate for the desk reverb. SW7 VIBE = the Uni-Vibe Hendrix played this song with live from 1969 (Woodstock): not on the 1968 take. Can't match: the stereo panning of the overdubs. The record is a half step down (tag eb). Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
 
 *Sources:* <https://en.wikipedia.org/wiki/Voodoo_Child_(Slight_Return)> · <https://www.loudersound.com/music/tracks-singles/jimi-hendrix-voodoo-chile-slight-return> · <https://www.groundguitar.com/jimi-hendrix-gear/> · <https://www.soundonsound.com/techniques/classic-tracks-jimi-hendrix-experience-all-along-watchtower> · <https://www.guitarplayer.com/gear/the-univox-uni-vibe-was-the-final-stompbox-to-land-in-jimi-hendrixs-effects-chain> · <https://www.groundguitar.com/jimi-hendrix-gear/jimi-hendrixs-shin-ei-univox-uni-vibe/> · <https://getsongbpm.com/song/voodoo-child-slight-return/Dqv2xY> · <https://www.tone3000.com/tones/56237> · <https://www.tone3000.com/tones/96791>
 
@@ -676,6 +736,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 **PC 30** — Bohemian Rhapsody, guitar solo (ballad ~72 BPM, Eb major): Queen, A Night at the Opera (1975; Rockfield, Roundhouse, Sarm, Scorpio, Wessex; prod. Roy Thomas Baker, eng. Mike Stone)
 
 *Original rig:* Red Special (Burns Tri-Sonics, neck and middle 'set against each other', i.e. out of phase; a sixpence pick) -> treble booster (by 1975 a silicon BC149 unit, not the original germanium Rangemaster, lost in 1973) -> Vox AC30. May: 'the fundamental tone that you hear is the guitar and the treble booster and the AC30'. Recorded on one track, few takes. The Deacy amp is on the outro's twin melody, not the solo. Studio delay undocumented.
+
+*Voicing for the JP70 (rigs/README.md):* single-coil
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
@@ -697,6 +759,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* 1959 Les Paul Standard (bought from Joe Walsh in early 1969, 'used to record Zeppelin II') -> on the solo a wah held in one position ('a depressed wah-wah pedal, as on Communication Breakdown') -> Page (Total Guitar, 2020): 'I was using the Super Beatle amps with the [Rickenbacker] Transonic cabinets... That's exactly what's on Whole Lotta Love' (a solid-state Vox; J.J. Blair's multitrack analysis agrees; John Paul Jones: 'a really small amplifier', close-miked). Middle section: theremin, the Les Paul, backwards echo and console 'knob twiddling'.
 
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
@@ -716,6 +780,8 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Original rig:* Malcolm (screened left): 1963 Gretsch Jet Firebird 'The Beast' (one bridge Filter'Tron) -> a 1971 Marshall Super Bass. Angus (right): 1971 Gibson SG Standard -> a 1970s 1959 Super Lead and a 1966-67 JTM50; Celestion G12-65 speakers; Schaffer-Vega wireless for the solos only (Platt). Several 50 W and 100 W heads, turned up only until the cabs sounded right; U67s (or U67 + U87) on different speakers, per song. 'AC/DC didn't want to hear effects': a little delay to spread the guitars, Compass Point's fairly dead room.
 
+*Voicing for the JP70 (rigs/README.md):* left filtertron / right humbucker
+
 | Slot | Role | Block | Default |
 |---|---|---|---|
 | L1 | boost | [HB Nam A2 Schaffer Replica Pack v2](https://www.tone3000.com/tones/91844) — SoloDallas Schaffer Replica, Gain 9 Boost 12 o'clock, limiter off (Angus's wireless as a boost) | off |
@@ -731,7 +797,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Vibe (DAW, SW7 in the LEGENDS bank):* 1.5 Hz, depth 1.0, 100% wet — Not on the record: the default slow throb
 
-*Notes:* Dual rig, hard panned as Platt screened them: left Malcolm on amalgam's 1967 Marshall Super Bass 'REX' (Crunch, Vol I 7, full rig); right Angus on Slammin's 1959HW 'ANGUS_LO' setting into a Marshall 1960A G12-65 SM57 IR (G12-65s per guitar.com). SW8 BOOST = SoloDallas Schaffer Replica (Gain 9, Boost 12 o'clock, limiter off) for the solos, off at load as Platt says; it sits before the split, so it pushes Malcolm too. Humbucker voicing throughout (the owner's guitar; the Filter'Tron is close enough). Angus's SG year is contested (1971 Standard per guitar.com vs 1970 Custom per groundguitar). SW9 = an eighth-note echo at 94 BPM (Platt's 'very slight delay' is undocumented in time). 480L Small Wood Room at 10 % for Compass Point. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
+*Notes:* Dual rig, hard panned as Platt screened them: left Malcolm on amalgam's 1967 Marshall Super Bass 'REX' (Crunch, Vol I 7, full rig); right Angus on Slammin's 1959HW 'ANGUS_LO' setting into a Marshall 1960A G12-65 SM57 IR (G12-65s per guitar.com). SW8 BOOST = SoloDallas Schaffer Replica (Gain 9, Boost 12 o'clock, limiter off) for the solos, off at load as Platt says; it sits before the split, so it pushes Malcolm too. Voicing: Malcolm's side (left) filtertron for the Jet Firebird's one bridge Filter'Tron, Angus's side (right) humbucker for the SG (experiments D29). Angus's SG year is contested (1971 Standard per guitar.com vs 1970 Custom per groundguitar). SW9 = an eighth-note echo at 94 BPM (Platt's 'very slight delay' is undocumented in time). 480L Small Wood Room at 10 % for Compass Point. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).
 
 *Sources:* <https://www.soundonsound.com/techniques/classic-tracks-acdc-back-black> · <https://guitar.com/features/artist-rigs/the-gear-used-by-angus-young-malcolm-young-on-ac-dc-back-in-black> · <https://www.groundguitar.com/malcolm-young-gear/malcolm-youngs-1963-gretsch-jet-firebird-the-beast/> · <https://reverb.com/news/tony-platt-shares-secret-angus-young-back-in-black-tone> · <https://en.wikipedia.org/wiki/Back_in_Black_(song)> · <https://songbpm.com/@ac-dc/back-in-black> · <https://www.tone3000.com/tones/80590> · <https://www.tone3000.com/tones/6222> · <https://www.tone3000.com/tones/91844>
 

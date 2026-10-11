@@ -1736,6 +1736,10 @@ def cli_docs(args):
         out += ["", f"## {r['name']}", "", f"**PC {r['pc']}**{stereo} — {r.get('reference', '')}", ""]
         if r.get("rig"):
             out += [f"*Original rig:* {r['rig']}", ""]
+        if v := r.get("voicing"):
+            where = " / ".join(f"{k} {n}" for k, n in v.items()) if isinstance(v, dict) else v
+            out += [f"*Voicing for the JP70 (rigs/README.md):* {where}"
+                    + (f", on the {r['voicing_block']} capture" if r.get("voicing_block") else ""), ""]
         out += ["| Slot | Role | Block | Default |", "|---|---|---|---|"]
         for side in ("left", "right"):
             for i, spec in enumerate(r.get(side, []), 1):

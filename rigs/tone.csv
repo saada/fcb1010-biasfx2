@@ -2,7 +2,7 @@ preset,tags,out_db,in_db,tight_db,boost_db,drive_db,amp_db,cab_db,r_amp_db,r_cab
 #rule,words,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,add dB,set 0/1,set 0/1,set 0/1,set ms,set 0-0.8,set 0-1,set Hz,set 0-1,set dB,set ms,set ms,set dB,set 0-10,set 0-10,set 0-10,set semitones
 *,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,,,,,-60,50,100,80,5,5,5,0
 @eb,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-00-maiden-heavy,maiden heavy stereo,0.8,,,3,1.5,,1.5,,-0.7,,,,,,,0,0,0,375,0.3,0.25,5000,0.1,,,,,,,,
+00-maiden-heavy,maiden heavy stereo,0.8,,-6,3,1.5,,1.5,,-0.7,,,,,,,0,0,0,375,0.3,0.25,5000,0.1,,,,,,,,
 01-maiden-clean,maiden clean stereo,,3,,,,,5.8,,4.2,0,0,0.5,0,-1.5,-2,,,1,440,0.12,0.12,3000,0.15,,,,,,,,
 02-maiden-acoustic,maiden acoustic stereo,,,,,,,16.1,,16.1,-8,-4,-1,1,8,7,1,1,1,0,,0.12,,0.15,,,,,,,,
 03-van-halen-1,80s crunch stereo eb,3.8,,,,,,,,,,,,,,,0,,0,320,0.25,0.18,3500,,,,,,,,,

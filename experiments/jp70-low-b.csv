@@ -1,0 +1,118 @@
+run,preset,low_vs_mid_lu,f0_vs_mid_db,low_vs_mid_db,in_vs_mid_db,ring_low_db
+take-tight0,Maiden Heavy,2.02,-21.46,-0.2,4.55,30.62
+take-tight0,Van Halen I Brown,-0.12,-16.46,-1.66,4.55,17.6
+take-tight0,Van Halen 1984,2.46,-22.54,-0.88,4.55,21.21
+take-tight0,Def Leppard Pyromania,-0.76,-20.54,-2.62,4.55,23.33
+take-tight0,Def Leppard Hysteria,0.24,-10.16,8.57,4.55,14.66
+take-tight0,Comfortably Numb,3.04,-20.86,0.51,4.55,16.97
+take-tight0,Radiohead,3.3,-13.63,0.34,4.55,21.87
+take-tight0,Nirvana,1.7,-35.36,1.73,4.55,19.63
+take-tight0,Djent,-0.22,-15.31,-0.03,4.55,26.12
+take-tight0,Satan Full Rig,0.63,-18.66,-0.25,4.55,35.11
+take-tight0,Satan 50 Modern,2.21,-18.8,0.0,4.55,28.78
+take-tight0,Satan 50 Low Tuned,3.01,-27.98,2.0,4.55,28.17
+take-tight0,Satan 50 Lead,4.53,-36.22,1.45,4.55,34.38
+take-tight0,Stormblade,3.27,-31.32,-0.23,4.55,29.9
+take-tight0,Who's Crying Now,3.35,2.21,2.64,4.55,14.93
+take-tight0,Sweet Child O' Mine,2.62,-23.14,-1.19,4.55,23.74
+take-tight0,Crazy Train,1.35,-13.07,0.28,4.55,13.72
+take-tight0,Master of Puppets,1.93,-23.34,-1.07,4.55,28.98
+take-tight0,Eruption,-0.76,-14.89,-1.58,4.55,20.48
+take-tight0,Pride and Joy,2.69,1.12,1.54,4.55,21.17
+take-tight0,Voodoo Child,-0.49,-6.49,-0.65,4.55,19.92
+take-tight0,Bohemian Rhapsody,-0.15,-12.06,-0.9,4.55,21.96
+take-tight0,Whole Lotta Love,2.77,-15.0,-0.34,4.55,22.98
+take-tight0,Back in Black,4.26,-5.12,0.74,4.55,22.61
+take-tight3,Maiden Heavy,1.93,-22.07,-0.21,4.55,30.79
+take-tight3,Van Halen I Brown,-0.14,-17.83,-1.26,4.55,18.12
+take-tight3,Van Halen 1984,2.28,-23.84,-0.49,4.55,22.13
+take-tight3,Def Leppard Pyromania,-0.25,-23.25,-2.04,4.55,24.55
+take-tight3,Def Leppard Hysteria,0.26,-10.49,9.31,4.55,14.62
+take-tight3,Comfortably Numb,3.02,-21.31,0.39,4.55,16.18
+take-tight3,Radiohead,3.43,-14.85,0.66,4.55,21.2
+take-tight3,Nirvana,1.71,-36.3,1.86,4.55,20.03
+take-tight3,Djent,-0.04,-17.34,0.2,4.55,26.38
+take-tight3,Satan Full Rig,1.28,-19.44,-0.11,4.55,35.25
+take-tight3,Satan 50 Modern,2.73,-19.14,0.36,4.55,29.2
+take-tight3,Satan 50 Low Tuned,3.26,-25.62,2.55,4.55,28.07
+take-tight3,Satan 50 Lead,4.46,-35.69,1.64,4.55,34.27
+take-tight3,Stormblade,3.37,-31.24,0.07,4.55,29.24
+take-tight3,Who's Crying Now,2.96,1.96,2.78,4.55,13.11
+take-tight3,Sweet Child O' Mine,2.91,-25.62,-0.61,4.55,24.64
+take-tight3,Crazy Train,1.4,-13.98,0.7,4.55,13.14
+take-tight3,Master of Puppets,2.5,-24.22,-0.51,4.55,29.56
+take-tight3,Eruption,-0.64,-15.97,-1.31,4.55,20.23
+take-tight3,Pride and Joy,2.71,0.73,1.48,4.55,19.58
+take-tight3,Voodoo Child,-0.49,-6.49,-0.65,4.55,19.92
+take-tight3,Bohemian Rhapsody,0.19,-15.21,-0.95,4.55,22.7
+take-tight3,Whole Lotta Love,3.28,-16.49,0.31,4.55,22.83
+take-tight3,Back in Black,4.74,-6.16,1.21,4.55,21.68
+take-tight6,Maiden Heavy,1.67,-22.85,-0.31,4.55,30.84
+take-tight6,Van Halen I Brown,-0.09,-18.22,-1.02,4.55,18.8
+take-tight6,Van Halen 1984,2.02,-25.35,-0.18,4.55,22.95
+take-tight6,Def Leppard Pyromania,0.23,-25.59,-1.46,4.55,25.56
+take-tight6,Def Leppard Hysteria,0.27,-9.96,9.78,4.55,14.54
+take-tight6,Comfortably Numb,2.79,-21.86,0.17,4.55,15.45
+take-tight6,Radiohead,3.57,-16.0,0.85,4.55,20.56
+take-tight6,Nirvana,1.58,-36.52,1.98,4.55,20.26
+take-tight6,Djent,0.13,-19.34,0.55,4.55,26.49
+take-tight6,Satan Full Rig,1.76,-20.24,-0.04,4.55,35.09
+take-tight6,Satan 50 Modern,3.27,-18.81,0.73,4.55,29.34
+take-tight6,Satan 50 Low Tuned,3.43,-24.74,2.93,4.55,28.09
+take-tight6,Satan 50 Lead,4.29,-35.52,1.7,4.55,34.15
+take-tight6,Stormblade,3.7,-30.97,0.7,4.55,28.63
+take-tight6,Who's Crying Now,2.7,1.63,2.89,4.55,11.54
+take-tight6,Sweet Child O' Mine,3.37,-27.31,-0.08,4.55,25.3
+take-tight6,Crazy Train,1.3,-14.9,1.05,4.55,12.61
+take-tight6,Master of Puppets,3.07,-24.62,-0.22,4.55,29.78
+take-tight6,Eruption,-0.62,-16.49,-0.98,4.55,19.89
+take-tight6,Pride and Joy,2.82,-0.27,1.34,4.55,18.14
+take-tight6,Voodoo Child,-0.49,-6.49,-0.65,4.55,19.92
+take-tight6,Bohemian Rhapsody,0.37,-17.03,-0.79,4.55,23.23
+take-tight6,Whole Lotta Love,3.77,-17.77,0.56,4.55,22.45
+take-tight6,Back in Black,5.12,-7.08,1.47,4.55,20.77
+take-tight9,Maiden Heavy,1.51,-23.2,-0.38,4.55,30.74
+take-tight9,Van Halen I Brown,-0.16,-18.62,-0.6,4.55,19.55
+take-tight9,Van Halen 1984,1.81,-25.66,0.48,4.55,23.63
+take-tight9,Def Leppard Pyromania,0.83,-27.62,-1.06,4.55,26.27
+take-tight9,Def Leppard Hysteria,0.27,-7.71,10.04,4.55,14.32
+take-tight9,Comfortably Numb,2.29,-22.25,0.05,4.55,14.37
+take-tight9,Radiohead,3.7,-16.85,0.96,4.55,19.94
+take-tight9,Nirvana,1.41,-36.32,1.93,4.55,20.38
+take-tight9,Djent,0.41,-20.58,0.91,4.55,26.69
+take-tight9,Satan Full Rig,2.53,-20.63,0.04,4.55,34.73
+take-tight9,Satan 50 Modern,3.53,-18.7,1.08,4.55,29.3
+take-tight9,Satan 50 Low Tuned,3.49,-23.89,2.77,4.55,28.07
+take-tight9,Satan 50 Lead,4.28,-34.8,1.75,4.55,34.03
+take-tight9,Stormblade,3.73,-29.34,1.21,4.55,28.1
+take-tight9,Who's Crying Now,2.53,1.37,2.73,4.55,10.21
+take-tight9,Sweet Child O' Mine,3.7,-28.17,0.42,4.55,25.63
+take-tight9,Crazy Train,1.32,-15.67,1.17,4.55,12.09
+take-tight9,Master of Puppets,3.34,-25.41,-0.03,4.55,29.68
+take-tight9,Eruption,-0.47,-17.27,-1.02,4.55,20.13
+take-tight9,Pride and Joy,2.87,-1.32,1.12,4.55,16.92
+take-tight9,Voodoo Child,-0.49,-6.49,-0.65,4.55,19.92
+take-tight9,Bohemian Rhapsody,0.55,-17.92,-0.55,4.55,23.57
+take-tight9,Whole Lotta Love,4.5,-19.78,0.67,4.55,21.89
+take-tight9,Back in Black,5.44,-7.87,1.71,4.55,19.81
+synth-tight0,Maiden Heavy,-2.45,-7.52,-2.55,0.0,25.81
+synth-tight0,Djent,-3.38,-3.27,-1.73,0.0,19.69
+synth-tight0,Satan Full Rig,-5.8,-4.0,-1.73,0.0,21.25
+synth-tight0,Satan 50 Modern,-5.46,-3.87,-2.44,0.0,14.65
+synth-tight0,Satan 50 Low Tuned,-1.65,-16.55,0.27,0.0,14.89
+synth-tight0,Stormblade,-4.0,-17.46,-3.62,0.0,18.55
+synth-tight0,Master of Puppets,-3.38,-5.18,-2.27,0.0,17.07
+synth-tight6,Maiden Heavy,-1.75,-8.86,-2.05,0.0,25.14
+synth-tight6,Djent,-2.74,-3.98,-2.2,0.0,18.87
+synth-tight6,Satan Full Rig,-4.54,-6.16,-1.5,0.0,20.54
+synth-tight6,Satan 50 Modern,-3.53,-6.62,-2.64,0.0,14.37
+synth-tight6,Satan 50 Low Tuned,-0.79,-18.28,0.29,0.0,13.46
+synth-tight6,Stormblade,-2.52,-20.4,-3.12,0.0,17.92
+synth-tight6,Master of Puppets,-2.65,-5.96,-2.17,0.0,16.76
+synth-post-eq100-3,Maiden Heavy,-2.08,-8.91,-2.7,0.0,25.41
+synth-post-eq100-3,Djent,-2.98,-4.46,-2.34,0.0,18.83
+synth-post-eq100-3,Satan Full Rig,-5.47,-5.21,-2.1,0.0,20.55
+synth-post-eq100-3,Satan 50 Modern,-5.11,-5.09,-3.0,0.0,13.81
+synth-post-eq100-3,Satan 50 Low Tuned,-1.02,-18.19,0.29,0.0,14.04
+synth-post-eq100-3,Stormblade,-3.3,-19.16,-3.69,0.0,18.02
+synth-post-eq100-3,Master of Puppets,-3.0,-6.51,-2.59,0.0,16.21

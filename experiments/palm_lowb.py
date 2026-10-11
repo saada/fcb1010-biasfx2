@@ -45,7 +45,19 @@ def summary(path):
 
 
 def main(*paths):
+    out = None
+    if "--out" in paths:  # --out FILE: also write the summary as one CSV row per preset and input CSV
+        i = paths.index("--out")
+        out, paths = paths[i + 1], paths[:i] + paths[i + 2:]
     sums = [summary(p) for p in paths]
+    if out:
+        with open(out, "w", newline="") as fh:
+            w = csv.writer(fh)
+            w.writerow(["run", "preset", "low_vs_mid_lu", "f0_vs_mid_db", "low_vs_mid_db", "in_vs_mid_db", "ring_low_db"])
+            for p, s in zip(paths, sums):
+                for preset, m in s.items():
+                    w.writerow([p.split("/")[-1].removesuffix(".csv"), preset, *(round(m[k], 2) for k in
+                                ("low_vs_mid_lu", "f0_vs_mid_db", "low_vs_mid_db", "in_vs_mid_db", "ring_low_db"))])
     print(f"{'preset':28}" + "".join(f" | {p.split('/')[-1][:36]:>36}" for p in paths))
     print(f"{'':28}" + " | low-mid LU  f0 dB 60-200   in  ring" * len(paths))
     for preset in sums[0]:

@@ -162,9 +162,10 @@ pre-model EQ on the amp capture (`tone3000.VOICINGS`, gains per `eq` band):
 - **Form:** `"voicing": "single-coil"` voices every chain; `{"left": "filtertron", "right":
   "humbucker"}` voices each side of a dual rig (two guitarists).
 - **Where it sits:** on the `amp` block. `"voicing_block": "drive"` moves it to the slot-2 capture,
-  for a chain with no amp (the acoustic) or a full-rig amp whose one EQ is a tone.csv post-EQ
-  (Voodoo Child; the fuzz then hears the single coil). SW9 then switches the voicing off with
-  the pedal.
+  for a chain with no amp (the acoustic), or for an always-on fuzz in front of the amp (Voodoo
+  Child, Comfortably Numb), so that the fuzz hears the single coil. On Comfortably Numb, the same
+  curve on the Hiwatt after the Big Muff added 790 Hz of centroid. SW9 then switches the voicing
+  off with the pedal.
 - **Overrides:** a block that sets its own `eq_pre` keeps its curve (Bohemian Rhapsody's
   out-of-phase Tri-Sonics).
 - **tone.csv:** its `eq_*` columns post-EQ the chain's end block. On a full-rig amp (the amp is
@@ -181,9 +182,17 @@ pre-model EQ on the amp capture (`tone3000.VOICINGS`, gains per `eq` band):
   after changing one anyway, because a fuzz or high-gain preset reacts to the drive.
 
 **`tight_db`** (tone.csv, add, −12…0 dB): extra cut on the amp's pre-model 100 Hz low shelf,
-on top of the voicing. It keeps palm-muted B1/C#2 from booming into a high-gain amp against
-E2–A2, while open low chords keep their body. Presets with a value have one in their row; the
-measurements are in D29.
+on top of the voicing. It is meant to keep palm-muted B1/C#2 from booming into a gain amp
+against E2–A2, while open low chords keep their body. Only Maiden Heavy uses it (−6). D29
+measured it on 24 gain presets with `experiments/palm_boom.py` and `palm_lowb.py`:
+- At equal input (the synthetic sweep), B1/C#2 already come out 1.7–5.8 LU under E2–A2 on every
+  preset tested.
+- On the owner's palm take, the low notes are 2–3.5 LU louder because they were picked 4.6 dB
+  harder.
+- −6 dB cuts the fundamental's share by up to 4 dB, but on most high-gain captures it makes
+  the low notes slightly louder relative to E2–A2.
+
+Measure before you set it.
 
 **`pitch_st`** (tone.csv, set, semitones; empty or 0 = off): TONE3000's input pitch shifter
 (`pitchEnabled` + `pitchSemitones`). It adds 11–31 ms of latency, so it is opt-in and off by
