@@ -1148,3 +1148,131 @@ limiter), made by `palm_boom.py`.
   `test_router.py`, not heard. The out-of-phase Tri-Sonic pre-EQ (Bohemian Rhapsody) is an
   estimate. Whole Lotta Love's Super Beatle and Pride and Joy's Dumbleland have no captures:
   stand-ins, noted in the presets.
+
+## D29 — Voicing the rig for the owner's JP70: pickup voicings, low B, Eb opt-in
+
+*Data:* `pickup-model.csv` (`pickup_voicing.py`: the LCR pickup model and its band fits),
+`voicing-check.csv` (`voicing_check.py`: each voicing through four presets, relative to no
+pre-EQ), `jp70-low-b.csv` (`palm_lowb.py` over `palm_boom.py` runs: the owner's palm take at
+tight_db 0/−3/−6/−9 on 24 gain presets, the synthetic equal-input sweep at 0/−6 and a post-EQ
+what-if on seven), `jp70-levels-voiced.csv` (rigsim `--exact` after the level loop,
+`level_loop.py`).
+
+- **Question:** every preset is played on one guitar, the owner's Sterling by Music Man JP70
+  (seven strings, B E A D G B E, 25.5"). Nine presets had a hand-placed `eq_pre`, each placed a
+  little differently. What should each preset's pre-model EQ be for the pickup on its record?
+  Does the low B need tightening into the gain amps? And how do Eb songs get their record pitch?
+- **The guitar** (cited in `rigs/README.md`):
+  - Pickups: "HH", 3-way toggle, one volume and one tone, no coil split and no piezo (Sterling's
+    spec page and control diagram:
+    <https://sterlingbymusicman.com/products/john-petrucci-jp70-stealth-black-guitar>,
+    <https://sterlingbymusicman.com/cdn/shop/files/JP70-cfd-0326.pdf>).
+  - Sterling names no pickup model. Retailers list "Sterling by Music Man humbuckers"
+    (Andertons) with ceramic magnets (Greentoe, zZounds).
+  - DC resistance, measured on two used JP70s by Chicago Music Exchange: bridge 17.97 / 18.39 kΩ,
+    neck 10.17 / 10.33 kΩ. That is a hot bridge and a moderate neck.
+  - The plain JP70 has no DiMarzios. Those are on the JP70D and the JP157DFM.
+- **Hypothesis:**
+  - A pickup is a resonant low-pass (coil inductance against cable capacitance), so the gap
+    between the JP70 and a record's pickup is mostly above 1.5 kHz, and the old curve's
+    −3 dB at 100 Hz was a stand-in for that.
+  - A pre-amp low shelf tightens B1 into a gain amp.
+- **Method:**
+  - **Voicing curves:** the lumped model in `pickup_voicing.py`, with published inductances:
+    Strat 1.8–2.5 H (Planet Z), about 2 H (Blackstone Appliances), P-90 about 6 H (Blackstone),
+    PAF 3.2–4.6 H (Planet Z), Filter'Tron 1.4–1.8 H (TV Jones, per a forum post), and the
+    JP70 bridge at about 8 H, estimated from its 18 kΩ. The model fits the gap to the six
+    bands, caps each band at ±6 dB, and offsets the curve so it is loudness-neutral.
+  - **Voicing check:** `voicing_check.py` renders `di-ref.wav` with each voicing on Rule the
+    World (clean), Comfortably Numb (fuzz, full rig), Satan 50 Modern (high gain) and Maiden
+    Acoustic.
+  - **Low B:** `palm_boom.py` over the owner's take (`di-palm-b.wav`, 76 events; low notes
+    B1/C#2 against E2/F#2/G#2/A2, palm events over −25 dBFS input) and the synthetic
+    equal-input sweep. The tone.csv `tight_db` column cuts the amp's pre-model 100 Hz shelf.
+  - **Eb:** `pitch_st` −1 rendered on Pride and Joy through the palm take, and the notes
+    re-detected.
+- **Result, model:**
+  - The JP70 bridge resonates at 2.0 kHz, the neck at 2.8 kHz, a Strat at 4.1 kHz, a P-90 at
+    2.4 kHz and a Filter'Tron at 5.1 kHz.
+  - Against the bridge, a single coil is +8.9 dB at 3.5 kHz and +13.7 dB at 8 kHz, and within
+    0.4 dB below 650 Hz. Against the neck, it is +0.7 and +7.8 dB.
+  - Uncapped fits reach +30 dB at 8 kHz, so the cap is necessary.
+  - The model leaves out eddy-current damping and the humbucker's two-coil comb (about −2 dB at
+    1.6 kHz and −3 to −6 dB at 3.5 kHz on the wound strings, by the coil spacing). Both widen
+    the gap, so the capped curves are conservative.
+- **Result, voicings** (`tone3000.VOICINGS`, dB at 100/250/650/1.6k/3.5k/8k; the rendered
+  numbers are relative to no pre-EQ, on Rule the World through `di-ref.wav`):
+
+  | voicing | curve | LUFS | low<250 | 2–5k | centroid |
+  |---|---|---|---|---|---|
+  | single-coil | −2 −2 −1.5 0 +4 +4 | −0.47 | −0.7 | +3.2 | +271 Hz |
+  | p90 | −1.5 −1 0 +1 +1.5 −0.5 | +0.21 | −0.8 | +1.2 | +134 Hz |
+  | filtertron | −2 −2 −1 +0.5 +4 +5 | −0.14 | −1.0 | +3.1 | +281 Hz |
+  | piezo (on Maiden Acoustic) | −6 −4 −1 +3 +6 +6 | +0.36 | −2.4 | +2.0 | +338 Hz |
+  | old single-coil | −3 −2.5 0 +1.5 +3 +2 | +0.28 | −1.8 | +2.5 | +280 Hz |
+
+  - **Satan 50 Modern** moves under 0.2 dB with any voicing: the amp compresses it.
+  - **Comfortably Numb** with the voicing on the Hiwatt, after the Big Muff: +2.0 dB and +790 Hz
+    of centroid. Moved in front of the fuzz (`voicing_block` drive): −13.9 LUFS, +70 Hz.
+  - **Piezo** keeps the acoustic's own curve, so Maiden Acoustic is unchanged (−15.0 LUFS).
+- **Audit** (the record's guitar, then the voicing): every preset now names its `voicing`.
+  - **humbucker:** Maiden ×3 (Murray's Strat with Hot Rails or DiMarzio humbuckers, Smith and
+    Gers on humbuckers), the Van Halen presets, Hysteria, Nirvana (Super Distortion), Djent,
+    Satan ×4, Stormblade, Sweet Child, Crazy Train, Master of Puppets, Eruption and Whole Lotta
+    Love.
+  - **single-coil:** U2 (the Edge's '73 Strat), Comfortably Numb (the Black Strat, on the Big
+    Muff), Purple Rain (MadCat), Is This Love (Sykes' '61 Strat), Rule the World (Fender
+    "The Strat"), Hysteria Clean (Tele), This Charming Man ('54 Tele), Pride and Joy (both
+    amps), Voodoo Child (on the Fuzz Face) and Bohemian Rhapsody.
+  - Bohemian Rhapsody keeps its explicit out-of-phase Tri-Sonic `eq_pre`.
+  - **Split by side:** Pyromania (left humbucker, right single-coil for Clark's Tele layer),
+    Radiohead (left humbucker, Jonny's Tele Plus bridge is a Lace Dually in series; right
+    single-coil, Ed's Rickenbacker 360) and Back in Black (left filtertron, Malcolm's Jet
+    Firebird bridge Filter'Tron; right humbucker, Angus's SG).
+  - **p90:** Who's Crying Now. The Les Paul Pro Deluxe shipped with P-90s, and a bridge
+    humbucker by 1981 rests on one forum post.
+  - **Every Breath You Take stays humbucker:** Summers' Tele had a neck humbucker and a bridge
+    single coil, and which one is on the record is undocumented.
+  - **Hysteria Clean** moved its tone.csv post-EQ curve into the pre-model voicing.
+- **Result, low B** (B1/C#2 minus E2–A2, in LU, then the fundamental's share in dB):
+  - **Equal input (synthetic):** B1/C#2 come out under E2–A2 on all seven named presets: Maiden
+    Heavy −2.5, Djent −3.4, Satan Full Rig −5.8, Satan 50 Modern −5.5, Satan 50 Low Tuned −1.7,
+    Stormblade −4.0, Master of Puppets −3.4.
+  - **The owner's take:** the low notes were picked 4.6 dB harder, and come out +2.0 / +3.0 /
+    +2.2 / +3.3 / −0.2 / +1.9 / +0.6 LU over E2–A2 (Maiden Heavy, Low Tuned, Modern,
+    Stormblade, Djent, Puppets, Full Rig). The amps compress the picking, and nothing in the
+    rig adds boom.
+  - **tight_db −6:** the fundamental's share falls up to 4 dB (Djent −4.0, Maiden −1.4), but
+    the low notes' relative loudness rises on five of the seven (Satan 50 Modern +2.2 → +3.3,
+    Puppets +1.9 → +3.1, Full Rig +0.6 → +1.8). The exceptions are Maiden Heavy (+2.0 → +1.7)
+    and Djent (−0.2 → +0.1). Open low notes keep their body (60–200 Hz within ±1.3 dB).
+  - **tight_db −9** goes further the same way. A post-model eq_100 of −3 moves the equal-input
+    gap by at most 0.7 LU.
+- **Result, Eb:** Pride and Joy with `pitch_st` −1 plays every note a semitone down (A2 110 →
+  G#2 104 Hz, B1 61.5 → A#1 58 Hz) at −0.3 LU.
+- **Levels:** the voiced presets were re-levelled in two passes (`level_loop.py`), all within
+  0.15 LU of their D22 targets.
+  - Heavies and leads at −14: Pyromania, Numb, Radiohead, Who's Crying Now, Pride and Joy,
+    Voodoo Child, Back in Black and Maiden Heavy (−14.0 with tight_db −6).
+  - Cleans at −15: U2, Purple Rain, Is This Love, Rule the World, Hysteria Clean and This
+    Charming Man. The new single-coil curve played these 0.7–0.9 dB under the old one.
+- **Conclusion:**
+  - **Voicing:** a preset names its record's pickup, and the builder voices the amp's input.
+    Explicit `eq_pre` overrides stay possible (rigs/README.md "Voicing, low B and tuning").
+  - **Low B:** the gain presets don't need tightening at equal input. The pre-amp shelf is a
+    weak lever on high-gain captures, because their low end comes from the capture and the cab
+    after the amp (D23). So only Maiden Heavy, the D23 complaint, gets tight_db −6, where it
+    helped on both measures. The rest stay at 0, and the column is there for tuning by ear.
+  - **Eb:** opt-in per preset (`pitch_st` −1) or for all six `eb` songs (the `@eb` row), off by
+    default. This Charming Man's opt-in is +2.
+- **Not measured:**
+  - Anything live or by ear: no build ran, the coordinator builds after merge.
+  - The pitch shifter's latency (the plugin's documented 11–31 ms).
+  - The JP70's inductance, which is estimated from DCR. The other pickups' figures are
+    published typicals, not the record guitars.
+  - Which JP70 pickup the DI WAVs used.
+  - The voicings model pickup EQ but not output level: a single coil would also drive an amp
+    about 6 dB less than the 18 kΩ bridge, and no preset's `in_db` was changed for that.
+  - Every Breath's tuning (the record is in Ab; how Summers got there is disputed), Photograph
+    (about 50 cents flat per one analysis, left alone), and Murray's and Smith's exact 1982
+    guitars.

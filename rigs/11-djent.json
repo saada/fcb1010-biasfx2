@@ -11,6 +11,7 @@
     "https://equipboard.com/pros/fredrik-thordendal"
   ],
   "notes": "Periphery's records are Axe-FX amp models, so real-amp captures stand in: the 5150 side matches P2 (5150 power amp + Mesa 4x12), and a Mark V in Mark IV mode is the classic contrasting djent voice for the other pair of tracks. Both sides use the same Mesa Oversized V30 / SM57 cab (the L capture was taken with it; the R side gets the same author's IR). The OD808 is a separate zero-drive capture in front of both amps (SW9) rather than baked in, so it can be toggled. The Fortin 33 (Thordendal signature, 50%) sits on SW8 as the Meshuggah-flavoured extra tightener; the real obZen chain (Fortin 33 -> Dual Rectifier Rev D per Toontrack) isn't reproduced amp-wise. Quad-tracking is approximated by two rigs panned hard L/R with Align on but no wobble (keeps it tight). Rhythms are dry, so there's no ambience; the echo is only for leads. Gate comes from the global setting (djent wants it tight).",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

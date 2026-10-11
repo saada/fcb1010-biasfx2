@@ -13,6 +13,7 @@
     "https://lancasteraudio.com"
   ],
   "notes": "Solo sound: Jacovino's 'Lead' Satan 50 setting with the CHUG on his 'Weedaly Waaahh' lead setting. SW8 adds the mild Fortin and a 450 ms echo. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's \"file\" field swaps one in (rigs/README.md, Local files). Cab: Lancaster Audio PLAP free IR (Cameron Webb / Warren Huart / Ulrich Wild), Ulrich Wild's Albion 4x12 on an Audix D4, a local file in ~/Music/fcb-rig/packs/lancaster/ (no license text, so personal use only and never committed); picked on the DI bench against the Res New Old Dude IR (experiments D18): the smoothest top of the four (5-10 kHz 3.2 dB under New Old Dude), 2 dB more 250-800 Hz midrange and the tightest low end (12.8 dB less below 100 Hz, envelope spread 20.9 dB against 19.7): a singing, mid-forward lead. Without the file, check fails with its path: delete the cab's \"file\" field to fall back to New Old Dude (tone 5996).",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

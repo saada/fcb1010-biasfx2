@@ -10,6 +10,7 @@
     "https://en.wikipedia.org/wiki/Nevermind"
   ],
   "notes": "Dual-rig stereo for Vig's double-tracked rhythms: DS-1 (always on) feeds both; left = Mesa Studio Preamp (preamp-only capture, the Crown SS power amp assumed clean) + Nevermind-matched T75 4x12 IR, right = '71 Bassman DI at a pedal-platform setting + a second Nevermind IR, hard-panned. Exact Bassman year and Kurt's preamp settings are unknown (guesses). Small Clone can't be modelled: SW7 (spread) is preset with wobble as a stand-in for the watery verse/Come As You Are chorus. No reverb: Vig kept the guitars dry and in your face. Echo is only a solo helper (not on the record). SW8 = RAT stacked for extra saturation. The DS-1 (SW9) is Kurt's quiet-verse/loud-chorus switch: toggling it off drops ~5 dB by design.",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

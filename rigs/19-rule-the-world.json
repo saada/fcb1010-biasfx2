@@ -19,6 +19,7 @@
     "note": "Estimate of a Boss CE-2 at rate ~9-10 o'clock and depth ~noon (the CE-2 mixes 50/50); the CE-2 is on Orzabal's board, not documented on this song."
   },
   "notes": "Amp = Tim R's JC-120 channel 1 high input as a DI (a different JC capture from Every Breath You Take) into Tim R's JC-120 cab IR, following the Cornish board's 'possibly a JC-120'; the amp is the least certain part. Strat pre-EQ (humbucker -> single coil): use the in-between positions. The chorus is the DAW chorus on SW7 (1.0 Hz / 3 ms / 50 %, a CE-2 estimate). The echo is ON: 357 ms (a quarter-note triplet at 112 BPM, which sits with the shuffle; 1/4 = 536 ms), feedback 0.2, low mix, with a 480L Large Plate in the same block; all estimates. Can't match: the CS-2 compression (no compressor block; the DAW compressor stays bypassed), drop-D on one string, the synth-led mix. SW8 BOOST = TS9 clean push (not on the record). Levels: tone.csv out_db 9.8 dB puts it at -16.1 LUFS, peak -1.0 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.",
+  "voicing": "single-coil",
   "left": [
     {
       "role": "boost",
@@ -38,16 +39,7 @@
       "tone_id": 127,
       "model_id": 420123,
       "enabled": true,
-      "label": "Roland JC-120, channel 1 high input (DI)",
-      "eq": [
-        -3.0,
-        -2.5,
-        0.0,
-        1.5,
-        3.0,
-        2.0
-      ],
-      "eq_pre": true
+      "label": "Roland JC-120, channel 1 high input (DI)"
     },
     {
       "role": "cab",

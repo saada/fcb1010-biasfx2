@@ -137,8 +137,75 @@ presets as before; nothing in the JSON changes.
   DAW stages too.
 
 `eq` = 6 gains in dB for bands [lowshelf 100 Hz, bell 250, bell 650, bell 1600,
-bell 3500, highshelf 8 kHz]; `eq_pre: true` applies it before the model (e.g.
-humbucker → single-coil voicing `[-3, -2.5, 0, 1.5, 3, 2]`).
+bell 3500, highshelf 8 kHz]; `eq_pre: true` applies it before the model. A block has one EQ,
+either before or after its model. For a pickup voicing, use the preset's `voicing` (below), not
+a hand-written `eq_pre`.
+
+### Voicing, low B and tuning (the owner's JP70, experiments D29)
+
+The owner plays a Sterling by Music Man JP70 seven-string: two ceramic humbuckers (bridge about
+18 kΩ, neck about 10 kΩ, measured on two used JP70s; Sterling publishes no pickup specs), a
+3-way toggle with no coil split, B E A D G B E. `~/Music/fcb-rig/di-ref.wav` and
+`di-palm-b.wav` are this guitar.
+
+**`voicing`**: every preset names the pickup on its record, and the builder turns that name into
+pre-model EQ on the amp capture (`tone3000.VOICINGS`, gains per `eq` band):
+
+| voicing | for | curve (100 / 250 / 650 / 1.6k / 3.5k / 8k) |
+|---|---|---|
+| `humbucker` | PAF and hot humbuckers (no EQ) | 0 0 0 0 0 0 |
+| `single-coil` | Strat, Tele, Rickenbacker toasters | −2 −2 −1.5 0 +4 +4 |
+| `p90` | P-90 | −1.5 −1 0 +1 +1.5 −0.5 |
+| `filtertron` | Gretsch Filter'Tron | −2 −2 −1 +0.5 +4 +5 |
+| `piezo` | undersaddle piezo / acoustic | −6 −4 −1 +3 +6 +6 |
+
+- **Form:** `"voicing": "single-coil"` voices every chain; `{"left": "filtertron", "right":
+  "humbucker"}` voices each side of a dual rig (two guitarists).
+- **Where it sits:** on the `amp` block. `"voicing_block": "drive"` moves it to the slot-2 capture,
+  for a chain with no amp (the acoustic), or for an always-on fuzz in front of the amp (Voodoo
+  Child, Comfortably Numb), so that the fuzz hears the single coil. On Comfortably Numb, the same
+  curve on the Hiwatt after the Big Muff added 790 Hz of centroid. SW9 then switches the voicing
+  off with the pedal.
+- **Overrides:** a block that sets its own `eq_pre` keeps its curve (Bohemian Rhapsody's
+  out-of-phase Tri-Sonics).
+- **tone.csv:** its `eq_*` columns post-EQ the chain's end block. On a full-rig amp (the amp is
+  the end block) that carries a voicing, a `*`/`@tag` EQ offset skips that block, and a preset
+  cell is an error.
+- **Why these curves:** pickup physics. The coil's inductance and the cable's capacitance make a
+  resonant low-pass. The JP70 bridge (about 8 H, estimated from its 18 kΩ) peaks near 2 kHz; a
+  Strat or Tele (about 2 H) near 4 kHz; a Filter'Tron (1.4–1.8 H) near 5 kHz; a P-90 (about 6 H)
+  near 2.4 kHz. A humbucker's two coils also comb away some upper harmonics of the wound
+  strings. `experiments/pickup_voicing.py` computes the gap and fits it to the six bands; the
+  rig caps each band at ±6 dB, because the model's +15 dB or more above 5 kHz would only be fizz
+  and hiss after a 4x12. Each curve is loudness-balanced: on a clean preset through `di-ref.wav`
+  it moves the level by 0.5 dB or less (`experiments/voicing_check.py`). Re-level with `out_db`
+  after changing one anyway, because a fuzz or high-gain preset reacts to the drive.
+
+**`tight_db`** (tone.csv, add, −12…0 dB): extra cut on the amp's pre-model 100 Hz low shelf,
+on top of the voicing. It is meant to keep palm-muted B1/C#2 from booming into a gain amp
+against E2–A2, while open low chords keep their body. Only Maiden Heavy uses it (−6). D29
+measured it on 24 gain presets with `experiments/palm_boom.py` and `palm_lowb.py`:
+- At equal input (the synthetic sweep), B1/C#2 already come out 1.7–5.8 LU under E2–A2 on every
+  preset tested.
+- On the owner's palm take, the low notes are 2–3.5 LU louder because they were picked 4.6 dB
+  harder.
+- −6 dB cuts the fundamental's share by up to 4 dB, but on most high-gain captures it makes
+  the low notes slightly louder relative to E2–A2.
+
+Measure before you set it.
+
+**`pitch_st`** (tone.csv, set, semitones; empty or 0 = off): TONE3000's input pitch shifter
+(`pitchEnabled` + `pitchSemitones`). It adds 11–31 ms of latency, so it is opt-in and off by
+default. Presets whose record is a half step down carry the tag `eb`: Van Halen I, Van Halen
+1984 (Panama; Hot for Teacher is in standard), Sweet Child O' Mine, Eruption, Pride and Joy and
+Voodoo Child.
+- One preset at record pitch: put `-1` in its row's `pitch_st` cell.
+- All of them: put `-1` in the `@eb` row.
+- This Charming Man is tuned up a whole step (Marr: "tuned up to F#, fingered in G"), so its
+  opt-in is `2`.
+
+Shifting the B string down a semitone also shifts B1 to A#1. Tuning the guitar down instead
+costs no latency.
 
 ### Local files (packs outside the catalog)
 
@@ -173,6 +240,7 @@ non-numbers and out-of-range cells, and names the line, row and column.
 |---|---|---|
 | `out_db` | preset fader: added to each chain's end block (its cab, or its amp when the cab slot is empty) | add, and the preset cell adds too |
 | `in_db` | drive into every amp capture (`in_db` of the amp blocks, both chains) | add |
+| `tight_db` | low-B tightening: a cut on the amp captures' pre-model 100 Hz shelf, on top of the voicing (−12…0; "Voicing, low B and tuning") | add |
 | `boost_db` `drive_db` `amp_db` `cab_db` | `out_db` of slots 1–4, left/mono chain | add |
 | `r_amp_db` `r_cab_db` | `out_db` of R1, R2 | add |
 | `eq_100` `eq_250` `eq_650` `eq_1k6` `eq_3k5` `eq_8k` | the six `eq` bands (dB) of each chain's end block | add |
@@ -181,11 +249,12 @@ non-numbers and out-of-range cells, and names the line, row and column.
 | `amb_mix` | `mix` of the ambience IRs | set |
 | `gate_db` `gate_hold` `gate_release` `gate_range` | `gateThreshold` (beats `GLOBAL_PARAMS`), `gateHold`, `gateRelease`, `gateRange` | set |
 | `bass` `mid` `treble` | the TONE3000 tone stack, 0–10, 5 = flat | set |
+| `pitch_st` | opt-in retune in semitones (`pitchEnabled` + `pitchSemitones`); empty or 0 = off; adds 11–31 ms while on | set |
 
 A preset cell overrides its blocks on both chains. Where the two chains differ today (U2 and
 Radiohead echoes, Van Halen I ambience, the acoustic's cab EQ), `csv --init` left the cell empty
-and the JSON keeps the numbers; `*` and `@tag` offsets still reach both chains. Pre-model EQ
-voicings (`eq_pre`), `echo2`, reverb tails and `params` stay in the JSON.
+and the JSON keeps the numbers; `*` and `@tag` offsets still reach both chains. Pickup
+voicings (`voicing`, `eq_pre`), `echo2`, reverb tails and `params` stay in the JSON.
 `csv --init [--force]` regenerates the sheet from the JSONs. The bootstrap built all 19 presets
 byte for byte as before, also with every CSV-covered JSON field deleted.
 

@@ -23,6 +23,19 @@ the same way every time and nobody clicks.
 - Run Python with `uv run` (`uv run --project guitarmood` for the app), even where older docs
   say `python3`: uv resolves each script's inline dependencies.
 
+## The owner's guitar
+Every preset is voiced for one instrument: a Sterling JP70 seven-string, two hot ceramic
+humbuckers, a 3-way switch with no coil split, tuned B E A D G B E. The DI WAVs in
+`~/Music/fcb-rig/` are this guitar, so any bench result already includes it. rigs/README.md
+"Voicing, low B and tuning" has the curves, the columns and the evidence (experiments D29).
+- A song recorded on another pickup gets the matching `voicing` (`single-coil`, `p90`,
+  `filtertron`, `piezo`), because the JP70 alone can't sound like a Strat or a Gretsch.
+- Low-B tightening on a gain preset is tone.csv `tight_db`, set only where the palm bench shows
+  it helps. At equal input the gain presets don't boom on B1/C#2, and the owner's low notes come
+  out louder mainly because they are picked harder.
+- A record tuned off standard (`eb` tag) gets its retune as opt-in `pitch_st` only, because the
+  owner plays in standard and the pitch stage adds 11–31 ms.
+
 ## Fixed slots
 TONE3000 maps CCs to block positions, so slot order is fixed (rigs/README.md). A Program
 Change re-applies the preset's params after any CCs in the same burst (experiments D8): a
