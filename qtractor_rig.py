@@ -41,6 +41,7 @@ Tracks for recording: "Rig Print" (the processed stereo rig, fed back from bus
 
 import base64
 import html
+import math
 import os
 import re
 import shutil
@@ -253,9 +254,9 @@ def audio_bus(parent, name, mode, channels, ins=(), outs=(), plugins=(), panning
         connects(b, "output-connects", outs)
 
 
-def controller(parent, name, index, cc, mode):
+def controller(parent, name, index, cc, mode, channel=0):
     c = el(parent, "controller", name=name, index=index, type="CONTROLLER")
-    fields(c, channel=0, param=cc, logarithmic=0, feedback=0, invert=0,
+    fields(c, channel=channel, param=cc, logarithmic=0, feedback=0, invert=0,
            hook=int(mode == "hook"), latch=int(mode == "latch"))
 
 
@@ -353,16 +354,148 @@ def track(parent, name, kind, in_bus, out_bus, monitor=False, mute=False, midi_c
     return tr
 
 
-def rig_track(tracks, name, channel, head, chain):
+def rig_track(tracks, name, channel, head, chain, tails=None):
     tr = track(tracks, name, "midi", "FCB", "MIDI Out", monitor=True, midi_channel=channel)
     plugins = el(tr, "plugins")
     head(plugins)
     for spec in chain:
         spec[0](plugins) if callable(spec[0]) else plugin(plugins, *spec)
+        if spec[1] == "tone3000":  # its DAW tails right after it, where the blocks sat (D25)
+            for i, conv in enumerate((tails or {}).get(channel, {}).get("convolvers", [])):
+                tail_plugin(plugins, channel, i, conv)
     fields(plugins, audio_output_bus=0, audio_output_bus_name="Rig", audio_output_auto_connect=0)
 
 
-def session_xml():
+# DAW TAILS (experiments D25). TONE3000 computes each long IR's tail partition in one audio
+# callback every 8192 frames, and Qtractor runs every plugin in its one JACK thread, so long
+# reverbs and echoes are the rig's xrun bursts. tone3000.daw_tail_plan moves them out of the
+# presets; here every distinct stage becomes an x42 zeroconvolv (zita-convolver: only its first
+# 64-sample partitions run in the audio thread, the rest on its own SCHED_FIFO threads, on other
+# cores) right after the TONE3000 that lost it. Each convolver's Enable follows an absolute CC
+# on its instance's tail channel; rig.layout() sends a preset's values right after its Program
+# Change (tail_ccs), reading TAILS_MAP, which build() writes with the session. Enabled = the
+# block's wet/dry (mix baked into the kernel, dry = 1 - mix); disabled = dry 0 dB, wet off, so it
+# keeps convolving its input (no stale tail when it comes back) and costs its threads, not ours.
+ZEROCONVOLV = "http://gareus.org/oss/lv2/zeroconvolv#CfgStereo"
+ZC_IR_KEY, ATOM_PATH = "http://gareus.org/oss/lv2/zeroconvolv#ir", "http://lv2plug.in/ns/ext/atom#Path"
+TAILS_DIR = SESSION_DIR / "tails"
+ZC_BUFFERED = int(os.environ.get("T3K_ZC_BUFFERED", 0))  # 1 = +64 samples per convolver (D25 live test)
+TAIL_SWITCH = os.environ.get("T3K_TAIL_SWITCH", "activate")  # or "enable" (tail_plugin)
+TAILS_MAP = TAILS_DIR / "tails.json"
+TAIL_CHANNELS = {0: 8, 1: 9, 2: 10}  # TONE3000 on MIDI ch 1/2/3 -> its tail switches on ch 9/10/11
+T3K_CHANNEL = {"heavy": 0, "clean": 1, "acoustic": 1, "harmony": 2}  # instance of each scene kind
+
+
+def float_wav(channels, rate=48000):
+    """Stereo 32-bit float WAV (zeroconvolv: channel 1 -> left, 2 -> right, no cross-feed)."""
+    n = max(len(c) for c in channels)
+    frames = [[c[i] if i < len(c) else 0.0 for c in channels] for i in range(n)]
+    data = struct.pack(f"<{n * len(channels)}f", *[v for f in frames for v in f])
+    fmt = struct.pack("<HHIIHH", 3, len(channels), rate, rate * 4 * len(channels), 4 * len(channels), 32)
+    return (b"RIFF" + struct.pack("<I", 4 + 8 + len(fmt) + 8 + len(data)) + b"WAVE" + b"fmt "
+            + struct.pack("<I", len(fmt)) + fmt + b"data" + struct.pack("<I", len(data)) + data)
+
+
+def build_tails(write=True):
+    """{channel: {"convolvers": [{key, file, mix, labels, seconds, enabled}], "pcs": {pc: [index]}}}
+    for every TONE3000 instance, from tone3000.build_preset_and_tails over rigs/. One convolver per
+    distinct (stage position, kernel, mix): presets that share a reverb share its convolver.
+    `enabled` = used by the preset the instance starts on (qtractor_rig.tone3000_state)."""
+    import hashlib
+    import json
+    convs, pcs = {}, {}
+    rigs = t3k.load_rigs()
+    starts = {T3K_CHANNEL[s]: next((r["pc"] for r in rigs if r.get("scene") == s), None)
+              for s in ("heavy", "clean", "harmony")}
+    for rig in rigs:
+        ch = T3K_CHANNEL.get(rig.get("scene"), 0)
+        _, stages = t3k.build_preset_and_tails(rig)
+        for pos, st in enumerate(stages):
+            wav = float_wav(st["irs"])
+            key = f"{pos}-{hashlib.sha1(wav).hexdigest()[:16]}-{st['mix']:g}"
+            path = TAILS_DIR / f"{key}.wav"
+            if key not in convs.setdefault(ch, {}):
+                if write:
+                    TAILS_DIR.mkdir(parents=True, exist_ok=True)
+                    if not path.exists():
+                        path.write_bytes(wav)
+                convs[ch][key] = {"key": key, "file": str(path), "mix": st["mix"], "labels": st["labels"],
+                                  "seconds": round(max(len(h) for h in st["irs"]) / 48000, 2)}
+            pcs.setdefault(ch, {}).setdefault(rig["pc"], []).append(key)
+    out = {}
+    for ch, by_key in convs.items():
+        order = sorted(by_key, key=lambda k: int(k.split("-")[0]))  # stable: series order = stage order
+        idx = {pc: [order.index(k) for k in keys] for pc, keys in pcs[ch].items()}
+        start = set(idx.get(starts.get(ch), []))
+        out[ch] = {"convolvers": [dict(by_key[k], enabled=i in start) for i, k in enumerate(order)], "pcs": idx}
+    if write:
+        TAILS_DIR.mkdir(parents=True, exist_ok=True)
+        TAILS_MAP.write_text(json.dumps({str(k): v for k, v in out.items()}, indent=1))
+    return out
+
+
+def check_presets_match_tails():
+    """The DAW convolves what tone3000.build took out of the presets. A preset library built
+    before D25 still holds those blocks, and every moved reverb would play twice."""
+    count = lambda node: sum(1 for chain in node.child("ChainSnapshot").children for b in chain.children
+                             if b.get("type") == "ir")
+    stale = []
+    for rig in t3k.load_rigs():
+        path = t3k.PRESETS / f"{t3k.preset_id(rig['name'])}.t3kpreset"
+        if path.exists() and count(t3k.load_t3kb(path.read_bytes())) != count(t3k.build_preset(rig)):
+            stale.append(rig["name"])
+    if stale:
+        sys.exit(f"TONE3000 presets don't match the DAW tails ({', '.join(stale[:4])}): "
+                 "run `uv run tone3000.py build` first, then this build.")
+
+
+def tail_plugin(parent, channel, index, conv):
+    """One zeroconvolv stage, switched by CC `index` (latch) on this instance's tail channel.
+    TAIL_SWITCH "activate" (default): the CC bypasses the plugin, so only the loaded preset's
+    convolvers run at all; "enable": every convolver always runs and the CC flips its Enable
+    port (dry 0 dB, wet off). D25 live: with 9 convolvers always running, their audio-thread
+    share (the 64-sample head partitions) cost more than TONE3000's own bursts."""
+    on = bool(conv.get("enabled", False))
+    bypass = TAIL_SWITCH == "activate"
+    p = el(parent, "plugin", type="LV2")
+    fields(p, filename=ZEROCONVOLV, index=0, label=f"Tail {index + 1}: {conv['labels'][0]}"[:60],
+           activated=int(on or not bypass))
+    el(el(p, "configs"), "config", conv["file"], key=ZC_IR_KEY, type=ATOM_PATH)
+    ps = el(p, "params")
+    dry = round(20 * math.log10(max(1e-6, 1 - conv["mix"])), 3) if conv["mix"] < 1 else -60.0
+    for index_, name, value in ((2, "Buffered/Latent Convolution", ZC_BUFFERED), (3, "Dry Signal Level", dry),
+                                (4, "Wet Signal Level", 0.0), (5, "Enable", int(on or bypass))):
+        el(ps, "param", value, index=index_, name=name)
+    if bypass:
+        fields(p, activate_subject_index=ACTIVATE_INDEX)
+        controller(el(p, "controllers"), "Activate", ACTIVATE_INDEX, index, "latch", channel=TAIL_CHANNELS[channel])
+    else:
+        controller(el(p, "controllers"), "Enable", 5, index, "latch", channel=TAIL_CHANNELS[channel])
+
+
+def load_tail_map():
+    """TAILS_MAP as {channel: instance}, or {} before the first build (no tails in the session)."""
+    import json
+    try:
+        return {int(k): v for k, v in json.loads(TAILS_MAP.read_text()).items()}
+    except (OSError, ValueError):
+        return {}
+
+
+def tail_ccs(channel, pc, tails=None):
+    """The absolute CCs that switch instance `channel`'s DAW tails to preset `pc` (all of them:
+    off unless the preset uses it). [] when that instance has none. Reads TAILS_MAP."""
+    if tails is None:
+        tails = load_tail_map()
+    inst = tails.get(channel)
+    if not inst or channel not in TAIL_CHANNELS:
+        return []
+    on = set(inst["pcs"].get(pc, inst["pcs"].get(str(pc), [])))
+    return [("cc", TAIL_CHANNELS[channel], i, 127 if i in on else 0) for i in range(len(inst["convolvers"]))]
+
+
+def session_xml(tails=None):
+    tails = build_tails(write=False) if tails is None else tails
     root = ET.Element("session", name="rig", version="Qtractor 1.6.4")
     fields(el(root, "properties"), directory=SESSION_DIR, description="FCB1010 + TONE3000 rig (generated by qtractor_rig.py)",
            tempo=120, ticks_per_beat=960, beats_per_bar=4, beat_divisor=2)
@@ -392,14 +525,14 @@ def session_xml():
         # Insert stayed silent (experiments D13).
         insert(ps, "Tuner Mute", [], send=1, wet=0, active=False, activate_cc=CC_TUNER_MUTE),  # latch, like the Selector
         insert(ps, "Selector", [], send=1, wet=0, active=False, activate_cc=t3k.SCENE_SELECT_CC),
-        insert(ps, "Harmony Tap", [], send=1, dry=1, wet=0)), HEAVY_CHAIN)  # passes on + sends the DI
+        insert(ps, "Harmony Tap", [], send=1, dry=1, wet=0)), HEAVY_CHAIN, tails)  # passes on + sends the DI
     # Harmony (PC ch 3: the bank's light partner-side preset): SW7 opens its input; silent otherwise.
     rig_track(tracks, "Harmony", 2, lambda ps: insert(
         ps, "Harmony In", [("Qtractor", "Harmony Tap/out_1"), ("Qtractor", "Harmony Tap/out_2")],
-        active=False, activate_cc=CC_HARMONY, activate_mode="toggle"), HARMONY_CHAIN)
+        active=False, activate_cc=CC_HARMONY, activate_mode="toggle"), HARMONY_CHAIN, tails)
     # Clean (PC ch 2): hears the guitar only through the Selector's send.
     rig_track(tracks, "Clean", 1, lambda ps: insert(
-        ps, "Clean In", [("Qtractor", "Selector/out_1"), ("Qtractor", "Selector/out_2")]), CLEAN_CHAIN)
+        ps, "Clean In", [("Qtractor", "Selector/out_1"), ("Qtractor", "Selector/out_2")]), CLEAN_CHAIN, tails)
     # Armed but not monitored: silent until the transport records (MMC or the GUI).
     for name, in_bus, mute, armed in [("Rig Print", "Rig Print", False, True), ("DI", "Guitar In", True, True),
                                       ("Backing", "Rig Print", False, False)]:
@@ -447,7 +580,9 @@ def build():
     if pid():
         sys.exit("Qtractor is running — `qtractor_rig.py down` first (it rewrites its config).")
     SESSION_DIR.mkdir(parents=True, exist_ok=True)
-    SESSION.write_text(session_xml())
+    tails = build_tails()
+    check_presets_match_tails()
+    SESSION.write_text(session_xml(tails))
     patch_conf()
     print(f"wrote {SESSION} and patched {QTRACTOR_CONF}")
 

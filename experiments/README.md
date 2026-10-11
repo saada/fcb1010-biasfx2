@@ -840,3 +840,210 @@ limiter), made by `palm_boom.py`.
   Not done live: the owner was playing. The synthetic palm mute is a model (additive partials).
   Its absolute spread across the sweep (low notes quieter at equal peak) is a property of the
   model, so only neighbour-relative bumps and the owner's DI are read as outliers.
+
+## D25 — "Clips, but the CPU isn't busy": one realtime thread, and TONE3000's reverb bursts
+
+*Data:* `callback-cost.csv` (offline, per callback), `xrun-bench.csv` (live bench, per preset).
+*Tools:* `experiments/callback_cost.py`, `experiments/xrun_bench.py`.
+
+- **Symptom (owner):** the acoustic preset crackles, "because of those reverbs I think", and the
+  rig feels sluggish without using all the CPU. Are we not spreading the work across cores?
+- **Hypothesis:** yes. All of the realtime work runs in one thread. Long IRs in TONE3000 make
+  that thread's load bursty, and the bursts, not the average, miss the 5.33 ms deadline.
+- **Where the realtime work runs (sources):**
+  - **Qtractor 1.6.4:** one JACK client and one process callback.
+    - Tracks, buses and plugin chains run one after another (`qtractorAudioEngine::process`,
+      `qtractorSession::process`, `qtractorPluginList::process`: "in order, of course").
+    - Its CLAP thread-pool host call is a stub that returns false, so a plugin's pool jobs
+      run serially.
+    - The LV2 worker is one non-RT thread, used only for non-DSP jobs.
+  - **TONE3000 0.0.12 (MIT, tag v0.0.12, ab5e5ae):** NAM and IR convolution run in the
+    host's callback.
+    - "Multi-core" (`multiCore` in `~/.config/TONE3000/preferences.settings`, default on)
+      only forks a split rig's right lane, oversampled NAM phases and dual-mono voices to
+      its `RtWorkerPool`. A mono, 1× rig gets no parallelism from it.
+    - Every IR over 1.0 s (`kShortIrMaxSeconds`) uses JUCE `Convolution::NonUniform{8192}`.
+      Its 8192-frame tail partition (FFT 16384) is computed inside one callback every 8192
+      frames, which is every 32nd quantum at 256. JUCE's background thread only installs IRs.
+    - A bypassed block is skipped. An enabled block with mix 0 still convolves.
+  - **PipeWire 1.6.8:** `context.num-data-loops` is the default 1 in the daemon. Each JACK
+    client has its own RT thread, and the driver wakes independent clients through their own
+    eventfds, so separate clients would run on separate cores in the same cycle. But the rig
+    is one client.
+- **Live, before (thread evidence):** the bench rig at quantum 256 with the DI
+  `di-palm-b.wav` injected and the speakers unlinked. The owner wasn't playing (no Qtractor,
+  no GuitarMood running). 14 runs of 20 s.
+  - Qtractor's JACK thread (`data-loop.0`, SCHED_FIFO 83) used 34–57 % of one core:
+    **1.8–3.1 ms of each 5.33 ms quantum on average**, with B/Q peaks of 0.71–0.85.
+  - Only 2–3 Qtractor threads ever passed 5 % (the RT thread and one TONE3000 DSP worker).
+    The whole process used 53–73 % of one core, so about 11 of 12 cores idled.
+  - Xruns: 108 in 280 s, spread across the 80s cleans (This Charming Man 15/min, Hysteria
+    Clean 72/min with its delay toggled) and 3/min on the Maiden scenes.
+- **Offline, per callback (the realtime proxy):** the real VST3 hosted as in rigsim, the DI fed
+  one 256-frame block per `process()` call, 8 s per preset, every call timed.
+
+| Preset (rigs at) | as-is p50 / p99 / max ms | worst bursts | DAW tails p50 / p99 / max ms |
+|---|---|---|---|
+| Maiden Acoustic (main) | 1.23 / **3.80** / **4.70** (88 % of 5.33) | 3.9 ms every 32 blocks | 0.62 / 1.29 / 1.43 |
+| Maiden Clean (main) | 0.60 / 2.67 / 4.03 | 2.1 ms every 32 | 0.43 / 0.59 / 0.99 |
+| Maiden Heavy (main) | 0.75 / 2.33 / 2.71 | 2.4 ms every 32 | 0.45 / 0.64 / 2.13 (one) |
+| Every Breath You Take | 0.44 / 1.24 / 1.53 | | 0.30 / 0.69 / 0.98 |
+| This Charming Man | 0.40 / 1.36 / 1.90 | 1.3 ms every 32 | 0.34 / 0.48 / 2.08 (one) |
+| Is This Love / Rule the World / Hysteria Clean | 0.33–0.49 / 1.18–1.38 / 1.28–1.87 | 1.2–1.6 ms every 32 | unchanged (their delay is footswitched, so it stays) |
+| Maiden Harmony | 0.32 / 0.50 / 0.72 | none | same |
+| Maiden Acoustic (PR #7) | 0.82 / 1.36 / 1.53 | **none** (every IR ≤ 1.0 s) | 0.80 / 1.19 / 1.49 |
+| Maiden Clean (PR #7) | 0.53 / **2.06** / **3.47** | 2.1 ms every 32 | 0.31 / 0.45 / 0.79 |
+
+  The three TONE3000s run in series in Qtractor's one thread. In the acoustic scene the p99s
+  add up to 2.33 + 3.80 + 0.50 = **6.6 ms** whenever their bursts land in the same cycle. A
+  scene's PCs load all three instances in the same burst, so their 8192-frame phases start
+  together. With DAW tails the same sum is 0.64 + 1.29 + 0.62 = 2.6 ms.
+  - With the echo off, the acoustic's long hall IR is bypassed. The no-long-IR variant
+    reads p99 1.17 / max 1.91 ms (first table run).
+- **Fix: DAW tails** (`tone3000.daw_tail_plan`, `qtractor_rig.build_tails`; the rules are in
+  rigs/README.md).
+  - A qualifying long echo/reverb/ambience block leaves the TONE3000 preset; its slot becomes
+    an empty insert. The block qualifies when it comes after the lane's last amp, has a kernel
+    over 1.0 s after TONE3000's trim, has no EQ or gain, and no footswitch toggles it.
+  - It is convolved right after that TONE3000 by x42 zeroconvolv (zita-convolver). Only the
+    first 64-sample partitions run in Qtractor's thread; the later partitions run on
+    zeroconvolv's own SCHED_FIFO threads (4 per convolver, prio 43–49, seen in `ps -L`).
+  - The kernel is what TONE3000 would convolve: JUCE's −80 dB trim, then unit-energy
+    normalisation (attenuation only), times the mix. The dry level is 1 − mix.
+  - Each preset's PC brings absolute CCs on MIDI ch 9/10/11 that switch its instance's
+    convolvers (`rig.py layout`).
+  - Moved today: 9 convolvers.
+    - Heavy instance: Maiden Heavy's room; the Pyromania/Hysteria plates; the
+      Comfortably Numb / Purple Rain EMT plates; Every Breath; This Charming Man's spring.
+    - Clean instance: Maiden Clean's delay+reverb and hall; the Acoustic's hall.
+- **Offline equivalence (rigsim, which now renders the DAW stages):**
+  - Presets with no wobble null against the old render at **−117 / −119 dB** (Every Breath,
+    This Charming Man). The sim's own run-to-run floor is −123 / −129 dB.
+  - Presets with spread/align wobble can't null because the wobble is random per run. As-is
+    against as-is gives −8 … +0.8 dB, and as-is against DAW tails is the same size (−9 … +0.9).
+  - LUFS within 0.1 dB, bands within 0.2 dB and centroid within 6 Hz on all 9 changed presets
+    (exact window, di-ref).
+- **Live, after (same bench and order, with the tails in the DAW):**
+  - **First try:** convolvers always running and switched by their Enable port.
+    **2271 xruns/min**, B/Q 0.99. Nine zeroconvolvs each do their 64-sample head partitions
+    in the RT thread on every callback, even when disabled. That's worse than TONE3000's
+    bursts.
+  - **Second try:** the same with `buffered` = 1. 44 and 12 xruns/min on the acoustic.
+  - **Kept:** the CC *bypasses* the convolver (Qtractor skips it), so only the loaded preset's
+    1–2 convolvers run. Result: **3 xruns in 280 s** (one run: Every Breath, delay off),
+    against 108 before.
+    - The RT thread used 34–51 % of a core (1.8–2.7 ms), against 34–57 % before.
+    - B/Q max fell to 0.43–0.69, from 0.45–0.85; the median rose 0.0–0.1 on the Maiden
+      scenes (the zita head is steady work).
+- **Caveats:**
+  - The before run drifted: its RT share rose over the 6 minutes. Presets whose DSP didn't
+    change (Is This Love, Rule the World, Hysteria Clean) also improved. So part of
+    108 → 3 is run order or thermal, not the fix. Needed: an interleaved A/B repeat.
+  - The bench's "delay off" for the clean instance flips TONE3000 slot 5, which is now an
+    empty insert. The moved acoustic hall stays on, as no footswitch reaches it.
+  - A bypassed zeroconvolv keeps its last state. On re-enable, up to one tail (≤2.5 s) of
+    the old input can ring out once. Not heard yet. A PC itself mutes TONE3000 for 60–170 ms
+    (D5), which hides most of it.
+- **Conclusions:**
+  - The owner's diagnosis is right. One thread (Qtractor's JACK callback) does all the DSP,
+    and TONE3000's long IRs make it burst every 8192 frames. Over 11 cores idle.
+  - PR #7's shorter acoustic tails alone remove the acoustic's bursts (offline).
+  - PR #7's clean (1.6 s plate + 1.4 s room) still bursts: p99 2.1, max 3.5 ms on its own.
+    DAW tails take it to p99 0.45 ms.
+  - Not yet moved: the footswitched song delays (80s SW9, Maiden SW8/SW9). Moving them needs
+    the router to hold each preset's echo on/off state, or their IRs kept at ≤ 1.0 s.
+- **Side finding (sound, not engine):** JUCE's `Trim::yes` drops leading samples under
+  −80 dBFS. A generated echo IR *without* a reverb starts with one delay time of exact zeros
+  (375 ms → 18000 samples). So in TONE3000 its first repeat lands on the dry note, not 375 ms
+  later. Echoes with a summed reverb start at 0 and are unaffected. Handed to whoever owns
+  the presets.
+
+- **Interleaved A/B (2026-10-11, coordinator).** Data: `experiments/xrun-bench-ab.csv`. Each case ran 15 s on the owner's palm-mute DI (after-5 used the bench DI), with the rig otherwise idle. Run order: after-1, after-2, before-1, after-3, before-2, after-4, after-5. Xruns summed over all 14 cases of each run:
+
+  | before-1 | before-2 | after-1 | after-2 | after-3 | after-4 | after-5 |
+  |---|---|---|---|---|---|---|
+  | 0 | 41 (37 of them on Maiden Acoustic, delay on) | 0 | 0 | 1407 | 0 | 2 |
+
+  - **The after-3 outlier.** It overran (B/Q > 1) on five consecutive presets that read 0 in every other after-run. It did not come back in after-4 or after-5 (load average about 2, 22 graph nodes), so I treat it as an outside event rather than a fault in the fix.
+  - **Live xruns are bursty at this run length.** Maiden Acoustic went from 0 to 37 between the two before-runs. The offline callback timing above remains the deterministic evidence.
+
+## D26 — TONE3000 trims leading silence: delay-only echoes played their first repeat on the dry note
+
+*Data:* `echo-trim.csv` (every echo block, before/after), `echo-trim-rest.csv` (presets as loaded).
+*Tool:* `experiments/echo_onset.py`.
+
+- **Question:** D25's side finding. Does TONE3000 really drop a generated echo's delay, which
+  echoes, and can the IR itself survive the loader without changing the sound?
+- **The trim rule (sources):**
+  - TONE3000 v0.0.12 loads every IR with `Convolution::Trim::yes, Normalise::no`
+    (`plugin/src/ProcessorModelLoader.cpp:1039-1051`).
+  - JUCE 9.0.3 `juce_dsp/frequency/juce_Convolution.cpp`, `trimImpulseResponse` (l. 571-619):
+    the threshold is **absolute**, `Decibels::decibelsToGain (-80.0f)` = 1e-4 (l. 573), not
+    relative to the peak. A sample counts when `std::abs (sample) >= thresholdTrim` (l. 587);
+    leading and trailing runs are cut at the earliest crossing over all channels.
+  - It runs in `ConvolutionEngineFactory::setImpulseResponse` (l. 771) on the file's samples,
+    before resampling and before any normalisation.
+  - TONE3000's unit-energy gain (`computeIrNormalizationGain`, l. 324) reads the whole,
+    untrimmed file. The short/long verdict (−18 dB wet pad at ≤ 1.0 s) uses the trimmed length.
+- **Hypothesis:** `analog_echo` without a `reverb` writes its first repeat at sample
+  `delay_ms`, after exact zeros, so the trim removes the whole delay. One sample at index 0 just
+  over −80 dBFS keeps the lead-in and can't be heard.
+- **Which echoes:** 24 of the 38 echo blocks have no reverb. They span 16 presets: Van Halen I and
+  1984, Pyromania, Hysteria, Comfortably Numb, Radiohead (3), Nirvana, Djent, Purple Rain, the four
+  Satan presets, Stormblade, Every Breath and This Charming Man.
+  - All are footswitched (the variety LEAD and 80s SW9 DELAY), so they stay in TONE3000 under
+    D25, except Radiohead's always-on R3 wash. D25 didn't move that one either.
+  - The other 14 sum a reverb from sample 0, and the trim takes only 2 samples (0.04 ms). That
+    includes **Maiden Heavy's "Evil" (375 ms) and "Madness" (415 ms)** on SW8/SW9, so they were
+    never affected.
+- **Method (offline, rigsim, real TONE3000 VST3):**
+  - The DI is one synthetic muted pluck (A, 110 Hz, −3 dBFS) at 1.0 s.
+  - Each echo block is rendered in its lane alone, at mix 1, with the other echoes off and the
+    DAW tails off, so the IR goes through TONE3000's own loader. The same lane is also rendered
+    with the echo off.
+  - The **first repeat** is the peak of the kernel that maps the echo-off render onto the wet
+    one (regularised deconvolution). That peak is the first repeat because it has unit gain,
+    feedback is under 1, and any reverb sits at least 6 dB under it.
+  - Loudness: each preset with that echo's footswitch on (real mix, DAW tails as built), and
+    each preset as loaded, both on the bench DI (`di-ref.wav`, exact window).
+- **Result, first repeat (ms after the dry note):**
+
+| Echo | delay_ms | before | after |
+|---|---|---|---|
+| 24 delay-only blocks (16 presets) | 300-550 | **0.02-0.29** | delay_ms **+0.02 … +0.50** |
+| Maiden Heavy "Evil" L/R | 375 | 375.00 | 375.00 |
+| Maiden Heavy "Madness" L/R | 415 | 415.00 | 415.00 |
+| U2 Streets / Is This Love / Rule the World / Hysteria Clean | 531, 357 / 489 / 357 / 421 | on time | on time, IR byte-identical |
+
+  The small positive offset is the BBD low-pass's group delay. Every block is inside ±2 ms (the
+  largest is Purple Rain's 300.31, 300.50 on a repeat run, with its 2.8 kHz cutoff). A second
+  full after-run matched the first within 0.3 ms and 0.03 LUFS. Maiden Clean's and the
+  Acoustic's hall is louder than its repeat, so their kernel peak is the reverb (142.6 /
+  131-144 ms). Their IRs are byte-identical too.
+- **Fix:** `analog_echo` sets sample 0 of a delay-only IR to `ECHO_TRIM_GUARD` = −79 dBFS.
+  - In 24-bit that's code 941, which reads back as 1.1218e-4 (≥ 1e-4).
+  - It's **78.1 dB under the first repeat's peak** (−0.9 dBFS) and adds 1.3e-8 to the file's
+    energy, so TONE3000's normalisation gain is unchanged.
+  - Echoes with a reverb are untouched: their sha1s match.
+  - Trimmed lengths were already 1.28-3.85 s, so no echo crosses TONE3000's 1.0 s cab/reverb
+    line: no pad change.
+  - `tone3000_ir`, the DAW-tail kernel, applies the same trim, so a delay-only echo moved to
+    the DAW later keeps its delay too (`daw_first_ms` in the CSV).
+  - rigsim's block and result caches now key on the guard.
+- **Result, loudness:**
+  - **As loaded**, 22 of 23 presets with an echo are within 0.03 dB (IRs identical or the
+    echo off at rest). Radiohead lost 1.62 dB (R −2.1, L −0.3). Its always-on 440 ms wash had
+    summed its first repeat onto every note.
+    - Re-levelled in tone.csv: `r_amp_db` −10.3 → −8.2. Now −14.03 LUFS against −13.97, with L
+      and R within 0.08 dB of before.
+  - **With a delay footswitched on**, the 16 presets now read 1.6-2.5 dB quieter (for example,
+    Van Halen I −12.81 → −14.84, This Charming Man −14.02 → −15.74).
+    - The old number included the first repeat landing coherently on the dry note, which the
+      BBD pulse's low-frequency gain made loud.
+    - The delay-on states now sit 0.5-0.9 dB under the −14 LUFS rest level. That's the intended
+      balance, so they're not re-levelled.
+- **Not measured:** the live rig (the owner's instrument; offline only). Rendering CC moves after
+  a preset loads isn't simulated, so the footswitched states were built by enabling the blocks.
+- **Conclusion:** the trim is absolute at −80 dBFS on raw file samples. One −79 dBFS sample at
+  the start of a delay-only echo IR restores every delay to within 0.5 ms of `delay_ms`, with
+  nothing audible added.
