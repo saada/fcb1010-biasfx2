@@ -1080,3 +1080,33 @@ limiter), made by `palm_boom.py`.
 - **Conclusion:** the trim is absolute at −80 dBFS on raw file samples. One −79 dBFS sample at
   the start of a delay-only echo IR restores every delay to within 0.5 ms of `delay_ms`, with
   nothing audible added.
+
+## D27 — Bank 5 (80s Leads) levels, and an amp for an undocumented solo
+
+*Data:* `80s-leads-levels.csv` (rigsim `--exact`, after the trims).
+
+- **Question:** what `out_db` puts the five lead presets (PC 23-27) at the heavies' -14 LUFS, does
+  SW8 BOOST jump the level, and which Fender Twin capture stands in for Neal Schon's undocumented
+  Escape amp on the Who's Crying Now outro solo?
+- **Hypothesis:** captures carry loudness metadata, so trims stay under ~6 dB; a TS9 clean push
+  (D0 L10) changes level by about 1 dB but lowers the crest (more compression).
+- **Method:** `uv run rigsim.py @80s-leads --exact --before none` (D19's DI bench, offline),
+  untrimmed, then with tone.csv `out_db` trims. The same with a `--sheet` that flips every
+  preset's `boost_on`. For Who's Crying Now, six 1971 Twin captures and mics rendered side by side
+  (temporary rigs/9x files, deleted).
+- **Result, untrimmed:** -15.5 (Puppets) to -20.3 LUFS (Crazy Train). Trims +3.9, +3.2, +6.3,
+  +1.5, +2.5 dB. **Trimmed:** -13.95 to -14.02 LUFS, peaks -2.7 to -6.5 dBFS.
+- **SW8:** toggling the boost moves the level -1.4 (Who's Crying Now, on at load, so pressing it
+  turns it off) to +0.9 dB (Crazy Train). No jumps. Who's Crying Now's crest falls from 15.0 to
+  13.0 dB with the push, which is why the boost is on at load for that solo.
+- **Twin pick:** the 1971 Twin `6106` captures all sit dark into the Twin's own Oxford 12T6
+  speakers (2-5 kHz -11 to -17 dB of band energy, vs -4 to -8 for the Marshall presets): the
+  cap-edge SM57 (`55642`) is the brightest of three SM57 positions and the C414 cone is darkest.
+  A JBL D120 Twin IR (`33532`) changed the 2-5 kHz band by under 3 dB, so the darkness is the
+  cranked amp's (V10, Treble 7), not the IR. Cranked Norm (`419003`, V10) + TS9 was kept: the
+  plain amp turned all the way up, with a pedal in front. "Driven" (V8, crest 12.5 dB) and
+  "V1 pulled" (crest 12.2 dB) saturate about as much, but V1-pulled is a mod nobody ties to
+  Schon, and the source says only "a Fender Twin". Not compared by ear.
+- **Not measured:** live, on the rig (the owner may be playing; the coordinator builds after
+  merge), and by ear. The DAW chorus (SW7) isn't simulated. The dual presets (Puppets, Eruption)
+  read about 3 dB louder on the right, as every dual preset in the rig does on this bench.

@@ -653,7 +653,7 @@ FIELD_DEFAULTS = {"out_db": 0.0, "in_db": 0.0, "enabled": True, "mix": 1.0, "del
 TAG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
 # `csv --init`'s first guess at the song presets' tags (FCB bank name, gain character); scene
 # presets get theirs from `bank`, `scene` and name, split rigs get "stereo". Tags then live in tone.csv.
-BANK_TAGS = {0: "maiden", 1: "80s", 2: "80s-clean", 3: "variety", 4: "modern"}  # = rig.py BANK_NAMES
+BANK_TAGS = {0: "maiden", 1: "80s", 2: "80s-clean", 3: "variety", 4: "modern", 5: "80s-leads"}  # = rig.py BANK_NAMES
 SONG_TAGS = {
     "03-van-halen-1": "80s crunch", "04-van-halen-1984": "80s crunch",
     "05-def-leppard-pyromania": "80s crunch", "06-def-leppard-hysteria": "80s crunch",
@@ -1690,7 +1690,7 @@ def cli_docs(args):
         if r.get("sources"):
             out += ["", "*Sources:* " + " · ".join(f"<{u}>" for u in r["sources"])]
     out += ["", "## Footswitches", "", "| FCB1010 | CC | TONE3000 |", "|---|---|---|",
-            "| SW1–5 (song banks 01–04) | PC | presets above |",
+            "| SW1–5 (song banks 01–05) | PC | presets above |",
             "| SW6 | 20 | wah (DAW) / noise gate (standalone) |", "| SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |",
             "| SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |", "| SW9 | 23 | slot 2: drive |",
             "| SW10 | 28 | TUNER: mutes the rig and opens the tuner (DAW helper) |",

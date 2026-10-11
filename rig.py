@@ -38,11 +38,12 @@ HARMONY_CHANNEL = 2  # PC 3 -> the DAW's harmony TONE3000 on MIDI channel 3
 WAH_SWEEP_CC = 27
 VOLUME_CC = 7
 
-# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-4 are song
+# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-5 are song
 # banks: one preset per switch.
 SONGS = [
     # (bank, switch, PC number, name). PCs follow the rigs/ files, not the banks: bank 2 (80s
-    # CLEAN) was inserted after the 80s bank, so it is one UP away, with PCs 18-22.
+    # CLEAN) was inserted after the 80s bank, so it is one UP away, with PCs 18-22. Bank 5 (80s
+    # LEADS) came last, with the next free PCs, 23-27 (the generated Maiden Harmony moved to 28).
     (1, 1, 3, "Van Halen I"),
     (1, 2, 4, "Van Halen 1984"),
     (1, 3, 5, "Def Leppard Pyromania"),
@@ -63,8 +64,13 @@ SONGS = [
     (4, 3, 15, "Satan 50 Low Tuned"),
     (4, 4, 16, "Satan 50 Lead"),
     (4, 5, 17, "Stormblade"),
+    (5, 1, 23, "Who's Crying Now"),
+    (5, 2, 24, "Sweet Child O' Mine"),
+    (5, 3, 25, "Crazy Train"),
+    (5, 4, 26, "Master of Puppets"),
+    (5, 5, 27, "Eruption"),
 ]
-BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern"}
+BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern", 5: "80s Leads"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
@@ -110,14 +116,14 @@ SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the tw
 ]
 
 
-EIGHTIES_TOGGLES = [  # banks 1-2: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
+EIGHTIES_TOGGLES = [  # banks 1, 2 and 5: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
     (6, 20, "Wah on/off"),
     (7, CHORUS_CC, "Chorus (stereo, the song's rate/depth/mix)"),
     (8, 22, "Boost"),
     (9, 24, "Delay (the song's echo)"),
     (10, 28, "Tuner (mutes the rig)"),
 ]
-BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES}
+BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES, 5: EIGHTIES_TOGGLES}
 
 
 def toggles(bank):

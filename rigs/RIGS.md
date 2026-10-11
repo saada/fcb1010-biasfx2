@@ -28,7 +28,12 @@ Every capture links to its TONE3000 page (free download).
 | 20 | [Every Breath You Take](#every-breath-you-take) | Every Breath You Take: The Police, Synchronicity (1983, AIR Montserrat, prod. Hugh Padgham and the Police), ~117 BPM, C#/Db major |
 | 21 | [Hysteria Clean](#hysteria-clean) | Hysteria (title track): Def Leppard, Hysteria (1987, prod. Mutt Lange), ~107 BPM: the clean jangle of the verses, pre-chorus and bridge |
 | 22 | [This Charming Man](#this-charming-man) | This Charming Man: The Smiths (single, Oct 1983, Strawberry Studios, Stockport, prod. John Porter), ~104 BPM: Johnny Marr's bright, ringing single-note and thirds riff |
-| 23 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
+| 23 | [Who's Crying Now](#whos-crying-now) | Who's Crying Now, outro solo (quarter = 120 BPM, A minor): Journey, Escape (1981, Fantasy Studios, Berkeley, April-June 1981; prod. Kevin Elson and Mike Stone; Neal Schon) |
+| 24 | [Sweet Child O' Mine](#sweet-child-o-mine) | Sweet Child O' Mine (125 BPM) / Welcome to the Jungle (123 BPM): Guns N' Roses, Appetite for Destruction (1987, prod. Mike Clink; Rumbo, Take One, Can Am) |
+| 25 | [Crazy Train](#crazy-train) | Crazy Train (138 BPM): Ozzy Osbourne, Blizzard of Ozz (1980, Ridge Farm; Randy Rhoads, eng. Max Norman) |
+| 26 | [Master of Puppets](#master-of-puppets) | Master of Puppets (~212 BPM): Metallica, Master of Puppets (1986, Sweet Silence, Copenhagen; prod. Flemming Rasmussen) |
+| 27 | [Eruption](#eruption) | Eruption: Van Halen (1978, Sunset Sound, recorded Sep 8 1977 in two or three takes; prod. Ted Templeman, eng. Donn Landee) |
+| 28 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
 
@@ -513,9 +518,112 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://en.wikipedia.org/wiki/This_Charming_Man> · <https://www.groundguitar.com/johnny-marr/> · <https://mixdownmag.com.au/features/rig-rundown-the-smiths-morrisey-johnny-marr/> · <https://songbpm.com/@the-smiths/this-charming-man> · <https://www.tone3000.com/tones/88227> · <https://www.tone3000.com/tones/6046> · <https://www.tone3000.com/tones/1732>
 
+## Who's Crying Now
+
+**PC 23** — Who's Crying Now, outro solo (quarter = 120 BPM, A minor): Journey, Escape (1981, Fantasy Studios, Berkeley, April-June 1981; prod. Kevin Elson and Mike Stone; Neal Schon)
+
+*Original rig:* Documented: Schon's black 1977 Gibson Les Paul Pro/Deluxe (originally P-90s, maple neck, ebony board; Schon: 'That's the guitar on a lot of Frontiers, Escape ... and on solos like Who's Crying Now', 'It has a nice, natural compression to it'). Undocumented: the amp, cab and pedals for Escape. The only named amp is Steve Perry's recollection of telling Schon, about this solo, 'I saw you play the Starwood with a Fender Twin ... just plug it in and sketch a little bit'; forum hearsay says Fender Twin with a wah slightly open, or 'a little Roland amp'. Elson: 'Neal always used his own effects', guitars miked with Sony C37, AKG 414 and SM57 (his memory of Open Arms), Neve 8108 / Studer A800, EMT plates and tape delay in the room. Perry: the solo was the simplest take, built from about four drop-in sections, and he refused the label's request to fade it.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (on: sustain for the held bends, not documented) | on |
+| L3 | amp | [1971 Fender Twin Reverb](https://www.tone3000.com/tones/6106) — 1971 Fender Twin Reverb, cranked, Normal V10 T7 M7 B4 (Perry: 'a Fender Twin'; amp undocumented) | on |
+| L4 | cab | [1971 Fender Twin Reverb Oxford 12T6-10](https://www.tone3000.com/tones/6046) — 1971 Twin Reverb 2x12 Oxford 12T6-10, SM57 cap edge | on |
+| L5 | echo | Tape delay 500 ms (quarter note at 120 BPM, on) — generated 500 ms BBD-style IR (mix 20%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Fantasy Studios EMT plate stand-in) (mix 25%) | on |
+
+*Notes:* APPROXIMATION: the Escape amp is undocumented (no interview, Mix piece or rig rundown names it; only the guitar is on the record). Built on the one amp anybody named for this solo, Perry's Fender Twin: a 1971 Silverface Twin Reverb (period-correct) captured cranked, normal channel V10 T7 M7 B4, into the same Twin's own 2x12 Oxford 12T6-10 speakers on an SM57 at the cap edge (the SM57 is on Elson's list). The cranked Twin plus a humbucker gives the smooth, compressed sustain Schon credits to the guitar; there is no documented compressor, and a NAM capture can't model a compressor's timing, so none is added. SW8 BOOST is ON at load: a TS9 clean push (D0 L10) into the cranked Twin for the singing sustain of the held bends (not documented; on the offline bench it lowers the crest factor from 15.0 to 13.0 dB, i.e. more compression); stomp it off for a cleaner, rawer Twin. SW9 DELAY is ON at load: 500 ms (a quarter note at the published 120 BPM), feedback 0.3, cutoff 4500 Hz (Fantasy's tape delay, darker repeats), mix 0.2; 375 ms is the dotted-eighth alternative. 480L Large Plate at 25% stands in for Fantasy's EMT plates. Disputed or missing: a wah 'slightly open' (forum hearsay; SW6 + EXP A parks the DAW wah), the 'little Roland amp' reading, the P-90 vs humbucker question, the double-tracked lead (mono preset). Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://www.guitarplayer.com/players/neal-schon-on-finding-his-voice-as-an-guitar-instrumentalist-learning-groove-with-santana-and-recording-without-an-amplifier> · <https://loudersound.com/news/neal-schons-dont-stop-believin-guitar-goes-up-for-auction> · <https://intelligentcollector.com/the-neal-schon-collection/> · <https://guitar.com/news/gear-news/guitar-used-record-dont-stop-believin-is-going-up-for-auction/> · <https://ultimateclassicrock.com/steve-perry-neal-schon-guitar-solo/> · <https://www.mixonline.com/?p=17343> · <https://en.wikipedia.org/wiki/Who%27s_Crying_Now> · <https://www.rig-talk.com/forum/threads/tone-in-journeys-whos-crying-now-solo.163458/> · <https://www.bonedo.de/artikel/einzelansicht/die-besten-gitarren-soli-journey-dont-stop-believin-workshop.html> · <https://www.musicnotes.com/sheetmusic/journey/whos-crying-now/MN0100435> · <https://www.tone3000.com/tones/6106> · <https://www.tone3000.com/tones/6046>
+
+## Sweet Child O' Mine
+
+**PC 24** — Sweet Child O' Mine (125 BPM) / Welcome to the Jungle (123 BPM): Guns N' Roses, Appetite for Destruction (1987, prod. Mike Clink; Rumbo, Take One, Can Am)
+
+*Original rig:* Kris Derrig '59 Les Paul replica (Seymour Duncan Alnico II Pro humbuckers), Eb standard -> S.I.R. rental Stock #36, a 1959 Super Lead modded by Frank Levi in 1986 into a #39 copy (always-on extra gain stage + master volume) -> Marshall 1960 4x12 (Vintage 30s per Guitar World's estimate); Welcome to the Jungle intro: Mike Clink's Roland SRV-2000 in its hidden delay mode, 318 ms, feedback 30, output 50 (the rest of the track dry). Clink: 'it was that Les Paul into a Marshall.'
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Marshall 1959 BRBS SIR #36 Slash [Standard]](https://www.tone3000.com/tones/6379) — Marshall 1959 Super Lead, S.I.R. #36 mod (Slash's Appetite amp), MV3 Slash | on |
+| L4 | cab | [Marshall 1960BV V30 and G12T75](https://www.tone3000.com/tones/51086) — Marshall 1960BV 4x12 Vintage 30, SM57 | on |
+| L5 | echo | SRV-2000 delay 318 ms (Welcome to the Jungle intro) — generated 318 ms BBD-style IR (mix 33%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (mix 10%) | on |
+
+*Notes:* The exact documented amp: Slammin's capture of a real 1959 Super Lead modded to the SIR #36 'Appetite' spec, MV3 mid-gain Slash setting (418836, the HG version, is the hotter alternative for the solos). Cab: 1960BV Vintage 30 SM57, following Guitar World's V30 estimate (no mics are documented; Greenback 75087/656904 if V30 sounds too modern). Guitar World's knob settings (Presence 8, Bass 5, Middle 8.5, Treble 7, Vol 1 at 10) are by-ear estimates, not session notes. SW8 BOOST = TS9 clean push for the solos (not on the record). SW9 DELAY = the documented WTTJ intro SRV-2000 setting (318 ms, fb 0.3, mix 0.33, digital-bright repeats); no Sweet Child delay is documented. 480L Large Plate at 10% for air. The record is in Eb: tune down, or set params pitchEnabled 1 / pitchSemitones -1 (adds 11-31 ms latency). The Sweet Child solo's wah is SW6 + EXP A (the DAW wah); Izzy's doubled rhythm isn't modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://guitar.com/features/opinion-analysis/slash-guitar-gear-myths/> · <https://www.guitarplayer.com/news/mike-clink-slash-les-paul-cool-again> · <https://tonymckenzie.com/afd100_history.htm> · <https://www.promusic.news/guitars/the-secrets-behind-slashs-guitar-sound-on-gnrs-welcome-to-the-jungle> · <https://www.slashparadise.com/discography/albums-guns-n-roses-1987-appetite-for-destruction.php> · <https://www.rollingstone.com/feature/guns-n-roses-appetite-for-destruction-filthy-sexy-cool-58921/3> · <https://songbpm.com/@guns-n-roses/sweet-child-o-mine> · <https://songbpm.com/@guns-n-roses/welcome-to-the-jungle> · <https://www.tone3000.com/tones/6379>
+
+## Crazy Train
+
+**PC 25** — Crazy Train (138 BPM): Ozzy Osbourne, Blizzard of Ozz (1980, Ridge Farm; Randy Rhoads, eng. Max Norman)
+
+*Original rig:* 1974 Les Paul Custom (stock, bridge pickup) -> MXR Distortion+ (Output 10, Distortion 4, almost always on) -> MXR 10-band EQ (125 Hz +3, 250 +7, 500 +10, 1k +6, 2k +3, 4k -2, 16k +3) -> Marshall 100 W 1959 Super Lead on a Variac at ~90-92 V -> two 4x12s (1960A/B with Altec 417-8H per Guitar World); amps in Ridge Farm's stone room, SM58 close, AKG 451 a few feet back, SM87 room mics. Rhythm double-tracked L/R; solos triple-tracked; Max Norman's AMS DMX 15-80S detune at mixdown.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L2 | drive | [MXR Distortion+](https://www.tone3000.com/tones/57603) — MXR Distortion+ O-10 D-4 + MXR 10-band EQ curve | on |
+| L3 | amp | [Marshall 1959RR Randy Rhoads Signature MKII Super Lead](https://www.tone3000.com/tones/43380) — Marshall 1959RR Randy Rhoads Super Lead, CH1 gain at noon | on |
+| L4 | cab | [Celestion Greenback - Marshall 1960TV 4x12 SM57](https://www.tone3000.com/tones/45022) — Marshall 1960TV 4x12 G12M-25 Greenback, SM57 (for the Altec 417-8H cabs) | on |
+| L5 | echo | Solo delay 380 ms (the AMS short delay) — generated 380 ms BBD-style IR (mix 15%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Ridge Farm stone room) (mix 15%) | on |
+
+*Notes:* Amp: Marshall's 1959RR Randy Rhoads reissue, channel 1 gain at noon (GW's Vol I ~6; the Distortion+ supplies the rest). Drive (always on): the MXR Distortion+ capture at exactly GW's Output 10 / Distortion 4, with the 10-band EQ curve mapped onto its six-band eq [2, 5, 7, 4, -1, 1] (100/250/650/1600/3500/8k, scaled ~0.7 to stay safe). GW's knob and EQ settings are by-ear estimates (Tonal Recall), not session notes. Cab: Greenback 1960TV SM57; no Altec 417-8H IR exists in the catalog. SW8 BOOST = TS9 clean push (not on the record: the 80s banks keep a boost on every preset). SW9 DELAY = a 380 ms short solo delay (Owsinski: the solo has only a short AMS delay on the right). 480L Large Wood Room at 15% for the Ridge Farm stone room. Can't match: the AMS detune and the triple-tracked solos (mono preset). Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://guitar.com/features/artist-rigs/gear-used-by-randy-rhoads-blizzard-of-ozz-ozzy-osbourne> · <https://www.guitarworld.com/features/randy-rhoads-crazy-train-tone-secrets> · <https://www.ultimaterhoads.com/viewtopic.php?t=26551> · <https://bobbyowsinskiblog.com/ozzy-osbourne-crazy-train-isolated-guitar/> · <https://songbpm.com/@ozzy-osbourne/crazy-train> · <https://www.tone3000.com/tones/43380> · <https://www.tone3000.com/tones/57603>
+
+## Master of Puppets
+
+**PC 26** · dual-rig stereo — Master of Puppets (~212 BPM): Metallica, Master of Puppets (1986, Sweet Silence, Copenhagen; prod. Flemming Rasmussen)
+
+*Original rig:* Jackson King V -> Mesa/Boogie Mark IIC+ 'modified to work as a preamp' -> power amp disputed (a Marshall 2203, or a modified 100 W JCM800) -> speakers undocumented (Rasmussen left 'no notes indicating the successful candidate'); SM57 at the cone centre, B&K 4006, an AKG tube mic at 45 degrees ~4 ft back; no compression, a short Quantec QRS room; 'the rhythm at no point was less than four guitars'.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Mesa Boogie Mark IIC+ Hetfield Rhythm](https://www.tone3000.com/tones/2769) — Mesa/Boogie Mark IIC+ Hetfield Rhythm V2 | on |
+| L4 | cab | [Metallica Classic IRs v2.4](https://www.tone3000.com/tones/84108) — Puppet_IR (Metallica Classic IRs, voiced from the album) | on |
+| L5 | echo | Solo delay 400 ms (Kirk's solo; the rhythm is dry) — generated 400 ms BBD-style IR (mix 15%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (the short Quantec room) (mix 8%) | on |
+| R1 | amp | [Mesa Boogie Mark IIC+ Hetfield Rhythm](https://www.tone3000.com/tones/2769) — Mesa/Boogie Mark IIC+ Hetfield Rhythm V2 | on |
+| R2 | cab | [Metallica Classic IRs v2.4](https://www.tone3000.com/tones/84108) — Puppet_IR (Metallica Classic IRs, voiced from the album) | on |
+| R3 | echo | Solo delay 400 ms (Kirk's solo; the rhythm is dry) — generated 400 ms BBD-style IR (mix 15%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (the short Quantec room) (mix 8%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Dual rig, the same Mark IIC+ Hetfield Rhythm capture and Puppet_IR on both sides, panned hard L/R with Align wobble 0.15 for the four-plus stacked rhythms. Cab: Puppet_IR is voiced from the album mix, which suits a record whose speakers are undocumented (neutral alt: Mesa OS 4x12 V30 1612/81565). Tight gate (release 15 ms, hold 10 ms) for the palm-muted riff. Power amp sources disagree (Marshall 2203 vs modified JCM800); the capture is the preamp voice either way. SW8 BOOST = TS9 clean push for Kirk's solo (no Tube Screamer is confirmed on this album). SW9 DELAY = a 400 ms solo delay; the rhythm is dry. 480L Small Wood Room at 8% for the short Quantec room. Standard E tuning. Can't match: Kirk's wah (SW6 + EXP A, the DAW wah) and the clean middle section. Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://en.wikipedia.org/wiki/Master_of_Puppets> · <https://www.pressreader.com/australia/total-guitar/20220701/282222309435417> · <https://www.groundguitar.com/james-hetfield-guitars-and-gear/james-hetfields-mesa-boogie-mark-iic/> · <https://mixdownmag.com.au/features/how-to-get-the-metallica-master-of-puppets-tone/> · <https://tapeop.com/interviews/172/flemming-rasmussen-riding-the-sweet-silence> · <https://www.mixonline.com/recording/classic-track-master-of-puppets-metallica> · <https://www.tone3000.com/tones/2769> · <https://www.tone3000.com/tones/84108>
+
+## Eruption
+
+**PC 27** · dual-rig stereo — Eruption: Van Halen (1978, Sunset Sound, recorded Sep 8 1977 in two or three takes; prod. Ted Templeman, eng. Donn Landee)
+
+*Original rig:* Frankenstrat (one wax-potted PAF bridge humbucker, stock Strat vibrato), tuned down a half step -> MXR Phase 90 (speed 9-10 o'clock) -> stock 1968 Marshall 1959 Super Lead 100 W, everything on 10, Variac at ~89-90 V -> two basket-weave Marshall 4x12s (G12M-25 Greenback and JBL D120F), SM57s; two Univox EC-80 echo boxes on the tail and the closing 12th-fret harmonic ('That's not an Echoplex'), repeat rate set by the motor speed; Sunset Sound live echo chamber.
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Marshall 1959HW Plexi Variac [Hyper Accuracy]](https://www.tone3000.com/tones/6220) — Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10 | on |
+| L4 | cab | [Celestion Greenback - Marshall 1960TV 4x12 SM57](https://www.tone3000.com/tones/45022) — Marshall 1960TV 4x12 G12M-25 Greenback, SM57 | on |
+| L5 | echo | Univox EC-80 tape echo stand-in, 300 ms (on) — generated 300 ms BBD-style IR (mix 20%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber (Sunset Sound live chamber) (mix 15%) | on |
+| R1 | amp | [Marshall 1959HW Plexi Variac [Hyper Accuracy]](https://www.tone3000.com/tones/6220) — Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10 | on |
+| R2 | cab | [1976 Deluxe Reverb Cabinet with JBL E120-8](https://www.tone3000.com/tones/5719) — JBL E120 12" (for EVH's JBL D120F 4x12) | on |
+| R3 | echo | Univox EC-80 tape echo stand-in, 300 ms (on) — generated 300 ms BBD-style IR (mix 20%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber, opposite side (Landee's panning) (mix 40%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Van Halen I's chain (PC 3) with the tape echo on: same Variac'd Slammin 1959HW at 180 V on both sides, left G12M-25 Greenback SM57, right JBL E120 for the JBL D120F cab, 480L Large Chamber at 15% left / 40% right (Landee's guitar-one-side, chamber-opposite panning). SW9 DELAY is ON at load: 300 ms, feedback 0.35, cutoff 3000 Hz (dark tape repeats), mix 0.2. No delay time is documented: 300 ms is an ear estimate for a motor-speed EC-80, and the record has the echo only on the ending, so stomp SW9 off for the body of the piece to be strictly faithful. The research suggested summing the chamber into the echo block too; it is already always on in slot 6 / R4 (the same IR), so it is not doubled. Spread wobble 0.3 is a vague stand-in for the slow Phase 90 (TONE3000 has no phaser). The record is a half step down: tune down, or params pitchEnabled 1 / pitchSemitones -1. SW8 BOOST = TS9 clean push (not on the record). Can't match: the Phase 90 sweep, true EC-80 flutter, the dive bombs (the player). Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://en.wikipedia.org/wiki/Eruption_(instrumental)> · <https://www.guitarworld.com/features/eddie-van-halen-10-tracks> · <https://www.loudersound.com/features/eddie-van-halen-the-long-lost-interview> · <https://www.vhnd.com/2014/09/29/eddie-van-halen-signature-sound-mxrs-phase-90-flanger-pedals/> · <https://legendarytones.com/edward-van-halen-brown-sound/> · <https://www.vhnd.com/2013/12/13/former-van-halen-engineer-donn-landee-discusses-recording-van-halen/> · <https://www.tone3000.com/tones/6220>
+
 ## Maiden Harmony
 
-**PC 23** — Twin-lead harmony voice for Maiden Heavy
+**PC 28** — Twin-lead harmony voice for Maiden Heavy
 
 *Original rig:* the partner guitarist's amp + cab from Maiden Heavy
 
@@ -530,7 +638,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 | FCB1010 | CC | TONE3000 |
 |---|---|---|
-| SW1–5 (song banks 01–04) | PC | presets above |
+| SW1–5 (song banks 01–05) | PC | presets above |
 | SW6 | 20 | wah (DAW) / noise gate (standalone) |
 | SW7 | 21 | octaver (DAW) / stereo spread (standalone); 80s banks: CC 31 = chorus (DAW) |
 | SW8 | 26 | LEAD: slot 1 boost + slot 5 / R3 echo together |
@@ -558,4 +666,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 23 | The Evil That Men Do | E natural minor | 375 ms |
+| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 28 | The Evil That Men Do | E natural minor | 375 ms |

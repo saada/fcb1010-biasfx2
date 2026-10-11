@@ -1,0 +1,68 @@
+{
+  "pc": 24,
+  "name": "Sweet Child O' Mine",
+  "reference": "Sweet Child O' Mine (125 BPM) / Welcome to the Jungle (123 BPM): Guns N' Roses, Appetite for Destruction (1987, prod. Mike Clink; Rumbo, Take One, Can Am)",
+  "rig": "Kris Derrig '59 Les Paul replica (Seymour Duncan Alnico II Pro humbuckers), Eb standard -> S.I.R. rental Stock #36, a 1959 Super Lead modded by Frank Levi in 1986 into a #39 copy (always-on extra gain stage + master volume) -> Marshall 1960 4x12 (Vintage 30s per Guitar World's estimate); Welcome to the Jungle intro: Mike Clink's Roland SRV-2000 in its hidden delay mode, 318 ms, feedback 30, output 50 (the rest of the track dry). Clink: 'it was that Les Paul into a Marshall.'",
+  "sources": [
+    "https://guitar.com/features/opinion-analysis/slash-guitar-gear-myths/",
+    "https://www.guitarplayer.com/news/mike-clink-slash-les-paul-cool-again",
+    "https://tonymckenzie.com/afd100_history.htm",
+    "https://www.promusic.news/guitars/the-secrets-behind-slashs-guitar-sound-on-gnrs-welcome-to-the-jungle",
+    "https://www.slashparadise.com/discography/albums-guns-n-roses-1987-appetite-for-destruction.php",
+    "https://www.rollingstone.com/feature/guns-n-roses-appetite-for-destruction-filthy-sexy-cool-58921/3",
+    "https://songbpm.com/@guns-n-roses/sweet-child-o-mine",
+    "https://songbpm.com/@guns-n-roses/welcome-to-the-jungle",
+    "https://www.tone3000.com/tones/6379"
+  ],
+  "notes": "The exact documented amp: Slammin's capture of a real 1959 Super Lead modded to the SIR #36 'Appetite' spec, MV3 mid-gain Slash setting (418836, the HG version, is the hotter alternative for the solos). Cab: 1960BV Vintage 30 SM57, following Guitar World's V30 estimate (no mics are documented; Greenback 75087/656904 if V30 sounds too modern). Guitar World's knob settings (Presence 8, Bass 5, Middle 8.5, Treble 7, Vol 1 at 10) are by-ear estimates, not session notes. SW8 BOOST = TS9 clean push for the solos (not on the record). SW9 DELAY = the documented WTTJ intro SRV-2000 setting (318 ms, fb 0.3, mix 0.33, digital-bright repeats); no Sweet Child delay is documented. 480L Large Plate at 10% for air. The record is in Eb: tune down, or set params pitchEnabled 1 / pitchSemitones -1 (adds 11-31 ms latency). The Sweet Child solo's wah is SW6 + EXP A (the DAW wah); Izzy's doubled rhythm isn't modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": false,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6379,
+      "model_id": 418834,
+      "enabled": true,
+      "label": "Marshall 1959 Super Lead, S.I.R. #36 mod (Slash's Appetite amp), MV3 Slash"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 51086,
+      "model_id": 284291,
+      "enabled": true,
+      "label": "Marshall 1960BV 4x12 Vintage 30, SM57"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 318,
+      "feedback": 0.3,
+      "cutoff_hz": 6000.0,
+      "mix": 0.33,
+      "enabled": false,
+      "label": "SRV-2000 delay 318 ms (Welcome to the Jungle intro)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate",
+      "mix": 0.1,
+      "trim_seconds": 2.0
+    }
+  ]
+}

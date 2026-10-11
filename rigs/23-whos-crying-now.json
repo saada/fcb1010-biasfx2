@@ -1,0 +1,71 @@
+{
+  "pc": 23,
+  "name": "Who's Crying Now",
+  "reference": "Who's Crying Now, outro solo (quarter = 120 BPM, A minor): Journey, Escape (1981, Fantasy Studios, Berkeley, April-June 1981; prod. Kevin Elson and Mike Stone; Neal Schon)",
+  "rig": "Documented: Schon's black 1977 Gibson Les Paul Pro/Deluxe (originally P-90s, maple neck, ebony board; Schon: 'That's the guitar on a lot of Frontiers, Escape ... and on solos like Who's Crying Now', 'It has a nice, natural compression to it'). Undocumented: the amp, cab and pedals for Escape. The only named amp is Steve Perry's recollection of telling Schon, about this solo, 'I saw you play the Starwood with a Fender Twin ... just plug it in and sketch a little bit'; forum hearsay says Fender Twin with a wah slightly open, or 'a little Roland amp'. Elson: 'Neal always used his own effects', guitars miked with Sony C37, AKG 414 and SM57 (his memory of Open Arms), Neve 8108 / Studer A800, EMT plates and tape delay in the room. Perry: the solo was the simplest take, built from about four drop-in sections, and he refused the label's request to fade it.",
+  "sources": [
+    "https://www.guitarplayer.com/players/neal-schon-on-finding-his-voice-as-an-guitar-instrumentalist-learning-groove-with-santana-and-recording-without-an-amplifier",
+    "https://loudersound.com/news/neal-schons-dont-stop-believin-guitar-goes-up-for-auction",
+    "https://intelligentcollector.com/the-neal-schon-collection/",
+    "https://guitar.com/news/gear-news/guitar-used-record-dont-stop-believin-is-going-up-for-auction/",
+    "https://ultimateclassicrock.com/steve-perry-neal-schon-guitar-solo/",
+    "https://www.mixonline.com/?p=17343",
+    "https://en.wikipedia.org/wiki/Who%27s_Crying_Now",
+    "https://www.rig-talk.com/forum/threads/tone-in-journeys-whos-crying-now-solo.163458/",
+    "https://www.bonedo.de/artikel/einzelansicht/die-besten-gitarren-soli-journey-dont-stop-believin-workshop.html",
+    "https://www.musicnotes.com/sheetmusic/journey/whos-crying-now/MN0100435",
+    "https://www.tone3000.com/tones/6106",
+    "https://www.tone3000.com/tones/6046"
+  ],
+  "notes": "APPROXIMATION: the Escape amp is undocumented (no interview, Mix piece or rig rundown names it; only the guitar is on the record). Built on the one amp anybody named for this solo, Perry's Fender Twin: a 1971 Silverface Twin Reverb (period-correct) captured cranked, normal channel V10 T7 M7 B4, into the same Twin's own 2x12 Oxford 12T6-10 speakers on an SM57 at the cap edge (the SM57 is on Elson's list). The cranked Twin plus a humbucker gives the smooth, compressed sustain Schon credits to the guitar; there is no documented compressor, and a NAM capture can't model a compressor's timing, so none is added. SW8 BOOST is ON at load: a TS9 clean push (D0 L10) into the cranked Twin for the singing sustain of the held bends (not documented; on the offline bench it lowers the crest factor from 15.0 to 13.0 dB, i.e. more compression); stomp it off for a cleaner, rawer Twin. SW9 DELAY is ON at load: 500 ms (a quarter note at the published 120 BPM), feedback 0.3, cutoff 4500 Hz (Fantasy's tape delay, darker repeats), mix 0.2; 375 ms is the dotted-eighth alternative. 480L Large Plate at 25% stands in for Fantasy's EMT plates. Disputed or missing: a wah 'slightly open' (forum hearsay; SW6 + EXP A parks the DAW wah), the 'little Roland amp' reading, the P-90 vs humbucker question, the double-tracked lead (mono preset). Levelled offline with rigsim --exact to -14 LUFS.",
+  "left": [
+    {
+      "role": "boost",
+      "type": "nam",
+      "tone_id": 86314,
+      "model_id": 733129,
+      "enabled": true,
+      "label": "Ibanez TS9 clean push, D0 T6 L10 (on: sustain for the held bends, not documented)"
+    },
+    {
+      "role": "drive",
+      "type": "insert"
+    },
+    {
+      "role": "amp",
+      "type": "nam",
+      "tone_id": 6106,
+      "model_id": 419003,
+      "enabled": true,
+      "label": "1971 Fender Twin Reverb, cranked, Normal V10 T7 M7 B4 (Perry: 'a Fender Twin'; amp undocumented)"
+    },
+    {
+      "role": "cab",
+      "type": "ir",
+      "tone_id": 6046,
+      "model_id": 55642,
+      "enabled": true,
+      "label": "1971 Twin Reverb 2x12 Oxford 12T6-10, SM57 cap edge"
+    },
+    {
+      "role": "echo",
+      "type": "echo",
+      "delay_ms": 500,
+      "feedback": 0.3,
+      "cutoff_hz": 4500.0,
+      "mix": 0.2,
+      "enabled": true,
+      "label": "Tape delay 500 ms (quarter note at 120 BPM, on)"
+    },
+    {
+      "role": "ambience",
+      "type": "ir",
+      "tone_id": 88464,
+      "model_id": 745821,
+      "enabled": true,
+      "label": "Lexicon 480L Large Plate (Fantasy Studios EMT plate stand-in)",
+      "mix": 0.25,
+      "trim_seconds": 2.0
+    }
+  ]
+}
