@@ -87,6 +87,43 @@ simulator.
 | `echo` | generated analog (BBD) delay IR: `delay_ms`, `feedback` (0–0.8), `cutoff_hz` (repeat darkening), `mix`, `enabled`, `label`; optional `reverb` = `{tone_id, model_id, trim_seconds, level_db}` (a catalog reverb IR summed into the same block, so SW10 toggles delay *and* reverb). `delay_ms` 0 = reverb only |
 | `insert` | empty slot |
 
+### Long reverbs and echoes run in the DAW (automatic, experiments D25)
+
+TONE3000 convolves an IR longer than 1.0 s in bursts: once every 8192 frames (every 32nd
+5.3 ms cycle) it computes the whole tail partition inside one audio callback. Qtractor runs
+all three TONE3000s and every plugin in one thread, so these bursts are where the rig's
+deadline goes. The builder therefore moves such blocks out of the preset by itself. Write
+presets as before; nothing in the JSON changes.
+
+- **What moves:** an `echo` or `ir` block with role `echo`, `echo2` or `ambience` moves when:
+  - it comes after its lane's last amp;
+  - it is enabled;
+  - its kernel is longer than 1.0 s after TONE3000's own trim;
+  - it has no `eq`, `in_db` or `out_db`;
+  - no footswitch toggles its slot while the preset is loaded (clean, acoustic and harmony
+    presets: none; heavy and song presets: their banks' toggle CCs).
+
+  On a split rig, both lanes need the same `mix`. They also need either hard-panned chains
+  or the same IR.
+- **What the DAW does:** the slot becomes an empty insert, so slot numbers and CC maps don't
+  change.
+  - `qtractor_rig.py build` puts one x42 zeroconvolv per distinct stage right after that
+    TONE3000. Its kernel is the WAV TONE3000 would load, with TONE3000's trim and normalisation,
+    times the mix; the dry level is 1 − mix. zita-convolver runs the late partitions on its
+    own real-time threads, on other cores.
+  - Each preset's Program Change brings absolute CCs on MIDI ch 9/10/11 (heavy/clean/harmony
+    instance) that enable exactly that preset's convolvers (`rig.py layout`, from
+    `~/Music/fcb-rig/tails/tails.json`).
+- **What stays in TONE3000:** echoes a footswitch toggles (the 80s banks' SW9 song delay,
+  Maiden SW8/SW9) and IRs of 1.0 s or less. Short IRs run uniformly, with no bursts. So to keep
+  a toggled echo cheap, keep its IR at 1.0 s or less.
+- **Build order:** `tone3000.py build`, then `qtractor_rig.py build`. The latter refuses to run
+  if the installed presets still hold the moved blocks, because those reverbs would play twice.
+  `T3K_DAW_TAILS=0` on both builds goes back to everything inside TONE3000.
+- **Checking a preset:** `uv run experiments/callback_cost.py NAME --variant as-is --variant
+  daw-tails` times every 256-frame callback against the 5.33 ms deadline. rigsim renders the
+  DAW stages too.
+
 `eq` = 6 gains in dB for bands [lowshelf 100 Hz, bell 250, bell 650, bell 1600,
 bell 3500, highshelf 8 kHz]; `eq_pre: true` applies it before the model (e.g.
 humbucker → single-coil voicing `[-3, -2.5, 0, 1.5, 3, 2]`).
@@ -185,8 +222,9 @@ input (see Useful `params`), but with no dry blend and no scale awareness.
 
 ## Scene bank (Iron Maiden, FCB bank 0)
 
-The Maiden bank has three presets on the Brave New World / Dance of Death chain (heavy,
-clean, acoustic). In it SW8 toggles the heavy preset's slot 5 / R3 echo (The Evil That Men
+The Maiden bank has three presets: heavy on the Brave New World / Dance of Death chain,
+clean on 1982 Marshalls for the Hallowed Be Thy Name intro, and acoustic for the Dance of
+Death / Dream of Mirrors intros (short rooms only, experiments D24). In it SW8 toggles the heavy preset's slot 5 / R3 echo (The Evil That Men
 Do, 375 ms) and SW9 its slot 6 / R4 `echo2` (Can I Play with Madness, 415 ms); SW2 is
 labelled LEAD (the `solo` scene) and adds no echo of its own. The DAW rig (`qtractor_rig.py`) runs
 two TONE3000s:

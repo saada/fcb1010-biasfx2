@@ -36,10 +36,11 @@ def test_addresses_are_unique_and_decode():
 
 def test_every_address_sends_exactly_the_layout():
     """For every bank x switch: what build() puts on the switch, in the pedal's order and
-    channels, then the per-song chorus CCs after a channel-1 PC."""
+    channels, then the per-song chorus CCs after a channel-1 PC, then each PC's DAW tail switches."""
     f = fcb.build()
     t = router.Translator(LAYOUT)
     chorus = qr.chorus_settings()
+    tails = qr.load_tail_map()
     mapped = 0
     for bank in range(10):
         for sw in range(1, 11):
@@ -47,6 +48,7 @@ def test_every_address_sends_exactly_the_layout():
             pc = next((e[2] for e in want if e[0] == "pc" and e[1] == 0), None)
             if pc is not None:
                 want = want + fcb.extras(pc, chorus)
+            want = want + [cc for e in want if e[0] == "pc" for cc in qr.tail_ccs(e[1], e[2], tails)]  # D25
             assert t.translate(router.address(bank, sw)) == ((bank, sw), want), (bank, sw)
             mapped += bool(want)
     assert mapped == len(LAYOUT) >= 50
@@ -57,7 +59,8 @@ def test_song_switch_carries_its_chorus():
     _, events = t.translate(router.address(2, 1))  # 80s Clean SW1
     pc = events[0][2]
     assert events[0] == ("pc", 0, pc)
-    assert events[-3:] == [("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)]
+    chorus = [("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)]
+    assert events[-3 - len(qr.tail_ccs(0, pc)):len(events) - len(qr.tail_ccs(0, pc))] == chorus  # then the DAW tails (D25)
 
 
 def test_bank_5_80s_leads_translates():
@@ -70,7 +73,8 @@ def test_bank_5_80s_leads_translates():
         assert addr == ("pc", 15, 50 + sw - 1)  # what the pedal sends: ch16 PC 50-54
         (bank_sw, events) = t.translate(addr)
         assert bank_sw == (5, sw)
-        assert events == [("pc", 0, pc), *reset, *[("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)]]
+        assert events == [("pc", 0, pc), *reset, *[("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)],
+                          *qr.tail_ccs(0, pc)]  # then the DAW tail switches (D25)
     assert [router.address(5, sw)[2:] for sw in range(6, 11)] == [(cc, 5) for cc in range(102, 107)]  # ch16 CC 102-106 = 5
     toggles = {sw: t.translate(router.address(5, sw))[1] for sw in range(6, 11)}
     assert toggles == {6: [("cc", 0, 20, 127)], 7: [("cc", 0, qr.CC_CHORUS, 127)], 8: [("cc", 0, 22, 127)],

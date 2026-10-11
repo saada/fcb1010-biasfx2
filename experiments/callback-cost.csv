@@ -1,0 +1,23 @@
+preset,rigs,variant,blocks,irs,median_ms,p99_ms,max_ms,mean_ms,spikes,spike_period_blocks,spike_median_ms,max_share_of_quantum
+Maiden Heavy,worktree,as-is,1500,1ch/0.02s/short 1ch/1.94s/long 1ch/2.49s/long 1ch/1.66s/long 1ch/0.21s/short 1ch/1.94s/long 1ch/1.66s/long 1ch/2.49s/long,0.745,2.325,2.707,0.847,22,32,2.401,0.51
+Maiden Clean,worktree,as-is,1500,1ch/0.02s/short 1ch/2.46s/long 1ch/0.21s/short 1ch/1.96s/long 1ch/2.46s/long 1ch/1.96s/long,0.603,2.669,4.026,0.786,48,32,2.092,0.75
+Maiden Acoustic,worktree,as-is,1500,1ch/0.04s/short 1ch/1.98s/long 1ch/0.02s/short 1ch/0.89s/short 1ch/0.89s/short 1ch/1.98s/long,1.229,3.802,4.704,1.367,22,32,3.907,0.88
+Is This Love,worktree,as-is,1500,1ch/0.17s/short 1ch/0.17s/short 1ch/2.45s/long 1ch/2.45s/long,0.487,1.382,1.869,0.489,10,64,1.581,0.35
+Rule the World,worktree,as-is,1500,1ch/0.34s/short 1ch/1.77s/long,0.368,1.184,1.277,0.396,44,32,1.157,0.24
+Every Breath You Take,worktree,as-is,1500,1ch/1.54s/long 1ch/1.96s/long 1ch/1.54s/long 1ch/1.96s/long,0.436,1.238,1.534,0.425,11,80,1.354,0.29
+Hysteria Clean,worktree,as-is,1500,1ch/2.11s/long,0.329,1.335,1.572,0.366,47,32,1.299,0.29
+This Charming Man,worktree,as-is,1500,1ch/0.24s/short 1ch/1.30s/long 1ch/1.49s/long,0.4,1.356,1.899,0.441,39,32,1.327,0.36
+Maiden Harmony,worktree,as-is,1500,1ch/0.21s/short,0.315,0.499,0.721,0.324,0,0,0.0,0.14
+Maiden Heavy,worktree,daw-tails,1500,1ch/0.02s/short 1ch/1.94s/long 1ch/2.49s/long 1ch/0.21s/short 1ch/2.49s/long 1ch/1.94s/long,0.454,0.642,2.126,0.433,1,0,2.126,0.4
+Maiden Clean,worktree,daw-tails,1500,1ch/0.02s/short 1ch/0.21s/short,0.434,0.589,0.988,0.407,0,0,0.0,0.19
+Maiden Acoustic,worktree,daw-tails,1500,1ch/0.04s/short 1ch/0.89s/short 1ch/0.02s/short 1ch/0.89s/short,0.623,1.285,1.433,0.644,0,0,0.0,0.27
+Is This Love,worktree,daw-tails,1500,1ch/0.17s/short 1ch/0.17s/short 1ch/2.45s/long 1ch/2.45s/long,0.366,1.281,1.99,0.454,24,32,1.322,0.37
+Rule the World,worktree,daw-tails,1500,1ch/0.34s/short 1ch/1.77s/long,0.382,1.208,1.386,0.413,41,32,1.196,0.26
+Every Breath You Take,worktree,daw-tails,1500,1ch/1.54s/long 1ch/1.54s/long,0.301,0.688,0.978,0.349,5,172,0.942,0.18
+Hysteria Clean,worktree,daw-tails,1500,1ch/2.11s/long,0.334,1.339,1.52,0.369,47,32,1.287,0.28
+This Charming Man,worktree,daw-tails,1500,1ch/0.24s/short 1ch/1.30s/long,0.343,0.483,2.08,0.351,1,0,2.08,0.39
+Maiden Harmony,worktree,daw-tails,1500,1ch/0.21s/short,0.322,0.62,0.834,0.345,0,0,0.0,0.16
+Maiden Clean,origin/worktree-agent-a6aba43d79fd50841,as-is,1500,1ch/0.03s/short 1ch/1.59s/long 1ch/1.36s/long 1ch/0.68s/short 1ch/1.36s/long 1ch/1.59s/long,0.528,2.063,3.472,0.553,24,32,2.121,0.65
+Maiden Acoustic,origin/worktree-agent-a6aba43d79fd50841,as-is,1500,1ch/0.14s/short 1ch/0.93s/short 1ch/0.53s/short 1ch/0.07s/short 1ch/0.93s/short 1ch/0.53s/short,0.821,1.359,1.533,0.848,0,0,0.0,0.29
+Maiden Clean,origin/worktree-agent-a6aba43d79fd50841,daw-tails,1500,1ch/0.03s/short 1ch/0.68s/short,0.308,0.448,0.791,0.316,0,0,0.0,0.15
+Maiden Acoustic,origin/worktree-agent-a6aba43d79fd50841,daw-tails,1500,1ch/0.14s/short 1ch/0.93s/short 1ch/0.07s/short 1ch/0.53s/short 1ch/0.93s/short 1ch/0.53s/short,0.798,1.185,1.486,0.828,0,0,0.0,0.28

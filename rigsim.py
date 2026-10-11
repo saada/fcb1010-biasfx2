@@ -63,7 +63,7 @@ REPO = Path(os.environ.get("FCB_REPO", Path(__file__).resolve().parent))
 sys.path.insert(0, str(REPO))
 import tone3000 as t3k  # noqa: E402  (reads rigs/, the model cache and the saved state; writes nothing)
 
-SIM_VERSION = 4  # bump when rendering or measuring changes, to invalidate cached results
+SIM_VERSION = 5  # bump when rendering or measuring changes, to invalidate cached results
 REAL_HOME = os.environ["HOME"]
 VST3 = Path.home() / ".vst3/TONE3000.vst3"
 CACHE = Path(os.environ.get("RIGSIM_CACHE", t3k.CACHE / "sim"))
@@ -157,7 +157,7 @@ def cached_build_block(spec):
     """tone3000.build_block, memoised on disk: generated echo IRs and resampled IRs are pure
     Python and take seconds. Each use gets a fresh block id, as a real build does."""
     files = [_stat(t3k.local_path(spec))] if spec.get("file") else []
-    env = [t3k.IR_TAIL_MAX_S, os.environ.get("T3K_NO_LONG_IR")]
+    env = [t3k.IR_TAIL_MAX_S, os.environ.get("T3K_NO_LONG_IR"), getattr(t3k, "ECHO_TRIM_GUARD", None)]  # generator inputs
     path = CACHE / "blocks" / f"{_digest(spec, files, env)}.bin"
     if path.exists():
         node, _ = t3k.read_tree(path.read_bytes(), 0)
@@ -187,16 +187,23 @@ def rig_key(rig, mode, di_hash, base):
     norm = lambda chain: [{k: (float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else v)
                            for k, v in b.items() if k != "label"} for b in chain]
     files = [_stat(t3k.local_path(b)) for b in blocks if b.get("file")]
-    return _digest(SIM_VERSION, norm(rig.get("left", [])), norm(rig.get("right", [])),
+    return _digest(SIM_VERSION, getattr(t3k, "DAW_TAILS", False), getattr(t3k, "ECHO_TRIM_GUARD", None), norm(rig.get("left", [])), norm(rig.get("right", [])),
                    rig.get("split_after"), {k: float(v) for k, v in effective_params(rig).items()}, files, mode,
                    di_hash, hashlib.sha1(base).hexdigest(), _stat(VST3 / "Contents/x86_64-linux/TONE3000.so"))
 
 
 # --- plugin state (what qtractor_rig.tone3000_state gives the live instance) ---------------
 
-def state_for(rig, base):
+def state_for(rig, base, tails=None):
+    """The live instance's state blob for this preset. `tails` (a list) receives the preset's
+    DAW tail stages (tone3000.daw_tail_plan), which the rig convolves after the plugin."""
     state = t3k.load_t3kb(base)
-    preset = t3k.build_preset(rig)
+    if hasattr(t3k, "build_preset_and_tails"):
+        preset, stages = t3k.build_preset_and_tails(rig)
+    else:
+        preset, stages = t3k.build_preset(rig), []
+    if tails is not None:
+        tails.extend(stages)
     state.children = [preset.child("ChainSnapshot") if c.type == "ChainSnapshot" else c for c in state.children]
     values = {q.get("id"): q.get("value") for q in preset.child("Params").children}
     params = state.child("PARAMETERS")
@@ -233,6 +240,20 @@ def vst3_state(t3kb, template):
 
 
 # --- rig bus and measures ------------------------------------------------------------------
+
+def daw_tails(y, stages):
+    """The DAW tail convolvers after the plugin (qtractor_rig.tail_convolvers, x42 zeroconvolv):
+    per stage and channel, (1 - mix) * dry + mix * (kernel * input), the block's own wet/dry."""
+    for st in stages:
+        m = st["mix"]
+        for ch in range(y.shape[1]):
+            h = np.asarray(st["irs"][ch], np.float64)
+            n = len(y) + len(h) - 1
+            nfft = 1 << (n - 1).bit_length()
+            wet = np.fft.irfft(np.fft.rfft(y[:, ch], nfft) * np.fft.rfft(h, nfft), nfft)[:len(y)]
+            y[:, ch] = (1 - m) * y[:, ch] + m * wet
+    return y
+
 
 def limiter_gain(y):
     """The gain (per sample, <= 1) of a lookahead brickwall at LIMIT_DB, linked stereo, exponential release."""
@@ -327,7 +348,8 @@ def render(job):
     t0 = time.monotonic()
     os.environ["HOME"] = REAL_HOME  # the build reads the model cache; the plugin gets the sandbox
     os.environ.pop("XDG_CONFIG_HOME", None)
-    blob = state_for(job["rig"], job["base"])
+    stages = []
+    blob = state_for(job["rig"], job["base"], stages)
     t_build = time.monotonic() - t0
     # One sandbox HOME per worker, so each process reads its own TONE3000.log (~/.config/TONE3000).
     home = SANDBOX / f"w{os.getpid()}"
@@ -351,7 +373,7 @@ def render(job):
     # proof: when no load lands for 2 s (a busy machine) the mute lifts with blocks still dry.
     i = int(np.argmax(np.abs(_DI))) // BLOCK * BLOCK
     probe = np.stack([_DI[i:i + 4 * BLOCK]] * 2)
-    expected = sum(b.get("type") != "insert" for b in job["rig"].get("left", []) + job["rig"].get("right", []))
+    expected = sum(b.get("type") != "insert" for b in job["rig"].get("left", []) + job["rig"].get("right", [])) - sum(len(st["labels"]) for st in stages)  # moved to the DAW: never queued
     t1, loaded, failed = time.monotonic(), False, []
     while time.monotonic() - t1 < job["load_timeout"]:
         text = log.read_bytes()[mark:].decode(errors="replace") if log.exists() else ""
@@ -369,6 +391,7 @@ def render(job):
     t_load = time.monotonic() - t1
     t2 = time.monotonic()
     y = plugin.process(x, RATE, buffer_size=BLOCK, reset=False).T.astype(np.float64)
+    y = daw_tails(y, stages)
     t_render = time.monotonic() - t2
     del plugin
     pre = dict(pre_peak_dbfs=round(20 * math.log10(float(np.abs(y[a:b]).max()) + 1e-20), 2),

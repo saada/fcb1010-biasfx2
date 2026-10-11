@@ -203,15 +203,18 @@ def extras(pc, chorus):
 def layout():
     """[(bank, switch, messages)] for every switch that sends something: what the router
     turns each universal address into. That is exactly what `build()` puts on the switch,
-    then extras() after a channel-1 PC."""
+    then extras() after a channel-1 PC, then the DAW tail switches after every PC."""
     import qtractor_rig
     chorus = qtractor_rig.chorus_settings()
+    tail_map = qtractor_rig.load_tail_map()
     fcb, out = build(), []
     for b in range(10):
         for s in range(1, 11):
             if m := messages(fcb, b, s):
                 pc = next((e[2] for e in m if e[0] == "pc" and e[1] == CHANNEL), None)
-                out.append((b, s, m + (extras(pc, chorus) if pc is not None else [])))
+                # each instance's DAW tails follow its PC (qtractor_rig.tail_ccs, experiments D25)
+                tails = [cc for e in m if e[0] == "pc" for cc in qtractor_rig.tail_ccs(e[1], e[2], tail_map)]
+                out.append((b, s, m + (extras(pc, chorus) if pc is not None else []) + tails))
     return out
 
 
