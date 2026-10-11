@@ -498,7 +498,16 @@ def analog_echo(delay_ms=300.0, feedback=0.6, repeats=8, cutoff_hz=2800.0, rate=
         for i, v in enumerate(rev):
             h[i] += v * g
     peak = max(abs(v) for v in h)
-    return wav_write([v / peak * 0.9 for v in h], rate)
+    h = [v / peak * 0.9 for v in h]
+    if not reverb:  # h starts with one delay time of zeros, which TONE3000 would trim (D26)
+        h[0] = ECHO_TRIM_GUARD
+    return wav_write(h, rate)
+
+
+# TONE3000 loads every IR with JUCE's Trim::yes (ProcessorModelLoader.cpp:1040), which drops
+# leading samples under an absolute -80 dBFS (juce_Convolution.cpp trimImpulseResponse). One
+# sample just over it keeps a delay-only echo's lead-in, 78 dB under its first repeat (D26).
+ECHO_TRIM_GUARD = 10 ** (-79 / 20)
 
 
 # Reverb tails are cut at this length. Long convolutions cost CPU on every cycle and stall
@@ -1286,9 +1295,120 @@ SCENES = {  # name: (CC 80, CC 81, preset the clean instance loads; None = send 
 SCENE_KINDS = ("heavy", "clean", "acoustic", "harmony")  # harmony presets are generated
 
 
+# --- DAW tails (experiments D25) -------------------------------------------------------------
+# TONE3000 convolves every IR longer than 1.0 s (kShortIrMaxSeconds) with JUCE's non-uniform
+# engine: a head of 8192 samples on every callback, then the tail in 8192-frame partitions that
+# are computed in ONE host callback every 32 quanta. Qtractor runs every track and plugin in its
+# single JACK thread, so those bursts all land on the rig's one realtime thread while 11 cores
+# idle. A long echo/reverb/ambience block after its lane's last amp (IR blocks are linear and
+# time-invariant, so it commutes with the IRs after it), that no footswitch toggles and that
+# has no EQ or gain of its own is therefore taken out of the preset (its slot becomes an empty
+# insert, so slot numbers and CC maps stay put) and convolved in the DAW instead, right after
+# that TONE3000, by x42 zeroconvolv (zita-convolver), which computes the late partitions on its
+# own SCHED_FIFO threads. qtractor_rig.py builds one convolver per distinct stage and switches
+# them per preset with absolute CCs that follow the preset's Program Change (rig.extras()).
+# Same sound: the DAW stage gets the exact WAV TONE3000 would load, with TONE3000's own load
+# rules applied (JUCE trims leading/trailing samples under -80 dB; unit-energy normalisation,
+# attenuation only; long IRs get no cab pad) and the block's wet/dry mix as dry/wet gains.
+DAW_TAILS = os.environ.get("T3K_DAW_TAILS", "1") != "0"
+LONG_IR_S = 1.0           # TONE3000 kShortIrMaxSeconds: longer IRs use the bursty non-uniform engine
+TAIL_ROLES = ("echo", "echo2", "ambience")
+
+
+def footswitch_targets(rig):
+    """TONE3000 MIDI-map targets a footswitch can toggle while this preset is loaded. Clean,
+    acoustic and harmony presets load on MIDI ch 2/3, where the FCB never sends block toggles."""
+    if rig.get("scene") in ("clean", "acoustic", "harmony"):
+        return set()
+    import rig as layout  # lazy: rig.py imports this module
+    banks = {b for b, _, pc, _ in layout.SONGS if pc == rig["pc"]}
+    if rig.get("scene") == "heavy":
+        banks.add(rig.get("bank"))
+    ccs = {cc for b in banks for _, cc, _ in layout.toggles(b)} if banks else {cc for _, cc in MIDI_MAP}
+    return {target for target, cc in MIDI_MAP if cc in ccs}
+
+
+def block_ir(node):
+    """A built IR block's embedded WAV as mono 48 kHz samples, or None (stereo file, other rate)."""
+    cache = next((c for c in node.children if c.type == "ModelCache"), None)
+    if cache is None or not cache.children:
+        return None
+    raw = cache.children[0].get("data")
+    if not isinstance(raw, (bytes, bytearray)):
+        return None
+    chans, rate = wav_read(bytes(raw))
+    return chans[0] if len(chans) == 1 and rate == 48000 else None
+
+
+def tone3000_ir(x):
+    """What TONE3000 convolves for this IR file: JUCE's Trim::yes (leading and trailing samples
+    under -80 dBFS dropped) times its unit-energy normalisation (attenuation only, floor -48 dB),
+    computed on the file as loaded (ProcessorModelLoader computeIrNormalizationGain)."""
+    l2 = math.sqrt(sum(v * v for v in x))
+    g = 1.0 if l2 <= 0 else min(1.0, max(10 ** (-48 / 20), 1.0 / l2))
+    thr = 10 ** (-80 / 20)
+    on = [i for i, v in enumerate(x) if abs(v) >= thr]
+    return [v * g for v in x[on[0]:on[-1] + 1]] if on else []
+
+
+def daw_tail_plan(rig, left, right):
+    """-> (left, right, stages). `left`/`right` are the built chains with the moved blocks emptied;
+    each stage is {"mix", "irs": [left IR, right IR] (TONE3000's normalised, trimmed kernel),
+    "labels"}, in chain order. Empty when DAW_TAILS is off or nothing qualifies."""
+    if not DAW_TAILS:
+        return left, right, []
+    targets, params = footswitch_targets(rig), preset_params(rig)
+    split = rig.get("split_after") if rig.get("right") else None
+
+    def suffix(specs, nodes, power, first):
+        out = []  # (index, mix, ir, label), last block first
+        for i in range(len(specs) - 1, first - 1, -1):
+            spec = specs[i]
+            if spec.get("type") not in ("ir", "echo"):  # an amp (NAM) is non-linear: nothing moves past it
+                if spec.get("type") == "insert":
+                    continue
+                break
+            ok = (spec.get("type") in ("ir", "echo") and spec.get("role") in TAIL_ROLES
+                  and spec.get("enabled", True) and power.format(i + 1) not in targets
+                  and not any(spec.get(k) for k in ("eq", "eq_pre", "in_db", "out_db")))
+            ir = block_ir(nodes[i]) if ok else None
+            if ir is not None:
+                ir = tone3000_ir(ir)
+            if not ir or len(ir) <= LONG_IR_S * 48000:  # TONE3000 runs short IRs uniformly: no bursts
+                continue  # IR blocks are linear and time-invariant: the ones after it commute with it
+            out.append((i, float(spec.get("mix", 1.0)), ir, spec.get("label", spec.get("role"))))
+        return out
+
+    lanes = suffix(rig["left"], left, "block{}Power", split or 0)
+    if split:
+        rights = suffix(rig["right"], right, "rightBlock{}Power", 0)
+        hard = params.get("chainPanLeft") == 0 and params.get("chainPanRight") == 1 and not params.get("spreadEnabled")
+        k = 0  # stages both lanes share: same mix, and either hard-panned lanes or the same IR
+        while k < min(len(lanes), len(rights)) and lanes[k][1] == rights[k][1] and (hard or lanes[k][2] == rights[k][2]):
+            k += 1
+        pairs = list(zip(lanes[:k], rights[:k]))
+    else:
+        pairs = [(s, None) for s in lanes]
+    left, right = list(left), list(right)
+    stages = []
+    for l, r in reversed(pairs):  # chain order
+        left[l[0]] = block("insert")
+        if r:
+            right[r[0]] = block("insert")
+        irs = [l[2], (r or l)[2]]
+        stages.append({"mix": l[1], "irs": irs, "labels": [l[3]] + ([r[3]] if r else [])})
+    return left, right, stages
+
+
 def build_preset(rig):
+    return build_preset_and_tails(rig)[0]
+
+
+def build_preset_and_tails(rig):
+    """(the T3KPreset node, its DAW tail stages: daw_tail_plan)."""
     left = [build_block(b) for b in rig["left"]]
     right = [build_block(b) for b in rig.get("right", [])]
+    left, right, stages = daw_tail_plan(rig, left, right)
     split = rig.get("split_after")
     left += [block("insert") for _ in range(max(0, 5 - len(left)))]
     right += [block("insert") for _ in range(max(0, 5 - len(right)))]
@@ -1297,7 +1417,7 @@ def build_preset(rig):
     snap.children = [Node("ChainBlocks", children=left), Node("RightChainBlocks", children=right)]
     root = Node("T3KPreset").set("schemaVersion", 1).set("name", rig["name"]).set("id", preset_id(rig["name"]))
     root.children = [snap, params_node(preset_params(rig))]
-    return root
+    return root, stages
 
 
 def preset_params(rig):
