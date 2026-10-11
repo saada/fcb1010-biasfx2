@@ -12,7 +12,7 @@
     "https://songbpm.com/@van-halen/panama",
     "https://www.tone3000.com/tones/6220"
   ],
-  "notes": "Same plexi family as Van Halen I, a little hotter and tighter: Variac 190 V, dimed 7, with the capture's 8 dB clean boost in front (the boost is an inference; no source documents the 1984 voltage). Cab = the same Greenback SM57 (no 1984 cab is documented). Drier room (480L Small Wood Room 10%) for the isolation-paneled home studio. Spread on, no wobble, for the Eventide split 'out of both sides'. SW8 BOOST = TS9 push; SW9 DELAY = 319 ms (dotted eighth at Panama's 141 BPM). Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
+  "notes": "Same plexi family as Van Halen I, a little hotter and tighter: Variac 190 V, dimed 7, with the capture's 8 dB clean boost in front (the boost is an inference; no source documents the 1984 voltage). Cab = the same Greenback SM57 (no 1984 cab is documented). Drier room (480L Small Wood Room 10%) for the isolation-paneled home studio. Spread on, no wobble, for the Eventide split 'out of both sides'. SW8 BOOST = TS9 push; SW9 DELAY = 319 ms (dotted eighth at Panama's 141 BPM). Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured. Panama is a half step down (tag eb), Hot for Teacher is in standard. Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down.",
   "voicing": "humbucker",
   "left": [
     {
