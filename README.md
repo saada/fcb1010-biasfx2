@@ -41,26 +41,30 @@ BANK 4  MODERN: Randall Satan sounds (Ola Englund's rig) and Glenn Fricker's Sto
           SW1 SATAN FULL RIG   SW2 SATAN 50 MODERN   SW3 SATAN 50 LOW TUNED   SW4 SATAN 50 LEAD   SW5 STORMBLADE
           SW6 WAH      SW7 OCTAVER  SW8 LEAD (boost + echo)  SW9 DRIVE  SW10 TUNER
 
-BANK 5  80s LEADS: classic 80s solo tones, one song preset per switch (the last bank: one UP from Modern)
+BANK 5  80s LEADS: classic 80s solo tones, one song preset per switch (one UP from Modern)
           SW1 WHO'S CRYING NOW   SW2 SWEET CHILD O' MINE   SW3 CRAZY TRAIN   SW4 MASTER OF PUPPETS   SW5 ERUPTION
           SW6 WAH      SW7 CHORUS   SW8 BOOST        SW9 DELAY          SW10 TUNER
+
+BANK 6  LEGENDS: 60s-80s guitar heroes, one song preset per switch (the last bank: one UP from 80s Leads)
+          SW1 PRIDE AND JOY   SW2 VOODOO CHILD   SW3 BOHEMIAN RHAPSODY   SW4 WHOLE LOTTA LOVE   SW5 BACK IN BLACK
+          SW6 WAH      SW7 VIBE     SW8 BOOST        SW9 DELAY          SW10 TUNER
 
 EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7): heel silent, toe = 0 dB = YouTube level (rock it forward to reset)
 ```
 
 | Switch | Sends | Does |
 |---|---|---|
-| Maiden SW1 RHYTHM | PC 0 + PC 1 (ch 2) + PC 28 (ch 3), CC 80 = 63, CC 81 = 0 | loads the bank; twin-guitar rhythm (Murray JMP-1 left, Smith JCM2000 right); turns both delays off |
+| Maiden SW1 RHYTHM | PC 0 + PC 1 (ch 2) + PC 33 (ch 3), CC 80 = 63, CC 81 = 0 | loads the bank; twin-guitar rhythm (Murray JMP-1 left, Smith JCM2000 right); turns both delays off |
 | Maiden SW2 LEAD | CC 80 = 72 | amps pushed and +2 dB; no echo of its own (no PC, so it's instant) |
 | Maiden SW3 CLEAN | PCs + CC 81 = 127 | the reverby clean (its own 410 ms echo is always on) |
 | Maiden SW4 ACOUSTIC | PCs (acoustic on ch 2) + CC 81 = 127 | electric-to-acoustic (Journeyman) |
 | Maiden SW5 CRUNCH | CC 80 = 48 | volume-knob-down drive |
 | Maiden SW8 EVIL DELAY | CC 24 (toggle) | The Evil That Men Do: 375 ms, feedback 0.3, 25 % wet, bright, short plate tail |
 | Maiden SW9 MADNESS DELAY | CC 30 (toggle) | Can I Play with Madness: 415 ms, feedback 0.35, 25 % wet, darker, plate tail |
-| Song SW1–5 (banks 1–5) | PC 3–7 (80s), 18–22 (80s Clean), 8–12 (Variety), 13–17 (Modern), 23–27 (80s Leads); CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state |
+| Song SW1–5 (banks 1–6) | PC 3–7 (80s), 18–22 (80s Clean), 8–12 (Variety), 13–17 (Modern), 23–27 (80s Leads), 28–32 (Legends); CC 80 = 63, CC 81 = 0 | loads the song; resets the scene state |
 | SW6 WAH | CC 20 (toggle) | Guitarix wah (DAW); EXP A sweeps it |
-| SW7 HARMONY / CHORUS / OCTAVER | CC 25 / CC 31 / CC 21 (toggle) | Maiden: twin-lead harmony a third up in E minor; 80s, 80s Clean and 80s Leads: a real stereo chorus (LSP, DAW) at the song's rate, depth and mix; Variety/Modern: octave down |
-| 80s / 80s Clean / 80s Leads SW8 BOOST / SW9 DELAY | CC 22 / CC 24 (toggle) | the preset's lead boost (on by default in Who's Crying Now); the song's delay (on by default in U2 Streets, Is This Love, Rule the World, Hysteria Clean, Who's Crying Now and Eruption) |
+| SW7 HARMONY / CHORUS / VIBE / OCTAVER | CC 25 / CC 31 / CC 92 / CC 21 (toggle) | Maiden: twin-lead harmony a third up in E minor; 80s, 80s Clean and 80s Leads: a real stereo chorus (LSP, DAW) at the song's rate, depth and mix; Legends: a Uni-Vibe-style 4-stage phaser (LSP, DAW, before the amp) at the song's rate, depth and mix (CC 93–95); Variety/Modern: octave down |
+| 80s / 80s Clean / 80s Leads / Legends SW8 BOOST / SW9 DELAY | CC 22 / CC 24 (toggle) | the preset's lead boost (on by default in Who's Crying Now, Pride and Joy and Bohemian Rhapsody); the song's delay (on by default in U2 Streets, Is This Love, Rule the World, Hysteria Clean, Who's Crying Now and Eruption) |
 | Variety/Modern SW8 LEAD / SW9 DRIVE | CC 26 / CC 23 (toggle) | boost + solo echo together; the song's drive pedal (Modern: the Fortin 33 or Solar CHUG) |
 | SW10 TUNER | CC 28 (toggle) | mutes the rig and opens the Fretwise tuner (Omarchy bar plugin) on the clean input; press again to play |
 
@@ -132,7 +136,7 @@ Tests replay a real session from the FCB (`guitarmood/tests/fixtures/fcb-live.lo
 
 1. Plug in the Scarlett (guitar in **Input 2**) and the FCB, then open **GuitarMood** (SUPER+SPACE). It takes about 10 s and starts on the Maiden bank (bank 0).
 2. **Tune:** press SW10. The rig mutes and Fretwise opens in the bar on your guitar. Tune, then press SW10 again.
-3. **Pick a bank** with UP/DOWN. In the Maiden bank press **RHYTHM, CLEAN or ACOUSTIC** first: those load it. LEAD and CRUNCH only change drive, so they assume the bank is already loaded. In the 80s, 80s Clean, Variety, Modern and 80s Leads banks each of SW1–5 is a song. 80s Leads is the last bank, one UP from Modern. The 80s Clean bank is one UP from the 80s bank: stomp **SW7 CHORUS** for the chorus these songs live on (it stays on across songs until you press it again). Each song carries its own rate, depth and mix (`chorus` in its preset, sent as CC 89–91 by `qtractor_rig.chorus_ccs` from whatever reads the FCB); until that is wired, the session default plays: 0.6 Hz, 4 ms, 50 % wet.
+3. **Pick a bank** with UP/DOWN. In the Maiden bank press **RHYTHM, CLEAN or ACOUSTIC** first: those load it. LEAD and CRUNCH only change drive, so they assume the bank is already loaded. In the 80s, 80s Clean, Variety, Modern, 80s Leads and Legends banks each of SW1–5 is a song. 80s Leads is one UP from Modern, and Legends, the last bank, one UP from 80s Leads; its SW7 is **VIBE** (a Uni-Vibe-style phaser at each song's rate) instead of the chorus. The 80s Clean bank is one UP from the 80s bank: stomp **SW7 CHORUS** for the chorus these songs live on (it stays on across songs until you press it again). Each song carries its own rate, depth and mix (`chorus` in its preset, sent as CC 89–91 by `qtractor_rig.chorus_ccs` from whatever reads the FCB); until that is wired, the session default plays: 0.6 Hz, 4 ms, 50 % wet.
 4. Play along with the track in Spotify or YouTube.
 5. **Record** a take: `uv run qtractor_rig.py record` / `stop`. It saves the full rig and the dry DI in `~/Music/fcb-rig/`, so you can re-amp later.
 6. When you're done, close GuitarMood (SUPER+W): it saves and stops the rig.
@@ -159,6 +163,11 @@ Maiden songs all play on bank 0, which has the Brave New World / Dance of Death 
 | Crazy Train (5) | SW3 CRAZY TRAIN: the Distortion+ and its EQ curve are always on. SW9 DELAY (380 ms) for the solo. |
 | Master of Puppets (5) | SW4 MASTER OF PUPPETS: stereo, tight gate. SW8 BOOST + SW9 DELAY (400 ms) for Kirk's solo. |
 | Eruption (5) | SW5 ERUPTION: the 300 ms tape echo is on; SW9 off for the body, back on for the ending. Half step down. |
+| Pride and Joy (6) | SW1 PRIDE AND JOY: Vibroverb left + Dumble right with the TS9 (SW8) already on; neck/middle pickup if you have one (the rig adds a Strat voicing). SW7 VIBE is the slow Vibratone of Cold Shot. Half step down. |
+| Voodoo Child (Slight Return) (6) | SW2 VOODOO CHILD: Fuzz Face into a 100 W Marshall, always on. SW6 WAH + EXP A for the intro; SW7 VIBE for the 1969-70 live versions (Uni-Vibe). Half step down. |
+| Bohemian Rhapsody, guitar solo (6) | SW3 BOHEMIAN RHAPSODY: the treble booster (SW8) into a dimed AC30 is on; SW8 off for a darker AC30. |
+| Whole Lotta Love (6) | SW4 WHOLE LOTTA LOVE: Les Paul into a Plexi (a stand-in for Page's Vox Super Beatle). For the solo, SW6 WAH and park EXP A forward. |
+| Back in Black (6) | SW5 BACK IN BLACK: Malcolm's Super Bass left, Angus's Super Lead right, low gain. SW8 BOOST (the Schaffer-Vega) for the solos. |
 
 The seven Maiden era banks (Number of the Beast to Dance of Death) are retired. Their research
 is in `rigs/archive/`, and the builder skips it.

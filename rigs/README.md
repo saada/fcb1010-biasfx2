@@ -12,8 +12,8 @@ Workflow, from words to sound:
 3. `sim`: render the affected presets offline (`affected()` + `build_presets()`) before `build` puts them on the rig.
 
 `tone3000.py build` turns every `NN-slug.json` here into a TONE3000 preset and
-loads them into PC order (`pc` 0–27; bank 0 = Maiden scene presets, banks 1–5 = song
-switches: 80s PC 3–7, 80s Clean PC 18–22, Variety PC 8–12, Modern PC 13–17, 80s Leads PC 23–27; `rig.py` SONGS
+loads them into PC order (`pc` 0–32; bank 0 = Maiden scene presets, banks 1–6 = song
+switches: 80s PC 3–7, 80s Clean PC 18–22, Variety PC 8–12, Modern PC 13–17, 80s Leads PC 23–27, Legends PC 28–32; `rig.py` SONGS
 maps PCs to switches, so a new bank takes the next free PCs). `rigs/archive/` keeps retired presets (the seven Maiden era banks and the song
 presets no longer on the board) for their research; the builder only reads `rigs/*.json`. Captures and
 IRs come from the public [TONE3000](https://www.tone3000.com) catalog by id.
@@ -64,7 +64,7 @@ Right chain (only with `split_after`): R1 `amp`, R2 `cab`, R3 `echo` (same CC as
 slot 5), R4 `echo2` (same CC as slot 6) or `ambience`, then `ambience`. Everything before the split (slots 1..N) feeds both.
 Other globals: SW6 (CC 20) noise gate, SW7 (CC 21) `spreadEnabled`, EXP A
 (CC 27) treble. (In the DAW rig Qtractor takes CC 20/21/27 for the wah and octaver, and the
-80s banks' SW7 sends CC 31 to the DAW chorus.) EXP B (CC 7) is not a TONE3000 param: it is the
+80s banks' SW7 sends CC 31 to the DAW chorus, the Legends bank's CC 92 to the DAW vibe.) EXP B (CC 7) is not a TONE3000 param: it is the
 DAW's Volume stage before the limiter, so presets never reset it (experiments D22).
 
 ### The DAW chorus (`chorus`)
@@ -77,6 +77,18 @@ preset's optional `chorus` block sets its `rate_hz` (0.01–20), `depth_ms` (0.1
 80s chorus). `qtractor_rig.chorus_ccs(pc)` turns them into CC 89/90/91, which Qtractor maps
 linearly onto the ports (`check` validates the ranges). The chorus is not in tone.csv or the
 simulator.
+
+### The DAW vibe (`vibe`, Legends bank)
+
+No Uni-Vibe LV2 is installed, so `qtractor_rig.py` `VIBE` is LSP Phaser Stereo set up like one:
+four all-pass stages swept together by a sine LFO, staggered across 150 Hz–2 kHz, no feedback,
+both sides in phase. It sits *before* the heavy TONE3000 (a Uni-Vibe in front of the amp),
+bypassed by default and toggled by SW7 (CC 92) in the Legends bank (experiments D28). A
+preset's optional `vibe` block sets `rate_hz` (0.01–20), `depth` (LSP's Depth, 0–10: 1 = the
+deepest notches, the Uni-Vibe's Chorus mode; higher leans to its Vibrato mode) and `mix` (0–1);
+missing keys take `VIBE_DEFAULT` (1.5 Hz, 1.0, 1.0). `qtractor_rig.vibe_ccs(pc)` turns them
+into CC 93/94/95 after the PC. Only presets with a `vibe` block send them, so every preset in a
+bank whose SW7 is VIBE needs one (else the last song's rate stays). Not in tone.csv or the simulator.
 
 ### Block types
 
@@ -153,7 +165,7 @@ works. A1 files may lack loudness metadata, so re-level with `out_db` after a sw
 differ, `-` where it has no such block); `column -t -s, rigs/tone.csv` shows the raw sheet.
 Rows: the header, a `#rule` row (each column's rule and unit), `*`, any `@tag` rows, then one row
 per preset keyed by its JSON stem. A preset's `tags` cell (space separated: bank `maiden` `80s`
-`80s-clean` `variety` `modern` `80s-leads`; the 80s Clean and 80s Leads presets carry `80s` too, character `clean` `crunch` `heavy` `lead` `acoustic`, `stereo`) is what
+`80s-clean` `variety` `modern` `80s-leads` `legends`; the 80s Clean and 80s Leads presets carry `80s` too, character `clean` `crunch` `heavy` `lead` `acoustic` `blues`, `stereo`) is what
 `@tag` rows match; edit the tags freely. `check` rejects unknown stems, columns and tags,
 non-numbers and out-of-range cells, and names the line, row and column.
 
