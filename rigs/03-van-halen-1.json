@@ -17,6 +17,7 @@
     "https://www.tone3000.com/tones/6220"
   ],
   "notes": "Dual rig, same Variac'd plexi on both sides (the Slammin 1959HW at 180 V is 75% of its 240 V mains, i.e. EVH's documented 89-90 of 120 V). Left = G12M-25 Greenback 4x12 SM57, right = JBL E120 standing in for the documented JBL D120F cab. Landee panned the guitar to one side and the live chamber to the other: the 480L Large Chamber sits at 15% left and 40% right. SW8 BOOST = TS9 clean push (not on the record). SW9 DELAY = a generic 320 ms solo slap (the record has no tempo-synced delay). Phase 90 (Ain't Talkin', slow speed) and the electric-sitar double can't be modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

@@ -13,6 +13,7 @@
     "https://lancasteraudio.com"
   ],
   "notes": "The same recipe from separate parts: Paul Jacovino's Randall Satan 50 (his amp, not Ola's) on its 'Modern' setting, the Fortin 33 at 3 o'clock as in the @nillmtd full rig,. SW8 adds the CHUG's lead setting as a boost. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's \"file\" field swaps one in (rigs/README.md, Local files). Cab: Lancaster Audio PLAP free IR (Cameron Webb / Warren Huart / Ulrich Wild), Warren Huart's Marshall 4x12 with V25s, a local file in ~/Music/fcb-rig/packs/lancaster/ (no license text, so personal use only and never committed); picked on the DI bench against the Res New Old Dude IR (experiments D18): the brightest and leanest of the four on this amp, 4.9 dB less below 100 Hz, 2.6 dB less at 100-250 Hz and 2.8 dB more 5-10 kHz than New Old Dude, so the Modern setting cuts instead of sitting in the low mids. Without the file, check fails with its path: delete the cab's \"file\" field to fall back to New Old Dude (tone 5996).",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

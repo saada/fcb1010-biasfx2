@@ -1,7 +1,7 @@
 {
   "pc": 10,
   "name": "Nirvana",
-  "reference": "Smells Like Teen Spirit / Breed / In Bloom — Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City",
+  "reference": "Smells Like Teen Spirit / Breed / In Bloom \u2014 Nevermind (1991), prod. Butch Vig, mixed by Andy Wallace, Sound City",
   "rig": "Kurt Cobain: '69 Fender Competition Mustang / '65 Jaguar (DiMarzio Super Distortion) -> Boss DS-1 (tone ~10 o'clock, level max) [+ ProCo RAT, EHX Small Clone] -> Mesa/Boogie Studio Preamp -> Crown Power Base 2 -> 4x12, double-tracked with a Fender Bassman on the heavy parts (AC30 for cleans); SM57/U87/414 close, very little room",
   "sources": [
     "https://guitar.com/features/artist-rigs/the-humble-gear-used-by-kurt-cobain-on-nirvana-nevermind/",
@@ -10,6 +10,7 @@
     "https://en.wikipedia.org/wiki/Nevermind"
   ],
   "notes": "Dual-rig stereo for Vig's double-tracked rhythms: DS-1 (always on) feeds both; left = Mesa Studio Preamp (preamp-only capture, the Crown SS power amp assumed clean) + Nevermind-matched T75 4x12 IR, right = '71 Bassman DI at a pedal-platform setting + a second Nevermind IR, hard-panned. Exact Bassman year and Kurt's preamp settings are unknown (guesses). Small Clone can't be modelled: SW7 (spread) is preset with wobble as a stand-in for the watery verse/Come As You Are chorus. No reverb: Vig kept the guitars dry and in your face. Echo is only a solo helper (not on the record). SW8 = RAT stacked for extra saturation. The DS-1 (SW9) is Kurt's quiet-verse/loud-chorus switch: toggling it off drops ~5 dB by design.",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

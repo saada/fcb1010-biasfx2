@@ -13,6 +13,7 @@
     "https://www.tone3000.com/tones/57603"
   ],
   "notes": "Amp: Marshall's 1959RR Randy Rhoads reissue, channel 1 gain at noon (GW's Vol I ~6; the Distortion+ supplies the rest). Drive (always on): the MXR Distortion+ capture at exactly GW's Output 10 / Distortion 4, with the 10-band EQ curve mapped onto its six-band eq [2, 5, 7, 4, -1, 1] (100/250/650/1600/3500/8k, scaled ~0.7 to stay safe). GW's knob and EQ settings are by-ear estimates (Tonal Recall), not session notes. Cab: Greenback 1960TV SM57; no Altec 417-8H IR exists in the catalog. SW8 BOOST = TS9 clean push (not on the record: the 80s banks keep a boost on every preset). SW9 DELAY = a 380 ms short solo delay (Owsinski: the solo has only a short AMS delay on the right). 480L Large Wood Room at 15% for the Ridge Farm stone room. Can't match: the AMS detune and the triple-tracked solos (mono preset). Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

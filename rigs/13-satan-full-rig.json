@@ -12,6 +12,7 @@
     "https://olaenglundshop.com/products/randall-satan-50-nam-model"
   ],
   "notes": "The main sound: a full-rig capture (amp, Fortin 33 and cab IR baked in) that its author @nillmtd describes as Ola Englund's own Randall Satan; it is a community capture, not Ola's release. 'My EQ' is the author's voicing (FLAT 413603 and 'My EQ + volume' 382693 are the alternatives). The Fortin is already in the capture, so SW9's drive (Solar CHUG 'Crushinator') starts off as an extra tightener, and SW8's boost is the Fortin 33 at its mildest setting. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's \"file\" field swaps one in (rigs/README.md, Local files).",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

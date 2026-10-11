@@ -16,6 +16,8 @@
     "https://forum.maidenfans.com/threads/interview-with-steve-harris-in-metalworld-no-38.2289/"
   ],
   "notes": "REBUILT for the Dance of Death / Dream of Mirrors intros. The old chain (compressor -> Boss AC-3 -> Martin / J-45 body IRs, 480L Large Hall + Small Wood Room) measured darker than the dry DI itself: 2-5 kHz at -27.2 dB of the band energy, centroid 686 Hz, i.e. a boomy, muffled electric rather than a steel string, with ~3.5 s of reverb; offline renders show the AC-3 capture and these body IRs both take top end away (AC-3 alone: 2-5 kHz -34 dB). The new chain keeps 2 NAM blocks on the instance: slot 1 (boost, on) = Diamond Compressor, comp 5 (levels the picking the way Shirley's 1176 did; it also keeps the crest at ~15 dB so the bus limiter isn't hitting pick attacks); slot 2 (drive, on) = 'Acoustic piezo to microphone' NAM (a piezo pickup re-recorded on a Rode condenser) fed by the electric with a piezo pre-EQ (-6 dB 100 Hz shelf, -4 dB 250, +3 dB 1.6 kHz, +6 dB 3.5 kHz, +6 dB 8 kHz shelf) so the magnetic pickup's low-mid hump reads as a piezo; then L = Taylor 816 'M251 Pz1' IR, R = Taylor 816 'M251 SB1' IR, each with a body EQ (-8 dB 100 Hz shelf, -4 dB 250, -1 dB 650, +1 dB 1.6 kHz, +8 dB 3.5 kHz, +7 dB 8 kHz shelf) to cut the boom and open the strings. Measured offline: 2-5 kHz -8.9 dB, centroid ~1180 Hz, low<250 -5.9 dB. The guitars on the record and the Chet Atkins live are steel strings, so a Taylor steel-string IR is the nearest honest match; no Gibson Chet Atkins capture or IR exists in the catalog, and nothing makes an electric fully acoustic (best on the neck pickup, picked lightly). Stereo double: the two IRs panned hard left/right with Align wobble 0.15, like two acoustic takes panned apart (Shirley fitted parts by panning). Ambience, kept short for the crackles the owner hears on long tails (and dry like the records): echo block (always on; SW8/SW9 don't reach this instance) = reverb only, Lexicon 480L Small Wood Room, 1.0 s IR at 12%, standing in for the Sarm West room mics; slot 6 / R4 = Sunset Sound Studio 3 live room, mono, trimmed to 0.8 s (RT60 ~0.5 s) at 15%. Longest tail 1.0 s, both IRs together 1.8 s of convolution (was 2.0 s + 1.5 s, the Large Hall capped from 3.5 s). Levels: rendered offline with rigsim --exact to -15 LUFS (clean/acoustic target, D22); not yet measured on the live rig.",
+  "voicing": "piezo",
+  "voicing_block": "drive",
   "left": [
     {
       "role": "boost",
@@ -31,16 +33,7 @@
       "tone_id": 29116,
       "model_id": 493489,
       "enabled": true,
-      "label": "Piezo pickup -> Rode condenser NAM, electric pre-voiced as a piezo",
-      "eq": [
-        -6.0,
-        -4.0,
-        -1.0,
-        3.0,
-        6.0,
-        6.0
-      ],
-      "eq_pre": true
+      "label": "Piezo pickup -> Rode condenser NAM, electric pre-voiced as a piezo"
     },
     {
       "role": "amp",

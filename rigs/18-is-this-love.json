@@ -20,6 +20,7 @@
     "note": "Estimate: no settings are documented. Slow and medium-deep, half wet, for the 'chorus-drenched' arpeggios; the PCM41 split-stack is the documented mechanism."
   },
   "notes": "The split stack as a dual rig: the same Mesa Mark III clean channel (a 1987 Red Stripe through its DI out; the record's Coliseum heads are not in the catalog) and a Mesa 4x12 V30 SM57 IR, hard left and right, with Align wobble 0.35 for the PCM41's short modulated delay on one side. The chorus itself is the DAW chorus on SW7 (0.6 Hz / 5 ms / 50 %, an estimate). Strat pre-EQ (humbucker -> single coil) into the capture; play the neck or neck+middle pickup. The echo is ON: 489 ms (dotted eighth at 92 BPM; 1/4 would be 652 ms), feedback 0.25, low mix, with a 480L Large Hall in the same block (SW9 switches both); all estimates. SW8 BOOST = TS9 clean push (not on the record). Amp conflict: Mesa clean vs JC-120 vs JCM800 is unresolved; this follows the only account of the mechanism. Levels: tone.csv out_db 7.2 dB puts it at -16.0 LUFS, peak -1.9 dBFS on the DI bench, simulated offline with rigsim --exact (experiments D20; cleans sit at -16, 2 dB under the -14 heavies, so pick peaks stay under the limiter). The DAW chorus is not in the simulation; at rest it is bypassed.",
+  "voicing": "single-coil",
   "left": [
     {
       "role": "boost",
@@ -39,16 +40,7 @@
       "tone_id": 74009,
       "model_id": 643512,
       "enabled": true,
-      "label": "Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 1)",
-      "eq": [
-        -3.0,
-        -2.5,
-        0.0,
-        1.5,
-        3.0,
-        2.0
-      ],
-      "eq_pre": true
+      "label": "Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 1)"
     },
     {
       "role": "cab",
@@ -83,16 +75,7 @@
       "tone_id": 74009,
       "model_id": 643512,
       "enabled": true,
-      "label": "Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 2, after the PCM41)",
-      "eq": [
-        -3.0,
-        -2.5,
-        0.0,
-        1.5,
-        3.0,
-        2.0
-      ],
-      "eq_pre": true
+      "label": "Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 2, after the PCM41)"
     },
     {
       "role": "cab",

@@ -15,6 +15,10 @@
     "https://www.tone3000.com/tones/91844"
   ],
   "notes": "Dual rig, hard panned as Platt screened them: left Malcolm on amalgam's 1967 Marshall Super Bass 'REX' (Crunch, Vol I 7, full rig); right Angus on Slammin's 1959HW 'ANGUS_LO' setting into a Marshall 1960A G12-65 SM57 IR (G12-65s per guitar.com). SW8 BOOST = SoloDallas Schaffer Replica (Gain 9, Boost 12 o'clock, limiter off) for the solos, off at load as Platt says; it sits before the split, so it pushes Malcolm too. Humbucker voicing throughout (the owner's guitar; the Filter'Tron is close enough). Angus's SG year is contested (1971 Standard per guitar.com vs 1970 Custom per groundguitar). SW9 = an eighth-note echo at 94 BPM (Platt's 'very slight delay' is undocumented in time). 480L Small Wood Room at 10 % for Compass Point. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
+  "voicing": {
+    "left": "filtertron",
+    "right": "humbucker"
+  },
   "left": [
     {
       "role": "boost",

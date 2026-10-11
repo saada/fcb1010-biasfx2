@@ -363,9 +363,18 @@ EQ_BANDS = [("lowshelf", 100.0, 0.7099999785423279), ("bell", 250.0, 1.0), ("bel
             ("highshelf", 8000.0, 0.7099999785423279)]
 
 
-# Humbucker -> single-coil voicing (pre-model EQ, gain dB per EQ_BANDS band):
-# thins lows/low-mids, adds the Tele/Strat quack and top end.
-HB_TO_SINGLE_COIL = [-3.0, -2.5, 0.0, 1.5, 3.0, 2.0]
+# Pickup voicings for the owner's guitar, a Sterling JP70 7-string with two hot ceramic humbuckers
+# (rigs/README.md "Voicing", experiments D29): the pre-model EQ (gain dB per EQ_BANDS band) that
+# makes it feed an amp capture like the record's pickup. A preset's `voicing` names one; the
+# builder puts it on the amp's EQ, switched to run before the model. "humbucker" = no EQ.
+VOICINGS = {
+    "humbucker": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "single-coil": [-2.0, -2.0, -1.5, 0.0, 4.0, 4.0],   # Strat/Tele: resonance ~4 kHz vs the JP70's ~2 kHz
+    "p90": [-1.5, -1.0, 0.0, 1.0, 1.5, -0.5],            # P-90: same inductance class, one coil: mids and bite
+    "filtertron": [-2.0, -2.0, -1.0, 0.5, 4.0, 5.0],     # Gretsch Filter'Tron: low output, ~5 kHz resonance
+    "piezo": [-6.0, -4.0, -1.0, 3.0, 6.0, 6.0],           # undersaddle piezo: flat to the top, no magnetic hump
+}
+LEGACY_SINGLE_COIL = [-3.0, -2.5, 0.0, 1.5, 3.0, 2.0]  # the hand-made curve presets used before D29
 
 
 def block(kind, enabled=True, tone=None, model_id=None, mix=1.0, eq_gains=None, eq_pre=False, data=None):
@@ -625,6 +634,7 @@ END = "end"  # a chain's end block: its cab, or its amp when the cab slot is emp
 TONE_COLUMNS = {
     "out_db": ("add", "dB", -24, 24, "LR", END, CAPTURE, "out_db"),  # preset fader (see apply_tone)
     "in_db": ("add", "dB", -24, 24, "LR", "amp", ("nam",), "in_db"),
+    "tight_db": ("add", "dB", -12, 0, "LR", "amp", ("nam",), "tight_db"),  # low-B tightening: pre-model 100 Hz shelf
     "boost_db": ("add", "dB", -24, 24, "L", "boost", CAPTURE, "out_db"),
     "drive_db": ("add", "dB", -24, 24, "L", "drive", CAPTURE, "out_db"),
     "amp_db": ("add", "dB", -24, 24, "L", "amp", CAPTURE, "out_db"),
@@ -647,8 +657,11 @@ TONE_COLUMNS = {
     "bass": ("set", "0-10", 0, 10, "", None, (), "toneBass"),
     "mid": ("set", "0-10", 0, 10, "", None, (), "toneMid"),
     "treble": ("set", "0-10", 0, 10, "", None, (), "toneTreble"),
+    # Opt-in retune for records not in standard tuning (tag `eb`, rigs/README.md "Tuning"): 0 or empty
+    # = off; -1 = Eb. Turns on TONE3000's input pitch shifter, which adds 11-31 ms of latency.
+    "pitch_st": ("set", "semitones", -12, 12, "", None, (), "pitchSemitones"),
 }
-FIELD_DEFAULTS = {"out_db": 0.0, "in_db": 0.0, "enabled": True, "mix": 1.0, "delay_ms": 0,
+FIELD_DEFAULTS = {"out_db": 0.0, "in_db": 0.0, "tight_db": 0.0,"enabled": True, "mix": 1.0, "delay_ms": 0,
                   "feedback": 0.5, "cutoff_hz": 3500.0}  # what build_block assumes when a field is absent
 TAG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
 # `csv --init`'s first guess at the song presets' tags (FCB bank name, gain character); scene
@@ -699,10 +712,19 @@ def block_value(b, field):
     return b.get(field, FIELD_DEFAULTS[field])
 
 
+def pre_eq(b):
+    """Does this block's one EQ run before its model (a voicing, eq_pre or tight_db)?"""
+    return bool(b.get("eq_pre") or b.get("tight_db"))
+
+
 def set_block_value(b, field, v):
-    if isinstance(field, int):
-        if b.get("eq_pre"):
-            raise ValueError("its EQ runs before the model (eq_pre); edit that voicing in the JSON")
+    if field == "tight_db":
+        if b.get("eq") and not b.get("eq_pre"):
+            raise ValueError("its EQ runs after the model (tone.csv eq_* on a full-rig amp), and a block has one EQ")
+        b[field] = v
+    elif isinstance(field, int):
+        if pre_eq(b):
+            raise ValueError("its EQ runs before the model (a voicing or tight_db); edit that voicing in the JSON")
         b["eq"] = list(b.get("eq") or [0.0] * len(EQ_BANDS))
         b["eq"][field] = v
     elif field == "enabled":
@@ -805,6 +827,42 @@ def tone_sheet(path=None):
     return sheet
 
 
+def expand_voicing(rig):
+    """Turn a preset's `voicing` into pre-model EQ on its amp blocks (in place) -> errors.
+    `voicing`: a VOICINGS name for every chain, or {"left": name, "right": name}. `voicing_block`
+    (default "amp") names the role that carries it, e.g. "drive" when the chain has no amp or the
+    amp's one EQ is a tone.csv post-EQ. A block that already sets `eq_pre` keeps its own curve."""
+    spec = rig.get("voicing")
+    if spec is None:
+        return []
+    names = spec if isinstance(spec, dict) else {"left": spec, "right": spec}
+    role, errs = rig.get("voicing_block", "amp"), []
+    if unknown := sorted(set(names) - {"left", "right"}):
+        return [f"voicing: unknown chain(s) {unknown} (left, right)"]
+    for side, name in names.items():
+        if name not in VOICINGS:
+            errs.append(f"voicing '{name}': unknown (known: {', '.join(VOICINGS)})")
+            continue
+        chain = rig.get(side, [])
+        if side == "right" and not chain:
+            continue
+        if side == "right" and role not in RIGHT_ROLE_SLOTS:  # a pre-split block (boost, drive) is left-chain only
+            continue
+        hits = [b for b in chain if b.get("role") == role and b.get("type") == "nam"]
+        if not hits:
+            errs.append(f"voicing: the {side} chain has no {role} capture to carry it (set voicing_block)")
+        for b in hits:
+            if b.get("eq_pre") or b.get("_voicing"):
+                continue  # an explicit pre-model curve wins; and expand once
+            if b.get("eq") and any(b["eq"]):
+                errs.append(f"voicing: {side} {role} '{b.get('label', '')}' has a post-model eq, and a block has one EQ")
+                continue
+            if any(VOICINGS[name]):
+                b["eq"], b["eq_pre"] = list(VOICINGS[name]), True
+            b["_voicing"] = name
+    return errs
+
+
 def apply_tone(rig, sheet):
     """Resolve the tone sheet into a rig (in place, and returned): JSON -> `*` -> `@tag` rows ->
     the preset's row. "add" columns: the preset cell replaces the JSON value, and the `*` and
@@ -816,7 +874,7 @@ def apply_tone(rig, sheet):
     row, tags = sheet["rows"].get(stem, {}), set(sheet["tags"].get(stem, ()))
     layers = [sheet["star"], *(r for tag, r, _ in sheet["tag_rows"] if tag in tags)]
     where = f"{TONE_CSV.name} line {sheet['line'].get(stem, '?')} ({stem})"
-    errors, params = [], dict(rig.get("tone_params", {}))
+    errors, params = expand_voicing(rig), dict(rig.get("tone_params", {}))
     # out_db last: it's a fader on the end block, which amp_db/cab_db (preset cells replace)
     # also write, so it must add on top of what they resolve to, not be overwritten by them.
     for col, (rule, unit, lo, hi, _, role, _, field) in sorted(TONE_COLUMNS.items(), key=lambda kv: kv[0] == "out_db"):
@@ -829,6 +887,8 @@ def apply_tone(rig, sheet):
         if role is None:
             if default is not None:
                 params[field] = float(default)
+                if col == "pitch_st":  # 0 = off: the shifter's latency only where a song asks for it
+                    params["pitchEnabled"] = 1.0 if default else 0.0
             continue
         targets = tone_targets(rig, col)
         if cell is not None and not targets:
@@ -844,6 +904,8 @@ def apply_tone(rig, sheet):
                 v = default
             if v is None:
                 continue
+            if isinstance(field, int) and cell is None and pre_eq(b):
+                continue  # a `*`/@tag EQ offset skips a full-rig amp whose one EQ is its voicing
             if not lo <= v <= hi:
                 errors.append(f"{where}, column {col}: resolves to {v:g} on {b.get('role')} "
                               f"'{b.get('label', b.get('type'))}', outside {lo}..{hi} {unit}")
@@ -1211,8 +1273,12 @@ def build_block(spec):
             if spec.get("role") == "ambience":
                 seconds = min(seconds, IR_TAIL_MAX_S)
             data = trimmed_ir(raw, seconds)
-    node = block(kind, on, tone, mid, mix=mix, eq_gains=spec.get("eq"),
-                 eq_pre=spec.get("eq_pre", False), data=data)
+    gains, pre = spec.get("eq"), spec.get("eq_pre", False)
+    if spec.get("tight_db"):  # low-B tightening (tone.csv tight_db): the pre-model low shelf, on top of any voicing
+        gains = list(gains or [0.0] * len(EQ_BANDS))
+        gains[0] = max(-24.0, min(24.0, gains[0] + float(spec["tight_db"])))
+        pre = True
+    node = block(kind, on, tone, mid, mix=mix, eq_gains=gains, eq_pre=pre, data=data)
     if spec.get("out_db"):  # level trim (measured, see rig "levels"); block output is +-24 dB
         node.set("outputGain", max(0.0, min(1.0, 0.5 + float(spec["out_db"]) / 48)))
     if spec.get("in_db"):  # drive the block harder/softer (e.g. a lead chain = same amp, pushed)

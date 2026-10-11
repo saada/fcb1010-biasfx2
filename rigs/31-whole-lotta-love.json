@@ -14,6 +14,7 @@
     "https://www.tone3000.com/tones/87031"
   ],
   "notes": "APPROXIMATION: the amp Page names, a Vox Super Beatle into Rickenbacker Transonic cabs, has no capture in the catalog. A 1969 Marshall JMP Super Lead full rig stands in (Songfacts says a 100 W Plexi; Marshalls reached Page around March 1969, groundguitar). Les Paul humbuckers, so no pre-EQ. For the solo: SW6 WAH, then park EXP A toe-forward (the fixed wah). SW8 BOOST = TS9 clean push (not on the record); SW9 = an eighth-note echo at 92 BPM for the middle section (the record's backwards echo can't be played live); 480L Large Wood Room for Olympic's room. Not compared by ear with a Super Beatle. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

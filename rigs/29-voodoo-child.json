@@ -15,6 +15,8 @@
     "https://www.tone3000.com/tones/96791"
   ],
   "notes": "Amp: amalgam's 1966 JTM45/100 Super 100 (the model groundguitar documents) as a full rig, edge of breakup, so the fuzz does the gain. Fuzz (always on): a germanium Fuzz Face with AC128 transistors, Fuzz 10 / Vol 6, with the Strat voicing in front of it (the fuzz hears a single coil). Its fizz is trimmed at the end (eq_3k5 -2, eq_8k -3: 'less fizz'), standing in for Kramer's ribbon/U67 mics. The wah is SW6 + EXP A (the DAW wah). SW8 BOOST = TS9 clean push (not on the record); SW9 = an eighth-note echo at 88 BPM (not on the record); EMT 140 plate for the desk reverb. SW7 VIBE = the Uni-Vibe Hendrix played this song with live from 1969 (Woodstock): not on the 1968 take. Can't match: the stereo panning of the overdubs. Tune down a half step. Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
+  "voicing": "single-coil",
+  "voicing_block": "drive",
   "left": [
     {
       "role": "boost",
@@ -30,16 +32,7 @@
       "tone_id": 96791,
       "model_id": 827752,
       "enabled": true,
-      "label": "Germanium Fuzz Face, AC128 transistors, Vol 6 Fuzz 10 Bias 5 (Strat voicing in front)",
-      "eq": [
-        -3,
-        -2.5,
-        0,
-        1.5,
-        3,
-        2
-      ],
-      "eq_pre": true
+      "label": "Germanium Fuzz Face, AC128 transistors, Vol 6 Fuzz 10 Bias 5 (Strat voicing in front)"
     },
     {
       "role": "amp",

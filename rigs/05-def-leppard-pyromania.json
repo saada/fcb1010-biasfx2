@@ -12,6 +12,10 @@
     "https://songbpm.com/@def-leppard/photograph"
   ],
   "notes": "Dual rig for the Willis / Clark beds: the same 1980 Marshall JMP 2204 50 W (the 2104 combo's circuit; matches Collen's '50 W Marshall' and Shipley's small combo) on both sides, panned L/R, into a G12M Greenback 4x12 miked with a U87 (Shipley's mic). The right side has single-coil pre-EQ for Clark's Telecaster 'top end' layer; Align wobble 0.2 for the stacked takes. Equipboard's 100 W 2203 heads conflict with the stronger Shipley/Collen sources. SW8 BOOST = TS9 push (not on the record); SW9 DELAY = 363 ms (dotted eighth at Photograph's 124 BPM; Rock of Ages would be 425 ms). 480L Large Plate at 15% is a polished-mix guess (Lange's desk effects are undocumented). Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). On the board (bank 1): SW8 = BOOST (slot 1), SW9 = DELAY (slot 5 / R3). Levels are unmeasured.",
+  "voicing": {
+    "left": "humbucker",
+    "right": "single-coil"
+  },
   "left": [
     {
       "role": "boost",
@@ -70,16 +74,7 @@
       "tone_id": 70525,
       "model_id": 577107,
       "enabled": true,
-      "label": "1980 Marshall JMP 2204 50 W, high input ('Classic Hits')",
-      "eq": [
-        -3.0,
-        -2.5,
-        0.0,
-        1.5,
-        3.0,
-        2.0
-      ],
-      "eq_pre": true
+      "label": "1980 Marshall JMP 2204 50 W, high input ('Classic Hits')"
     },
     {
       "role": "cab",

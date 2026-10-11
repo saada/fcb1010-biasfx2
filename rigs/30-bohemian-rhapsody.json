@@ -14,6 +14,7 @@
     "https://www.tone3000.com/tones/31234"
   ],
   "notes": "Booster and amp from one capturer (Slammin): his Dallas booster (a germanium Greuter Boost V2; no BC149 silicon capture exists) at V10 T10 in slot 1, on at load, into the AC30 normal channel dimed (V10, cut 0). SW8 takes the booster off: the dimed AC30 alone, darker (-400 Hz centroid). Slammin's integrated 'N_V10_TC0_DALLASTREBLE' captures are the alternative. Cab: '64 AC30 2x12 Blue Alnico. Pre-model EQ [-6, -3, 1, 2, 1, -1] approximates the out-of-phase neck+middle Tri-Sonics from a humbucker (bass cancelled, nasal mids): an estimate, not measured on a Red Special. The number of AC30s and their settings on the studio solo are undocumented (three AC30s wet/dry/wet is the 1975 stage rig). SW9 = an eighth-note echo at 72 BPM (not documented on the solo; his live Echoplexes ran ~750/1500 ms, too long for an in-TONE3000 toggled echo, D25); EMT 140 plate at 15 % for air (the plate is a guess). Levelled offline with rigsim --exact to -14 LUFS (experiments D28).",
+  "voicing": "single-coil",
   "left": [
     {
       "role": "boost",

@@ -13,6 +13,7 @@
     "https://lancasteraudio.com"
   ],
   "notes": "For drop tunings and extended-range guitars: Jacovino's 'Low Tuned' Satan 50 setting, tightened by the Solar CHUG (Ola's Solar Guitars pedal; Jacovino's 'Crushinator' rhythm setting) instead of the Fortin. All captures are free TONE3000 catalog tones under TONE3000's standard license (t3k: free to download and play, not to redistribute, so the repo names them by id only). Ola Englund's own free NAM files (Randall Satan 50 and Solar CHUG, 0 SEK at olaenglundshop.com behind a checkout) aren't in this bank yet: saved to ~/Music/fcb-rig/packs/ola/, a block's \"file\" field swaps one in (rigs/README.md, Local files). Cab: Lancaster Audio PLAP free IR (Cameron Webb / Warren Huart / Ulrich Wild), Cameron Webb's Bogner Uberschall 4x12 (V30s) on an SM57, a local file in ~/Music/fcb-rig/packs/lancaster/ (no license text, so personal use only and never committed); picked on the DI bench against the Res New Old Dude IR (experiments D18): 4.7 dB less below 100 Hz than New Old Dude with the same top end (5-10 kHz within 0.3 dB) and the most articulate low end on this amp (60-150 Hz envelope spread 19.3 dB against 18.9), so drop-tuned chugs stay tight. Without the file, check fails with its path: delete the cab's \"file\" field to fall back to New Old Dude (tone 5996).",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

@@ -15,6 +15,7 @@
     "https://www.tone3000.com/tones/6379"
   ],
   "notes": "The exact documented amp: Slammin's capture of a real 1959 Super Lead modded to the SIR #36 'Appetite' spec, MV3 mid-gain Slash setting (418836, the HG version, is the hotter alternative for the solos). Cab: 1960BV Vintage 30 SM57, following Guitar World's V30 estimate (no mics are documented; Greenback 75087/656904 if V30 sounds too modern). Guitar World's knob settings (Presence 8, Bass 5, Middle 8.5, Treble 7, Vol 1 at 10) are by-ear estimates, not session notes. SW8 BOOST = TS9 clean push for the solos (not on the record). SW9 DELAY = the documented WTTJ intro SRV-2000 setting (318 ms, fb 0.3, mix 0.33, digital-bright repeats); no Sweet Child delay is documented. 480L Large Plate at 10% for air. The record is in Eb: tune down, or set params pitchEnabled 1 / pitchSemitones -1 (adds 11-31 ms latency). The Sweet Child solo's wah is SW6 + EXP A (the DAW wah); Izzy's doubled rhythm isn't modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",

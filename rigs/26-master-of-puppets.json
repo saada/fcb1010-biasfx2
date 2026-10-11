@@ -14,6 +14,7 @@
     "https://www.tone3000.com/tones/84108"
   ],
   "notes": "Dual rig, the same Mark IIC+ Hetfield Rhythm capture and Puppet_IR on both sides, panned hard L/R with Align wobble 0.15 for the four-plus stacked rhythms. Cab: Puppet_IR is voiced from the album mix, which suits a record whose speakers are undocumented (neutral alt: Mesa OS 4x12 V30 1612/81565). Tight gate (release 15 ms, hold 10 ms) for the palm-muted riff. Power amp sources disagree (Marshall 2203 vs modified JCM800); the capture is the preamp voice either way. SW8 BOOST = TS9 clean push for Kirk's solo (no Tube Screamer is confirmed on this album). SW9 DELAY = a 400 ms solo delay; the rhythm is dry. 480L Small Wood Room at 8% for the short Quantec room. Standard E tuning. Can't match: Kirk's wah (SW6 + EXP A, the DAW wah) and the clean middle section. Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.",
+  "voicing": "humbucker",
   "left": [
     {
       "role": "boost",
