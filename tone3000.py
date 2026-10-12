@@ -39,6 +39,7 @@ catalog; model files are public storage objects.
 
 import base64
 import csv
+import functools
 import html
 import io
 import json
@@ -628,6 +629,7 @@ TUNE_HISTORY = RIGS / ".tune-history"  # gitignored: what `tune --undo` restores
 EQ_COLUMNS = ("eq_100", "eq_250", "eq_650", "eq_1k6", "eq_3k5", "eq_8k")  # = EQ_BANDS, in order
 CAPTURE = ("nam", "ir")
 END = "end"  # a chain's end block: its cab, or its amp when the cab slot is empty (full rigs)
+VERB = "verb"  # every always-on reverb of a preset: ambience IRs and the reverb of an echo on at load
 
 # column: (rule, unit, lo, hi, chains, role, block types, field). chains "L" = left/mono chain,
 # "R" = right chain, "LR" = both. A param column has role None and its TONE3000 param id as field.
@@ -650,6 +652,8 @@ TONE_COLUMNS = {
     "echo_mix": ("set", "0-1", 0, 1, "LR", "echo", ("echo",), "mix"),
     "echo_cutoff": ("set", "Hz", 200, 20000, "LR", "echo", ("echo",), "cutoff_hz"),
     "amb_mix": ("set", "0-1", 0, 1, "LR", "ambience", ("ir",), "mix"),
+    # The preset's always-on reverb against its dry sound, in dB, every site together (apply_verb).
+    "verb_db": ("add", "dB", -24, 12, "LR", VERB, ("ir", "echo"), "verb_db"),
     "gate_db": ("set", "dB", -100, 0, "", None, (), "gateThreshold"),
     "gate_hold": ("set", "ms", 0, 200, "", None, (), "gateHold"),
     "gate_release": ("set", "ms", 5, 500, "", None, (), "gateRelease"),
@@ -661,7 +665,7 @@ TONE_COLUMNS = {
     # = off; -1 = Eb. Turns on TONE3000's input pitch shifter, which adds 11-31 ms of latency.
     "pitch_st": ("set", "semitones", -12, 12, "", None, (), "pitchSemitones"),
 }
-FIELD_DEFAULTS = {"out_db": 0.0, "in_db": 0.0, "tight_db": 0.0,"enabled": True, "mix": 1.0, "delay_ms": 0,
+FIELD_DEFAULTS = {"out_db": 0.0, "verb_db": 0.0, "in_db": 0.0, "tight_db": 0.0, "enabled": True, "mix": 1.0, "delay_ms": 0,
                   "feedback": 0.5, "cutoff_hz": 3500.0}  # what build_block assumes when a field is absent
 TAG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
 # `csv --init`'s first guess at the song presets' tags (FCB bank name, gain character); scene
@@ -695,6 +699,8 @@ def tone_targets(rig, col):
     """The blocks a tone.csv column sets in this preset ([] for a param column)."""
     _, _, _, _, chains, role, types, _ = TONE_COLUMNS[col]
     out = []
+    if role == VERB:
+        return [b for side in ("left", "right") for b in rig.get(side, []) if is_verb(b)]
     for side in ("left", "right"):
         chain = rig.get(side, [])
         if side[0].upper() not in chains:
@@ -704,6 +710,58 @@ def tone_targets(rig, col):
         else:
             out += [b for b in chain if b.get("role") == role and b.get("type") in types]
     return out
+
+
+def is_verb(b):
+    """An always-on reverb site: an ambience IR, or an echo block on at load that carries a reverb.
+    (Footswitched echoes are the owner's to switch; their reverb stays as written.)"""
+    return bool((b.get("type") == "ir" and b.get("role") == "ambience")
+                or (b.get("type") == "echo" and b.get("reverb") and b.get("enabled", True)))
+
+
+def scale_mix(m, db):
+    """The wet/dry mix whose wet:dry ratio m/(1-m) is `db` louder (TONE3000 and the DAW tails mix
+    linearly: (1-m) dry + m wet)."""
+    if m >= 1:
+        raise ValueError("a fully wet block (mix 1) has no dry to scale its reverb against")
+    r = 10 ** (db / 20) * m / (1 - m)
+    return r / (1 + r)
+
+
+@functools.lru_cache(maxsize=64)
+def _echo_scale(ms, fb, cut_hz, rev_key, level_db):
+    """How loud an echo+reverb block's echo repeats play once TONE3000 has loaded its IR, relative
+    to the echo's own peak: analog_echo peak-normalises echo + reverb, then TONE3000 normalises
+    the file to unit energy (tone3000_ir). Its summed reverb carries most of that energy, so
+    raising `reverb.level_db` alone mostly turns the echo down (D30)."""
+    e = [v / 0.9 for v in wav_read(analog_echo(ms, fb, cutoff_hz=cut_hz))[0][0]]
+    rev, _ = reverb_tail(json.loads(rev_key))
+    g = 10 ** (level_db / 20) / max(abs(v) for v in rev)
+    h = e + [0.0] * max(0, len(rev) - len(e))
+    for i, v in enumerate(rev):
+        h[i] += v * g
+    peak, l2 = max(abs(v) for v in h), math.sqrt(sum(v * v for v in h))
+    return min(1.0 / peak, 1.0 / (0.9 * l2))
+
+
+def apply_verb(b, db):
+    """Scale one always-on reverb site by `db` (tone.csv verb_db), in place.
+    - An ambience IR or a reverb-only echo (delay_ms 0): its mix, so wet:dry moves by db.
+    - An echo with a delay and a summed reverb: `reverb.level_db` += db, and the mix rescaled so
+      the echo repeats keep their level through TONE3000's unit-energy normalisation.
+    The DAW tails take the block's mix and kernel, so a moved reverb follows."""
+    if b.get("type") == "echo" and b.get("delay_ms"):
+        rev = dict(b["reverb"])
+        old = float(rev.get("level_db", -6.0))
+        rev["level_db"] = round(old + db, 3)
+        args = (int(b["delay_ms"]), float(b.get("feedback", 0.5)), float(b.get("cutoff_hz", 3500.0)),
+                json.dumps({k: v for k, v in rev.items() if k != "level_db"}, sort_keys=True))
+        m = float(b.get("mix", 1.0)) * _echo_scale(*args, old) / _echo_scale(*args, rev["level_db"])
+        if m > 1:
+            raise ValueError(f"the echo would need mix {m:.2f} to keep its repeats; lower verb_db or level_db")
+        b["reverb"], b["mix"] = rev, round(m, 4)
+    else:
+        b["mix"] = round(scale_mix(float(b.get("mix", 1.0)), db), 4)
 
 
 def block_value(b, field):
@@ -877,7 +935,9 @@ def apply_tone(rig, sheet):
     errors, params = expand_voicing(rig), dict(rig.get("tone_params", {}))
     # out_db last: it's a fader on the end block, which amp_db/cab_db (preset cells replace)
     # also write, so it must add on top of what they resolve to, not be overwritten by them.
-    for col, (rule, unit, lo, hi, _, role, _, field) in sorted(TONE_COLUMNS.items(), key=lambda kv: kv[0] == "out_db"):
+    # verb_db after the echo and ambience columns it scales (echo_on decides what is always on).
+    order = lambda kv: {"verb_db": 1, "out_db": 2}.get(kv[0], 0)  # noqa: E731
+    for col, (rule, unit, lo, hi, _, role, _, field) in sorted(TONE_COLUMNS.items(), key=order):
         cell = row.get(col)
         inherited = [layer[col] for layer in layers if layer.get(col) is not None]
         default = cell if cell is not None else inherited[-1] if inherited else None  # "set" rule
@@ -893,6 +953,17 @@ def apply_tone(rig, sheet):
         targets = tone_targets(rig, col)
         if cell is not None and not targets:
             errors.append(f"{where}, column {col}: this preset has no {role} block to set")
+            continue
+        if col == "verb_db":  # like out_db, no JSON value: the preset cell adds to `*` and @tag
+            rig["_verb_db"] = db = round((cell or 0) + offset, 6)
+            if targets and not lo <= db <= hi:
+                errors.append(f"{where}, column {col}: resolves to {db:g}, outside {lo}..{hi} {unit}")
+                continue
+            for b in targets if db else []:
+                try:
+                    apply_verb(b, db)
+                except ValueError as e:
+                    errors.append(f"{where}, column {col}: {b.get('role')} '{b.get('label', b.get('type'))}': {e}")
             continue
         for b in targets:
             if col == "out_db":
@@ -929,8 +1000,8 @@ def tone_settings(rig):
             out[col] = params[field]
             continue
         vals = [block_value(b, field) for b in tone_targets(rig, col)]
-        if col == "out_db":
-            vals = [rig.get("_out_db", 0)] if vals else []
+        if col in ("out_db", "verb_db"):
+            vals = [rig.get(f"_{col}", 0)] if vals else []
         vals = [int(v) if isinstance(v, bool) else v for v in vals]
         out[col] = None if not vals else vals[0] if all(v == vals[0] for v in vals) else vals
     return out
@@ -1130,7 +1201,7 @@ def tune(target, word, times=1):
         i = header.index(col)
         rule, unit, lo, hi = TONE_COLUMNS[col][:4]
         cur, delta = parse_number(cells[i]), step * times
-        if rule == "add" and (key == "*" or key.startswith("@") or col == "out_db"):
+        if rule == "add" and (key == "*" or key.startswith("@") or col in ("out_db", "verb_db")):
             base = cur or 0
         elif cur is not None:
             base = cur
