@@ -14,3 +14,6 @@ warmer,eq_250 +1; eq_8k -1.5,a little low-mid body and a softer top
 more air,eq_8k +2,the high shelf alone: openness without harder pick attack (3.5 kHz untouched)
 scooped,eq_650 -2.5; eq_100 +1; eq_8k +1,the classic mid scoop at 650 Hz with lows and highs nudged up
 mid-forward,eq_650 +2; eq_1k6 +1; eq_100 -0.5,650 Hz-1.6 kHz is where a guitar cuts through a band mix; less low end keeps it from honking
+drier,verb_db -3,"every always-on reverb (ambience IRs, an always-on echo's reverb, their DAW tails) 3 dB lower against the dry sound; footswitched delays untouched (experiments D30)"
+wetter,verb_db +3,the reverse of drier: 3 dB more room against the dry sound
+roomier,verb_db +1.5,half a wetter: a little more room before the tail starts to smear the notes

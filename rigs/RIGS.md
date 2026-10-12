@@ -81,12 +81,12 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 |---|---|---|---|
 | L3 | amp | [1973 Marshall JMP 1987](https://www.tone3000.com/tones/48523) — Marshall JMP 1987 50W (1973), P5 B5 M5 T5, volumes 2/2, input +3 dB (Murray, clean edge) | on |
 | L4 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12, Celestion G12-65, SM57 (Murray) | on |
-| L5 | echo | Soft analog repeat 440 ms + EMT 140-style plate 1.6 s (Birch) — generated 440 ms BBD-style IR (mix 12%) | on |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room 1.4 s (the 'big wooden room') (mix 15%) | on |
+| L5 | echo | Soft analog repeat 440 ms + EMT 140-style plate 1.6 s (Birch) — generated 440 ms BBD-style IR (mix 9%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room 1.4 s (the 'big wooden room') (mix 11%) | on |
 | R1 | amp | [Marshall 1978 JMP 2203](https://www.tone3000.com/tones/1061) — Marshall JMP 2203 (1978), gain 1 / master 10, P5 B5 M5 T5 (Smith, clean) | on |
 | R2 | cab | [Marshall 1960A G12-65 (jcm800)](https://www.tone3000.com/tones/69659) — Marshall 1960A 4x12, Celestion G12-65, Beyer M160 (Smith) | on |
-| R3 | echo | Soft analog repeat 440 ms + EMT 140-style plate 1.6 s (Birch) — generated 440 ms BBD-style IR (mix 12%) | on |
-| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room 1.4 s (the 'big wooden room') (mix 15%) | on |
+| R3 | echo | Soft analog repeat 440 ms + EMT 140-style plate 1.6 s (Birch) — generated 440 ms BBD-style IR (mix 9%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room 1.4 s (the 'big wooden room') (mix 11%) | on |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
@@ -107,11 +107,11 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L1 | boost | [Diamond Compressor - Original Through Hole Version!](https://www.tone3000.com/tones/88975) — Diamond Compressor, Comp 5 / EQ 6.5 / Vol 5 (the 1176 leveller) | on |
 | L2 | drive | [Acoustic piezo to microphone](https://www.tone3000.com/tones/29116) — Piezo pickup -> Rode condenser NAM, electric pre-voiced as a piezo | on |
 | L4 | cab | [Taylor 816 ](https://www.tone3000.com/tones/43190) — Taylor 816 steel-string, M251 'Pz1' IR (left acoustic) | on |
-| L5 | echo | Lexicon 480L Small Wood Room 1.0 s (room mics; reverb only) — generated 0 ms BBD-style IR (mix 12%) | on |
-| L6 | ambience | [Studio 3 Live Room](https://www.tone3000.com/tones/99227) — Sunset Sound Studio 3 live room, mono, 0.8 s (studio room) (mix 15%) | on |
+| L5 | echo | Lexicon 480L Small Wood Room 1.0 s (room mics; reverb only) — generated 0 ms BBD-style IR (mix 8%) | on |
+| L6 | ambience | [Studio 3 Live Room](https://www.tone3000.com/tones/99227) — Sunset Sound Studio 3 live room, mono, 0.8 s (studio room) (mix 11%) | on |
 | R2 | cab | [Taylor 816 ](https://www.tone3000.com/tones/43190) — Taylor 816 steel-string, M251 'SB1' IR (right acoustic) | on |
-| R3 | echo | Lexicon 480L Small Wood Room 1.0 s (room mics; reverb only) — generated 0 ms BBD-style IR (mix 12%) | on |
-| R4 | ambience | [Studio 3 Live Room](https://www.tone3000.com/tones/99227) — Sunset Sound Studio 3 live room, mono, 0.8 s (studio room) (mix 15%) | on |
+| R3 | echo | Lexicon 480L Small Wood Room 1.0 s (room mics; reverb only) — generated 0 ms BBD-style IR (mix 8%) | on |
+| R4 | ambience | [Studio 3 Live Room](https://www.tone3000.com/tones/99227) — Sunset Sound Studio 3 live room, mono, 0.8 s (studio room) (mix 11%) | on |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
@@ -133,11 +133,11 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | [Marshall 1959HW Plexi Variac [Hyper Accuracy]](https://www.tone3000.com/tones/6220) — Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10 | on |
 | L4 | cab | [Celestion Greenback - Marshall 1960TV 4x12 SM57](https://www.tone3000.com/tones/45022) — Marshall 1960TV 4x12 G12M-25 Greenback, SM57 | on |
 | L5 | echo | Solo delay 320 ms — generated 320 ms BBD-style IR (mix 18%) | off |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber (Sunset Sound live chamber) (mix 15%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber (Sunset Sound live chamber) (mix 4%) | on |
 | R1 | amp | [Marshall 1959HW Plexi Variac [Hyper Accuracy]](https://www.tone3000.com/tones/6220) — Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10 | on |
 | R2 | cab | [1976 Deluxe Reverb Cabinet with JBL E120-8](https://www.tone3000.com/tones/5719) — JBL E120 12" (for EVH's JBL D120F 4x12) | on |
 | R3 | echo | Solo delay 320 ms — generated 320 ms BBD-style IR (mix 18%) | off |
-| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber, opposite side (Landee's panning) (mix 40%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber, opposite side (Landee's panning) (mix 13%) | on |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
@@ -223,10 +223,10 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L1 | boost | [SDD Preamp](https://www.tone3000.com/tones/70036) — Korg SDD-3000 preamp (+10 dB into the AC30) | off |
 | L3 | amp | [VOX AC30 CH [Hyper Accuracy+]](https://www.tone3000.com/tones/31267) — Vox AC30 Top Boost, vol 5 / cut 4, noon EQ | on |
 | L4 | cab | [ '64 Vox AC30 Blue Alnicos 2x12  - XR IR PACK](https://www.tone3000.com/tones/79866) — '64 Vox AC30 2x12 Blue Alnico, 57 + R121 | on |
-| L5 | echo | Delay 531 ms (9/32, amp 2) — generated 531 ms BBD-style IR (mix 35%) | on |
+| L5 | echo | Delay 531 ms (9/32, amp 2) — generated 531 ms BBD-style IR (mix 9%) | on |
 | R1 | amp | [VOX AC30 CH [Hyper Accuracy+]](https://www.tone3000.com/tones/31267) — Vox AC30 Top Boost, vol 5 / cut 4, noon EQ | on |
 | R2 | cab | [ '64 Vox AC30 Blue Alnicos 2x12  - XR IR PACK](https://www.tone3000.com/tones/79866) — '64 Vox AC30 2x12 Blue Alnico, 57 + R121 | on |
-| R3 | echo | Dotted-eighth delay 357 ms (126 BPM, amp 1) — generated 357 ms BBD-style IR (mix 45%) | on |
+| R3 | echo | Dotted-eighth delay 357 ms (126 BPM, amp 1) — generated 357 ms BBD-style IR (mix 12%) | on |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
@@ -248,7 +248,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L2 | drive | [Vick Audio 73 Rams Head](https://www.tone3000.com/tones/87333) — Vick Audio '73 Ram's Head Big Muff, vol 7 sustain 7 tone 5 | on |
 | L3 | amp | [HiWatt DR103 + Fane speakers + SM57 (full rig)](https://www.tone3000.com/tones/2711) — 1972 Hiwatt DR103 + its Fane 4x12, linked inputs clean, SM57 (full rig) | on |
 | L5 | echo | MXR DDL / TC 2290 solo delay, 460 ms, 3-4 repeats — generated 460 ms BBD-style IR (mix 28%) | off |
-| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate (Sunset Sound), wet 25% (mix 25%) | on |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate (Sunset Sound), wet 25% (mix 14%) | on |
 
 *Notes:* Single rig: real 1972 Hiwatt DR103 + its Fane-loaded 4x12 full rig (linked inputs, clean, like Gilmour's) stands in for the DR103 into WEM Starfinder/Fane Crescendo stacks. The Yamaha RA-200 (studio) / Doppola (live) rotary split can't be captured: both Leslie captures in the catalog (37391, 38834) fail to resolve (null model URLs) and NAM can't rotate anyway, so Spread + wobble 0.4 fakes the rotor movement. Muff is the Vick '73 Ram's Head clone at sustain ~7 / tone 5 (Gilmour ran ~6/6, not maxed; the amp does part of the work); Ram's Head chosen over Sovtek because the only Sovtek capture is maxed and not reamped. No Colorsound Powerboost capture exists: the boost slot is the BK Butler Tube Driver clean-boost setting (Tube Driver #1 on the PULSE board). Electric Mistress/CE2 chorus, MXR Dyna Comp and James Guthrie's heavy studio compression are not modeled. Echo (SW8 (LEAD), off by default): 460 ms, ~4 audible repeats, brighter cutoff for a digital MXR DDL / TC 2290; switch it on for the solos. Voicing single-coil (the Black Strat) in front of the Big Muff (voicing_block drive), so the fuzz hears the single coil; on the Hiwatt after the fuzz it brightened the solo by 790 Hz of centroid and 2 dB (experiments D29). With SW9 off the clean Hiwatt hears the plain JP70.
 
@@ -268,11 +268,11 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L2 | drive | [Marshall Shredmaster Original](https://www.tone3000.com/tones/78738) — Marshall ShredMaster (Jonny only) gain 10 bass 7 contour 0 treble 7 | on |
 | L3 | amp | [Fender Eighty-Five 1987](https://www.tone3000.com/tones/75367) — 1987 Fender Eighty-Five full rig, clean T4 M4 B4 (OKC), SM57 (Jonny) | on |
 | L5 | echo | Roland RE-201 Space Echo (Jonny) 360 ms tape — generated 360 ms BBD-style IR (mix 30%) | off |
-| L6 | ambience | [MIT Room and Space Impulse Response pack](https://www.tone3000.com/tones/41442) — MIT hotel ballroom room IR (St Catherine's Court ballroom stand-in) (mix 12%) | on |
+| L6 | ambience | [MIT Room and Space Impulse Response pack](https://www.tone3000.com/tones/41442) — MIT hotel ballroom room IR (St Catherine's Court ballroom stand-in) (mix 4%) | on |
 | R1 | amp | [VOX AC30 TB6 1994 SPEAKERS CELESTION 2X12](https://www.tone3000.com/tones/71315) — 1994 Vox AC30 TB6 full rig, clean, Alnico Silver 2x12, R121+U87 (Ed) | on |
 | R3 | echo | Boss DD-5 lead delay (Ed) 550 ms, dotted 8th @ 82 bpm — generated 550 ms BBD-style IR (mix 30%) | off |
 | R4 | ambience | Boss DD-5 always-on ambient wash (Ed) 440 ms — generated 440 ms BBD-style IR (mix 15%) | on |
-| R5 | ambience | [MIT Room and Space Impulse Response pack](https://www.tone3000.com/tones/41442) — MIT hotel ballroom room IR (St Catherine's Court ballroom stand-in) (mix 25%) | on |
+| R5 | ambience | [MIT Room and Space Impulse Response pack](https://www.tone3000.com/tones/41442) — MIT hotel ballroom room IR (St Catherine's Court ballroom stand-in) (mix 10%) | on |
 
 Slots L1–L1 feed both rigs; left and right are panned apart.
 
@@ -344,7 +344,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | ["Silver Zephyr" | 1984 Factory Mesa Boogie Mark IIC+ (DRG, 105PT) | Community Pack](https://www.tone3000.com/tones/87223) — 1984 Mesa Mark IIC+ Silver Zephyr, Dynamic Airy Clean (DI) -- stands in for clean Mark IIB | on |
 | L4 | cab | [1976 Deluxe Reverb Cabinet with JBL E120-8](https://www.tone3000.com/tones/5719) — JBL E120 12" (for Bag End JBL D120F), SM57 cap edge | on |
 | L5 | echo | Boss DM-2 style, 300 ms — generated 300 ms BBD-style IR (mix 35%) | off |
-| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate, Sunset Sound (mix 30%) | on |
+| L6 | ambience | [VH Reverb](https://www.tone3000.com/tones/84558) — EMT 140 plate, Sunset Sound (mix 15%) | on |
 
 *Notes:* Aug 1983 First Avenue take used Prince's Mark IIB heads run clean (IIC+ conversion came at the 1984 tour rehearsals). No Mark IIB capture exists: a real 1984 IIC+ (Silver Zephyr) clean model stands in -- the Mark II clean/rhythm channel is near-identical across A/B/C+; the only true pre-C+ capture (24644, 1979 Mark IIA) is a crunch-only DI, too dirty for the clean intro. Amp switched from 'Airy Edge' to 'Airy Clean' to match the documented crystal-clean setting; dirt comes from the DS-1 (SW9) for the solo, as Prince did. Cab: Bag End sealed 4x12 with JBL D120F; no raw D120F IR in the catalog (the Twin D120 IRs are pre-EQ'd), so a JBL E120 (same-family cone, open-back 1x12) SM57 cap-edge IR is used -- expect slightly less low-end thump than a sealed 4x12. CE-2 is time-varying, so Spread wobble approximates it. DM-2 echo is generated (no DM-2 IR exists). Plate IR is a DAW emulation of the Sunset Sound EMT 140, not a sample of the real plate. DS-1 settings for the solo are undocumented; T4/D8 gives a warm, sustaining lead into a clean amp. Voicing single-coil (the MadCat's single coils) in front of the amp, for the owner's JP70 humbuckers (experiments D29).
 
@@ -467,10 +467,10 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
 | L3 | amp | [Mesa Boogie Mark III Red Stripe 1987 (My gig tones A2)](https://www.tone3000.com/tones/74009) — Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 1) | on |
 | L4 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 1 in off cap | on |
-| L5 | echo | Dotted-eighth delay 489 ms (92 BPM) + 480L hall — generated 489 ms BBD-style IR (mix 18%) | on |
+| L5 | echo | Dotted-eighth delay 489 ms (92 BPM) + 480L hall — generated 489 ms BBD-style IR (mix 9%) | on |
 | R1 | amp | [Mesa Boogie Mark III Red Stripe 1987 (My gig tones A2)](https://www.tone3000.com/tones/74009) — Mesa/Boogie Mark III Red Stripe ('87), clean channel, DI out (stack 2, after the PCM41) | on |
 | R2 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 1 in off cap | on |
-| R3 | echo | Dotted-eighth delay 489 ms (92 BPM) + 480L hall — generated 489 ms BBD-style IR (mix 18%) | on |
+| R3 | echo | Dotted-eighth delay 489 ms (92 BPM) + 480L hall — generated 489 ms BBD-style IR (mix 9%) | on |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
@@ -539,7 +539,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 |---|---|---|---|
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
 | L3 | amp | [MXR X100 Rockman [Hyper Accuracy+]](https://www.tone3000.com/tones/30352) — MXR X100 Rockman, Clean 1 half (Rock-Box stand-in) | on |
-| L5 | echo | Dotted-eighth delay 421 ms (107 BPM) + 480L plate — generated 421 ms BBD-style IR (mix 18%) | on |
+| L5 | echo | Dotted-eighth delay 421 ms (107 BPM) + 480L plate — generated 421 ms BBD-style IR (mix 16%) | on |
 
 *Chorus (DAW, SW7 in the 80s banks):* 0.8 Hz, 3.0 ms, 40% wet — Estimate: the Rock-Box had a chorus button but its settings are undocumented (and the CE-2 claim is weak), so a light, slightly quicker shimmer than the JC-120, 40 % wet.
 
@@ -561,7 +561,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | [1973 Fender Twin Reverb](https://www.tone3000.com/tones/88227) — '73 Fender Twin Reverb, vibrato channel V2 T5 M5 B5 (DI) | on |
 | L4 | cab | [1971 Fender Twin Reverb Oxford 12T6-10](https://www.tone3000.com/tones/6046) — '71 Fender Twin Reverb 2x12 Oxford 12T6, SM57 cap edge | on |
 | L5 | echo | Dotted-eighth delay 433 ms (104 BPM, not on the record) — generated 433 ms BBD-style IR (mix 12%) | off |
-| L6 | ambience | [Fender Twin Stereo Spring Reverb](https://www.tone3000.com/tones/1732) — Fender Twin spring reverb (mix 15%) | on |
+| L6 | ambience | [Fender Twin Stereo Spring Reverb](https://www.tone3000.com/tones/1732) — Fender Twin spring reverb (mix 7%) | on |
 
 *Chorus (DAW, SW7 in the 80s banks):* 0.7 Hz, 2.0 ms, 30% wet — The record is essentially dry; no chorus is documented on this song. SW7 adds a faint CE-1-like shimmer (estimate) for the layered Tele + Rickenbacker feel.
 
@@ -583,7 +583,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | [1971 Fender Twin Reverb](https://www.tone3000.com/tones/6106) — 1971 Fender Twin Reverb, cranked, Normal V10 T7 M7 B4 (Perry: 'a Fender Twin'; amp undocumented) | on |
 | L4 | cab | [1971 Fender Twin Reverb Oxford 12T6-10](https://www.tone3000.com/tones/6046) — 1971 Twin Reverb 2x12 Oxford 12T6-10, SM57 cap edge | on |
 | L5 | echo | Tape delay 500 ms (quarter note at 120 BPM, on) — generated 500 ms BBD-style IR (mix 20%) | on |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Fantasy Studios EMT plate stand-in) (mix 25%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (Fantasy Studios EMT plate stand-in) (mix 15%) | on |
 
 *Notes:* APPROXIMATION: the Escape amp is undocumented (no interview, Mix piece or rig rundown names it; only the guitar is on the record). Built on the one amp anybody named for this solo, Perry's Fender Twin: a 1971 Silverface Twin Reverb (period-correct) captured cranked, normal channel V10 T7 M7 B4, into the same Twin's own 2x12 Oxford 12T6-10 speakers on an SM57 at the cap edge (the SM57 is on Elson's list). Voicing p90: the Les Paul Pro Deluxe shipped with P-90s, and a bridge humbucker by Escape rests on one forum post (experiments D29). The cranked Twin plus that pickup gives the smooth, compressed sustain Schon credits to the guitar; there is no documented compressor, and a NAM capture can't model a compressor's timing, so none is added. SW8 BOOST is ON at load: a TS9 clean push (D0 L10) into the cranked Twin for the singing sustain of the held bends (not documented; on the offline bench it lowers the crest factor from 15.0 to 13.0 dB, i.e. more compression); stomp it off for a cleaner, rawer Twin. SW9 DELAY is ON at load: 500 ms (a quarter note at the published 120 BPM), feedback 0.3, cutoff 4500 Hz (Fantasy's tape delay, darker repeats), mix 0.2; 375 ms is the dotted-eighth alternative. 480L Large Plate at 25% stands in for Fantasy's EMT plates. Disputed or missing: a wah 'slightly open' (forum hearsay; SW6 + EXP A parks the DAW wah), the 'little Roland amp' reading, whether the bridge P-90 had been swapped for a humbucker by 1981, the double-tracked lead (mono preset). Levelled offline with rigsim --exact to -14 LUFS.
 
@@ -603,7 +603,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | [Marshall 1959 BRBS SIR #36 Slash [Standard]](https://www.tone3000.com/tones/6379) — Marshall 1959 Super Lead, S.I.R. #36 mod (Slash's Appetite amp), MV3 Slash | on |
 | L4 | cab | [Marshall 1960BV V30 and G12T75](https://www.tone3000.com/tones/51086) — Marshall 1960BV 4x12 Vintage 30, SM57 | on |
 | L5 | echo | SRV-2000 delay 318 ms (Welcome to the Jungle intro) — generated 318 ms BBD-style IR (mix 33%) | off |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (mix 10%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Plate (mix 14%) | on |
 
 *Notes:* The exact documented amp: Slammin's capture of a real 1959 Super Lead modded to the SIR #36 'Appetite' spec, MV3 mid-gain Slash setting (418836, the HG version, is the hotter alternative for the solos). Cab: 1960BV Vintage 30 SM57, following Guitar World's V30 estimate (no mics are documented; Greenback 75087/656904 if V30 sounds too modern). Guitar World's knob settings (Presence 8, Bass 5, Middle 8.5, Treble 7, Vol 1 at 10) are by-ear estimates, not session notes. SW8 BOOST = TS9 clean push for the solos (not on the record). SW9 DELAY = the documented WTTJ intro SRV-2000 setting (318 ms, fb 0.3, mix 0.33, digital-bright repeats); no Sweet Child delay is documented. 480L Large Plate at 10% for air. The record is in Eb (tag eb). Opt-in record pitch: tone.csv pitch_st -1 (this row, or the @eb row for every Eb song; adds 11-31 ms latency), or tune the guitar down. The Sweet Child solo's wah is SW6 + EXP A (the DAW wah); Izzy's doubled rhythm isn't modelled. Research: the 80s-tones.md shortlist (captures and model ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
 
@@ -624,7 +624,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | [Marshall 1959RR Randy Rhoads Signature MKII Super Lead](https://www.tone3000.com/tones/43380) — Marshall 1959RR Randy Rhoads Super Lead, CH1 gain at noon | on |
 | L4 | cab | [Celestion Greenback - Marshall 1960TV 4x12 SM57](https://www.tone3000.com/tones/45022) — Marshall 1960TV 4x12 G12M-25 Greenback, SM57 (for the Altec 417-8H cabs) | on |
 | L5 | echo | Solo delay 380 ms (the AMS short delay) — generated 380 ms BBD-style IR (mix 15%) | off |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Ridge Farm stone room) (mix 15%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Ridge Farm stone room) (mix 11%) | on |
 
 *Notes:* Amp: Marshall's 1959RR Randy Rhoads reissue, channel 1 gain at noon (GW's Vol I ~6; the Distortion+ supplies the rest). Drive (always on): the MXR Distortion+ capture at exactly GW's Output 10 / Distortion 4, with the 10-band EQ curve mapped onto its six-band eq [2, 5, 7, 4, -1, 1] (100/250/650/1600/3500/8k, scaled ~0.7 to stay safe). GW's knob and EQ settings are by-ear estimates (Tonal Recall), not session notes. Cab: Greenback 1960TV SM57; no Altec 417-8H IR exists in the catalog. SW8 BOOST = TS9 clean push (not on the record: the 80s banks keep a boost on every preset). SW9 DELAY = a 380 ms short solo delay (Owsinski: the solo has only a short AMS delay on the right). 480L Large Wood Room at 15% for the Ridge Farm stone room. Can't match: the AMS detune and the triple-tracked solos (mono preset). Research: the 80s-tones.md shortlist (ids checked with `tone3000.py models`). Levelled offline with rigsim --exact to -14 LUFS.
 
@@ -644,11 +644,11 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | [Mesa Boogie Mark IIC+ Hetfield Rhythm](https://www.tone3000.com/tones/2769) — Mesa/Boogie Mark IIC+ Hetfield Rhythm V2 | on |
 | L4 | cab | [Metallica Classic IRs v2.4](https://www.tone3000.com/tones/84108) — Puppet_IR (Metallica Classic IRs, voiced from the album) | on |
 | L5 | echo | Solo delay 400 ms (Kirk's solo; the rhythm is dry) — generated 400 ms BBD-style IR (mix 15%) | off |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (the short Quantec room) (mix 8%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (the short Quantec room) (mix 11%) | on |
 | R1 | amp | [Mesa Boogie Mark IIC+ Hetfield Rhythm](https://www.tone3000.com/tones/2769) — Mesa/Boogie Mark IIC+ Hetfield Rhythm V2 | on |
 | R2 | cab | [Metallica Classic IRs v2.4](https://www.tone3000.com/tones/84108) — Puppet_IR (Metallica Classic IRs, voiced from the album) | on |
 | R3 | echo | Solo delay 400 ms (Kirk's solo; the rhythm is dry) — generated 400 ms BBD-style IR (mix 15%) | off |
-| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (the short Quantec room) (mix 8%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (the short Quantec room) (mix 11%) | on |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
@@ -670,11 +670,11 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L3 | amp | [Marshall 1959HW Plexi Variac [Hyper Accuracy]](https://www.tone3000.com/tones/6220) — Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10 | on |
 | L4 | cab | [Celestion Greenback - Marshall 1960TV 4x12 SM57](https://www.tone3000.com/tones/45022) — Marshall 1960TV 4x12 G12M-25 Greenback, SM57 | on |
 | L5 | echo | Univox EC-80 tape echo stand-in, 300 ms (on) — generated 300 ms BBD-style IR (mix 20%) | on |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber (Sunset Sound live chamber) (mix 15%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber (Sunset Sound live chamber) (mix 4%) | on |
 | R1 | amp | [Marshall 1959HW Plexi Variac [Hyper Accuracy]](https://www.tone3000.com/tones/6220) — Marshall 1959HW Plexi on a Variac, 180 V (= EVH's ~90 of 120 V), dimed 10 | on |
 | R2 | cab | [1976 Deluxe Reverb Cabinet with JBL E120-8](https://www.tone3000.com/tones/5719) — JBL E120 12" (for EVH's JBL D120F 4x12) | on |
 | R3 | echo | Univox EC-80 tape echo stand-in, 300 ms (on) — generated 300 ms BBD-style IR (mix 20%) | on |
-| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber, opposite side (Landee's panning) (mix 40%) | on |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Chamber, opposite side (Landee's panning) (mix 13%) | on |
 
 Slots L1–L2 feed both rigs; left and right are panned apart.
 
@@ -766,7 +766,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 | L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
 | L3 | amp | [1969 Marshall JMP Super Lead](https://www.tone3000.com/tones/87031) — 1969 Marshall JMP Super Lead 100 W (full rig; stands in for the Vox Super Beatle Page named) | on |
 | L5 | echo | Eighth-note echo 326 ms at 92 BPM (the middle section's echo, approximated) — generated 326 ms BBD-style IR (mix 20%) | off |
-| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Olympic Studio One's live room) (mix 15%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Wood Room (Olympic Studio One's live room) (mix 11%) | on |
 
 *Vibe (DAW, SW7 in the LEGENDS bank):* 1.5 Hz, depth 1.0, 100% wet — Not on the record: the default slow throb
 
