@@ -121,8 +121,10 @@ presets as before; nothing in the JSON changes.
   change.
   - `qtractor_rig.py build` puts one x42 zeroconvolv per distinct stage right after that
     TONE3000. Its kernel is the WAV TONE3000 would load, with TONE3000's trim and normalisation,
-    times the mix; the dry level is 1 − mix. zita-convolver runs the late partitions on its
-    own real-time threads, on other cores.
+    times the mix (`qtractor_rig.tail_wav`); the dry level is 1 − mix and the plugin's wet
+    level stays 0 dB. zita-convolver runs the late partitions on its own real-time threads, on
+    other cores. Until D30 the kernel went in without the mix, so every moved reverb played
+    1/mix (12–22 dB) louder than designed.
   - Each preset's Program Change brings absolute CCs on MIDI ch 9/10/11 (heavy/clean/harmony
     instance) that enable exactly that preset's convolvers (`rig.py layout`, from
     `~/Music/fcb-rig/tails/tails.json`).
@@ -247,6 +249,7 @@ non-numbers and out-of-range cells, and names the line, row and column.
 | `boost_on` `drive_on` `echo_on` | slot 1, slot 2, slot 5 + R3 on at preset load (0/1) | set |
 | `echo_ms` `echo_fb` `echo_mix` `echo_cutoff` | the echo blocks' `delay_ms`, `feedback`, `mix`, `cutoff_hz` (slot 5 + R3) | set |
 | `amb_mix` | `mix` of the ambience IRs | set |
+| `verb_db` | every always-on reverb against the dry sound, in dB ("Reverb level" below) | add, and the preset cell adds too |
 | `gate_db` `gate_hold` `gate_release` `gate_range` | `gateThreshold` (beats `GLOBAL_PARAMS`), `gateHold`, `gateRelease`, `gateRange` | set |
 | `bass` `mid` `treble` | the TONE3000 tone stack, 0–10, 5 = flat | set |
 | `pitch_st` | opt-in retune in semitones (`pitchEnabled` + `pitchSemitones`); empty or 0 = off; adds 11–31 ms while on | set |
@@ -260,12 +263,29 @@ byte for byte as before, also with every CSV-covered JSON field deleted.
 
 `tune` moves come from **`vocab.csv`** (word, column steps, why): fatter, thinner, brighter,
 darker, tighter, looser, more/less attack, more/less gain, less fizz, warmer, more air, scooped,
-mid-forward. A `*`/`@tag` add cell moves its offset; an empty preset cell starts from the
+mid-forward, drier, wetter, roomier. A `*`/`@tag` add cell moves its offset; an empty preset cell starts from the
 preset's JSON value; a set cell starts from today's resolved value. A tune that would take a
 value out of range leaves tone.csv unchanged. History is `rigs/.tune-history` (gitignored).
 Hooks for the simulator and docs, in tone3000.py: `resolved(name)` (merged settings, params and
 resolved blocks), `affected(target)` (preset names a `*`/`@tag`/preset target reaches) and
 `build_presets(names, out_dir)` (the `.t3kpreset` files, never into `~/.config/TONE3000`).
+
+### Reverb level (`verb_db`, experiments D30)
+
+The house reverb level is Back in Black's: its 480L Small Wood Room plays 12.6 dB under the dry
+sound (the **wet ratio**, `experiments/verb_ratio.py`). Every preset's always-on reverb sits within
+±1.5 dB of it; cleans may sit up to +2 dB over it, if the preset notes give the record's reason.
+- `verb_db` (add, −24…+12 dB; like `out_db`, a preset cell adds to `*` and `@tag`) moves every
+  always-on reverb of a preset together:
+  - an ambience IR, or a reverb-only echo (`delay_ms` 0): its `mix`, so that wet:dry moves by the
+    given dB;
+  - an echo on at load with a summed `reverb`: `reverb.level_db`, plus a mix rescale that keeps
+    the echo repeats at their level. TONE3000 normalises each IR to unit energy, so `level_db`
+    alone mostly moved the echo, not the reverb.
+  - The DAW tails take the scaled mix, so a moved reverb follows.
+- Footswitched echoes (off at load) keep their reverb.
+- Words: `drier` (−3), `wetter` (+3), `roomier` (+1.5). After a move, check it with
+  `uv run experiments/verb_ratio.py STEM` and re-level (`experiments/level_loop.py`).
 
 ### "More attack"
 

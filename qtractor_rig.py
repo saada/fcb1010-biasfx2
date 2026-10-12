@@ -439,6 +439,13 @@ def float_wav(channels, rate=48000):
             + struct.pack("<I", len(fmt)) + fmt + b"data" + struct.pack("<I", len(data)) + data)
 
 
+def tail_wav(stage):
+    """A DAW tail stage's zeroconvolv kernel: TONE3000's normalised kernel times the block's mix,
+    because the convolver's Wet Signal Level stays at 0 dB and its Dry is 1 - mix. Before D30 the
+    kernel went in at unit energy, so every moved reverb played 1/mix (12-22 dB) over its design."""
+    return float_wav([[v * stage["mix"] for v in h] for h in stage["irs"]])
+
+
 def build_tails(write=True):
     """{channel: {"convolvers": [{key, file, mix, labels, seconds, enabled}], "pcs": {pc: [index]}}}
     for every TONE3000 instance, from tone3000.build_preset_and_tails over rigs/. One convolver per
@@ -454,7 +461,7 @@ def build_tails(write=True):
         ch = T3K_CHANNEL.get(rig.get("scene"), 0)
         _, stages = t3k.build_preset_and_tails(rig)
         for pos, st in enumerate(stages):
-            wav = float_wav(st["irs"])
+            wav = tail_wav(st)
             key = f"{pos}-{hashlib.sha1(wav).hexdigest()[:16]}-{st['mix']:g}"
             path = TAILS_DIR / f"{key}.wav"
             if key not in convs.setdefault(ch, {}):

@@ -1276,3 +1276,124 @@ what-if on seven), `jp70-levels-voiced.csv` (rigsim `--exact` after the level lo
   - Every Breath's tuning (the record is in Ab; how Summers got there is disputed), Photograph
     (about 50 cents flat per one analysis, left alone), and Murray's and Smith's exact 1982
     guitars.
+
+## D30 — "Everything is so over the top reverb wise": the house wet ratio, and DAW tails without their mix
+
+*Data:* `verb-before.csv` (as on main: the designed wet ratio, and the live rig's before this
+fix), `verb-after.csv` (this branch), `verb-levels.csv` (rigsim `--exact` after the level loop).
+Script: `verb_ratio.py`.
+
+- **Question:** the owner hears too much room on everything except Back in Black ("it eats up a
+  lot of the sound"). How much always-on reverb does each preset play, and how do we bring all of
+  them to Back in Black's level without touching the rest of each tone?
+- **Hypothesis:** the presets' mixes (0.1–0.4 of long 480L/EMT plates and chambers) are wetter
+  than Back in Black's 0.1 Small Wood Room. One dB knob per preset, calibrated by measurement,
+  brings them to its level.
+- **Method:**
+  - **Wet ratio:** 10·log10(E(as loaded − dry) / E(dry)), energies summed over L and R over the
+    whole render. Each preset renders in rigsim's engine (TONE3000, then the DAW tail stages, no
+    limiter) through `di-ref.wav` plus 3 s of silence.
+  - **Dry:** every always-on reverb is bypassed. Ambience IRs are off. An echo on at load loses
+    its summed `reverb`, and a reverb-only echo is switched off.
+  - **Echo + reverb blocks:** TONE3000 normalises each IR to unit energy, so the echo-only block
+    plays its repeats 12–16 dB louder than they sit in the as-loaded block. A third render with
+    the echo off ("thru") lets the dry be rebuilt with the repeats at their as-loaded level
+    (linear chain after the block; per lane on split rigs). So the ratio counts the reverb alone.
+  - **Wobble:** spread and align wobble are switched off for both renders, for the measurement
+    only. Run-to-run spread is ±0.3 dB on most presets and up to ±0.5 dB on Hysteria Clean and
+    This Charming Man. Back in Black read −12.54 to −12.68 dB.
+  - **Tail:** `tail30_s` is the time from the DI's end (it stops mid-note) until the 50 ms level
+    falls 30 dB under the program's mean. `rt60_s` is a Schroeder T20 × 3 of the same decay.
+  - **Live before:** the same render with each DAW tail stage as the live rig played it (see
+    the finding below).
+- **Finding, the cause:** the DAW tail kernels never carried their mix.
+  - D25 moved every long always-on reverb to x42 zeroconvolv: 13 convolvers, 16 presets. The
+    design was kernel × mix, Dry = 1 − mix, Wet = 0 dB. `qtractor_rig.build_tails` wrote
+    TONE3000's unit-energy kernel without the mix.
+  - The files in `~/Music/fcb-rig/tails/` read 0.00 dB energy on every kernel, with Wet
+    Signal Level 0.0 in `rig.qtr`. So every moved reverb played 1/mix too loud: +20 dB at mix
+    0.1, +16.5 dB at 0.15, +12 dB at 0.25.
+  - rigsim applied the mix itself, so D25's offline equivalence passed and no level run saw it.
+  - Back in Black's Small Wood Room is under 1.0 s after the trim. It never moved to the DAW,
+    so it was the one room that played as designed.
+  - **Fix:** `qtractor_rig.tail_wav` scales each kernel by its mix.
+- **Finding, the knob:** an echo's `reverb.level_db` is a weak reverb control. The summed reverb
+  carries most of the IR's energy (file energy +16 to +22 dB, the echo alone +2 to +6 dB). After
+  TONE3000's normalisation, `level_db` moves the echo repeats more than the reverb.
+  - `verb_db` (tone.csv, add, dB) therefore scales:
+    - an ambience IR or a reverb-only echo by its mix, as a wet:dry ratio;
+    - an echo on at load by `level_db` plus a mix rescale that holds the repeats
+      (`tone3000.apply_verb`).
+  - The DAW tails take the scaled mix.
+- **Result:** wet ratio in dB. Back in Black, the house level, is **−12.68 dB**: its room plays
+  12.7 dB under the dry sound.
+  - *live before* is what the rig played on main.
+  - *designed before* is main's presets with the kernel fix.
+  - *after* is this branch, re-levelled.
+  - The table skips seven presets with no always-on reverb (Nirvana, Djent, the four Satans,
+    Stormblade).
+
+| PC | preset | live before | designed before | after | after − BiB | verb_db | out_db | tail30 s before → after |
+|---|---|---|---|---|---|---|---|---|
+| 0 | maiden-heavy | 5.81 | -13.51 | -13.51 | -0.83 | 0 | 0.8 | 0.65 → 0.4 |
+| 1 | maiden-clean | 12.47 | -8.57 | -11.31 | +1.37 | -3 | 0 → -0.3 | 1.55 → 0.8 |
+| 2 | maiden-acoustic | -8.76 | -8.76 | -11.54 | +1.14 | -3.5 | 0 → -0.5 | 0.2 → 0.15 |
+| 3 | van-halen-1 | -2.17 | -2.17 | -12.04 | +0.64 | -13 | 3.8 → 4 | 0.45 → 0.35 |
+| 4 | van-halen-1984 | -12.95 | -12.95 | -12.95 | -0.27 | 0 | 1.7 | 0.2 → 0.2 |
+| 5 | def-leppard-pyromania | 2.25 | -12.36 | -12.36 | +0.32 | 0 | 1.1 | 1.4 → 0.75 |
+| 6 | def-leppard-hysteria | 2.44 | -12.24 | -12.24 | +0.44 | 0 | -14 | 1.5 → 0.85 |
+| 7 | u2-streets | 6.67 | 6.67 | -11.71 | +0.97 | -15 | -4.2 → -0.7 | 1.55 → 0.95 |
+| 8 | comfortably-numb | 3.16 | -7.19 | -12.03 | +0.65 | -6 | -2 → -2.7 | 1.6 → 0.95 |
+| 9 | radiohead | -3.49 | -3.49 | -11.92 | +0.76 | -10 | -2.9 → -2.4 | 1.35 → 1.35 |
+| 12 | purple-rain | 3.08 | -5.73 | -11.58 | +1.10 | -7.5 | -0.8 → -1.7 | 1.8 → 1.2 |
+| 18 | is-this-love | -4.68 | -4.68 | -12.05 | +0.63 | -6.5 | 8.9 → 8.7 | 1.45 → 1.15 |
+| 19 | rule-the-world | -12.58 | -13.03 | -13.03 | -0.35 | 0 | 11.7 | 0.9 → 0.9 |
+| 20 | every-breath | 2.43 | -14.08 | -13.8 | -1.12 | 0 | -0.3 | 1.55 → 0.8 |
+| 21 | hysteria-clean | -10.81 | -10.98 | -12.17 | +0.51 | -1 | -9.3 → -9.5 | 0.95 → 0.95 |
+| 22 | this-charming-man | 9.82 | -6.2 | -12.09 | +0.59 | -7 | 13.1 | 1.35 → 1.1 |
+| 23 | whos-crying-now | 2.59 | -7.78 | -12.2 | +0.48 | -5.5 | 6.1 → 5.6 | 2.0 → 1.55 |
+| 24 | sweet-child | 2.32 | -15.71 | -13.06 | -0.38 | 3 | 3.2 → 3.4 | 1.4 → 0.75 |
+| 25 | crazy-train | 5.99 | -9.84 | -12.45 | +0.23 | -3 | 6.3 → 6.1 | 0.65 → 0.5 |
+| 26 | master-of-puppets | -15.58 | -15.58 | -12.86 | -0.18 | 3 | 1.5 → 1.7 | 0.2 → 0.25 |
+| 27 | eruption | -2.01 | -2.01 | -11.81 | +0.87 | -13 | 4.4 → 4.8 | 1.0 → 0.9 |
+| 28 | pride-and-joy | 2.96 | -13.58 | -13.58 | -0.90 | 0 | 1.5 | 1.7 → 0.85 |
+| 29 | voodoo-child | 2.86 | -13.68 | -13.68 | -1.00 | 0 | -1.4 | 1.65 → 0.9 |
+| 30 | bohemian-rhapsody | 3.13 | -11.63 | -11.63 | +1.05 | 0 | 0.1 | 1.6 → 1.0 |
+| 31 | whole-lotta-love | 5.82 | -9.89 | -12.49 | +0.19 | -3 | -14.5 → -14.7 | 0.65 → 0.45 |
+| 32 | back-in-black | -12.68 | -12.68 | -12.68 | +0.00 | 0 | -9.3 | 0.2 → 0.2 |
+
+  - **Live before:** 16 presets ran at +2 to +12.5 dB, that is 15–25 dB over Back in Black.
+  - **Designed before:** U2, Van Halen I, Eruption, Radiohead and Is This Love were 8–19 dB over
+    the house level. Sweet Child and Master of Puppets were 3 dB under it.
+  - **After:** every preset is within −1.1 … +1.4 dB of the house level.
+    - Seven presets needed only the kernel fix (verb_db 0): Maiden Heavy, Pyromania,
+      Hysteria, Every Breath, Pride and Joy, Voodoo Child and Bohemian Rhapsody.
+    - Sweet Child and Puppets got +3 dB.
+    - Cleans and the acoustic sit at +0.5 … +1.4, inside ±1.5, so none needed the +2 dB clean
+      allowance or a note.
+  - **Tails:** `tail30_s` is 0.15–1.55 s, against 0.2 s for Back in Black. The long tails are the
+    EMT and 480L plates (RT60 about 2.8–3.3 s). At the house ratio they decay under −30 dB within
+    1.2 s, except Who's Crying Now (1.55 s, its always-on 500 ms echo) and Radiohead (1.35 s).
+    No `trim_seconds` was shortened.
+- **Levels:** every changed preset was re-levelled to its D22 target with `level_loop.py`, within
+  0.15 LU.
+  - Less reverb made most presets louder: mix down means dry (1 − mix) up.
+  - U2 needed +3.5 dB of fader, because its echo's reverb had been most of its loudness.
+- **Conclusion:**
+  - The owner's "over the top" was a D25 build bug: the DAW tails ran 12–20 dB hot. Back in
+    Black, the one preset that kept its room inside TONE3000, was the only one that sounded right.
+  - With the kernel fix and `verb_db`, every preset now plays its room at Back in Black's wet
+    ratio ±1.5 dB, measured one way.
+  - `verb_db` with `drier`, `wetter` and `roomier` moves every always-on reverb of a preset
+    together.
+- **Not measured, or simulated:**
+  - Nothing was built or heard live: the coordinator builds after merge. The fix changes the
+    kernel files' names, so `qtractor_rig.py build` writes new ones.
+  - The "live before" column models zeroconvolv as a plain convolution with the documented
+    Dry/Wet. It is not a capture of the rig.
+  - The audition files: `~/Music/fcb-rig/audition/verb-<maiden-clean|maiden-acoustic|whos-crying-now|is-this-love|pride-and-joy|back-in-black>-<old|new>.wav`.
+    `old` is the live rig before this fix. Both are the DI plus a 3 s tail, wobble off, through
+    rigsim's −1 dBFS limiter stand-in.
+  - The split-lane echo correction treats U2's hard-panned lanes as separate channels. Its
+    spread, enabled in the preset, cross-feeds a little.
+  - Footswitched echoes (80s SW9, Maiden SW8/SW9) keep their reverb as written, by design.
