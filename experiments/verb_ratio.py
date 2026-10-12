@@ -54,9 +54,37 @@ def dry_variant(rig):
         elif spec.get("type") == "echo" and spec.get("enabled", True) and spec.get("reverb"):
             if spec.get("delay_ms"):
                 del spec["reverb"]
+                spec["_had_reverb"] = True
             else:
                 spec["enabled"] = False
     return rig
+
+
+def verb_echoes(rig):
+    """Echo blocks on at load with a delay and a summed reverb, per lane: [(lane, spec)]."""
+    return [(side, s) for side in ("left", "right") for s in rig.get(side, [])
+            if s.get("type") == "echo" and s.get("enabled", True) and s.get("reverb") and s.get("delay_ms")]
+
+
+def thru_variant(rig):
+    """dry_variant with those echo blocks off too: the signal the echo block receives."""
+    rig = dry_variant(rig)
+    for spec in rig.get("left", []) + rig.get("right", []):
+        if spec.get("type") == "echo" and spec.get("enabled", True) and spec.get("delay_ms") and spec.get("_had_reverb"):
+            spec["enabled"] = False
+    return rig
+
+
+def echo_k(spec):
+    """How much louder the echo repeats play in the as-loaded block than in the echo-only block
+    of dry_variant: TONE3000 normalises each IR file to unit energy, and in the as-loaded one the
+    summed reverb carries most of the energy (tone3000._echo_scale)."""
+    rev = spec["reverb"]
+    key = (int(spec["delay_ms"]), float(spec.get("feedback", 0.5)), float(spec.get("cutoff_hz", 3500.0)),
+           json.dumps({k: v for k, v in rev.items() if k != "level_db"}, sort_keys=True))
+    e = [v / 0.9 for v in t3k.wav_read(t3k.analog_echo(*key[:2], cutoff_hz=key[2]))[0][0]]
+    alone = min(1.0, 1.0 / (0.9 * math.sqrt(sum(v * v for v in e))))
+    return t3k._echo_scale(*key, float(rev.get("level_db", -6.0))) / alone
 
 
 def no_wobble(rig):
@@ -149,6 +177,8 @@ def main(argv=None):
         stem = Path(r["_file"]).stem
         r = rigsim.absolute_files(no_wobble(r))
         variants = {"wet": (r, False), "dry": (dry_variant(r), False)}
+        if verb_echoes(r):
+            variants["thru"] = (thru_variant(r), False)
         if not args.no_live:
             variants["live"] = (r, True)
         plan[stem] = r
@@ -171,6 +201,18 @@ def main(argv=None):
             rows.append(row)
             continue
         dry = read_f32_wav(out / f"{stem}-dry.wav")
+        if echoes := verb_echoes(r):
+            # dry_variant's echo-only block plays its repeats at 1/k of the as-loaded level. The
+            # chain after it is linear, so per output channel (its lane's block when the lanes are
+            # split): echo-only = (1-m) thru + m (h * thru), as loaded = (1-m) thru + m k (h * thru).
+            thru = read_f32_wav(out / f"{stem}-thru.wav")
+            lane = {side: s for side, s in echoes}
+            for ch, side in enumerate(("left", "right")):
+                s = lane.get(side) if r.get("split_after") else lane.get("left")
+                s = s or echoes[0][1]
+                m, k = float(s.get("mix", 1.0)), echo_k(s)
+                dry[:, ch] = (1 - m) * thru[:, ch] + k * (dry[:, ch] - (1 - m) * thru[:, ch])
+                row[f"echo_k_{side[0]}_db"] = round(20 * math.log10(k), 2)
         e_dry = (dry ** 2).sum()
         row["wet_ratio_db"] = round(10 * math.log10(((wet - dry) ** 2).sum() / e_dry), 2)
         row["rt60_s"], row["tail30_s"] = tail_stats(wet, n_di)
@@ -180,7 +222,7 @@ def main(argv=None):
             row["live_tail30_s"] = tail_stats(live, n_di)[1]
         rows.append(row)
     target = next((x["wet_ratio_db"] for x in rows if x["preset"] == TARGET), None)
-    cols = ["pc", "preset", "wet_ratio_db", "vs_target_db", "rt60_s", "tail30_s"] + ([] if args.no_live else ["live_ratio_db", "live_tail30_s"]) + ["target"]
+    cols = ["pc", "preset", "wet_ratio_db", "vs_target_db", "rt60_s", "tail30_s", "echo_k_l_db", "echo_k_r_db"] + ([] if args.no_live else ["live_ratio_db", "live_tail30_s"]) + ["target"]
     for x in rows:
         x["vs_target_db"] = round(x["wet_ratio_db"] - target, 2) if target is not None and x["wet_ratio_db"] != "" else ""
         x["target"] = "TARGET" if x["preset"] == TARGET else ""
