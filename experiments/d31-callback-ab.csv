@@ -1,0 +1,13 @@
+preset,rigs,variant,blocks,irs,median_ms,p99_ms,max_ms,mean_ms,spikes,spike_period_blocks,spike_median_ms,max_share_of_quantum
+Maiden Clean,worktree,as-is,562,1ch/0.62s/short 1ch/1.59s/long 1ch/0.63s/short 1ch/1.59s/long,2.293,4.693,6.138,2.708,0,0,0.0,1.15
+Maiden Acoustic,worktree,as-is,562,1ch/0.03s/short 1ch/0.03s/short 1ch/0.93s/short 1ch/0.93s/short,1.693,2.376,2.685,1.68,0,0,0.0,0.5
+Maiden Clean,9e1e02f,as-is,562,1ch/0.03s/short 1ch/1.59s/long 1ch/1.36s/long 1ch/0.68s/short 1ch/1.59s/long 1ch/1.36s/long,2.102,6.781,7.546,2.264,16,32,6.599,1.41
+Maiden Acoustic,9e1e02f,as-is,562,1ch/0.14s/short 1ch/0.93s/short 1ch/0.53s/short 1ch/0.07s/short 1ch/0.93s/short 1ch/0.53s/short,2.574,4.501,5.065,2.891,0,0,0.0,0.95
+Maiden Clean,worktree,as-is,562,1ch/0.62s/short 1ch/1.59s/long 1ch/0.63s/short 1ch/1.59s/long,0.914,1.844,3.128,0.981,1,0,3.128,0.59
+Maiden Acoustic,worktree,as-is,562,1ch/0.03s/short 1ch/0.03s/short 1ch/0.93s/short 1ch/0.93s/short,0.591,0.911,1.356,0.57,0,0,0.0,0.25
+Maiden Clean,9e1e02f,as-is,562,1ch/0.03s/short 1ch/1.36s/long 1ch/1.59s/long 1ch/0.68s/short 1ch/1.59s/long 1ch/1.36s/long,1.441,5.446,7.433,1.54,10,32,6.057,1.39
+Maiden Acoustic,9e1e02f,as-is,562,1ch/0.14s/short 1ch/0.93s/short 1ch/0.07s/short 1ch/0.53s/short 1ch/0.53s/short 1ch/0.93s/short,3.364,5.655,6.135,3.649,0,0,0.0,1.15
+Maiden Clean,worktree,as-is,562,1ch/0.62s/short 1ch/1.59s/long 1ch/0.63s/short 1ch/1.59s/long,2.644,4.63,5.858,2.632,0,0,0.0,1.1
+Maiden Acoustic,worktree,as-is,562,1ch/0.03s/short 1ch/0.03s/short 1ch/0.93s/short 1ch/0.93s/short,1.014,2.031,2.841,1.215,0,0,0.0,0.53
+Maiden Clean,9e1e02f,as-is,562,1ch/0.03s/short 1ch/1.59s/long 1ch/1.36s/long 1ch/0.68s/short 1ch/1.59s/long 1ch/1.36s/long,2.202,7.05,7.581,2.376,15,32,6.978,1.42
+Maiden Acoustic,9e1e02f,as-is,562,1ch/0.14s/short 1ch/0.93s/short 1ch/0.07s/short 1ch/0.53s/short 1ch/0.53s/short 1ch/0.93s/short,3.434,4.651,6.662,3.292,0,0,0.0,1.25

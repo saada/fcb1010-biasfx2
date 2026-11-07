@@ -1350,6 +1350,8 @@ def build_block(spec):
         gains[0] = max(-24.0, min(24.0, gains[0] + float(spec["tight_db"])))
         pre = True
     node = block(kind, on, tone, mid, mix=mix, eq_gains=gains, eq_pre=pre, data=data)
+    if kind == "nam" and "slim" in spec:  # A2 size for this block: 1 = FULL (default), 0 = LITE (experiments D31)
+        node.set("slimSize", float(spec["slim"]))
     if spec.get("out_db"):  # level trim (measured, see rig "levels"); block output is +-24 dB
         node.set("outputGain", max(0.0, min(1.0, 0.5 + float(spec["out_db"]) / 48)))
     if spec.get("in_db"):  # drive the block harder/softer (e.g. a lead chain = same amp, pushed)

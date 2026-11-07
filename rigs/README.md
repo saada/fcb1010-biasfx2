@@ -296,6 +296,9 @@ sound (the **wet ratio**, `experiments/verb_ratio.py`). Every preset's always-on
 | `gate_hold` / `gate_release` | 50 / 100 → 10 / 15 ms | Leaves the onset alone (picks at −30 to −50 dBFS pass with 0.0 dB change; a −60 dBFS pick loses 4.9 dB) but ends each chug sooner, so the next one starts from silence and reads punchier. | experiments D16, simulated |
 | bus compressor | keep bypassed | Its −18 dB threshold, 3:1 ratio and 10 ms attack take a pick 6 dB over threshold down by about 4 dB after the first 10 ms; it flattened palm mutes ("too muffled"). It is one bus for all presets (`qtractor_rig.py` `COMPRESSOR`), not a tone.csv column. | experiments D16 |
 
+A NAM block's optional `"slim": 0` runs its A2 capture at LITE size. It costs far less CPU but
+changes the sound and adds distortion, and no preset uses it (experiments D31).
+
 ### Useful `params`
 
 `spreadEnabled`, `spreadWobble` (0–1), `spreadWobbleEnabled` — stereo
@@ -324,8 +327,8 @@ input (see Useful `params`), but with no dry blend and no scale awareness.
 ## Scene bank (Iron Maiden, FCB bank 0)
 
 The Maiden bank has three presets: heavy on the Brave New World / Dance of Death chain,
-clean on 1982 Marshalls for the Hallowed Be Thy Name intro, and acoustic for the Dance of
-Death / Dream of Mirrors intros (short rooms only, experiments D24). In it SW8 toggles the heavy preset's slot 5 / R3 echo (The Evil That Men
+clean on Strat-voiced Fender Twins with the DAW's Clean Chorus for the Revelations and Infinite
+Dreams intros, and acoustic as steel-string body IRs for 2 A.M., with no capture that distorts (experiments D31). In it SW8 toggles the heavy preset's slot 5 / R3 echo (The Evil That Men
 Do, 375 ms) and SW9 its slot 6 / R4 `echo2` (Can I Play with Madness, 415 ms); SW2 is
 labelled LEAD (the `solo` scene) and adds no echo of its own. The DAW rig (`qtractor_rig.py`) runs
 two TONE3000s:
@@ -343,6 +346,10 @@ in a known state:
   like a boost pedal; above 63 the DAW Solo block adds +2 dB and a 380 ms echo), crunch 48 (guitar
   volume rolled back). A `heavy` preset loads at the rhythm value.
 - **CC 81** picks which instance hears the guitar.
+
+The clean instance has its own DAW chorus (`Clean Chorus`, CC 96 on/off, CC 97-99 rate/depth/mix).
+A `clean` or `acoustic` preset's `chorus` block switches it on with those settings when its PC
+loads, and a preset without one switches it off, so no footswitch is involved.
 
 Add `"scene"` and `"bank"` to these presets. Because SW10 only reaches the heavy
 instance, `clean` and `acoustic` presets keep their delay and reverb switched *on*.

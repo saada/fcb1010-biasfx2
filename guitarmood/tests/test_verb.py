@@ -7,7 +7,11 @@ import struct
 
 import pytest
 
+from pathlib import Path
+
 from guitarmood.board import qr, t3k
+
+BOTH_KINDS = "verb-both-kinds"  # fixture: an ambience IR and an echo with a summed reverb on both chains
 
 
 def rig(stem, sheet_rows=None, star=None):
@@ -15,7 +19,8 @@ def rig(stem, sheet_rows=None, star=None):
     sheet["rows"] = sheet_rows or {}
     sheet["star"] = star or {}
     sheet["tags"] = {s: [] for s in sheet["rows"]}
-    raw = json.loads((t3k.RIGS / f"{stem}.json").read_text()) | {"_file": f"{stem}.json"}
+    folder = Path(__file__).parent / "fixtures" if stem == BOTH_KINDS else t3k.RIGS
+    raw = json.loads((folder / f"{stem}.json").read_text()) | {"_file": f"{stem}.json"}
     return t3k.apply_tone(raw, sheet)
 
 
@@ -28,10 +33,10 @@ def ratio_db(m):
 
 
 def test_verb_db_scales_every_reverb_site():
-    """Maiden Clean has both kinds: an ambience hall (mix) and an echo with a summed reverb
+    """The fixture has both kinds: an ambience hall (mix) and an echo with a summed reverb
     (level_db, with the mix holding the repeats). `*` and the preset cell add."""
-    base = rig("01-maiden-clean")
-    moved = rig("01-maiden-clean", {"01-maiden-clean": {"verb_db": -3}}, star={"verb_db": -3})
+    base = rig(BOTH_KINDS)
+    moved = rig(BOTH_KINDS, {BOTH_KINDS: {"verb_db": -3}}, star={"verb_db": -3})
     assert moved["_verb_db"] == -6
     a, b = sites(base), sites(moved)
     assert len(a) == len(b) == 4  # echo + ambience on both chains
@@ -50,8 +55,8 @@ def test_verb_db_scales_every_reverb_site():
 def test_verb_db_reaches_the_daw_tails():
     """The moved reverbs take the scaled mix, and each zeroconvolv kernel is the mix times
     TONE3000's unit-energy kernel (dry 1 - mix, wet 0 dB in the plugin)."""
-    base = rig("01-maiden-clean")
-    moved = rig("01-maiden-clean", {"01-maiden-clean": {"verb_db": -6}})
+    base = rig(BOTH_KINDS)
+    moved = rig(BOTH_KINDS, {BOTH_KINDS: {"verb_db": -6}})
     _, before = t3k.build_preset_and_tails(base)
     _, after = t3k.build_preset_and_tails(moved)
     assert before and len(before) == len(after)

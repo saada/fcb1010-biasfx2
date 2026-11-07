@@ -1,0 +1,9 @@
+variant,median_ms,p99_ms,max_ms,mean_ms,spikes,spike_period_blocks,spike_median_ms,max_share_of_quantum
+"Rule the World (one amp, reference)",1.559,4.877,7.509,1.814,10,64,6.223,1.41
+"Twin71 N + B, Diamond, FULL",2.227,3.772,4.659,2.467,0,0,0.0,0.87
+"Twin71 N + B, no compressor, FULL",1.928,2.894,5.111,1.984,0,0,0.0,0.96
+"Twin73 N + N2, Diamond, FULL",0.942,3.356,4.531,1.059,21,1,3.215,0.85
+"JC Ch1 Low + Hi, Diamond, FULL",0.863,1.615,2.545,0.941,0,0,0.0,0.48
+"Deluxe65 + DeluxeRI, Diamond, FULL",0.812,1.523,4.007,0.927,2,0,3.278,0.75
+"Twin71 N + B, Diamond, LITE",0.236,0.529,1.203,0.264,3,53,0.861,0.23
+"Twin71 N + B, Diamond, slim 0.5",1.13,1.653,2.749,1.072,0,0,0.0,0.52

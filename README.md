@@ -150,9 +150,10 @@ Maiden songs all play on bank 0, which has the Brave New World / Dance of Death 
 | The Evil That Men Do (0) | RHYTHM, then **SW8 EVIL DELAY** for the melodic lines and the solo (LEAD). HARMONY for the harmonised bridge. |
 | Can I Play with Madness (0) | RHYTHM, then **SW9 MADNESS DELAY** + LEAD for the lead lines and the solo. |
 | The Wicker Man / Blood Brothers (0) | RHYTHM gallop → LEAD for the solos. HARMONY on the twin lines (E minor). |
+| Revelations / Infinite Dreams (0) | CLEAN for the intros (Fender Twin, Strat voicing, chorus always on) → RHYTHM → LEAD. |
 | Hallowed Be Thy Name / The Trooper (0) | CLEAN for the Hallowed intro → RHYTHM → LEAD. HARMONY for the twin lines. |
 | Fear of the Dark (0) | CRUNCH + SW9 for the quiet intro melody → RHYTHM for the gallop → LEAD. |
-| Journeyman (0) | ACOUSTIC for the whole song. |
+| 2 A.M. / Journeyman (0) | ACOUSTIC for the quiet parts, best on the neck pickup, picked lightly. |
 | Ain't Talkin' 'bout Love / Runnin' with the Devil (1) | SW1 VAN HALEN I. SW8 BOOST for the solos. |
 | Panama / Hot for Teacher (1) | SW2 VAN HALEN 1984. SW9 DELAY (319 ms) for the solo. |
 | Photograph / Rock of Ages (1) | SW3 PYROMANIA. SW9 DELAY (363 ms) for Photograph's solo. |

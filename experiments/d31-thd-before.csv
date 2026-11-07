@@ -1,0 +1,113 @@
+preset,freq_hz,in_db,out_db,thd_db
+Maiden Clean,110.0,-36,-20.0,-35.1
+Maiden Clean,110.0,-30,-14.1,-32.3
+Maiden Clean,110.0,-24,-11.6,-18.2
+Maiden Clean,110.0,-18,-11.3,-13.0
+Maiden Clean,110.0,-12,-11.3,-11.8
+Maiden Clean,110.0,-9,-11.3,-11.5
+Maiden Clean,110.0,-6,-11.5,-11.1
+Maiden Clean,110.0,-3,-11.7,-10.8
+Maiden Clean,330.0,-36,-22.9,-35.3
+Maiden Clean,330.0,-30,-17.1,-28.2
+Maiden Clean,330.0,-24,-13.3,-24.0
+Maiden Clean,330.0,-18,-12.8,-19.7
+Maiden Clean,330.0,-12,-12.9,-11.9
+Maiden Clean,330.0,-9,-12.9,-11.0
+Maiden Clean,330.0,-6,-12.8,-10.4
+Maiden Clean,330.0,-3,-13.0,-10.2
+Maiden Clean no amp,110.0,-36,-240.0,-103.4
+Maiden Clean no amp,110.0,-30,-91.1,-30.8
+Maiden Clean no amp,110.0,-24,-20.0,-96.8
+Maiden Clean no amp,110.0,-18,-13.9,-101.5
+Maiden Clean no amp,110.0,-12,-7.9,-101.6
+Maiden Clean no amp,110.0,-9,-4.9,-102.3
+Maiden Clean no amp,110.0,-6,-3.7,-44.7
+Maiden Clean no amp,110.0,-3,-3.7,-40.5
+Maiden Clean no amp,330.0,-36,-31.9,-111.1
+Maiden Clean no amp,330.0,-30,-25.9,-109.4
+Maiden Clean no amp,330.0,-24,-19.9,-108.9
+Maiden Clean no amp,330.0,-18,-13.9,-109.1
+Maiden Clean no amp,330.0,-12,-7.9,-109.1
+Maiden Clean no amp,330.0,-9,-4.9,-107.7
+Maiden Clean no amp,330.0,-6,-3.6,-76.2
+Maiden Clean no amp,330.0,-3,-3.4,-75.6
+Maiden Clean no eq,110.0,-36,-20.0,-35.1
+Maiden Clean no eq,110.0,-30,-14.1,-32.4
+Maiden Clean no eq,110.0,-24,-11.6,-18.4
+Maiden Clean no eq,110.0,-18,-11.3,-13.1
+Maiden Clean no eq,110.0,-12,-11.3,-12.0
+Maiden Clean no eq,110.0,-9,-11.3,-11.7
+Maiden Clean no eq,110.0,-6,-11.5,-11.3
+Maiden Clean no eq,110.0,-3,-11.7,-11.0
+Maiden Clean no eq,330.0,-36,-23.1,-35.4
+Maiden Clean no eq,330.0,-30,-17.2,-28.5
+Maiden Clean no eq,330.0,-24,-13.5,-23.5
+Maiden Clean no eq,330.0,-18,-12.9,-19.7
+Maiden Clean no eq,330.0,-12,-13.0,-11.7
+Maiden Clean no eq,330.0,-9,-13.0,-10.8
+Maiden Clean no eq,330.0,-6,-13.0,-10.2
+Maiden Clean no eq,330.0,-3,-13.2,-10.0
+Maiden Acoustic,110.0,-36,-21.6,-18.4
+Maiden Acoustic,110.0,-30,-19.3,-8.9
+Maiden Acoustic,110.0,-24,-17.6,-4.9
+Maiden Acoustic,110.0,-18,-14.2,-5.7
+Maiden Acoustic,110.0,-12,-11.7,-6.1
+Maiden Acoustic,110.0,-9,-10.5,-6.3
+Maiden Acoustic,110.0,-6,-9.2,-6.2
+Maiden Acoustic,110.0,-3,-8.4,-6.2
+Maiden Acoustic,330.0,-36,-36.6,-4.3
+Maiden Acoustic,330.0,-30,-31.0,-4.6
+Maiden Acoustic,330.0,-24,-29.7,-4.3
+Maiden Acoustic,330.0,-18,-28.5,-4.4
+Maiden Acoustic,330.0,-12,-27.5,-3.2
+Maiden Acoustic,330.0,-9,-27.0,-2.8
+Maiden Acoustic,330.0,-6,-26.5,-2.5
+Maiden Acoustic,330.0,-3,-25.7,-1.4
+Maiden Acoustic no boost,110.0,-36,-35.4,-29.4
+Maiden Acoustic no boost,110.0,-30,-29.1,-23.4
+Maiden Acoustic no boost,110.0,-24,-23.6,-20.8
+Maiden Acoustic no boost,110.0,-18,-20.1,-18.4
+Maiden Acoustic no boost,110.0,-12,-19.0,-5.9
+Maiden Acoustic no boost,110.0,-9,-17.1,-5.0
+Maiden Acoustic no boost,110.0,-6,-12.8,-5.8
+Maiden Acoustic no boost,110.0,-3,-8.4,-6.3
+Maiden Acoustic no boost,330.0,-36,-53.0,-13.7
+Maiden Acoustic no boost,330.0,-30,-46.9,-6.2
+Maiden Acoustic no boost,330.0,-24,-41.3,-2.0
+Maiden Acoustic no boost,330.0,-18,-33.5,-5.5
+Maiden Acoustic no boost,330.0,-12,-28.6,-4.1
+Maiden Acoustic no boost,330.0,-9,-26.5,-2.4
+Maiden Acoustic no boost,330.0,-6,-24.1,-1.7
+Maiden Acoustic no boost,330.0,-3,-21.6,-1.3
+Maiden Acoustic no drive,110.0,-36,-17.1,-50.5
+Maiden Acoustic no drive,110.0,-30,-11.0,-46.0
+Maiden Acoustic no drive,110.0,-24,-5.5,-51.9
+Maiden Acoustic no drive,110.0,-18,-3.1,-42.1
+Maiden Acoustic no drive,110.0,-12,-1.1,-38.4
+Maiden Acoustic no drive,110.0,-9,-1.0,-40.9
+Maiden Acoustic no drive,110.0,-6,-0.9,-44.9
+Maiden Acoustic no drive,110.0,-3,-1.8,-37.6
+Maiden Acoustic no drive,330.0,-36,-34.1,-28.5
+Maiden Acoustic no drive,330.0,-30,-28.7,-27.1
+Maiden Acoustic no drive,330.0,-24,-27.0,-26.2
+Maiden Acoustic no drive,330.0,-18,-25.5,-25.0
+Maiden Acoustic no drive,330.0,-12,-23.9,-21.6
+Maiden Acoustic no drive,330.0,-9,-23.3,-19.8
+Maiden Acoustic no drive,330.0,-6,-22.5,-24.4
+Maiden Acoustic no drive,330.0,-3,-21.5,-22.4
+Maiden Acoustic no eq,110.0,-36,-15.9,-16.8
+Maiden Acoustic no eq,110.0,-30,-14.7,-5.7
+Maiden Acoustic no eq,110.0,-24,-8.6,-5.9
+Maiden Acoustic no eq,110.0,-18,-5.8,-6.5
+Maiden Acoustic no eq,110.0,-12,-5.3,-7.4
+Maiden Acoustic no eq,110.0,-9,-5.2,-7.5
+Maiden Acoustic no eq,110.0,-6,-5.2,-7.4
+Maiden Acoustic no eq,110.0,-3,-5.2,-7.4
+Maiden Acoustic no eq,330.0,-36,-29.6,-9.2
+Maiden Acoustic no eq,330.0,-30,-25.3,-8.9
+Maiden Acoustic no eq,330.0,-24,-24.1,-8.1
+Maiden Acoustic no eq,330.0,-18,-23.0,-7.6
+Maiden Acoustic no eq,330.0,-12,-21.7,-6.9
+Maiden Acoustic no eq,330.0,-9,-21.2,-6.5
+Maiden Acoustic no eq,330.0,-6,-20.7,-6.3
+Maiden Acoustic no eq,330.0,-3,-19.8,-6.1

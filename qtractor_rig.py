@@ -79,6 +79,9 @@ CC_HARMONY = 25  # SW7 in the scene banks: twin-guitar harmony instead of the oc
 CC_CHORUS = 31   # SW7 in the 80s banks (rig.CHORUS_CC): the stereo chorus instead of the octaver
 # The chorus's per-song rate / depth / mix (chorus_ccs()): absolute CCs, sent after a song's PC.
 CC_CHORUS_RATE, CC_CHORUS_DEPTH, CC_CHORUS_MIX = 89, 90, 91
+# The clean instance's own chorus (CLEAN_CHORUS): on or off and rate / depth / mix follow the clean
+# instance's preset through absolute CCs (clean_chorus_ccs), so no footswitch is involved.
+CC_CLEAN_CHORUS, CC_CLEAN_CHORUS_RATE, CC_CLEAN_CHORUS_DEPTH, CC_CLEAN_CHORUS_MIX = 96, 97, 98, 99
 CC_VIBE = 92     # SW7 in the LEGENDS bank (rig.VIBE_CC): the Uni-Vibe-style phaser (VIBE)
 CC_VIBE_RATE, CC_VIBE_DEPTH, CC_VIBE_MIX = 93, 94, 95  # its per-song settings (vibe_ccs), like the chorus's
 CC_TUNER = 28    # SW10 in every bank: the helper shows the tuner (Fretwise) and mutes the rig
@@ -121,6 +124,12 @@ CHORUS = ("Chorus", "http://lsp-plug.in/plugins/lv2/chorus_stereo", False,
            47: ("Dry/Wet balance", 100 * CHORUS_DEFAULT["mix"])},
           {CC_CHORUS: ("Activate", "toggle"), CC_CHORUS_RATE: (13, "hook"),
            CC_CHORUS_DEPTH: (21, "hook"), CC_CHORUS_MIX: (47, "hook")})
+# CLEAN_CHORUS = the same LSP chorus on the clean instance (experiments D31). A scene switch loads
+# a preset there, and that preset's `chorus` block decides everything: Maiden Clean has it, Maiden
+# Acoustic doesn't. Active at startup, because the startup clean preset is Maiden Clean.
+CLEAN_CHORUS = ("Clean Chorus", CHORUS[1], True, CHORUS[3],
+                {CC_CLEAN_CHORUS: ("Activate", "latch"), CC_CLEAN_CHORUS_RATE: (13, "hook"),
+                 CC_CLEAN_CHORUS_DEPTH: (21, "hook"), CC_CLEAN_CHORUS_MIX: (47, "hook")})
 # VIBE = a Uni-Vibe stand-in: no Uni-Vibe LV2 is installed (no gx_univibe / gx_vibe), so LSP
 # Phaser Stereo with four all-pass stages, like the Uni-Vibe's four photocell stages. One sine
 # LFO drives all four together (inter-filter phase 0, like its one lamp). The sweeps are
@@ -178,7 +187,7 @@ LIMITER = ("Limiter", "http://gareus.org/oss/lv2/dpl#stereo", True,
 HEAVY_T3K = ("TONE3000 Heavy", "tone3000", "heavy", HEAVY_MIDI_MAP)
 CLEAN_T3K = ("TONE3000 Clean", "tone3000", "clean", TONE3000_MIDI_MAP)
 HEAVY_CHAIN = [WAH, VIBE, HEAVY_T3K, OCTAVER, CHORUS, SOLO]
-CLEAN_CHAIN = [CLEAN_T3K]
+CLEAN_CHAIN = [CLEAN_T3K, CLEAN_CHORUS]
 BUS_CHAIN = [COMPRESSOR, VOLUME, LIMITER]  # on bus "Rig": every rig shares the volume and the dynamics
 
 # HARMONY = the second guitarist a diatonic third above, through his own amp. The heavy
@@ -242,6 +251,23 @@ def chorus_ccs(pc, settings=None):
     s = (settings or chorus_settings()).get(pc, CHORUS_DEFAULT)
     to_cc = lambda k: round((s[k] - CHORUS_RANGE[k][0]) / (CHORUS_RANGE[k][1] - CHORUS_RANGE[k][0]) * 127)
     return [(CC_CHORUS_RATE, to_cc("rate_hz")), (CC_CHORUS_DEPTH, to_cc("depth_ms")), (CC_CHORUS_MIX, to_cc("mix"))]
+
+
+def clean_chorus_settings():
+    """{clean-instance PC: {rate_hz, depth_ms, mix} or None}: None = that preset runs no chorus."""
+    return {r["pc"]: CHORUS_DEFAULT | {k: v for k, v in r["chorus"].items() if k in CHORUS_DEFAULT} if "chorus" in r else None
+            for r in t3k.load_rigs() if r.get("scene") in ("clean", "acoustic")}
+
+
+def clean_chorus_ccs(pc, settings=None):
+    """The absolute CCs (MIDI ch 1) that set the clean instance's chorus to its preset `pc`: on with
+    the rate, depth and mix of the preset's `chorus` block, or just off. Sent after that PC."""
+    s = (clean_chorus_settings() if settings is None else settings).get(pc)
+    if s is None:
+        return [(CC_CLEAN_CHORUS, 0)]
+    to_cc = lambda k: round((s[k] - CHORUS_RANGE[k][0]) / (CHORUS_RANGE[k][1] - CHORUS_RANGE[k][0]) * 127)
+    return [(CC_CLEAN_CHORUS_RATE, to_cc("rate_hz")), (CC_CLEAN_CHORUS_DEPTH, to_cc("depth_ms")),
+            (CC_CLEAN_CHORUS_MIX, to_cc("mix")), (CC_CLEAN_CHORUS, 127)]
 
 
 def vibe_settings():

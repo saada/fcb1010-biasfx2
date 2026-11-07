@@ -37,6 +37,7 @@ resampled IRs are built once), the standalone's base state, and results keyed by
 preset's content, so an unchanged "before" costs nothing.
 
 Not simulated: the wah, octaver, Solo slap-delay and harmony tracks (all off at rest), the
+DAW choruses (a preset's `chorus` block, including the Clean Chorus that is on at load), the
 bypassed compressor, true-peak limiting, the Scarlett's analog stage (the DI is a recording
 of it), Program Change timing, and CC moves after the preset loads.
 """
