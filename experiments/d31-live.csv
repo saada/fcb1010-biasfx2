@@ -1,0 +1,6 @@
+kind,peak_dbfs,rms_db,samples,swing_db,switch
+chorus,,,134656,7.46,SW3 clean
+chorus,,,134400,2.67,SW4 acoustic
+chorus,,,106752,6.29,SW3 clean again
+program,-1.0,-18.63,290816,,SW3 clean
+program,-1.0,-19.27,269056,,SW4 acoustic

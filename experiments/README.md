@@ -1397,3 +1397,28 @@ Script: `verb_ratio.py`.
   - The split-lane echo correction treats U2's hard-panned lanes as separate channels. Its
     spread, enabled in the preset, cross-feeds a little.
   - Footswitched echoes (80s SW9, Maiden SW8/SW9) keep their reverb as written, by design.
+
+## D31 — Maiden Clean and Acoustic rebuilt: a capture that distorted, and a clean that wasn't
+
+- **Question:** the owner: "bank 0 preset 4 sounds a bit distorted … 3 isn't that nice of a clean", then "they both sound awful so start over", "I really like fender strat clean sounds". SW3 should sound like the Revelations / Infinite Dreams cleans, SW4 like the 2 A.M. acoustic. Where does the distortion come from, and which free captures stay clean under a hot JP70?
+- **Hypothesis:** both presets break up inside TONE3000 at the guitar's real level. Loudness can't show that (both rendered -15 LUFS with the limiter idle), so measure harmonics.
+- **Method:** `thd_bench.py`: stepped sines at 110 and 330 Hz, -36 to -3 dBFS, through the real engine, with one stage removed at a time; THD = harmonics 2-8 over the fundamental. The DI peaks at -1.3 dBFS, RMS -22. `clean_screen.py` screened 15 clean chains, 12 Strat-voiced Fender chains and 17 acoustic chains. `comp_screen.py` tried 14 compressor captures in slot 1. Records: a research agent's source list and ToneMirror's pages, both in the preset JSONs. No recording was analysed or heard by the agent, and the catalog has no capture of these rigs, so "sounds like the record" stays the owner's call: `maiden_candidates.py` renders the alternatives to `~/Music/fcb-rig/audition/d31-*.wav`. `clean_live.py` proves the chorus on the live session. `clean_cost.py`, `callback_cost.py` and `slim_null.py` cover CPU and A2 size.
+- **Result (distortion, THD dB at -12 dBFS input, 110 / 330 Hz):**
+
+| Preset | Before | After |
+|---|---|---|
+| Maiden Clean | -11.8 / -11.9 | -39 / -33 |
+| Maiden Acoustic | -6.1 / -3.2 | -41 / -32 |
+
+  - Removing the old acoustic's "piezo to Rode" NAM capture took it from -6.1 / -3.2 to -38.4 / -21.6 (`d31-thd-before.csv`): that capture was the distortion. Its replacement is two linear body IRs behind the compressor.
+  - The old clean's two 1970s Marshalls were at -11 from -12 dBFS up: breakup, not clean. Padded 12-18 dB they still measured -20 to -27 at 330 Hz (`d31-clean-screen.csv`), and a JCM800 clean setting padded 10 dB under a Strat neck voicing -27 (audition C), so a rolled-back Marshall is an audition option only.
+  - Strat-voiced Fender Twins, before any compressor: -40 to -49 (`d31-strat-screen.csv`). The new clean, compressor included, is the table's figure: 1971 Twin normal left, bright right, with the Diamond compressor and the DAW's new Clean Chorus.
+- **Result (loudness and reverb, rigsim --exact):** Clean -15.1 LUFS, L/R -17.9/-17.8; Acoustic -15.0, -17.9/-17.8. Wet ratio against Back in Black's -12.68: Clean -12.29, Acoustic -13.81.
+- **Result (limiter):** a clean Twin passes pick attacks that a driven Marshall flattens. Clean's pre-limiter peak is +6.7 dBFS, 2.47 % of the time over 0.5 dB of reduction, 7.7 dB at most, against This Charming Man's +6.6 and 7.6 dB and Rule the World's +4.7 and 5.7. No compressor capture moved that peak (`d31-comp-screen.csv`: +7.76 to +7.87 with or without one), so the limit is still catching hard picks. The DI is hard-picked and the DAW chorus isn't in that figure; with a numpy stand-in of the chorus the audition measures 1.11 % and 3.9 dB.
+- **Result (live, Qtractor, speakers unlinked, `d31-live.csv`):** a steady 220 Hz tone's envelope swing was 7.46 dB on SW3, 2.67 on SW4, 6.29 back on SW3. SW4's take stays within ±0.3 dB in 200 ms windows, so its chorus is off and the 2.67 is the metric's short window. Rig Print peaks at -1.0 dBFS on both. The takes came out short (2.8 s of the 8 s asked, 6 s of 16), reason unknown; the swing and peak figures are from what was recorded.
+- **Result (xruns, not a verdict):** Dota 2 was running at 167 % CPU, so this run says nothing about the presets on an idle machine: Maiden Clean/Acoustic 3632-6908 xruns/min, and the unchanged 80s cleans up to 7380, nine of ten rows at 2925 or more, under the same load (`xrun-bench-d31.csv`). The same 80s cleans measured 0 xruns on an idle machine in D25.
+- **Result (CPU, alternating old and new, same load, `d31-callback-ab.csv`, 3 rounds, median of each column):** Clean median 2.29 ms new, 2.10 old; p99 4.63 new, 6.78 old. Acoustic median 1.01 new, 3.36 old; p99 2.03 new, 4.65 old. Timing swings about 2x under this load.
+- **Result (A2 size, `d31-slim-null.csv`):** slimSize 0.5 is sample-identical to 1.0 (null -150 dB), so 0.5 selects FULL. LITE (0) cost a median 0.24 ms in one noisy run, against 2.2 for FULL, but nulls at only -16 dB and raises THD at 330 Hz from -33 to -24. A block's `slim` field now sets this; no preset uses it.
+- **Updates:** nothing to apply on 2026-11-06. TONE3000 v0.0.12 is the latest release and main's 11 newer commits are iOS only; `checkupdates` lists no pending package, and qtractor 1.6.4, lsp-plugins-lv2 1.2.35 and x42-plugins-lv2 20260908 match the repos.
+- **Conclusion:** *hypothesis confirmed.* Both presets distorted inside the chain, and neither loudness nor the limiter showed it, so a clean preset now gets a THD check.
+- **Not measured:** xruns with the machine idle; whether these match the records, which is the owner's ear; a real Strat DI, so the 12 dB pad and the Strat voicing are estimates. Chorus settings are estimates, because none are documented.

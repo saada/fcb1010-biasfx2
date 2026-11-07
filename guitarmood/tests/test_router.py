@@ -36,7 +36,8 @@ def test_addresses_are_unique_and_decode():
 
 def test_every_address_sends_exactly_the_layout():
     """For every bank x switch: what build() puts on the switch, in the pedal's order and
-    channels, then the per-song chorus CCs after a channel-1 PC, then each PC's DAW tail switches."""
+    channels, then the per-song chorus CCs after a channel-1 PC, then each PC's DAW tail switches,
+    then the clean instance's chorus after a clean-channel PC."""
     f = fcb.build()
     t = router.Translator(LAYOUT)
     chorus = qr.chorus_settings()
@@ -49,6 +50,9 @@ def test_every_address_sends_exactly_the_layout():
             if pc is not None:
                 want = want + fcb.extras(pc, chorus)
             want = want + [cc for e in want if e[0] == "pc" for cc in qr.tail_ccs(e[1], e[2], tails)]  # D25
+            clean = next((e[2] for e in want if e[0] == "pc" and e[1] == fcb.CLEAN_CHANNEL), None)
+            if clean is not None:  # D31
+                want = want + [("cc", 0, cc, v) for cc, v in qr.clean_chorus_ccs(clean)]
             assert t.translate(router.address(bank, sw)) == ((bank, sw), want), (bank, sw)
             mapped += bool(want)
     assert mapped == len(LAYOUT) >= 50
@@ -224,7 +228,8 @@ def test_pc_burst_does_not_change_volume():
     board = Board()
     for bank in board.banks:
         for sw in range(1, 11):
-            assert not any(e[0] == "cc" and e[2] == 7 for e in board.messages(bank, sw)), (bank, sw)
+            # CC 7 on channel 1 is the volume; a DAW tail switch can use CC 7 on its own channel (D25)
+            assert not any(e[0] == "cc" and e[1] == 0 and e[2] == 7 for e in board.messages(bank, sw)), (bank, sw)
     st = RigState(board)
     st.feed(("cc", 0, 7, router.volume_cc(100)))
     level = st.snapshot()["expB"]["readout"]
@@ -242,3 +247,15 @@ def test_board_shows_volume_db():
     st.feed(("cc", 0, 7, router.volume_cc(127)))
     assert st.snapshot()["expB"]["readout"] == "+0.0 dB"
     assert st.snapshot()["expB"]["value"] > 0.95
+
+
+def test_maiden_scene_switches_set_the_clean_chorus():
+    """D31: the clean preset turns the clean instance's chorus on with its own settings, and the
+    acoustic turns it off, with no footswitch involved."""
+    t = router.Translator(LAYOUT)
+    _, clean = t.translate(router.address(0, 3))
+    _, acoustic = t.translate(router.address(0, 4))
+    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in clean
+    assert ("cc", 0, qr.CC_CLEAN_CHORUS_RATE, qr.clean_chorus_ccs(1)[0][1]) in clean
+    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 0) in acoustic
+    assert not any(e[0] == "cc" and e[2] == qr.CC_CLEAN_CHORUS_RATE for e in acoustic)

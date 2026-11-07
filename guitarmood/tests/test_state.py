@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from guitarmood.board import Board, qr
+from guitarmood.board import Board, fcb, qr
 from guitarmood.state import RigState, parse
 
 LOG = Path(__file__).parent / "fixtures/fcb-live.log"  # the first live session on the old era-bank layout
@@ -168,16 +168,25 @@ def test_live_session_replay(board):
 
 
 def test_screen_press_equals_pedal_burst(board):
-    """A click sends what the pedal sends."""
-    assert board.messages(0, 1) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 33), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    """A click sends what a stomp reaches the rig as: the router's layout, the pedal's own
+    messages first, then each preset's DAW chorus and tail CCs (D31)."""
+    layout = {(b, s): list(m) for b, s, m in fcb.layout()}
+    for bank in range(10):
+        for sw in range(1, 11):
+            assert board.messages(bank, sw) == layout.get((bank, sw), [])
+    def own(bank, sw, n):
+        return board.messages(bank, sw)[:n]
+    assert own(0, 1, 5) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 33), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert board.messages(0, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # LEAD: no PC, never wipes CC 80
-    assert board.messages(1, 1) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
-    assert board.messages(2, 1) == [("pc", 0, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Clean: Is This Love
-    assert board.messages(4, 1) == [("pc", 0, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
-    assert board.messages(5, 1) == [("pc", 0, 23), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Leads: Who's Crying Now
+    assert own(1, 1, 3) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert own(2, 1, 3) == [("pc", 0, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Clean: Is This Love
+    assert own(4, 1, 3) == [("pc", 0, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert own(5, 1, 3) == [("pc", 0, 23), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Leads: Who's Crying Now
     assert board.messages(5, 7) == [("cc", 0, qr.CC_CHORUS, 127)]
-    assert board.messages(6, 1) == [("pc", 0, 28), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # Legends: Pride and Joy
+    assert own(6, 1, 3) == [("pc", 0, 28), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # Legends: Pride and Joy
     assert board.messages(6, 7) == [("cc", 0, qr.CC_VIBE, 127)]
+    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in board.messages(0, 3)
+    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 0) in board.messages(0, 4)
 
 
 T3K = ("boost", "drive", "delay", "delay2")
