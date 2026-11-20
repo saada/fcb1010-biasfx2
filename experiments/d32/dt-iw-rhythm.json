@@ -1,0 +1,27 @@
+{
+  "base": "Sweet Child O' Mine",
+  "target_lufs": -14,
+  "candidates": {
+    "iic-essentials-tight": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 2561, "model_id": 419235, "enabled": true, "label": "IIC+ Tight Rhythm"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "iic-essentials-phat": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 2561, "model_id": 419236, "enabled": true, "label": "IIC+ Phat Rhythm"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "iic-siamsiam-fat": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 41228, "model_id": 381874, "enabled": true, "label": "IIC+ Fat Gain"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "iic-head": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 84157, "model_id": 717126, "enabled": true, "label": "IIC+ Head"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "iw-livespice-fullrig": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 76295, "model_id": 667516, "enabled": true, "label": "I&W LiveSPICE full rig"},
+      {"role": "cab", "type": "insert"}]},
+    "petrucci90s-fullrig": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 108875, "model_id": 888985, "enabled": true, "label": "Petrucci 90s IIC+ 4x12 full rig"},
+      {"role": "cab", "type": "insert"}]},
+    "mkiv-petrucci-crunch": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 6405, "model_id": 412986, "enabled": true, "label": "Mark IV Petrucci IIC+ Crunch full rig"},
+      {"role": "cab", "type": "insert"}]}
+  }
+}

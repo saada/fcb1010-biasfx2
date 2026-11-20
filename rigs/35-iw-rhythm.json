@@ -1,0 +1,30 @@
+{
+  "pc": 35,
+  "name": "I&W Rhythm",
+  "reference": "The rhythm tone of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Pull Me Under, Take the Time",
+  "rig": "Six-string in standard E (Pull Me Under per Line 6's tour template), Petrucci's first Ibanez 'Picasso'. A Mesa Quad Preamp in the studio and two TriAxis live into a Simul-Class 2:90 (Thomann); a 4x12 with Vintage 30s and a DBX 166 compressor in Line 6's tour template. Forum posts also name a Mark IIC+ or Mark IV. EQ settings, cab and mics on the record aren't documented",
+  "sources": [
+    "https://www.thomannmusic.com/blog/?p=10096799",
+    "https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html",
+    "https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/",
+    "https://boogieforum.com/threads/dream-theater-petrucci-amp-on-images-words-cd.9604/"
+  ],
+  "notes": "Double-tracked rhythm, panned hard left/right (inferred: bright, slightly fizzy, gently scooped). Left: Mesa TriAxis Lead 2 Yellow with a Mesa 5-band graphic EQ, Marshall 1982B 4x12, SM57/R121 (a full-rig capture: the documented live preamp). Right: Mark IIC+ 'Tight Rhythm' into a Mesa 4x12 V30 SM57 with a gentle V (+2 dB 100 Hz, -3 dB 650 Hz, +2 dB 8 kHz). Align wobble 0.25 between the sides, like two takes. SW8 BOOST = TS9 clean push (not on the record); SW9 DELAY = 420 ms. Small room at the house level. The owner's low B string isn't on this record. Levelled offline with rigsim --exact to -14 LUFS.",
+  "voicing": {"left": "humbucker", "right": "humbucker"},
+  "left": [
+    {"role": "boost", "type": "nam", "tone_id": 86314, "model_id": 733129, "enabled": false, "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"},
+    {"role": "drive", "type": "insert"},
+    {"role": "amp", "type": "nam", "tone_id": 75919, "model_id": 665175, "enabled": true, "label": "Mesa TriAxis Lead 2 Yellow, 5-band GEQ, Marshall 1982B 4x12, SM57/R121 (full rig)"},
+    {"role": "cab", "type": "insert"},
+    {"role": "echo", "type": "echo", "delay_ms": 420, "feedback": 0.25, "cutoff_hz": 5000.0, "mix": 0.15, "enabled": false, "label": "Delay 420 ms (SW9)"},
+    {"role": "ambience", "type": "ir", "tone_id": 88464, "model_id": 745823, "enabled": true, "label": "Lexicon 480L Small Wood Room", "mix": 0.08, "trim_seconds": 1.0}
+  ],
+  "split_after": 2,
+  "right": [
+    {"role": "amp", "type": "nam", "tone_id": 2561, "model_id": 419235, "enabled": true, "label": "Mesa Mark IIC+ Tight Rhythm"},
+    {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 Celestion V30, SM57", "eq": [2.0, 0.0, -3.0, 0.0, 0.0, 2.0]},
+    {"role": "echo", "type": "echo", "delay_ms": 420, "feedback": 0.25, "cutoff_hz": 5000.0, "mix": 0.15, "enabled": false, "label": "Delay 420 ms (SW9)"},
+    {"role": "ambience", "type": "ir", "tone_id": 88464, "model_id": 745823, "enabled": true, "label": "Lexicon 480L Small Wood Room", "mix": 0.08, "trim_seconds": 1.0}
+  ],
+  "params": {"chainPanLeft": 0.0, "chainPanRight": 1.0, "chainPanLinked": 1.0, "alignEnabled": 1.0, "alignWobbleEnabled": 1.0, "alignWobble": 0.25, "spreadEnabled": 0.0}
+}

@@ -1,0 +1,21 @@
+{
+  "base": "Sweet Child O' Mine",
+  "target_lufs": -14,
+  "candidates": {
+    "rk2-ch1-clean": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 112517, "model_id": 913218, "enabled": true, "label": "Road King II Ch1 Clean full rig"},
+      {"role": "cab", "type": "insert"}]},
+    "rk-red-low": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 81984, "model_id": 703401, "enabled": true, "label": "Road King Red Low"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "rk-orange-low": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 81984, "model_id": 703380, "enabled": true, "label": "Road King Orange Low"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "rk-red-high-vintagelead": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 81984, "model_id": 703396, "enabled": true, "label": "Road King Red High Vintage Lead"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "triaxis-l2y-fullrig": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 75919, "model_id": 665175, "enabled": true, "label": "TriAxis Lead 2 Yellow full rig"},
+      {"role": "cab", "type": "insert"}]}
+  }
+}

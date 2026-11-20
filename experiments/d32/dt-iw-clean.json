@@ -1,0 +1,24 @@
+{
+  "base": "Sweet Child O' Mine",
+  "target_lufs": -15,
+  "candidates": {
+    "iic-yummy-clean": {"chorus": {"rate_hz": 0.8, "depth_ms": 4.0, "mix": 0.5}, "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 2561, "model_id": 419238, "enabled": true, "label": "IIC+ Yummy Clean"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "iic-80s-clean": {"chorus": {"rate_hz": 0.8, "depth_ms": 4.0, "mix": 0.5}, "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 41228, "model_id": 381872, "enabled": true, "label": "IIC+ 80s Clean"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "iic-compressed-clean": {"chorus": {"rate_hz": 0.8, "depth_ms": 4.0, "mix": 0.5}, "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 41228, "model_id": 381873, "enabled": true, "label": "IIC+ Compressed Clean"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "iic-clean": {"chorus": {"rate_hz": 0.8, "depth_ms": 4.0, "mix": 0.5}, "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 41228, "model_id": 381870, "enabled": true, "label": "IIC+ Clean"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "mkiv-clean-fullrig": {"chorus": {"rate_hz": 0.8, "depth_ms": 4.0, "mix": 0.5}, "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 67430, "model_id": 477801, "enabled": true, "label": "Mark IV clean, 2x12 V30 SM57"},
+      {"role": "cab", "type": "insert"}]},
+    "jc120-ch1-low": {"chorus": {"rate_hz": 0.8, "depth_ms": 4.0, "mix": 0.5}, "left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 127, "model_id": 420121, "enabled": true, "label": "JC-120 Ch1 Low"},
+      {"role": "cab", "type": "ir", "tone_id": 1644, "model_id": 81294, "enabled": true, "label": "JC-120 2x12"}]}
+  }
+}

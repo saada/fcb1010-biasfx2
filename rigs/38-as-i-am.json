@@ -1,0 +1,30 @@
+{
+  "pc": 38,
+  "name": "As I Am",
+  "reference": "As I Am (Dream Theater, Train of Thought, 2003, prod. Petrucci and Portnoy): the rhythm tone",
+  "rig": "A Mesa Road King, which Petrucci chose because 'I was doing a lot of detunes... more of a saturated sound' (musicplayers.com 2007), into one Rectifier Traditional 4x12 with Vintage 30s, miked, for everything, recorded 'mostly dry' (BOSS Users Group). His nearest documented settings (2006): Vintage mode, 6L6, Pentode, presence low, mids at 9-10 o'clock, an SM57 off centre plus an MD421 into Neve pres, no compression (musicplayers.com 2006). Train of Thought was his first record with drop tunings; As I Am is C standard on a six-string (forum lore)",
+  "sources": [
+    "https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/",
+    "https://musicplayers.com/2006/03/an-evening-with-dream-theaters-john-petrucci/",
+    "https://www.boss.info/us/community/boss_users_group/820/",
+    "https://forums.ernieball.com/threads/john-petrucci-drop-c-tuning.4539/"
+  ],
+  "notes": "Double-tracked, hard left/right, on the documented amp: Mesa Road King (Chameleon Audio captures), left Orange channel High, right Red channel High, each into a Mesa 4x12 V30 SM57. Dark, tight, saturated and dry (inferred): only a short 480L Small Wood Room at the house level. On the owner's seven-string in B standard, the C-standard riffs sit one fret up on the low B; a record-pitch option is tone.csv pitch_st (adds 11-31 ms), left empty. SW8 BOOST = TS9 push for leads, SW9 DELAY = 400 ms. Levelled offline with rigsim --exact to -14 LUFS.",
+  "voicing": {"left": "humbucker", "right": "humbucker"},
+  "left": [
+    {"role": "boost", "type": "nam", "tone_id": 86314, "model_id": 733129, "enabled": false, "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"},
+    {"role": "drive", "type": "insert"},
+    {"role": "amp", "type": "nam", "tone_id": 81984, "model_id": 703374, "enabled": true, "label": "Mesa Road King, Orange channel High"},
+    {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 Celestion V30, SM57"},
+    {"role": "echo", "type": "echo", "delay_ms": 400, "feedback": 0.25, "cutoff_hz": 4500.0, "mix": 0.15, "enabled": false, "label": "Delay 400 ms (SW9)"},
+    {"role": "ambience", "type": "ir", "tone_id": 88464, "model_id": 745823, "enabled": true, "label": "Lexicon 480L Small Wood Room", "mix": 0.06, "trim_seconds": 1.0}
+  ],
+  "split_after": 2,
+  "right": [
+    {"role": "amp", "type": "nam", "tone_id": 81984, "model_id": 703393, "enabled": true, "label": "Mesa Road King, Red channel High"},
+    {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 Celestion V30, SM57"},
+    {"role": "echo", "type": "echo", "delay_ms": 400, "feedback": 0.25, "cutoff_hz": 4500.0, "mix": 0.15, "enabled": false, "label": "Delay 400 ms (SW9)"},
+    {"role": "ambience", "type": "ir", "tone_id": 88464, "model_id": 745823, "enabled": true, "label": "Lexicon 480L Small Wood Room", "mix": 0.06, "trim_seconds": 1.0}
+  ],
+  "params": {"chainPanLeft": 0.0, "chainPanRight": 1.0, "chainPanLinked": 1.0, "alignEnabled": 1.0, "alignWobbleEnabled": 1.0, "alignWobble": 0.25, "spreadEnabled": 0.0}
+}

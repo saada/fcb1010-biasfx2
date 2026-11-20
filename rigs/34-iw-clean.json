@@ -1,0 +1,25 @@
+{
+  "pc": 34,
+  "name": "I&W Clean",
+  "instance": "clean",
+  "reference": "The chorused cleans of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Another Day, Surrounded, Wait for Sleep, the Pull Me Under intro",
+  "rig": "The album is all six-string: Petrucci dates his first seven-string to Awake (1994) (musicplayers.com 2007). He got his first Ibanez 'Picasso' for the record; the pickups are disputed (DiMarzio Humbucker From Hell + Tone Zone per Equipboard, Air Norton + Steve's Special per a fan wiki), and the fan wiki says the cleans used the middle position's inner coils. Rig: a Mesa Quad Preamp in the studio, two TriAxis live, into a Simul-Class 2:90 (Thomann), with a TC 2290 doing delay and modulation 'from the beginning' and a Lexicon PCM70 (Line 6's tour template). The clean amp itself isn't documented; forum posts name a Roland JC-120, which is what this uses. Rates and times aren't documented",
+  "sources": [
+    "https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/",
+    "https://www.thomannmusic.com/blog/?p=10096799",
+    "https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html",
+    "https://equipboard.com/pros/john-petrucci",
+    "https://forums.ernieball.com/threads/petrucci-amp-timeline.44618/"
+  ],
+  "notes": "Plays on the clean TONE3000 (\"instance\": \"clean\", experiments D32) for the DAW's Clean Chorus, on at load with this preset's settings (0.8 Hz, 4 ms, 50 %: estimates of a 2290-style chorus). JC-120 channel 1 low input into its 2x12, with the `single-coil` voicing standing in for the split inner coils (the JP70 has no split; use the neck pickup). TC 2290-style delay always on: 350 ms, feedback 0.2, mix 0.2. PCM70-style hall (480L Large Hall, 2 s) at the house reverb level. SW8 and SW9 don't reach the clean instance, so the delay can't be switched off here. Clean at the JP70's level (experiments D32 THD). Levelled offline with rigsim --exact to -15 LUFS.",
+  "voicing": "single-coil",
+  "chorus": {"rate_hz": 0.8, "depth_ms": 4.0, "mix": 0.5, "note": "Estimate: no settings are documented."},
+  "left": [
+    {"role": "boost", "type": "insert"},
+    {"role": "drive", "type": "insert"},
+    {"role": "amp", "type": "nam", "tone_id": 127, "model_id": 420121, "enabled": true, "label": "Roland JC-120, channel 1 low input"},
+    {"role": "cab", "type": "ir", "tone_id": 1644, "model_id": 81294, "enabled": true, "label": "Roland JC-120 2x12, C414 cap edge close"},
+    {"role": "echo", "type": "echo", "delay_ms": 350, "feedback": 0.2, "cutoff_hz": 5000.0, "mix": 0.2, "enabled": true, "label": "TC 2290-style delay 350 ms"},
+    {"role": "ambience", "type": "ir", "tone_id": 88464, "model_id": 745818, "enabled": true, "label": "Lexicon 480L Large Hall (PCM70 stand-in)", "mix": 0.15, "trim_seconds": 2.0}
+  ]
+}

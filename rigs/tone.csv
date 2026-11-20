@@ -35,3 +35,8 @@ preset,tags,out_db,in_db,tight_db,boost_db,drive_db,amp_db,cab_db,r_amp_db,r_cab
 30-bohemian-rhapsody,legends lead,0.1,,,,,,,,,,,,,,,1,,0,417,0.25,0.15,4000,0.15,,,,,,,,,
 31-whole-lotta-love,legends crunch,-14.7,,,,,,,,,,,,,,,0,,0,326,0.3,0.2,3000,0.15,-3,,,,,,,,
 32-back-in-black,legends crunch stereo,-9.3,,,,,,,,10.5,,,,,,,0,,0,319,0.15,0.12,3500,0.1,,,,,,,,,
+34-iw-clean,dream-theater clean,12.2,,,,,,,,,,,,,3,4,,,,,,,,,-6.5,,,,,,,,
+35-iw-rhythm,dream-theater heavy stereo,-4.2,,,,,-4.8,,4.8,,,,,,,,,,,,,,,,0.5,,,,,,,,
+36-iw-lead,dream-theater lead,3.4,,,,,,,,,,,,,,,,,,,,,,,-5.2,,,,,,,,
+37-tot-clean,dream-theater clean,12,-4,,,,,,,,,,,,4,3,,,,,,,,,,,,,,,,,
+38-as-i-am,dream-theater heavy stereo,1.7,,,,,,,,,,,,,,,,,,,,,,,2.6,,,,,,,,

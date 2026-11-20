@@ -43,7 +43,7 @@ def test_parse():
 
 def test_board_matches_rig(board):
     assert board.start_bank == 0
-    assert sorted(board.banks) == [0, 1, 2, 3, 4, 5, 6]
+    assert sorted(board.banks) == [0, 1, 2, 3, 4, 5, 6, 7]
     assert board.banks[0].kind == "scenes" and board.banks[0].subtitle.endswith("The Evil That Men Do")
     assert [board.banks[0].switches[sw].label for sw in range(1, 11)] == \
         ["Rhythm", "Lead", "Clean", "Acoustic", "Crunch", "Wah", "Harmony", "Evil Delay",
@@ -176,7 +176,8 @@ def test_screen_press_equals_pedal_burst(board):
             assert board.messages(bank, sw) == layout.get((bank, sw), [])
     def own(bank, sw, n):
         return board.messages(bank, sw)[:n]
-    assert own(0, 1, 5) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, 33), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    harmony = fcb.SCENE_BANKS[0]["harmony"][0]  # generated, so it follows the last rigs/ file
+    assert own(0, 1, 5) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, harmony), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert board.messages(0, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # LEAD: no PC, never wipes CC 80
     assert own(1, 1, 3) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     assert own(2, 1, 3) == [("pc", 0, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Clean: Is This Love
@@ -210,6 +211,9 @@ def test_every_switch_lights_itself(board):
             assert snap["bank"] == bank, (bank, sw)
             s = by_sw(snap)[sw]
             if s["key"] in T3K and not s["known"]:
+                continue
+            if s["key"] in T3K and board.block_default(st.heavy_pc, s["key"]) is None:
+                assert not s["on"] and s["detail"] == "empty slot in this preset", (bank, sw)  # e.g. a clean song's SW8
                 continue
             if s["key"] in T3K and board.block_default(st.heavy_pc, s["key"]):
                 assert not s["on"], (bank, sw)  # on in the preset: one press turns it off

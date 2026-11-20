@@ -38,7 +38,12 @@ Every capture links to its TONE3000 page (free download).
 | 30 | [Bohemian Rhapsody](#bohemian-rhapsody) | Bohemian Rhapsody, guitar solo (ballad ~72 BPM, Eb major): Queen, A Night at the Opera (1975; Rockfield, Roundhouse, Sarm, Scorpio, Wessex; prod. Roy Thomas Baker, eng. Mike Stone) |
 | 31 | [Whole Lotta Love](#whole-lotta-love) | Whole Lotta Love (92 BPM, E): Led Zeppelin, Led Zeppelin II (1969; Olympic London and A&M, April 1969, prod. Jimmy Page, mixed by Eddie Kramer) |
 | 32 | [Back in Black](#back-in-black) | Back in Black (94 BPM, E): AC/DC, Back in Black (1980; tracked April 1980 at Compass Point, Nassau, overdubs and mix at Electric Lady NYC; prod. Mutt Lange, eng. Tony Platt) |
-| 33 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
+| 34 | [I&W Clean](#iw-clean) | The chorused cleans of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Another Day, Surrounded, Wait for Sleep, the Pull Me Under intro |
+| 35 | [I&W Rhythm](#iw-rhythm) | The rhythm tone of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Pull Me Under, Take the Time |
+| 36 | [I&W Lead](#iw-lead) | The lead tone of Images and Words (Dream Theater, 1992, prod. David Prater): the Under a Glass Moon and Take the Time solos |
+| 37 | [ToT Clean](#tot-clean) | The cleans of Train of Thought (Dream Theater, 2003, prod. Petrucci and Portnoy): the Endless Sacrifice intro, In the Name of God |
+| 38 | [As I Am](#as-i-am) | As I Am (Dream Theater, Train of Thought, 2003, prod. Petrucci and Portnoy): the rhythm tone |
+| 39 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
 
@@ -797,9 +802,122 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 *Sources:* <https://www.soundonsound.com/techniques/classic-tracks-acdc-back-black> · <https://guitar.com/features/artist-rigs/the-gear-used-by-angus-young-malcolm-young-on-ac-dc-back-in-black> · <https://www.groundguitar.com/malcolm-young-gear/malcolm-youngs-1963-gretsch-jet-firebird-the-beast/> · <https://reverb.com/news/tony-platt-shares-secret-angus-young-back-in-black-tone> · <https://en.wikipedia.org/wiki/Back_in_Black_(song)> · <https://songbpm.com/@ac-dc/back-in-black> · <https://www.tone3000.com/tones/80590> · <https://www.tone3000.com/tones/6222> · <https://www.tone3000.com/tones/91844>
 
+## I&W Clean
+
+**PC 34** — The chorused cleans of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Another Day, Surrounded, Wait for Sleep, the Pull Me Under intro
+
+*Original rig:* The album is all six-string: Petrucci dates his first seven-string to Awake (1994) (musicplayers.com 2007). He got his first Ibanez 'Picasso' for the record; the pickups are disputed (DiMarzio Humbucker From Hell + Tone Zone per Equipboard, Air Norton + Steve's Special per a fan wiki), and the fan wiki says the cleans used the middle position's inner coils. Rig: a Mesa Quad Preamp in the studio, two TriAxis live, into a Simul-Class 2:90 (Thomann), with a TC 2290 doing delay and modulation 'from the beginning' and a Lexicon PCM70 (Line 6's tour template). The clean amp itself isn't documented; forum posts name a Roland JC-120, which is what this uses. Rates and times aren't documented
+
+*Voicing for the JP70 (rigs/README.md):* single-coil
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [Roland Jazz Chorus](https://www.tone3000.com/tones/127) — Roland JC-120, channel 1 low input | on |
+| L4 | cab | [JC120 Cab Impulses](https://www.tone3000.com/tones/1644) — Roland JC-120 2x12, C414 cap edge close | on |
+| L5 | echo | TC 2290-style delay 350 ms — generated 350 ms BBD-style IR (mix 20%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Hall (PCM70 stand-in) (mix 8%) | on |
+
+*Chorus (DAW, SW7 in the 80s banks):* 0.8 Hz, 4.0 ms, 50% wet — Estimate: no settings are documented.
+
+*Notes:* Plays on the clean TONE3000 ("instance": "clean", experiments D32) for the DAW's Clean Chorus, on at load with this preset's settings (0.8 Hz, 4 ms, 50 %: estimates of a 2290-style chorus). JC-120 channel 1 low input into its 2x12, with the `single-coil` voicing standing in for the split inner coils (the JP70 has no split; use the neck pickup). TC 2290-style delay always on: 350 ms, feedback 0.2, mix 0.2. PCM70-style hall (480L Large Hall, 2 s) at the house reverb level. SW8 and SW9 don't reach the clean instance, so the delay can't be switched off here. Clean at the JP70's level (experiments D32 THD). Levelled offline with rigsim --exact to -15 LUFS.
+
+*Sources:* <https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/> · <https://www.thomannmusic.com/blog/?p=10096799> · <https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html> · <https://equipboard.com/pros/john-petrucci> · <https://forums.ernieball.com/threads/petrucci-amp-timeline.44618/>
+
+## I&W Rhythm
+
+**PC 35** · dual-rig stereo — The rhythm tone of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Pull Me Under, Take the Time
+
+*Original rig:* Six-string in standard E (Pull Me Under per Line 6's tour template), Petrucci's first Ibanez 'Picasso'. A Mesa Quad Preamp in the studio and two TriAxis live into a Simul-Class 2:90 (Thomann); a 4x12 with Vintage 30s and a DBX 166 compressor in Line 6's tour template. Forum posts also name a Mark IIC+ or Mark IV. EQ settings, cab and mics on the record aren't documented
+
+*Voicing for the JP70 (rigs/README.md):* left humbucker / right humbucker
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Mesa Boogie Triaxis Lead 2 Yellow & Mesa 5-Band GEQ & Marshall 1982B 4x12 & SM57 R121 Blend](https://www.tone3000.com/tones/75919) — Mesa TriAxis Lead 2 Yellow, 5-band GEQ, Marshall 1982B 4x12, SM57/R121 (full rig) | on |
+| L5 | echo | Delay 420 ms (SW9) — generated 420 ms BBD-style IR (mix 15%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (mix 8%) | on |
+| R1 | amp | [Mesa Boogie Mark IIC+ Essentials Pack](https://www.tone3000.com/tones/2561) — Mesa Mark IIC+ Tight Rhythm | on |
+| R2 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 | on |
+| R3 | echo | Delay 420 ms (SW9) — generated 420 ms BBD-style IR (mix 15%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (mix 8%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Double-tracked rhythm, panned hard left/right (inferred: bright, slightly fizzy, gently scooped). Left: Mesa TriAxis Lead 2 Yellow with a Mesa 5-band graphic EQ, Marshall 1982B 4x12, SM57/R121 (a full-rig capture: the documented live preamp). Right: Mark IIC+ 'Tight Rhythm' into a Mesa 4x12 V30 SM57 with a gentle V (+2 dB 100 Hz, -3 dB 650 Hz, +2 dB 8 kHz). Align wobble 0.25 between the sides, like two takes. SW8 BOOST = TS9 clean push (not on the record); SW9 DELAY = 420 ms. Small room at the house level. The owner's low B string isn't on this record. Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://www.thomannmusic.com/blog/?p=10096799> · <https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html> · <https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/> · <https://boogieforum.com/threads/dream-theater-petrucci-amp-on-images-words-cd.9604/>
+
+## I&W Lead
+
+**PC 36** — The lead tone of Images and Words (Dream Theater, 1992, prod. David Prater): the Under a Glass Moon and Take the Time solos
+
+*Original rig:* Same rig as the rhythm (Mesa Quad / TriAxis into a 2:90, Thomann, which calls the tone 'warm, fluid... drenched in delay'), with a TC 2290 ducked delay and a Lexicon PCM70 (Line 6's tour template). Times aren't documented. Petrucci's later rule for solos: more gain and more mids than rhythm, never scooped, highs trimmed (MusicRadar)
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Mesa Boogie Mark IIC+ Essentials Pack](https://www.tone3000.com/tones/2561) — Mesa Mark IIC+ Creamy Lead | on |
+| L4 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 | on |
+| L5 | echo | TC 2290-style delay 420 ms — generated 420 ms BBD-style IR (mix 22%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Hall (PCM70 stand-in) (mix 9%) | on |
+
+*Notes:* Mark IIC+ 'Creamy Lead' into a Mesa 4x12 V30 SM57, mid-forward with the top trimmed (-1.5 dB 3.5 kHz, -2 dB 8 kHz). Delay on at load: 420 ms, feedback 0.3, mix 0.22, darkened at 4.5 kHz (an estimate; TONE3000's echo can't duck, so the mix sits lower than a ducked 2290 would). PCM70-style hall (480L Large Hall, 2 s) at the house level. SW8 BOOST = TS9 push; SW9 turns the delay off. Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://www.thomannmusic.com/blog/?p=10096799> · <https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html> · <https://musicradar.com/news/guitars/john-petrucci-reveals-his-almighty-live-rig-and-the-key-to-astonishing-solos-638762>
+
+## ToT Clean
+
+**PC 37** — The cleans of Train of Thought (Dream Theater, 2003, prod. Petrucci and Portnoy): the Endless Sacrifice intro, In the Name of God
+
+*Original rig:* Petrucci used 'one head and one 4x12 cabinet for everything', miked, recorded 'mostly dry', with 'a couple of songs where I recorded through a chorus pedal at the front' (BOSS Users Group); which songs isn't documented. The head was a Mesa Road King with a Rectifier 4x12 of Vintage 30s (musicplayers.com). Endless Sacrifice is D standard and In the Name of God C standard (forum lore). The clean channel's settings aren't documented
+
+*Voicing for the JP70 (rigs/README.md):* humbucker
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L3 | amp | [Mesa Boogie Mark IIC+ Essentials Pack](https://www.tone3000.com/tones/2561) — Mesa Mark IIC+ Yummy Clean | on |
+| L4 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 | on |
+| L5 | echo | Delay 380 ms — generated 380 ms BBD-style IR (mix 15%) | on |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Plate (mix 12%) | on |
+
+*Chorus (DAW, SW7 in the 80s banks):* 0.6 Hz, 3.0 ms, 40% wet — Estimate of the chorus pedal 'at the front'.
+
+*Notes:* Plays on the clean TONE3000 ("instance": "clean", experiments D32) for the Clean Chorus, on at load: 0.6 Hz, 3 ms, 40 % (estimates of the chorus pedal Petrucci mentions). Amp: Mesa Mark IIC+ 'Yummy Clean' into a Mesa 4x12 V30 SM57, not the documented Road King, because both Road King clean captures that load broke up under the JP70 (THD -17 to -21 dB at -12 dBFS input, D32), and the Road King II clean capture won't download. Warmer and drier than the I&W clean (inferred): delay 380 ms, feedback 0.2, mix 0.15, always on; 480L Small Plate at the house level. SW8/SW9 don't reach the clean instance. Levelled offline with rigsim --exact to -15 LUFS.
+
+*Sources:* <https://www.boss.info/us/community/boss_users_group/820/> · <https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/> · <https://musicplayers.com/2006/03/an-evening-with-dream-theaters-john-petrucci/> · <https://forums.ernieball.com/threads/john-petrucci-drop-c-tuning.4539/>
+
+## As I Am
+
+**PC 38** · dual-rig stereo — As I Am (Dream Theater, Train of Thought, 2003, prod. Petrucci and Portnoy): the rhythm tone
+
+*Original rig:* A Mesa Road King, which Petrucci chose because 'I was doing a lot of detunes... more of a saturated sound' (musicplayers.com 2007), into one Rectifier Traditional 4x12 with Vintage 30s, miked, for everything, recorded 'mostly dry' (BOSS Users Group). His nearest documented settings (2006): Vintage mode, 6L6, Pentode, presence low, mids at 9-10 o'clock, an SM57 off centre plus an MD421 into Neve pres, no compression (musicplayers.com 2006). Train of Thought was his first record with drop tunings; As I Am is C standard on a six-string (forum lore)
+
+*Voicing for the JP70 (rigs/README.md):* left humbucker / right humbucker
+
+| Slot | Role | Block | Default |
+|---|---|---|---|
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L3 | amp | [Chameleon Audio - Mesa Roadking](https://www.tone3000.com/tones/81984) — Mesa Road King, Orange channel High | on |
+| L4 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 | on |
+| L5 | echo | Delay 400 ms (SW9) — generated 400 ms BBD-style IR (mix 15%) | off |
+| L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (mix 8%) | on |
+| R1 | amp | [Chameleon Audio - Mesa Roadking](https://www.tone3000.com/tones/81984) — Mesa Road King, Red channel High | on |
+| R2 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 | on |
+| R3 | echo | Delay 400 ms (SW9) — generated 400 ms BBD-style IR (mix 15%) | off |
+| R4 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Small Wood Room (mix 8%) | on |
+
+Slots L1–L2 feed both rigs; left and right are panned apart.
+
+*Notes:* Double-tracked, hard left/right, on the documented amp: Mesa Road King (Chameleon Audio captures), left Orange channel High, right Red channel High, each into a Mesa 4x12 V30 SM57. Dark, tight, saturated and dry (inferred): only a short 480L Small Wood Room at the house level. On the owner's seven-string in B standard, the C-standard riffs sit one fret up on the low B; a record-pitch option is tone.csv pitch_st (adds 11-31 ms), left empty. SW8 BOOST = TS9 push for leads, SW9 DELAY = 400 ms. Levelled offline with rigsim --exact to -14 LUFS.
+
+*Sources:* <https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/> · <https://musicplayers.com/2006/03/an-evening-with-dream-theaters-john-petrucci/> · <https://www.boss.info/us/community/boss_users_group/820/> · <https://forums.ernieball.com/threads/john-petrucci-drop-c-tuning.4539/>
+
 ## Maiden Harmony
 
-**PC 33** — Twin-lead harmony voice for Maiden Heavy
+**PC 39** — Twin-lead harmony voice for Maiden Heavy
 
 *Original rig:* the partner guitarist's amp + cab from Maiden Heavy
 
@@ -842,4 +960,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 33 | The Evil That Men Do | E natural minor | 375 ms |
+| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 39 | The Evil That Men Do | E natural minor | 375 ms |

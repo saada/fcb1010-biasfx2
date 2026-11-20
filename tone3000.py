@@ -1388,6 +1388,8 @@ def validate(rig):
         errs.append(f"scene must be one of {SCENE_KINDS}")
     if rig.get("scene") and not isinstance(rig.get("bank"), int):
         errs.append("scene presets need their FCB bank number")
+    if rig.get("instance") not in (None, "clean") or (rig.get("instance") and rig.get("scene")):
+        errs.append('instance: only "clean", on a song preset (not a scene preset)')
     for key, value in rig.get("chorus", {}).items():  # the DAW chorus (qtractor_rig.CHORUS), not TONE3000
         lo, hi = CHORUS_LIMITS.get(key, (None, None))
         if lo is None and key not in ("note", "sources"):
