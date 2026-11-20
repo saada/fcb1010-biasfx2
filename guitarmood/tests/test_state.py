@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from guitarmood.board import Board, fcb, qr
+from guitarmood.board import Board, fcb, qr, t3k
 from guitarmood.state import RigState, parse
 
 LOG = Path(__file__).parent / "fixtures/fcb-live.log"  # the first live session on the old era-bank layout
@@ -240,3 +240,9 @@ def test_adopted_rig_never_guesses(board):
         st.feed(parse(line))
     snap = st.snapshot()
     assert snap["synced"] and snap["bank"] == 0 and snap["playing"] == "Rhythm" and by_sw(snap)[8]["known"]
+
+
+def test_pcs_run_without_gaps():
+    """TONE3000 loads presets by position, so rigs/ files plus the generated harmony presets must
+    run 0..N with no gap (tone3000.py build refuses one; D32 shipped 34-38 with 33 empty)."""
+    assert [r["pc"] for r in t3k.load_rigs()] == list(range(len(t3k.load_rigs())))

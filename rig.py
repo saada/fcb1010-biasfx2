@@ -43,8 +43,8 @@ VOLUME_CC = 7
 SONGS = [
     # (bank, switch, PC number, name). PCs follow the rigs/ files, not the banks: bank 2 (80s
     # CLEAN) was inserted after the 80s bank, so it is one UP away, with PCs 18-22. Bank 5 (80s
-    # LEADS) came next, with PCs 23-27, and bank 6 (LEGENDS) last, with 28-32 (the generated Maiden
-    # Harmony moved to 33).
+    # LEADS) came next, with PCs 23-27, and bank 6 (LEGENDS) last, with 28-32, then bank 7 (DREAM THEATER) with 33-37:
+    # the generated Maiden Harmony always takes the PC after the last rigs/ file (38).
     (1, 1, 3, "Van Halen I"),
     (1, 2, 4, "Van Halen 1984"),
     (1, 3, 5, "Def Leppard Pyromania"),
@@ -75,13 +75,14 @@ SONGS = [
     (6, 3, 30, "Bohemian Rhapsody"),
     (6, 4, 31, "Whole Lotta Love"),
     (6, 5, 32, "Back in Black"),
-    # Bank 7 (DREAM THEATER, experiments D32): PCs 34-38. The two cleans play on the clean TONE3000
+    # Bank 7 (DREAM THEATER, experiments D32): PCs 33-37, then the generated Maiden Harmony at 38.
+    # The two cleans play on the clean TONE3000
     # ("instance": "clean", CLEAN_SONGS) for the Clean Chorus.
-    (7, 1, 34, "I&W Clean"),
-    (7, 2, 35, "I&W Rhythm"),
-    (7, 3, 36, "I&W Lead"),
-    (7, 4, 37, "ToT Clean"),
-    (7, 5, 38, "As I Am"),
+    (7, 1, 33, "I&W Clean"),
+    (7, 2, 34, "I&W Rhythm"),
+    (7, 3, 35, "I&W Lead"),
+    (7, 4, 36, "ToT Clean"),
+    (7, 5, 37, "As I Am"),
 ]
 BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern", 5: "80s Leads", 6: "Legends", 7: "Dream Theater"}
 
