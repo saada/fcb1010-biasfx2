@@ -272,4 +272,4 @@ def test_clean_songs_play_on_the_clean_instance():
         assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in events
     _, heavy = t.translate(router.address(7, 2))
     assert ("cc", 0, 81, 0) in heavy and not any(e[0] == "pc" and e[1] == 1 for e in heavy)
-    assert fcb.CLEAN_SONGS >= {34, 37}
+    assert fcb.CLEAN_SONGS >= {33, 36}

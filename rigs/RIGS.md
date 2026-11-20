@@ -38,12 +38,12 @@ Every capture links to its TONE3000 page (free download).
 | 30 | [Bohemian Rhapsody](#bohemian-rhapsody) | Bohemian Rhapsody, guitar solo (ballad ~72 BPM, Eb major): Queen, A Night at the Opera (1975; Rockfield, Roundhouse, Sarm, Scorpio, Wessex; prod. Roy Thomas Baker, eng. Mike Stone) |
 | 31 | [Whole Lotta Love](#whole-lotta-love) | Whole Lotta Love (92 BPM, E): Led Zeppelin, Led Zeppelin II (1969; Olympic London and A&M, April 1969, prod. Jimmy Page, mixed by Eddie Kramer) |
 | 32 | [Back in Black](#back-in-black) | Back in Black (94 BPM, E): AC/DC, Back in Black (1980; tracked April 1980 at Compass Point, Nassau, overdubs and mix at Electric Lady NYC; prod. Mutt Lange, eng. Tony Platt) |
-| 34 | [I&W Clean](#iw-clean) | The chorused cleans of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Another Day, Surrounded, Wait for Sleep, the Pull Me Under intro |
-| 35 | [I&W Rhythm](#iw-rhythm) | The rhythm tone of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Pull Me Under, Take the Time |
-| 36 | [I&W Lead](#iw-lead) | The lead tone of Images and Words (Dream Theater, 1992, prod. David Prater): the Under a Glass Moon and Take the Time solos |
-| 37 | [ToT Clean](#tot-clean) | The cleans of Train of Thought (Dream Theater, 2003, prod. Petrucci and Portnoy): the Endless Sacrifice intro, In the Name of God |
-| 38 | [As I Am](#as-i-am) | As I Am (Dream Theater, Train of Thought, 2003, prod. Petrucci and Portnoy): the rhythm tone |
-| 39 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
+| 33 | [I&W Clean](#iw-clean) | The chorused cleans of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Another Day, Surrounded, Wait for Sleep, the Pull Me Under intro |
+| 34 | [I&W Rhythm](#iw-rhythm) | The rhythm tone of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Pull Me Under, Take the Time |
+| 35 | [I&W Lead](#iw-lead) | The lead tone of Images and Words (Dream Theater, 1992, prod. David Prater): the Under a Glass Moon and Take the Time solos |
+| 36 | [ToT Clean](#tot-clean) | The cleans of Train of Thought (Dream Theater, 2003, prod. Petrucci and Portnoy): the Endless Sacrifice intro, In the Name of God |
+| 37 | [As I Am](#as-i-am) | As I Am (Dream Theater, Train of Thought, 2003, prod. Petrucci and Portnoy): the rhythm tone |
+| 38 | [Maiden Harmony](#maiden-harmony) | Twin-lead harmony voice for Maiden Heavy |
 
 ## Maiden Heavy
 
@@ -804,7 +804,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 ## I&W Clean
 
-**PC 34** — The chorused cleans of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Another Day, Surrounded, Wait for Sleep, the Pull Me Under intro
+**PC 33** — The chorused cleans of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Another Day, Surrounded, Wait for Sleep, the Pull Me Under intro
 
 *Original rig:* The album is all six-string: Petrucci dates his first seven-string to Awake (1994) (musicplayers.com 2007). He got his first Ibanez 'Picasso' for the record; the pickups are disputed (DiMarzio Humbucker From Hell + Tone Zone per Equipboard, Air Norton + Steve's Special per a fan wiki), and the fan wiki says the cleans used the middle position's inner coils. Rig: a Mesa Quad Preamp in the studio, two TriAxis live, into a Simul-Class 2:90 (Thomann), with a TC 2290 doing delay and modulation 'from the beginning' and a Lexicon PCM70 (Line 6's tour template). The clean amp itself isn't documented; forum posts name a Roland JC-120, which is what this uses. Rates and times aren't documented
 
@@ -825,7 +825,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 ## I&W Rhythm
 
-**PC 35** · dual-rig stereo — The rhythm tone of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Pull Me Under, Take the Time
+**PC 34** · dual-rig stereo — The rhythm tone of Images and Words (Dream Theater, 1992, BearTracks Studios, prod. David Prater): Pull Me Under, Take the Time
 
 *Original rig:* Six-string in standard E (Pull Me Under per Line 6's tour template), Petrucci's first Ibanez 'Picasso'. A Mesa Quad Preamp in the studio and two TriAxis live into a Simul-Class 2:90 (Thomann); a 4x12 with Vintage 30s and a DBX 166 compressor in Line 6's tour template. Forum posts also name a Mark IIC+ or Mark IV. EQ settings, cab and mics on the record aren't documented
 
@@ -850,7 +850,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 ## I&W Lead
 
-**PC 36** — The lead tone of Images and Words (Dream Theater, 1992, prod. David Prater): the Under a Glass Moon and Take the Time solos
+**PC 35** — The lead tone of Images and Words (Dream Theater, 1992, prod. David Prater): the Under a Glass Moon and Take the Time solos
 
 *Original rig:* Same rig as the rhythm (Mesa Quad / TriAxis into a 2:90, Thomann, which calls the tone 'warm, fluid... drenched in delay'), with a TC 2290 ducked delay and a Lexicon PCM70 (Line 6's tour template). Times aren't documented. Petrucci's later rule for solos: more gain and more mids than rhythm, never scooped, highs trimmed (MusicRadar)
 
@@ -870,7 +870,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 ## ToT Clean
 
-**PC 37** — The cleans of Train of Thought (Dream Theater, 2003, prod. Petrucci and Portnoy): the Endless Sacrifice intro, In the Name of God
+**PC 36** — The cleans of Train of Thought (Dream Theater, 2003, prod. Petrucci and Portnoy): the Endless Sacrifice intro, In the Name of God
 
 *Original rig:* Petrucci used 'one head and one 4x12 cabinet for everything', miked, recorded 'mostly dry', with 'a couple of songs where I recorded through a chorus pedal at the front' (BOSS Users Group); which songs isn't documented. The head was a Mesa Road King with a Rectifier 4x12 of Vintage 30s (musicplayers.com). Endless Sacrifice is D standard and In the Name of God C standard (forum lore). The clean channel's settings aren't documented
 
@@ -891,7 +891,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 ## As I Am
 
-**PC 38** · dual-rig stereo — As I Am (Dream Theater, Train of Thought, 2003, prod. Petrucci and Portnoy): the rhythm tone
+**PC 37** · dual-rig stereo — As I Am (Dream Theater, Train of Thought, 2003, prod. Petrucci and Portnoy): the rhythm tone
 
 *Original rig:* A Mesa Road King, which Petrucci chose because 'I was doing a lot of detunes... more of a saturated sound' (musicplayers.com 2007), into one Rectifier Traditional 4x12 with Vintage 30s, miked, for everything, recorded 'mostly dry' (BOSS Users Group). His nearest documented settings (2006): Vintage mode, 6L6, Pentode, presence low, mids at 9-10 o'clock, an SM57 off centre plus an MD421 into Neve pres, no compression (musicplayers.com 2006). Train of Thought was his first record with drop tunings; As I Am is C standard on a six-string (forum lore)
 
@@ -917,7 +917,7 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 ## Maiden Harmony
 
-**PC 39** — Twin-lead harmony voice for Maiden Heavy
+**PC 38** — Twin-lead harmony voice for Maiden Heavy
 
 *Original rig:* the partner guitarist's amp + cab from Maiden Heavy
 
@@ -960,4 +960,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 39 | The Evil That Men Do | E natural minor | 375 ms |
+| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 38 | The Evil That Men Do | E natural minor | 375 ms |
