@@ -44,7 +44,8 @@ models (`a2` in `models` output). IR blocks use `a-` models.
   "split_after": 2,                  // optional: dual-rig stereo, split after left slot N
   "right": [ /* blocks, slot R1..n */ ],
   "params": { "spreadEnabled": 1.0 }, // optional global-param overrides
-  "chorus": {"rate_hz": 0.6, "depth_ms": 4.0, "mix": 0.5, "note": "..."} // optional: the DAW chorus
+  "chorus": {"rate_hz": 0.6, "depth_ms": 4.0, "mix": 0.5, "note": "..."}, // optional: the DAW chorus
+  "instance": "clean"               // optional, song presets: play on the clean TONE3000, Clean Chorus on at load (D32)
 }
 ```
 
@@ -234,7 +235,7 @@ works. A1 files may lack loudness metadata, so re-level with `out_db` after a sw
 differ, `-` where it has no such block); `column -t -s, rigs/tone.csv` shows the raw sheet.
 Rows: the header, a `#rule` row (each column's rule and unit), `*`, any `@tag` rows, then one row
 per preset keyed by its JSON stem. A preset's `tags` cell (space separated: bank `maiden` `80s`
-`80s-clean` `variety` `modern` `80s-leads` `legends`; the 80s Clean and 80s Leads presets carry `80s` too, character `clean` `crunch` `heavy` `lead` `acoustic` `blues`, `stereo`) is what
+`80s-clean` `variety` `modern` `80s-leads` `legends` `dream-theater`; the 80s Clean and 80s Leads presets carry `80s` too, character `clean` `crunch` `heavy` `lead` `acoustic` `blues`, `stereo`) is what
 `@tag` rows match; edit the tags freely. `check` rejects unknown stems, columns and tags,
 non-numbers and out-of-range cells, and names the line, row and column.
 

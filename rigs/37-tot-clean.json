@@ -1,0 +1,24 @@
+{
+  "pc": 37,
+  "name": "ToT Clean",
+  "instance": "clean",
+  "reference": "The cleans of Train of Thought (Dream Theater, 2003, prod. Petrucci and Portnoy): the Endless Sacrifice intro, In the Name of God",
+  "rig": "Petrucci used 'one head and one 4x12 cabinet for everything', miked, recorded 'mostly dry', with 'a couple of songs where I recorded through a chorus pedal at the front' (BOSS Users Group); which songs isn't documented. The head was a Mesa Road King with a Rectifier 4x12 of Vintage 30s (musicplayers.com). Endless Sacrifice is D standard and In the Name of God C standard (forum lore). The clean channel's settings aren't documented",
+  "sources": [
+    "https://www.boss.info/us/community/boss_users_group/820/",
+    "https://musicplayers.com/2007/06/john-petrucci-too-many-guitars/",
+    "https://musicplayers.com/2006/03/an-evening-with-dream-theaters-john-petrucci/",
+    "https://forums.ernieball.com/threads/john-petrucci-drop-c-tuning.4539/"
+  ],
+  "notes": "Plays on the clean TONE3000 (\"instance\": \"clean\", experiments D32) for the Clean Chorus, on at load: 0.6 Hz, 3 ms, 40 % (estimates of the chorus pedal Petrucci mentions). Amp: Mesa Mark IIC+ 'Yummy Clean' into a Mesa 4x12 V30 SM57, not the documented Road King, because both Road King clean captures that load broke up under the JP70 (THD -17 to -21 dB at -12 dBFS input, D32), and the Road King II clean capture won't download. Warmer and drier than the I&W clean (inferred): delay 380 ms, feedback 0.2, mix 0.15, always on; 480L Small Plate at the house level. SW8/SW9 don't reach the clean instance. Levelled offline with rigsim --exact to -15 LUFS.",
+  "voicing": "humbucker",
+  "chorus": {"rate_hz": 0.6, "depth_ms": 3.0, "mix": 0.4, "note": "Estimate of the chorus pedal 'at the front'."},
+  "left": [
+    {"role": "boost", "type": "insert"},
+    {"role": "drive", "type": "insert"},
+    {"role": "amp", "type": "nam", "tone_id": 2561, "model_id": 419238, "enabled": true, "label": "Mesa Mark IIC+ Yummy Clean"},
+    {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 Celestion V30, SM57"},
+    {"role": "echo", "type": "echo", "delay_ms": 380, "feedback": 0.2, "cutoff_hz": 4500.0, "mix": 0.15, "enabled": true, "label": "Delay 380 ms"},
+    {"role": "ambience", "type": "ir", "tone_id": 88464, "model_id": 745826, "enabled": true, "label": "Lexicon 480L Small Plate", "mix": 0.12, "trim_seconds": 1.5}
+  ]
+}

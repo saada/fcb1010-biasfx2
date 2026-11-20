@@ -1,0 +1,24 @@
+{
+  "base": "Sweet Child O' Mine",
+  "target_lufs": -14,
+  "candidates": {
+    "mkiv-1991-tight": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 108189, "model_id": 883769, "enabled": true, "label": "Mark IV 1991 tight"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "mkiv-1991-mean": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 108189, "model_id": 895850, "enabled": true, "label": "Mark IV 1991 mean"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "mkiv-hg-fullrig": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 28935, "model_id": 380278, "enabled": true, "label": "Mark IV high gain full rig"},
+      {"role": "cab", "type": "insert"}]},
+    "roadking-high-std": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 81984, "model_id": 703374, "enabled": true, "label": "Road King Orange High"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "roadking-modernlead": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 81984, "model_id": 703375, "enabled": true, "label": "Road King Orange High Modern Lead"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]},
+    "dualrec-2025": {"left": [{"role": "boost", "type": "insert"}, {"role": "drive", "type": "insert"},
+      {"role": "amp", "type": "nam", "tone_id": 45026, "model_id": 382708, "enabled": true, "label": "Dual Rectifier 2025 Rhythm 2"},
+      {"role": "cab", "type": "ir", "tone_id": 45023, "model_id": 239354, "enabled": true, "label": "Mesa 4x12 V30 SM57"}]}
+  }
+}

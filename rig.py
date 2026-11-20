@@ -75,8 +75,15 @@ SONGS = [
     (6, 3, 30, "Bohemian Rhapsody"),
     (6, 4, 31, "Whole Lotta Love"),
     (6, 5, 32, "Back in Black"),
+    # Bank 7 (DREAM THEATER, experiments D32): PCs 34-38. The two cleans play on the clean TONE3000
+    # ("instance": "clean", CLEAN_SONGS) for the Clean Chorus.
+    (7, 1, 34, "I&W Clean"),
+    (7, 2, 35, "I&W Rhythm"),
+    (7, 3, 36, "I&W Lead"),
+    (7, 4, 37, "ToT Clean"),
+    (7, 5, 38, "As I Am"),
 ]
-BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern", 5: "80s Leads", 6: "Legends"}
+BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern", 5: "80s Leads", 6: "Legends", 7: "Dream Theater"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
@@ -107,6 +114,11 @@ def scene_banks():
 SCENE_BANKS = scene_banks()
 # Song switches also reset the scene CCs: unity drive, Solo block off, heavy rig selected.
 SONG_RESET = ((SCENE_DRIVE_CC, SCENES["rhythm"][0]), (SCENE_SELECT_CC, 0))
+# A song preset with "instance": "clean" plays on the clean TONE3000, for the Clean Chorus that
+# its preset switches on at load (qtractor_rig.CLEAN_CHORUS). Its switch sends the PC on both
+# channels, so GuitarMood still knows the song by its channel-1 PC, and selects the clean rig.
+CLEAN_SONG_RESET = ((SCENE_DRIVE_CC, SCENES["rhythm"][0]), (SCENE_SELECT_CC, 127))
+CLEAN_SONGS = {r["pc"] for r in load_rigs() if r.get("instance") == "clean"}
 
 BANKS_IN_USE = sorted({bank for bank, *_ in SONGS} | set(SCENE_BANKS))
 HARMONY_CC = 25  # scene banks: SW7 = twin-guitar harmony (qtractor_rig.py) instead of the octaver
@@ -137,7 +149,7 @@ LEGENDS_TOGGLES = [  # bank 6: the 80s row, but SW7 is the Uni-Vibe-style vibe (
     (9, 24, "Delay (the song's echo)"),
     (10, 28, "Tuner (mutes the rig)"),
 ]
-BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES, 5: EIGHTIES_TOGGLES, 6: LEGENDS_TOGGLES}
+BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES, 5: EIGHTIES_TOGGLES, 6: LEGENDS_TOGGLES, 7: EIGHTIES_TOGGLES}
 
 
 def toggles(bank):
@@ -169,7 +181,9 @@ def build():
         preset = fcb.preset[preset_index(bank, switch)]
         preset.pc1_enabled = True
         preset.pc1_program = pc
-        set_ccs(preset, SONG_RESET)
+        if pc in CLEAN_SONGS:
+            preset.pc2_enabled, preset.pc2_program = True, pc
+        set_ccs(preset, CLEAN_SONG_RESET if pc in CLEAN_SONGS else SONG_RESET)
 
     for bank, presets in SCENE_BANKS.items():
         for switch, scene in enumerate(SCENE_SWITCHES, 1):
@@ -301,9 +315,11 @@ def verify(fcb, universal=False):
     for bank, switch, pc, name in SONGS:
         p = parsed.preset[preset_index(bank, switch)]
         assert p.pc1_enabled and p.pc1_program == pc, f"{name}: PC mismatch"
-        assert ((p.cc1_controller, p.cc1_value), (p.cc2_controller, p.cc2_value)) == SONG_RESET \
+        reset, clean = (CLEAN_SONG_RESET, True) if pc in CLEAN_SONGS else (SONG_RESET, False)
+        assert ((p.cc1_controller, p.cc1_value), (p.cc2_controller, p.cc2_value)) == reset \
             and p.cc1_enabled and p.cc2_enabled, f"{name}: scene reset CCs"
-        assert not any((p.pc2_enabled, p.pc3_enabled, p.pc4_enabled, p.pc5_enabled,
+        assert p.pc2_enabled == clean and (not clean or p.pc2_program == pc), f"{name}: clean-instance PC"
+        assert not any((p.pc3_enabled, p.pc4_enabled, p.pc5_enabled,
                         p.note_enabled)), f"{name}: stray messages"
         assert p.expA_enabled and p.expA_controller == WAH_SWEEP_CC, f"{name}: EXP A"
         assert p.expB_enabled and p.expB_controller == VOLUME_CC, f"{name}: EXP B"

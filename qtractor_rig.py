@@ -256,7 +256,7 @@ def chorus_ccs(pc, settings=None):
 def clean_chorus_settings():
     """{clean-instance PC: {rate_hz, depth_ms, mix} or None}: None = that preset runs no chorus."""
     return {r["pc"]: CHORUS_DEFAULT | {k: v for k, v in r["chorus"].items() if k in CHORUS_DEFAULT} if "chorus" in r else None
-            for r in t3k.load_rigs() if r.get("scene") in ("clean", "acoustic")}
+            for r in t3k.load_rigs() if r.get("scene") in ("clean", "acoustic") or r.get("instance") == "clean"}
 
 
 def clean_chorus_ccs(pc, settings=None):
@@ -472,6 +472,14 @@ def tail_wav(stage):
     return float_wav([[v * stage["mix"] for v in h] for h in stage["irs"]])
 
 
+def instances(rig):
+    """The TONE3000 channels a preset loads on: its scene's instance, or both the heavy and the
+    clean one for a song with "instance": "clean" (rig.CLEAN_SONGS: its switch sends both PCs)."""
+    if rig.get("instance") == "clean":
+        return [T3K_CHANNEL["heavy"], T3K_CHANNEL["clean"]]
+    return [T3K_CHANNEL.get(rig.get("scene"), 0)]
+
+
 def build_tails(write=True):
     """{channel: {"convolvers": [{key, file, mix, labels, seconds, enabled}], "pcs": {pc: [index]}}}
     for every TONE3000 instance, from tone3000.build_preset_and_tails over rigs/. One convolver per
@@ -483,8 +491,7 @@ def build_tails(write=True):
     rigs = t3k.load_rigs()
     starts = {T3K_CHANNEL[s]: next((r["pc"] for r in rigs if r.get("scene") == s), None)
               for s in ("heavy", "clean", "harmony")}
-    for rig in rigs:
-        ch = T3K_CHANNEL.get(rig.get("scene"), 0)
+    for rig, ch in ((r, ch) for r in rigs for ch in instances(r)):
         _, stages = t3k.build_preset_and_tails(rig)
         for pos, st in enumerate(stages):
             wav = tail_wav(st)

@@ -45,9 +45,14 @@ BANK 5  80s LEADS: classic 80s solo tones, one song preset per switch (one UP fr
           SW1 WHO'S CRYING NOW   SW2 SWEET CHILD O' MINE   SW3 CRAZY TRAIN   SW4 MASTER OF PUPPETS   SW5 ERUPTION
           SW6 WAH      SW7 CHORUS   SW8 BOOST        SW9 DELAY          SW10 TUNER
 
-BANK 6  LEGENDS: 60s-80s guitar heroes, one song preset per switch (the last bank: one UP from 80s Leads)
+BANK 6  LEGENDS: 60s-80s guitar heroes, one song preset per switch (one UP from 80s Leads)
           SW1 PRIDE AND JOY   SW2 VOODOO CHILD   SW3 BOHEMIAN RHAPSODY   SW4 WHOLE LOTTA LOVE   SW5 BACK IN BLACK
           SW6 WAH      SW7 VIBE     SW8 BOOST        SW9 DELAY          SW10 TUNER
+
+BANK 7  DREAM THEATER: Images and Words and Train of Thought (the last bank: one UP from Legends)
+          SW1 I&W CLEAN   SW2 I&W RHYTHM   SW3 I&W LEAD   SW4 ToT CLEAN   SW5 AS I AM
+          SW6 WAH      SW7 CHORUS   SW8 BOOST        SW9 DELAY          SW10 TUNER
+          (the two cleans play on the clean rig with their chorus on: SW6-SW9 do nothing there)
 
 EVERY BANK:  EXP A = wah sweep (CC 27)    EXP B = volume (CC 7): heel silent, toe = 0 dB = YouTube level (rock it forward to reset)
 ```
@@ -169,6 +174,10 @@ Maiden songs all play on bank 0, which has the Brave New World / Dance of Death 
 | Bohemian Rhapsody, guitar solo (6) | SW3 BOHEMIAN RHAPSODY: the treble booster (SW8) into a dimed AC30 is on; SW8 off for a darker AC30. |
 | Whole Lotta Love (6) | SW4 WHOLE LOTTA LOVE: Les Paul into a Plexi (a stand-in for Page's Vox Super Beatle). For the solo, SW6 WAH and park EXP A forward. |
 | Back in Black (6) | SW5 BACK IN BLACK: Malcolm's Super Bass left, Angus's Super Lead right, low gain. SW8 BOOST (the Schaffer-Vega) for the solos. |
+| Pull Me Under / Another Day / Surrounded (7) | SW1 I&W CLEAN for the chorused intros (neck pickup; chorus and delay always on) → SW2 I&W RHYTHM → SW3 I&W LEAD for the solos (delay on). Standard tuning, top six strings. |
+| Take the Time / Under a Glass Moon (7) | SW2 I&W RHYTHM, SW3 I&W LEAD for the solos, SW8 BOOST for more push. |
+| As I Am (7) | SW5 AS I AM: the Road King, dry. The record is C standard: on the low B, play the riffs one fret up. SW8 BOOST + SW9 DELAY for the solo. |
+| Endless Sacrifice / In the Name of God (7) | SW4 ToT CLEAN for the intros → SW5 AS I AM for the heavy parts. |
 
 The seven Maiden era banks (Number of the Beast to Dance of Death) are retired. Their research
 is in `rigs/archive/`, and the builder skips it.

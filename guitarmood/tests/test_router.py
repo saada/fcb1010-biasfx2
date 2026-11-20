@@ -83,8 +83,8 @@ def test_bank_5_80s_leads_translates():
     toggles = {sw: t.translate(router.address(5, sw))[1] for sw in range(6, 11)}
     assert toggles == {6: [("cc", 0, 20, 127)], 7: [("cc", 0, qr.CC_CHORUS, 127)], 8: [("cc", 0, 22, 127)],
                        9: [("cc", 0, 24, 127)], 10: [("cc", 0, 28, 127)]}
-    # bank 7 is still empty: the router says so instead of sending anything
-    assert t.translate(router.address(7, 1)) == ((7, 1), [])
+    # bank 8 is still empty: the router says so instead of sending anything
+    assert t.translate(router.address(8, 1)) == ((8, 1), [])
 
 
 def test_bank_6_legends_translates_with_its_vibe():
@@ -138,7 +138,7 @@ def test_address_tells_the_board_its_bank():
     for ev in LAYOUT[(3, 9)]:
         st.feed(ev)
     assert st.bank == 3 and st.last_sw == 9
-    st.feed(("addr", 7, 1))  # not in the layout: say so, keep the bank
+    st.feed(("addr", 8, 1))  # not in the layout: say so, keep the bank
     assert st.bank == 3 and "nothing on it" in st.last
 
 
@@ -259,3 +259,17 @@ def test_maiden_scene_switches_set_the_clean_chorus():
     assert ("cc", 0, qr.CC_CLEAN_CHORUS_RATE, qr.clean_chorus_ccs(1)[0][1]) in clean
     assert ("cc", 0, qr.CC_CLEAN_CHORUS, 0) in acoustic
     assert not any(e[0] == "cc" and e[2] == qr.CC_CLEAN_CHORUS_RATE for e in acoustic)
+
+
+def test_clean_songs_play_on_the_clean_instance():
+    """D32: a song with "instance": "clean" sends its PC on both channels, selects the clean rig,
+    and sets the Clean Chorus; the next heavy song selects the heavy rig again."""
+    t = router.Translator(LAYOUT)
+    for pc in sorted(fcb.CLEAN_SONGS):
+        bank, sw = next((b, s) for b, s, p, _ in fcb.SONGS if p == pc)
+        _, events = t.translate(router.address(bank, sw))
+        assert events[:4] == [("pc", 0, pc), ("pc", 1, pc), ("cc", 0, 80, 63), ("cc", 0, 81, 127)]
+        assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in events
+    _, heavy = t.translate(router.address(7, 2))
+    assert ("cc", 0, 81, 0) in heavy and not any(e[0] == "pc" and e[1] == 1 for e in heavy)
+    assert fcb.CLEAN_SONGS >= {34, 37}
