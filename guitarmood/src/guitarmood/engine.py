@@ -16,7 +16,8 @@ import threading
 import time
 import xml.etree.ElementTree as ET
 
-from .board import qr
+from . import retune
+from .board import qr, t3k
 from .state import parse
 
 router_mod = qr.fcb_router
@@ -25,19 +26,24 @@ HELPER_UNIT = "qtractor-rig-helper"
 DAW_LABELS = {"Wah": "wah", "Octaver": "octaver", "Harmony In": "harmony", "Chorus": "chorus", "Vibe": "vibe", "Tuner Mute": "tuner"}
 
 
-def read_daw_toggles():
-    """Ask the running Qtractor to save (SIGUSR1) and read which DAW plugins are on."""
+def save_session():
+    """Ask the running Qtractor to save (SIGUSR1) and parse what it wrote. None if it didn't."""
     before = qr.SESSION.stat().st_mtime if qr.SESSION.exists() else 0
     os.kill(qr.pid(), signal.SIGUSR1)
     for _ in range(40):
         time.sleep(0.25)
         if qr.SESSION.exists() and qr.SESSION.stat().st_mtime != before \
                 and qr.SESSION.read_bytes().rstrip().endswith(b"</session>"):
-            break
-    else:
+            return ET.parse(qr.SESSION).getroot()
+    return None
+
+
+def read_daw_toggles():
+    """Ask the running Qtractor to save and read which DAW plugins are on."""
+    if (root := save_session()) is None:
         return {}
     out = {}
-    for p in ET.parse(qr.SESSION).getroot().iter("plugin"):
+    for p in root.iter("plugin"):
         if (label := p.findtext("label")) in DAW_LABELS:
             out[DAW_LABELS[label]] = p.findtext("activated") == "1"
     return out
@@ -194,9 +200,13 @@ class Engine:
         while True:
             kind, arg = self.actions.get()
             if self.no_rig:
+                if kind == "retune":  # display only: never touch tone.csv or the presets
+                    self.pitch_status(retune.current(), "error", "display only: the tuning wasn't changed")
                 continue
             port = qr.qtractor_port() or self.port
-            if not port:
+            if not port or (kind == "retune" and not qr.pid()):
+                if kind == "retune":
+                    self.pitch_status(retune.current(), "error", "the rig isn't running: the tuning wasn't changed")
                 continue
             try:
                 if kind == "send":
@@ -207,8 +217,67 @@ class Engine:
                 elif kind == "tuner":
                     self.tuning = arg
                     self.tuner_proc = qr.set_tuning(arg, port, self.tuner_proc)
+                elif kind == "retune":
+                    self._retune(port, *arg)
             except Exception as e:  # noqa: BLE001
-                self.on_status({"warning": f"{kind}: {e}"})
+                if kind == "retune":
+                    self.pitch_status(retune.current(), "error", f"{type(e).__name__}: {e}")
+                else:
+                    self.on_status({"warning": f"{kind}: {e}"})
+
+    # ---------------------------------------------------------------- guitar tuning
+    def pitch_status(self, st, phase, detail=""):
+        self.on_status({"pitch": {"st": st, "name": retune.name(st), "phase": phase, "detail": detail,
+                                  "choices": retune.choices()}})
+
+    def retune(self, st, scene):
+        """The tuning buttons: shift the whole rig `st` semitones from the guitar's own tuning.
+        `scene` = (CC 80, CC 81) to restore on the heavy instance after its reload, or None."""
+        self.actions.put(("retune", (st, scene)))
+
+    def _send(self, port, *events):
+        for ev in events:
+            subprocess.run(["aseqsend", "-p", port, *midi_hex(ev)], check=True)
+
+    def _load(self, port, ch, rig, timeout=8.0):
+        """Program Change `rig` on channel `ch`; wait until TONE3000 logs it as loaded."""
+        mark = retune.log_mark()
+        self._send(port, ("pc", ch, rig["pc"]))
+        end = time.monotonic() + timeout
+        while time.monotonic() < end:
+            if rig["name"] in retune.log_loaded(mark):
+                return
+            time.sleep(0.05)
+        raise TimeoutError(f"TONE3000 didn't log loading {rig['name']} within {timeout:g} s")
+
+    def _retune(self, port, st, scene):
+        self.pitch_status(st, "applying", f"writing the presets for {retune.name(st)}…")
+        retune.set_tuning(st)
+        rigs = t3k.load_rigs()
+        by_name = {r["name"]: r for r in rigs}
+        root = save_session()
+        if root is None:
+            return self.pitch_status(st, "saved", "Qtractor didn't save its session: switch songs to hear it")
+        loaded = retune.instances(root)
+        self.pitch_status(st, "applying", "reloading the presets…")
+        for label, ch in retune.INSTANCES.items():
+            rig = by_name.get((loaded.get(label) or {}).get("preset"))
+            if rig is None:  # an instance on a preset rigs/ no longer has: leave it be
+                continue
+            try:
+                self._load(port, ch, retune.hop(rig["pc"], rigs))
+            finally:  # whatever happened on the way out, never leave an instance on the hop preset
+                self._load(port, ch, rig)
+        if scene:  # a PC puts the heavy instance's input drive back to the preset's: restore the scene
+            drive, select = scene
+            self._send(port, ("cc", 0, t3k.SCENE_DRIVE_CC, drive), ("cc", 0, t3k.SCENE_SELECT_CC, select))
+        root = save_session()
+        if root is None:
+            return self.pitch_status(st, "saved", "reloaded, but Qtractor didn't save its session to confirm")
+        if bad := retune.mismatches(retune.instances(root), rigs):
+            return self.pitch_status(st, "error", "not live on " + "; ".join(bad))
+        self.pitch_status(st, "live")
+        self.on_status({"pitchReloaded": time.monotonic()})
 
     # ---------------------------------------------------------------- stop
     def stop(self):

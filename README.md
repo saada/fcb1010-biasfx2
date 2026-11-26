@@ -102,6 +102,18 @@ it again only focuses the window, so there is never a second rig.
   happened, so its display keeps its own bank, and GuitarMood marks the press "on screen".
   Toggles, SOLO and CRUNCH work from any bank on the pedal. RHYTHM, CLEAN and ACOUSTIC on the
   pedal load the bank the pedal shows.
+- **Tuning:** the **TUNING A · A# · B · C · C#** buttons in the header (or **[ / ]**) shift the
+  whole rig from the guitar's B standard: TONE3000's input pitch shifter, −2 to +2 semitones,
+  on every preset and all three instances. The guitar stays in B and you play the same shapes.
+  A press writes the `*` row's `pitch_st` in `rigs/tone.csv` (so `tone3000.py build` and the
+  next rig start keep it), sets the two pitch params in every live preset and nothing else, then
+  reloads each instance's preset by hopping to another one and back (a repeated PC doesn't reload,
+  experiments D5). The scene's CC 80/81 follow, so LEAD stays LEAD. That costs one preset-load
+  gap per instance, and the TONE3000 blocks (boost, delay…) go back to the preset's state.
+  GuitarMood then saves the session and checks each instance's pitch shifter: the button goes
+  back to steady only when all three match, and the footer says which one missed if not. While
+  shifted, a yellow "C standard · pitch shifted" chip sits next to the key: the shifter adds
+  11–31 ms. B turns it off. A preset or `@tag` row with its own `pitch_st` keeps it.
 - **Autoscale:** everything is sized from the window, so any tile works. A wide tile adds the
   setlist; a small one shrinks to the scene name plus the toggles that are lit.
 - **Themed:** colours come from the active Omarchy theme (`colors.toml`) and follow a theme

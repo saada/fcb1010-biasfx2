@@ -22,6 +22,20 @@ Window {
                                       : Math.max(0.45, Math.min(width / (wide ? 1760 : 1320), height / 820))
     readonly property var active: sw.find(s => s.on && (s.kind === "scene" || s.kind === "song"))
     readonly property string engine: status.engine || "starting"
+    readonly property var pitch: status.pitch
+    readonly property bool shifted: !!pitch && pitch.st !== 0
+    function retune(step) {  // [ and ]: one choice down / up
+        if (!pitch) return
+        const sts = pitch.choices.map(c => c.st)
+        const i = sts.indexOf(pitch.st) + step
+        if (i >= 0 && i < sts.length) rig.setTuning(sts[i])
+    }
+    function pitchLine() {
+        if (!pitch) return ""
+        if (pitch.phase === "error") return "⚠ tuning: " + pitch.detail
+        if (pitch.phase === "applying" || pitch.phase === "saved") return pitch.detail
+        return ""
+    }
 
     color: c.background
     // Palette values arrive as strings; typed colors expose .r/.g/.b for tints.
@@ -61,6 +75,8 @@ Window {
     }
     Shortcut { sequences: ["Up", "PgUp"]; onActivated: if (win.st.up) rig.loadBank(win.st.up.number) }
     Shortcut { sequences: ["Down", "PgDown"]; onActivated: if (win.st.down) rig.loadBank(win.st.down.number) }
+    Shortcut { sequence: "["; onActivated: win.retune(-1) }
+    Shortcut { sequence: "]"; onActivated: win.retune(1) }
 
     // ------------------------------------------------------------------ full board
     Item {
@@ -142,12 +158,35 @@ Window {
                                     }
                                 }
                             }
+                            Rectangle {  // the rig is pitch shifted: say so next to the key
+                                visible: win.shifted
+                                width: shiftText.implicitWidth + 22 * win.u
+                                height: shiftText.implicitHeight + 10 * win.u
+                                radius: height / 2
+                                color: Qt.rgba(win.yellow.r, win.yellow.g, win.yellow.b, 0.18)
+                                border.width: Math.max(1, win.u)
+                                border.color: win.yellow
+                                Text {
+                                    id: shiftText
+                                    anchors.centerIn: parent
+                                    text: win.pitch ? win.pitch.name + " · pitch shifted" : ""
+                                    color: win.yellow
+                                    font { family: rig.font; pixelSize: 16 * win.u; bold: true }
+                                }
+                            }
                         }
                     }
 
                     ColumnLayout {
                         Layout.alignment: Qt.AlignRight | Qt.AlignTop
                         spacing: 6 * win.u
+                        RowLayout {
+                        Layout.alignment: Qt.AlignRight
+                        spacing: 18 * win.u
+                        TuningPicker {
+                            pitch: win.pitch; c: win.c; u: win.u; fontFamily: rig.font
+                            onPicked: st => rig.setTuning(st)
+                        }
                         Rectangle {  // rig status pill
                             Layout.alignment: Qt.AlignRight
                             Layout.preferredWidth: pillRow.implicitWidth + 26 * win.u
@@ -171,6 +210,7 @@ Window {
                                     font { family: rig.font; pixelSize: 15 * win.u; bold: true; letterSpacing: 1.5 * win.u }
                                 }
                             }
+                        }
                         }
                         Text {
                             Layout.alignment: Qt.AlignRight
@@ -267,13 +307,15 @@ Window {
                     Text {
                         Layout.fillWidth: true
                         text: win.status.warning ? "⚠ " + win.status.warning
-                              : win.status.routerWarning ? "⚠ " + win.status.routerWarning : win.status.detail || ""
-                        color: win.status.warning || win.status.routerWarning ? win.c.orange : win.c.dark_foreground
+                              : win.status.routerWarning ? "⚠ " + win.status.routerWarning
+                              : win.pitchLine() || win.status.detail || ""
+                        color: win.status.warning || win.status.routerWarning || (win.pitch && win.pitch.phase === "error") ? win.c.orange
+                               : win.pitch && win.pitch.phase === "applying" ? win.yellow : win.c.dark_foreground
                         font { family: rig.font; pixelSize: 14 * win.u }
                         elide: Text.ElideRight
                     }
                     Text {
-                        text: "click a switch or press 1–0 · ↑↓ bank · close to stop the rig"
+                        text: "click a switch or press 1–0 · ↑↓ bank · [ ] tuning · close to stop the rig"
                         color: win.c.dark_foreground
                         font { family: rig.font; pixelSize: 14 * win.u }
                     }
@@ -392,6 +434,11 @@ Window {
             font { family: rig.font; pixelSize: 80 * win.u; bold: true }
             fontSizeMode: Text.Fit
             minimumPixelSize: 16
+        }
+        TuningPicker {
+            pitch: win.pitch; c: win.c; u: win.u; fontFamily: rig.font
+            showLabel: false
+            onPicked: st => rig.setTuning(st)
         }
         Flow {
             Layout.fillWidth: true

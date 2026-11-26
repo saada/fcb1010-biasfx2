@@ -204,6 +204,9 @@ default. Presets whose record is a half step down carry the tag `eb`: Van Halen 
 Voodoo Child.
 - One preset at record pitch: put `-1` in its row's `pitch_st` cell.
 - All of them: put `-1` in the `@eb` row.
+- The whole rig in another tuning (A# or C standard on the B-tuned guitar): GuitarMood's TUNING
+  buttons write the `*` row's cell and apply it live (README, "GuitarMood"). Rows of their own
+  keep their value.
 - This Charming Man is tuned up a whole step (Marr: "tuned up to F#, fingered in G"), so its
   opt-in is `2`.
 
