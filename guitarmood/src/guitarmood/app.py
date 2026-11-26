@@ -20,7 +20,7 @@ from PySide6.QtGui import QFont, QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuick import QQuickWindow  # noqa: F401 - root objects come back as QQuickWindow
 
-from . import theme
+from . import retune, theme
 from .board import Board
 from .engine import Engine
 from .state import RigState
@@ -43,7 +43,8 @@ class Bridge(QObject):
         self.board = Board()
         self.rig = RigState(self.board)
         self._state = self.rig.snapshot()
-        self._statusv = {"engine": "starting", "detail": "", "fcb": None, "fcbDetail": "", "warning": ""}
+        self._statusv = {"engine": "starting", "detail": "", "fcb": None, "fcbDetail": "", "warning": "",
+                         "pitch": self._pitch_at_start()}
         self._colors, self._stamp = theme.palette(), theme.stamp()
         self._font = theme.font_family()
         self._dirty = False
@@ -88,6 +89,20 @@ class Bridge(QObject):
         """Setlist, UP/DOWN tile or arrow key: press that bank's first switch (RHYTHM / first song)."""
         self.press(bank, 1)
 
+    @Slot(int)
+    def setTuning(self, st):
+        """A tuning button (or [ / ]): shift the whole rig st semitones from the guitar's own tuning."""
+        pitch = self._statusv["pitch"]
+        if self.closing or pitch["phase"] == "applying" or not retune.LOWEST <= st <= retune.HIGHEST:
+            return
+        if st == pitch["st"] and pitch["phase"] == "live":
+            return
+        rig = self.rig  # a reload puts the heavy instance's input drive back: re-send the scene
+        scene = (rig.drive, rig.select) if rig.synced else None
+        self._on_status({"pitch": {**pitch, "st": st, "name": retune.name(st), "phase": "applying",
+                                   "detail": f"retuning to {retune.name(st)}…"}})
+        self.engine.retune(st, scene)
+
     def press(self, bank, sw):
         events = self.board.messages(bank, sw)
         if not events or self.closing:
@@ -119,7 +134,18 @@ class Bridge(QObject):
             self.engine.act(action)
         self._dirty = True
 
+    @staticmethod
+    def _pitch_at_start():
+        try:
+            st, phase, detail = retune.current(), "live", ""
+        except Exception as e:  # noqa: BLE001 - a broken tone.csv: say so, never fail to open
+            st, phase, detail = 0, "error", f"tone.csv: {e}"
+        return {"st": st, "name": retune.name(st), "phase": phase, "detail": detail, "choices": retune.choices()}
+
     def _on_status(self, patch):
+        if "pitchReloaded" in patch:  # every TONE3000 block is back at its preset's own state
+            self.rig.flips.clear()
+            self._dirty = True
         self._statusv = {**self._statusv, **patch}
         self.statusChanged.emit()
 
