@@ -8,7 +8,7 @@
     "https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html",
     "https://musicradar.com/news/guitars/john-petrucci-reveals-his-almighty-live-rig-and-the-key-to-astonishing-solos-638762"
   ],
-  "notes": "Mark IIC+ 'Creamy Lead' into a Mesa 4x12 V30 SM57, mid-forward with the top trimmed (-1.5 dB 3.5 kHz, -2 dB 8 kHz). Delay on at load: 420 ms, feedback 0.3, mix 0.22, darkened at 4.5 kHz (an estimate; TONE3000's echo can't duck, so the mix sits lower than a ducked 2290 would). PCM70-style hall (480L Large Hall, 2 s) at the house level. SW8 BOOST = TS9 push; SW9 turns the delay off. Levelled offline with rigsim --exact to -14 LUFS.",
+  "notes": "Mark IIC+ 'Creamy Lead' into a Mesa 4x12 V30 SM57, mid-forward with the presence trimmed (-1.5 dB 3.5 kHz; tone.csv puts the 8 kHz shelf back to 0, 'more air'). Delay on at load: 420 ms, feedback 0.3, mix 0.22, darkened at 4.5 kHz (an estimate; TONE3000's echo can't duck, so the mix sits lower than a ducked 2290 would). PCM70-style hall (480L Large Hall, 2 s) at the house level. SW8 BOOST = the TS9 push, on at load (tone.csv boost_on 1: the always-on 808 of the Mark V tutorial chains), so SW8 takes it off; SW9 turns the delay off. Levelled offline with rigsim --exact to -14 LUFS.",
   "voicing": "humbucker",
   "left": [
     {"role": "boost", "type": "nam", "tone_id": 86314, "model_id": 733129, "enabled": false, "label": "Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record)"},

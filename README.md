@@ -165,7 +165,7 @@ Maiden songs all play on bank 1, which has the Brave New World / Dance of Death 
 | Song (bank) | How to play it on the board |
 |---|---|
 | Pull Me Under / Another Day / Surrounded (0) | SW1 I&W CLEAN for the chorused intros (neck pickup; chorus and delay always on) → SW2 I&W RHYTHM → SW3 I&W LEAD for the solos (delay on). Standard tuning, top six strings. |
-| Take the Time / Under a Glass Moon (0) | SW2 I&W RHYTHM, SW3 I&W LEAD for the solos, SW8 BOOST for more push. |
+| Take the Time / Under a Glass Moon (0) | SW2 I&W RHYTHM, SW3 I&W LEAD for the solos (its TS9 push is on at load; SW8 takes it off). |
 | As I Am (0) | SW5 AS I AM: the Road King, dry. The record is C standard: on the low B, play the riffs one fret up. SW8 BOOST + SW9 DELAY for the solo. |
 | Endless Sacrifice / In the Name of God (0) | SW4 ToT CLEAN for the intros → SW5 AS I AM for the heavy parts. |
 | The Evil That Men Do (1) | RHYTHM, then **SW8 EVIL DELAY** for the melodic lines and the solo (LEAD). HARMONY for the harmonised bridge. |
