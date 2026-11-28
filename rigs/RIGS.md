@@ -858,13 +858,13 @@ Slots L1–L2 feed both rigs; left and right are panned apart.
 
 | Slot | Role | Block | Default |
 |---|---|---|---|
-| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | off |
+| L1 | boost | [Ibanez TS9 Tube Screamer](https://www.tone3000.com/tones/86314) — Ibanez TS9 clean push, D0 T6 L10 (lead boost, not on the record) | on |
 | L3 | amp | [Mesa Boogie Mark IIC+ Essentials Pack](https://www.tone3000.com/tones/2561) — Mesa Mark IIC+ Creamy Lead | on |
 | L4 | cab | [Celestion Vintage 30 - 2002 Mesa Boogie 4x12 - SM57](https://www.tone3000.com/tones/45023) — Mesa 4x12 Celestion V30, SM57 | on |
 | L5 | echo | TC 2290-style delay 420 ms — generated 420 ms BBD-style IR (mix 22%) | on |
 | L6 | ambience | [Lexicon 480L Altiverb](https://www.tone3000.com/tones/88464) — Lexicon 480L Large Hall (PCM70 stand-in) (mix 9%) | on |
 
-*Notes:* Mark IIC+ 'Creamy Lead' into a Mesa 4x12 V30 SM57, mid-forward with the top trimmed (-1.5 dB 3.5 kHz, -2 dB 8 kHz). Delay on at load: 420 ms, feedback 0.3, mix 0.22, darkened at 4.5 kHz (an estimate; TONE3000's echo can't duck, so the mix sits lower than a ducked 2290 would). PCM70-style hall (480L Large Hall, 2 s) at the house level. SW8 BOOST = TS9 push; SW9 turns the delay off. Levelled offline with rigsim --exact to -14 LUFS.
+*Notes:* Mark IIC+ 'Creamy Lead' into a Mesa 4x12 V30 SM57, mid-forward with the presence trimmed (-1.5 dB 3.5 kHz; tone.csv puts the 8 kHz shelf back to 0, 'more air'). Delay on at load: 420 ms, feedback 0.3, mix 0.22, darkened at 4.5 kHz (an estimate; TONE3000's echo can't duck, so the mix sits lower than a ducked 2290 would). PCM70-style hall (480L Large Hall, 2 s) at the house level. SW8 BOOST = the TS9 push, on at load (tone.csv boost_on 1: the always-on 808 of the Mark V tutorial chains), so SW8 takes it off; SW9 turns the delay off. Levelled offline with rigsim --exact to -14 LUFS.
 
 *Sources:* <https://www.thomannmusic.com/blog/?p=10096799> · <https://line6.com/tone-templates-diagrams/john-petrucci--images-and-words-tour-rig.html> · <https://musicradar.com/news/guitars/john-petrucci-reveals-his-almighty-live-rig-and-the-key-to-astonishing-solos-638762>
 
@@ -960,4 +960,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 38 | The Evil That Men Do | E natural minor | 375 ms |
+| 01 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 38 | The Evil That Men Do | E natural minor | 375 ms |

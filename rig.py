@@ -38,53 +38,54 @@ HARMONY_CHANNEL = 2  # PC 3 -> the DAW's harmony TONE3000 on MIDI channel 3
 WAH_SWEEP_CC = 27
 VOLUME_CC = 7
 
-# Bank 0 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). Banks 1-5 are song
-# banks: one preset per switch.
+# Bank 1 is the MAIDEN scene bank (rigs/00-02, see SCENE_SWITCHES below). The other banks are
+# song banks: one preset per switch.
 SONGS = [
-    # (bank, switch, PC number, name). PCs follow the rigs/ files, not the banks: bank 2 (80s
-    # CLEAN) was inserted after the 80s bank, so it is one UP away, with PCs 18-22. Bank 5 (80s
-    # LEADS) came next, with PCs 23-27, and bank 6 (LEGENDS) last, with 28-32, then bank 7 (DREAM THEATER) with 33-37:
-    # the generated Maiden Harmony always takes the PC after the last rigs/ file (38).
-    (1, 1, 3, "Van Halen I"),
-    (1, 2, 4, "Van Halen 1984"),
-    (1, 3, 5, "Def Leppard Pyromania"),
-    (1, 4, 6, "Def Leppard Hysteria"),
-    (1, 5, 7, "U2 Streets"),
-    (2, 1, 18, "Is This Love"),
-    (2, 2, 19, "Rule the World"),
-    (2, 3, 20, "Every Breath You Take"),
-    (2, 4, 21, "Hysteria Clean"),
-    (2, 5, 22, "This Charming Man"),
-    (3, 1, 8, "Comfortably Numb"),
-    (3, 2, 9, "Radiohead"),
-    (3, 3, 10, "Nirvana"),
-    (3, 4, 11, "Djent"),
-    (3, 5, 12, "Purple Rain"),
-    (4, 1, 13, "Satan Full Rig"),
-    (4, 2, 14, "Satan 50 Modern"),
-    (4, 3, 15, "Satan 50 Low Tuned"),
-    (4, 4, 16, "Satan 50 Lead"),
-    (4, 5, 17, "Stormblade"),
-    (5, 1, 23, "Who's Crying Now"),
-    (5, 2, 24, "Sweet Child O' Mine"),
-    (5, 3, 25, "Crazy Train"),
-    (5, 4, 26, "Master of Puppets"),
-    (5, 5, 27, "Eruption"),
-    (6, 1, 28, "Pride and Joy"),
-    (6, 2, 29, "Voodoo Child"),
-    (6, 3, 30, "Bohemian Rhapsody"),
-    (6, 4, 31, "Whole Lotta Love"),
-    (6, 5, 32, "Back in Black"),
-    # Bank 7 (DREAM THEATER, experiments D32): PCs 33-37, then the generated Maiden Harmony at 38.
-    # The two cleans play on the clean TONE3000
+    # (bank, switch, PC number, name). PCs follow the rigs/ files, not the banks: banks were
+    # inserted and moved over time, so PCs don't run in bank order. Bank 0 is DREAM THEATER
+    # (PCs 33-37, experiments D32; moved from the last bank to the front). Bank 1 is the Maiden
+    # scene bank. Then 80s (3-7), 80s CLEAN (18-22, one UP from 80s), VARIETY (8-12), MODERN
+    # (13-17), 80s LEADS (23-27) and LEGENDS (28-32). The generated Maiden Harmony always takes
+    # the PC after the last rigs/ file (38).
+    # Bank 0 (DREAM THEATER): the two cleans play on the clean TONE3000
     # ("instance": "clean", CLEAN_SONGS) for the Clean Chorus.
-    (7, 1, 33, "I&W Clean"),
-    (7, 2, 34, "I&W Rhythm"),
-    (7, 3, 35, "I&W Lead"),
-    (7, 4, 36, "ToT Clean"),
-    (7, 5, 37, "As I Am"),
+    (0, 1, 33, "I&W Clean"),
+    (0, 2, 34, "I&W Rhythm"),
+    (0, 3, 35, "I&W Lead"),
+    (0, 4, 36, "ToT Clean"),
+    (0, 5, 37, "As I Am"),
+    (2, 1, 3, "Van Halen I"),
+    (2, 2, 4, "Van Halen 1984"),
+    (2, 3, 5, "Def Leppard Pyromania"),
+    (2, 4, 6, "Def Leppard Hysteria"),
+    (2, 5, 7, "U2 Streets"),
+    (3, 1, 18, "Is This Love"),
+    (3, 2, 19, "Rule the World"),
+    (3, 3, 20, "Every Breath You Take"),
+    (3, 4, 21, "Hysteria Clean"),
+    (3, 5, 22, "This Charming Man"),
+    (4, 1, 8, "Comfortably Numb"),
+    (4, 2, 9, "Radiohead"),
+    (4, 3, 10, "Nirvana"),
+    (4, 4, 11, "Djent"),
+    (4, 5, 12, "Purple Rain"),
+    (5, 1, 13, "Satan Full Rig"),
+    (5, 2, 14, "Satan 50 Modern"),
+    (5, 3, 15, "Satan 50 Low Tuned"),
+    (5, 4, 16, "Satan 50 Lead"),
+    (5, 5, 17, "Stormblade"),
+    (6, 1, 23, "Who's Crying Now"),
+    (6, 2, 24, "Sweet Child O' Mine"),
+    (6, 3, 25, "Crazy Train"),
+    (6, 4, 26, "Master of Puppets"),
+    (6, 5, 27, "Eruption"),
+    (7, 1, 28, "Pride and Joy"),
+    (7, 2, 29, "Voodoo Child"),
+    (7, 3, 30, "Bohemian Rhapsody"),
+    (7, 4, 31, "Whole Lotta Love"),
+    (7, 5, 32, "Back in Black"),
 ]
-BANK_NAMES = {0: "Maiden", 1: "80s", 2: "80s Clean", 3: "Variety", 4: "Modern", 5: "80s Leads", 6: "Legends", 7: "Dream Theater"}
+BANK_NAMES = {0: "Dream Theater", 1: "Maiden", 2: "80s", 3: "80s Clean", 4: "Variety", 5: "Modern", 6: "80s Leads", 7: "Legends"}
 
 TOGGLES = [
     # (switch, CC number, name) — identical row in every song bank (scene banks: toggles())
@@ -95,7 +96,7 @@ TOGGLES = [
     (10, 28, "Tuner (mutes the rig)"),
 ]
 
-# The scene bank (Iron Maiden, bank 0) comes from rigs/*.json: it has a "heavy", a "clean" and an
+# The scene bank (Iron Maiden, bank 1) comes from rigs/*.json: it has a "heavy", a "clean" and an
 # "acoustic" preset (plus a generated harmony one). Every switch sends both PCs and two absolute
 # CCs (tone3000.SCENES), so a scene switch is instant and always lands in the same state.
 SCENE_SWITCHES = ["rhythm", "solo", "clean", "acoustic", "crunch"]  # SW1..SW5 ("solo" is labelled LEAD)
@@ -136,21 +137,21 @@ SCENE_TOGGLES = [  # Maiden bank: LEAD/CRUNCH handle gain, so SW8/SW9 are the tw
 ]
 
 
-EIGHTIES_TOGGLES = [  # banks 1, 2 and 5: every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
+EIGHTIES_TOGGLES = [  # banks 2, 3 and 6 (and Dream Theater, bank 0): every 80s preset has a boost (slot 1) and a song delay (slot 5 / R3)
     (6, 20, "Wah on/off"),
     (7, CHORUS_CC, "Chorus (stereo, the song's rate/depth/mix)"),
     (8, 22, "Boost"),
     (9, 24, "Delay (the song's echo)"),
     (10, 28, "Tuner (mutes the rig)"),
 ]
-LEGENDS_TOGGLES = [  # bank 6: the 80s row, but SW7 is the Uni-Vibe-style vibe (qtractor_rig.VIBE)
+LEGENDS_TOGGLES = [  # bank 7: the 80s row, but SW7 is the Uni-Vibe-style vibe (qtractor_rig.VIBE)
     (6, 20, "Wah on/off"),
     (7, VIBE_CC, "Vibe (Uni-Vibe-style phaser, the song's rate/depth/mix)"),
     (8, 22, "Boost"),
     (9, 24, "Delay (the song's echo)"),
     (10, 28, "Tuner (mutes the rig)"),
 ]
-BANK_TOGGLES = {1: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES, 5: EIGHTIES_TOGGLES, 6: LEGENDS_TOGGLES, 7: EIGHTIES_TOGGLES}
+BANK_TOGGLES = {0: EIGHTIES_TOGGLES, 2: EIGHTIES_TOGGLES, 3: EIGHTIES_TOGGLES, 6: EIGHTIES_TOGGLES, 7: LEGENDS_TOGGLES}
 
 
 def toggles(bank):

@@ -2,7 +2,7 @@
   "pc": 2,
   "name": "Maiden Acoustic",
   "scene": "acoustic",
-  "bank": 0,
+  "bank": 1,
   "reference": "The acoustic guitar of 2 A.M. (The X Factor, 1995, Barnyard Studios, prod. Nigel Green and Steve Harris): dry, close and intimate under the verse",
   "rig": "One transcription (Karlsson's tab) marks the 2 A.M. intro and verse as acoustic, with a clean electric adding fills and distortion on the chorus; confirm by ear. The acoustic model, the player and any effects aren't documented, and a mic or DI is inferred. ToneMirror's 2 A.M. page is a JCM800 crunch setting for the electric only, so it doesn't apply here. Emulated as a double-tracked steel string from the electric alone: Diamond optical compressor, then two steel-string acoustic body IRs panned apart, then one small wooden room",
   "sources": [

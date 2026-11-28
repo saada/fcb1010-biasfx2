@@ -12,8 +12,8 @@ Workflow, from words to sound:
 3. `sim`: render the affected presets offline (`affected()` + `build_presets()`) before `build` puts them on the rig.
 
 `tone3000.py build` turns every `NN-slug.json` here into a TONE3000 preset and
-loads them into PC order (`pc` 0–32; bank 0 = Maiden scene presets, banks 1–6 = song
-switches: 80s PC 3–7, 80s Clean PC 18–22, Variety PC 8–12, Modern PC 13–17, 80s Leads PC 23–27, Legends PC 28–32; `rig.py` SONGS
+loads them into PC order (`pc` 0–37; bank 1 = Maiden scene presets, banks 0 and 2–7 = song
+switches: Dream Theater PC 33–37, 80s PC 3–7, 80s Clean PC 18–22, Variety PC 8–12, Modern PC 13–17, 80s Leads PC 23–27, Legends PC 28–32; `rig.py` SONGS
 maps PCs to switches, so a new bank takes the next free PCs). `rigs/archive/` keeps retired presets (the seven Maiden era banks and the song
 presets no longer on the board) for their research; the builder only reads `rigs/*.json`. Captures and
 IRs come from the public [TONE3000](https://www.tone3000.com) catalog by id.
@@ -328,7 +328,7 @@ for chorus-like movement and note the gap in `notes`; for a real chorus, give th
 `chorus` block (the DAW chorus above). Since v0.0.11 it can pitch-shift the whole
 input (see Useful `params`), but with no dry blend and no scale awareness.
 
-## Scene bank (Iron Maiden, FCB bank 0)
+## Scene bank (Iron Maiden, FCB bank 1)
 
 The Maiden bank has three presets: heavy on the Brave New World / Dance of Death chain,
 clean on Strat-voiced Fender Twins with the DAW's Clean Chorus for the Revelations and Infinite

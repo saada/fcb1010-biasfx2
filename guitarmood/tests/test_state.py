@@ -42,42 +42,47 @@ def test_parse():
 
 
 def test_board_matches_rig(board):
-    assert board.start_bank == 0
+    assert board.start_bank == 1  # the Maiden scene bank: the session starts on its presets
     assert sorted(board.banks) == [0, 1, 2, 3, 4, 5, 6, 7]
-    assert board.banks[0].kind == "scenes" and board.banks[0].subtitle.endswith("The Evil That Men Do")
+    # Dream Theater moved from the last bank to the front: bank 0, PCs 33-37, the 80s toggle row.
+    assert board.banks[0].title == "Dream Theater" and board.banks[0].kind == "songs"
     assert [board.banks[0].switches[sw].label for sw in range(1, 11)] == \
+        ["I&W Clean", "I&W Rhythm", "I&W Lead", "ToT Clean", "As I Am", "Wah", "Chorus", "Boost", "Delay", "Tuner"]
+    assert [board.messages(0, sw)[0] for sw in range(1, 6)] == [("pc", 0, pc) for pc in range(33, 38)]
+    assert board.banks[1].kind == "scenes" and board.banks[1].subtitle.endswith("The Evil That Men Do")
+    assert [board.banks[1].switches[sw].label for sw in range(1, 11)] == \
         ["Rhythm", "Lead", "Clean", "Acoustic", "Crunch", "Wah", "Harmony", "Evil Delay",
          "Madness Delay", "Tuner"]
-    assert [board.banks[n].title for n in (1, 2, 3)] == ["80s", "80s Clean", "Variety"]
-    assert board.banks[1].switches[1].label == "Van Halen I"
+    assert [board.banks[n].title for n in (2, 3, 4)] == ["80s", "80s Clean", "Variety"]
+    assert board.banks[2].switches[1].label == "Van Halen I"
     # The three 80s banks: SW7 is the DAW chorus (not the octaver), SW8/SW9 the preset's boost and delay.
-    for bank in (1, 2, 5):
+    for bank in (2, 3, 6):
         assert [board.banks[bank].switches[sw].label for sw in (6, 7, 8, 9, 10)] == \
             ["Wah", "Chorus", "Boost", "Delay", "Tuner"], bank
-    assert [board.banks[2].switches[sw].label for sw in range(1, 6)] == \
+    assert [board.banks[3].switches[sw].label for sw in range(1, 6)] == \
         ["Is This Love", "Rule the World", "Every Breath You Take", "Hysteria Clean", "This Charming Man"]
-    assert board.banks[3].switches[1].label == "Comfortably Numb"
-    assert [board.banks[3].switches[sw].label for sw in (7, 8)] == ["Octaver", "Lead"]
-    assert board.banks[4].title == "Modern" and board.banks[4].kind == "songs"
-    assert [board.banks[4].switches[sw].label for sw in (1, 5, 7, 8, 9)] == \
+    assert board.banks[4].switches[1].label == "Comfortably Numb"
+    assert [board.banks[4].switches[sw].label for sw in (7, 8)] == ["Octaver", "Lead"]
+    assert board.banks[5].title == "Modern" and board.banks[5].kind == "songs"
+    assert [board.banks[5].switches[sw].label for sw in (1, 5, 7, 8, 9)] == \
         ["Satan Full Rig", "Stormblade", "Octaver", "Lead", "Drive"]
-    # 80s Leads: the last bank (added after Modern, so no bank renumbered), the next free PCs.
-    assert board.banks[5].title == "80s Leads" and board.banks[5].kind == "songs"
-    assert [board.banks[5].switches[sw].label for sw in range(1, 6)] ==         ["Who's Crying Now", "Sweet Child O' Mine", "Crazy Train", "Master of Puppets", "Eruption"]
-    assert [board.messages(5, sw)[0] for sw in range(1, 6)] == [("pc", 0, pc) for pc in range(23, 28)]
+    # 80s Leads: one UP from Modern, PCs 23-27.
+    assert board.banks[6].title == "80s Leads" and board.banks[6].kind == "songs"
+    assert [board.banks[6].switches[sw].label for sw in range(1, 6)] ==         ["Who's Crying Now", "Sweet Child O' Mine", "Crazy Train", "Master of Puppets", "Eruption"]
+    assert [board.messages(6, sw)[0] for sw in range(1, 6)] == [("pc", 0, pc) for pc in range(23, 28)]
     # Legends: the last bank (one UP from 80s Leads), PCs 28-32; SW7 is the vibe, the rest the 80s row.
-    assert board.banks[6].title == "Legends" and board.banks[6].kind == "songs"
-    assert [board.banks[6].switches[sw].label for sw in range(1, 11)] == \
+    assert board.banks[7].title == "Legends" and board.banks[7].kind == "songs"
+    assert [board.banks[7].switches[sw].label for sw in range(1, 11)] == \
         ["Pride and Joy", "Voodoo Child", "Bohemian Rhapsody", "Whole Lotta Love", "Back in Black",
          "Wah", "Vibe", "Boost", "Delay", "Tuner"]
-    assert [board.messages(6, sw)[0] for sw in range(1, 6)] == [("pc", 0, pc) for pc in range(28, 33)]
+    assert [board.messages(7, sw)[0] for sw in range(1, 6)] == [("pc", 0, pc) for pc in range(28, 33)]
 
 
 def test_vibe_is_a_daw_toggle_that_survives_song_changes(board):
     st = RigState(board)
-    for ev in board.messages(6, 2) + board.messages(6, 7):  # Voodoo Child, then SW7 vibe on
+    for ev in board.messages(7, 2) + board.messages(7, 7):  # Voodoo Child, then SW7 vibe on
         st.feed(ev)
-    for ev in board.messages(6, 1):  # Pride and Joy: a PC, the vibe stays on (a Qtractor plugin)
+    for ev in board.messages(7, 1):  # Pride and Joy: a PC, the vibe stays on (a Qtractor plugin)
         st.feed(ev)
     snap = st.snapshot()
     assert (snap["playing"], by_sw(snap)[7]["label"], by_sw(snap)[7]["on"]) == ("Pride and Joy", "Vibe", True)
@@ -86,12 +91,12 @@ def test_vibe_is_a_daw_toggle_that_survives_song_changes(board):
 
 def test_chorus_is_a_daw_toggle_that_survives_song_changes(board):
     st = RigState(board)
-    for ev in board.messages(2, 1):  # Is This Love
+    for ev in board.messages(3, 1):  # Is This Love
         st.feed(ev)
-    for ev in board.messages(2, 7):  # SW7 chorus on
+    for ev in board.messages(3, 7):  # SW7 chorus on
         st.feed(ev)
-    assert board.messages(2, 7) == [("cc", 0, qr.CC_CHORUS, 127)]
-    for ev in board.messages(2, 3):  # Every Breath You Take: a PC, the chorus stays on
+    assert board.messages(3, 7) == [("cc", 0, qr.CC_CHORUS, 127)]
+    for ev in board.messages(3, 3):  # Every Breath You Take: a PC, the chorus stays on
         st.feed(ev)
     snap = st.snapshot()
     assert (snap["playing"], by_sw(snap)[7]["label"], by_sw(snap)[7]["on"]) == ("Every Breath You Take", "Chorus", True)
@@ -101,20 +106,20 @@ def test_chorus_is_a_daw_toggle_that_survives_song_changes(board):
 
 
 def test_maiden_delays_are_the_heavy_presets_echo_blocks(board):
-    heavy = board.rigs[board.banks[0].presets["heavy"]]
+    heavy = board.rigs[board.banks[1].presets["heavy"]]
     evil, madness = heavy["left"][4], heavy["left"][5]
     assert (evil["delay_ms"], madness["delay_ms"]) == (375, 415)
     assert [b["delay_ms"] for b in heavy["right"][2:4]] == [375, 415], "both guitars echo"
     assert not evil["enabled"] and not madness["enabled"]
-    assert board.messages(0, 8) == [("cc", 0, 24, 127)] and board.messages(0, 9) == [("cc", 0, 30, 127)]
+    assert board.messages(1, 8) == [("cc", 0, 24, 127)] and board.messages(1, 9) == [("cc", 0, 30, 127)]
 
 
 def test_scene_burst(board):
-    p = board.banks[0].presets
+    p = board.banks[1].presets
     st, actions = replay(board, burst(("pc", 0, p["heavy"]), ("pc", 1, p["acoustic"]), ("pc", 2, p["harmony"]),
                                       ("cc", 0, 80, 63), ("cc", 0, 81, 127)))
     snap = st.snapshot()
-    assert (snap["bank"], snap["playing"]) == (0, "Acoustic")
+    assert (snap["bank"], snap["playing"]) == (1, "Acoustic")
     assert actions == [("song", p["heavy"])]  # the helper side sends the song's harmony key
     st2, _ = replay(board, burst(("pc", 0, p["heavy"]), ("pc", 1, p["clean"]), ("pc", 2, p["harmony"]),
                                  ("cc", 0, 80, 63), ("cc", 0, 81, 0), ("cc", 0, 80, 72), ("cc", 0, 81, 0)))
@@ -122,7 +127,7 @@ def test_scene_burst(board):
 
 
 def test_t3k_toggles_reset_on_preset_load(board):
-    p = board.banks[0].presets
+    p = board.banks[1].presets
     load = burst(("pc", 0, p["heavy"]), ("pc", 1, p["clean"]), ("pc", 2, p["harmony"]), ("cc", 0, 80, 63), ("cc", 0, 81, 0))
     st, _ = replay(board, load + burst(("cc", 0, 24, 127), ("cc", 0, 30, 127), ("cc", 0, 25, 127)))
     sw = by_sw(st.snapshot())
@@ -142,7 +147,7 @@ def test_tuner_action(board):
 
 # The live log predates the bank redesign: re-address its Program Changes to the new layout
 # (old Maiden era presets -> the Maiden bank, old song presets -> 80s / variety switches).
-HARMONY_PC = Board().banks[0].presets["harmony"]  # generated after the last rigs/ file: PC 28 since bank 5
+HARMONY_PC = Board().banks[1].presets["harmony"]  # generated after the last rigs/ file: PC 28 since bank 5
 OLD_PC = {**{pc: 0 for pc in range(15, 36, 3)}, **{pc: 1 for pc in range(16, 36, 3)},
           **{pc: 2 for pc in range(17, 36, 3)}, **{pc: HARMONY_PC for pc in range(36, 43)},  # the generated Maiden Harmony
           0: 8, 6: 9, 8: 10, 5: 11, 14: 12, 1: 3, 2: 4, 3: 5, 4: 6, 7: 7, 9: 3, 10: 4, 11: 5, 12: 6, 13: 7}
@@ -159,12 +164,12 @@ def test_live_session_replay(board):
     st, actions = replay(board, [readdress(line) for line in LOG.read_text().splitlines()])
     snap = st.snapshot()
     # The session ended on a scene bank's RHYTHM burst: now the Maiden bank, PC 0 / 1 / harmony.
-    assert (snap["bank"], snap["title"], snap["playing"]) == (0, board.banks[0].title, "Rhythm")
+    assert (snap["bank"], snap["title"], snap["playing"]) == (1, board.banks[1].title, "Rhythm")
     assert snap["synced"]
     assert {a[0] for a in actions} == {"song", "tuner"}
     assert snap["tuning"] == (sum(a[0] == "tuner" for a in actions) % 2 == 1)
     assert snap["expA"]["value"] is not None and snap["expB"]["value"] is not None
-    assert snap["up"]["number"] == 1 and snap["down"] is None
+    assert snap["up"]["number"] == 2 and snap["down"]["number"] == 0
 
 
 def test_screen_press_equals_pedal_burst(board):
@@ -176,18 +181,19 @@ def test_screen_press_equals_pedal_burst(board):
             assert board.messages(bank, sw) == layout.get((bank, sw), [])
     def own(bank, sw, n):
         return board.messages(bank, sw)[:n]
-    harmony = fcb.SCENE_BANKS[0]["harmony"][0]  # generated, so it follows the last rigs/ file
-    assert own(0, 1, 5) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, harmony), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
-    assert board.messages(0, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # LEAD: no PC, never wipes CC 80
-    assert own(1, 1, 3) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
-    assert own(2, 1, 3) == [("pc", 0, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Clean: Is This Love
-    assert own(4, 1, 3) == [("pc", 0, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
-    assert own(5, 1, 3) == [("pc", 0, 23), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Leads: Who's Crying Now
-    assert board.messages(5, 7) == [("cc", 0, qr.CC_CHORUS, 127)]
-    assert own(6, 1, 3) == [("pc", 0, 28), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # Legends: Pride and Joy
-    assert board.messages(6, 7) == [("cc", 0, qr.CC_VIBE, 127)]
-    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in board.messages(0, 3)
-    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 0) in board.messages(0, 4)
+    harmony = fcb.SCENE_BANKS[1]["harmony"][0]  # generated, so it follows the last rigs/ file
+    assert own(1, 1, 5) == [("pc", 0, 0), ("pc", 1, 1), ("pc", 2, harmony), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert board.messages(1, 2) == [("cc", 0, 80, 72), ("cc", 0, 81, 0)]  # LEAD: no PC, never wipes CC 80
+    assert own(2, 1, 3) == [("pc", 0, 3), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert own(3, 1, 3) == [("pc", 0, 18), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Clean: Is This Love
+    assert own(5, 1, 3) == [("pc", 0, 13), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]
+    assert own(6, 1, 3) == [("pc", 0, 23), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # 80s Leads: Who's Crying Now
+    assert board.messages(6, 7) == [("cc", 0, qr.CC_CHORUS, 127)]
+    assert own(7, 1, 3) == [("pc", 0, 28), ("cc", 0, 80, 63), ("cc", 0, 81, 0)]  # Legends: Pride and Joy
+    assert board.messages(7, 7) == [("cc", 0, qr.CC_VIBE, 127)]
+    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in board.messages(1, 3)
+    assert ("cc", 0, qr.CC_CLEAN_CHORUS, 0) in board.messages(1, 4)
+    assert board.messages(0, 7) == [("cc", 0, qr.CC_CHORUS, 127)]  # Dream Theater: the 80s chorus row
 
 
 T3K = ("boost", "drive", "delay", "delay2")
@@ -234,12 +240,12 @@ def test_adopted_rig_never_guesses(board):
     assert not any(s["on"] for s in sw.values() if s["kind"] == "scene"), "no scene lit before a press"
     assert not sw[1]["known"] and not sw[8]["known"], "scenes and TONE3000 blocks are unknown"
     assert sw[6]["on"] and sw[6]["known"], "wah comes from the saved Qtractor session"
-    p = board.banks[0].presets
+    p = board.banks[1].presets
     for line in burst(("pc", 0, p["heavy"]), ("pc", 1, p["clean"]), ("pc", 2, p["harmony"]),
                       ("cc", 0, 80, 63), ("cc", 0, 81, 0)):
         st.feed(parse(line))
     snap = st.snapshot()
-    assert snap["synced"] and snap["bank"] == 0 and snap["playing"] == "Rhythm" and by_sw(snap)[8]["known"]
+    assert snap["synced"] and snap["bank"] == 1 and snap["playing"] == "Rhythm" and by_sw(snap)[8]["known"]
 
 
 def test_pcs_run_without_gaps():
