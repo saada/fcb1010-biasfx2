@@ -60,51 +60,51 @@ def test_every_address_sends_exactly_the_layout():
 
 def test_song_switch_carries_its_chorus():
     t = router.Translator(LAYOUT)
-    _, events = t.translate(router.address(2, 1))  # 80s Clean SW1
+    _, events = t.translate(router.address(3, 1))  # 80s Clean SW1
     pc = events[0][2]
     assert events[0] == ("pc", 0, pc)
     chorus = [("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)]
     assert events[-3 - len(qr.tail_ccs(0, pc)):len(events) - len(qr.tail_ccs(0, pc))] == chorus  # then the DAW tails (D25)
 
 
-def test_bank_5_80s_leads_translates():
-    """Bank 5 is software only: the pedal already sends its addresses (the universal flash),
+def test_bank_6_80s_leads_translates():
+    """Bank 6 is software only: the pedal already sends its addresses (the universal flash),
     and the router turns them into the 80s Leads songs and the 80s toggle row."""
     t = router.Translator(LAYOUT)
     reset = [("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     for sw, pc in zip(range(1, 6), range(23, 28)):  # Who's Crying Now .. Eruption
-        addr = router.address(5, sw)
-        assert addr == ("pc", 15, 50 + sw - 1)  # what the pedal sends: ch16 PC 50-54
+        addr = router.address(6, sw)
+        assert addr == ("pc", 15, 60 + sw - 1)  # what the pedal sends: ch16 PC 60-64
         (bank_sw, events) = t.translate(addr)
-        assert bank_sw == (5, sw)
+        assert bank_sw == (6, sw)
         assert events == [("pc", 0, pc), *reset, *[("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)],
                           *qr.tail_ccs(0, pc)]  # then the DAW tail switches (D25)
-    assert [router.address(5, sw)[2:] for sw in range(6, 11)] == [(cc, 5) for cc in range(102, 107)]  # ch16 CC 102-106 = 5
-    toggles = {sw: t.translate(router.address(5, sw))[1] for sw in range(6, 11)}
+    assert [router.address(6, sw)[2:] for sw in range(6, 11)] == [(cc, 6) for cc in range(102, 107)]  # ch16 CC 102-106 = 6
+    toggles = {sw: t.translate(router.address(6, sw))[1] for sw in range(6, 11)}
     assert toggles == {6: [("cc", 0, 20, 127)], 7: [("cc", 0, qr.CC_CHORUS, 127)], 8: [("cc", 0, 22, 127)],
                        9: [("cc", 0, 24, 127)], 10: [("cc", 0, 28, 127)]}
     # bank 8 is still empty: the router says so instead of sending anything
     assert t.translate(router.address(8, 1)) == ((8, 1), [])
 
 
-def test_bank_6_legends_translates_with_its_vibe():
-    """Bank 6 (LEGENDS) is software only too: the pedal's ch16 PC 60-64 become the five songs
+def test_bank_7_legends_translates_with_its_vibe():
+    """Bank 7 (LEGENDS) is software only too: the pedal's ch16 PC 70-74 become the five songs
     (PC 28-32), each followed by the scene reset, its chorus CCs, its own vibe CCs (93-95), then
     its DAW tail switches; SW7 is the vibe (CC 92), not the chorus."""
     t = router.Translator(LAYOUT)
     reset = [("cc", 0, 80, 63), ("cc", 0, 81, 0)]
     vibes = qr.vibe_settings()
     for sw, pc in zip(range(1, 6), range(28, 33)):  # Pride and Joy .. Back in Black
-        addr = router.address(6, sw)
-        assert addr == ("pc", 15, 60 + sw - 1)
+        addr = router.address(7, sw)
+        assert addr == ("pc", 15, 70 + sw - 1)
         bank_sw, events = t.translate(addr)
-        assert bank_sw == (6, sw)
+        assert bank_sw == (7, sw)
         vibe = qr.vibe_ccs(pc)
         assert pc in vibes and [cc for cc, _ in vibe] == [qr.CC_VIBE_RATE, qr.CC_VIBE_DEPTH, qr.CC_VIBE_MIX]
         assert events == [("pc", 0, pc), *reset, *[("cc", 0, cc, v) for cc, v in qr.chorus_ccs(pc)],
                           *[("cc", 0, cc, v) for cc, v in vibe], *qr.tail_ccs(0, pc)]
-    assert [router.address(6, sw)[2:] for sw in range(6, 11)] == [(cc, 6) for cc in range(102, 107)]
-    toggles = {sw: t.translate(router.address(6, sw))[1] for sw in range(6, 11)}
+    assert [router.address(7, sw)[2:] for sw in range(6, 11)] == [(cc, 7) for cc in range(102, 107)]
+    toggles = {sw: t.translate(router.address(7, sw))[1] for sw in range(6, 11)}
     assert toggles == {6: [("cc", 0, 20, 127)], 7: [("cc", 0, qr.CC_VIBE, 127)], 8: [("cc", 0, 22, 127)],
                        9: [("cc", 0, 24, 127)], 10: [("cc", 0, 28, 127)]}
     # The vibe CCs land on the ports: Voodoo Child's rate in Hz back from its CC (linear, 0.01-20 Hz).
@@ -253,8 +253,8 @@ def test_maiden_scene_switches_set_the_clean_chorus():
     """D31: the clean preset turns the clean instance's chorus on with its own settings, and the
     acoustic turns it off, with no footswitch involved."""
     t = router.Translator(LAYOUT)
-    _, clean = t.translate(router.address(0, 3))
-    _, acoustic = t.translate(router.address(0, 4))
+    _, clean = t.translate(router.address(1, 3))
+    _, acoustic = t.translate(router.address(1, 4))
     assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in clean
     assert ("cc", 0, qr.CC_CLEAN_CHORUS_RATE, qr.clean_chorus_ccs(1)[0][1]) in clean
     assert ("cc", 0, qr.CC_CLEAN_CHORUS, 0) in acoustic
@@ -270,6 +270,6 @@ def test_clean_songs_play_on_the_clean_instance():
         _, events = t.translate(router.address(bank, sw))
         assert events[:4] == [("pc", 0, pc), ("pc", 1, pc), ("cc", 0, 80, 63), ("cc", 0, 81, 127)]
         assert ("cc", 0, qr.CC_CLEAN_CHORUS, 127) in events
-    _, heavy = t.translate(router.address(7, 2))
+    _, heavy = t.translate(router.address(0, 2))  # I&W Rhythm
     assert ("cc", 0, 81, 0) in heavy and not any(e[0] == "pc" and e[1] == 1 for e in heavy)
     assert fcb.CLEAN_SONGS >= {33, 36}

@@ -2,7 +2,7 @@
   "pc": 0,
   "name": "Maiden Heavy",
   "scene": "heavy",
-  "bank": 0,
+  "bank": 1,
   "reference": "Iron Maiden home bank on the Brave New World / Dance of Death chain (the rig's best tone): RHYTHM and LEAD, plus switchable signature echoes for The Evil That Men Do and Can I Play with Madness (Seventh Son of a Seventh Son, 1988). Brave New World (2000, Guillaume Tell Paris) and Dance of Death (2003, Sarm West London), both prod. Kevin Shirley with Steve Harris: The Wicker Man, Blood Brothers and Ghost of the Navigator heavy sections, Brave New World, Dance of Death main riff and harmony leads",
   "rig": "Reunion three-guitar line-up, recorded live in the studio with the amps in the room. Dave Murray (left): Fender Custom Shop Strat with Seymour Duncan Hot Rails -> Pete Cornish routing -> Marshall JMP-1 valve MIDI preamp -> Marshall JFX-1 / TC Electronic G-Force -> Marshall 9200 power amp (JCM2000 heads as power amps on tour) -> Marshall 1960BV 4x12 Vintage 30. Adrian Smith (right): Fender Strat (DiMarzio Super Distortion bridge) or Les Paul/Jackson on BNW -> Ibanez TS9 (tech-switched) -> Marshall JCM2000 Dual Super Lead, Ultra Gain channel ('used since the return to the band'; 30th Anniversary 6100LM heads by 2006) -> Marshall 1960A 4x12 G12T-75. Janick Gers (not modelled as a side): Strat -> Ibanez TS9 + Boss GE-7 -> Marshall rack -> 1960B. Shirley miked each 4x12 with a Beyer M201 + Shure SM57 at 90 degrees ~6 in from the cone, Neve 8069 pres -> Drawmer 1961 -> UREI 1176; on Dance of Death he added no reverb, only the studio room mics, and fitted the guitars together with panning",
   "sources": [

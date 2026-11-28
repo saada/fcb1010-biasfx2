@@ -960,4 +960,4 @@ song's key. On a bank's first load the DAW helper sets the song's solo echo time
 
 | Bank | Heavy | Clean | Acoustic | Harmony (ch 3) | Song | Scale | Solo echo |
 |---|---|---|---|---|---|---|---|
-| 00 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 38 | The Evil That Men Do | E natural minor | 375 ms |
+| 01 | PC 0 Maiden Heavy | PC 1 | PC 2 | PC 38 | The Evil That Men Do | E natural minor | 375 ms |

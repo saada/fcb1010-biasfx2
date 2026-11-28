@@ -670,7 +670,7 @@ FIELD_DEFAULTS = {"out_db": 0.0, "verb_db": 0.0, "in_db": 0.0, "tight_db": 0.0, 
 TAG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
 # `csv --init`'s first guess at the song presets' tags (FCB bank name, gain character); scene
 # presets get theirs from `bank`, `scene` and name, split rigs get "stereo". Tags then live in tone.csv.
-BANK_TAGS = {0: "maiden", 1: "80s", 2: "80s-clean", 3: "variety", 4: "modern", 5: "80s-leads", 6: "legends"}  # = rig.py BANK_NAMES
+BANK_TAGS = {0: "dream-theater", 1: "maiden", 2: "80s", 3: "80s-clean", 4: "variety", 5: "modern", 6: "80s-leads", 7: "legends"}  # = rig.py BANK_NAMES
 SONG_TAGS = {
     "03-van-halen-1": "80s crunch", "04-van-halen-1984": "80s crunch",
     "05-def-leppard-pyromania": "80s crunch", "06-def-leppard-hysteria": "80s crunch",
